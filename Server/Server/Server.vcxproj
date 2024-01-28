@@ -111,6 +111,8 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,11 +142,13 @@
   <ItemGroup>
     <ClInclude Include="Global\Header.h" />
     <ClInclude Include="Network\Network.h" />
+    <ClInclude Include="Network\Packet.h" />
     <ClInclude Include="Network\Protocol.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Global\Main.cpp" />
     <ClCompile Include="Network\Network.cpp" />
+    <ClCompile Include="Network\Packet.cpp" />
     <ClCompile Include="Network\Protocol.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,6 +1,6 @@
 #pragma once
-#include "Protocol.h"
 #include "../Global/Header.h"
+#include "Packet.h"
 
 class Network
 {
@@ -37,12 +37,11 @@ public:
 
 public:
 	bool Connect() const;
-	//void Recieve();
-	//void Send( const UPACKET& _packet );
+	bool Send( const UPACKET& _packet );
+	void Recieve();
 
 public:
 	const SOCKET& GetSocket();
 	std::string GetAddress() const;
 	std::string GetPort() const;
-
 };

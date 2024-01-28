@@ -3,7 +3,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 
-#pragma warning( disable : 4505 ) // 사용 안하는 함수 제거
+#pragma warning( disable : 4505 )
 
 // Windows
 #include <winsock2.h>
@@ -42,3 +42,5 @@
 #include <chrono>
 #include <iomanip>
 #include <ctime>
+
+#pragma comment( lib, "ws2_32.lib" )

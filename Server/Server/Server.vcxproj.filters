@@ -9,11 +9,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Global\Main.cpp">
+      <Filter>Global</Filter>
+    </ClCompile>
     <ClCompile Include="Network\Network.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Global\Main.cpp">
-      <Filter>Global</Filter>
+    <ClCompile Include="Network\Packet.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
     <ClCompile Include="Network\Protocol.cpp">
       <Filter>Network</Filter>
@@ -24,6 +27,9 @@
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="Network\Network.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Packet.h">
       <Filter>Network</Filter>
     </ClInclude>
     <ClInclude Include="Network\Protocol.h">
