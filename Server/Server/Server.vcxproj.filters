@@ -15,12 +15,18 @@
     <ClCompile Include="Global\Main.cpp">
       <Filter>Global</Filter>
     </ClCompile>
+    <ClCompile Include="Network\Protocol.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global\Header.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="Network\Network.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Protocol.h">
       <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
