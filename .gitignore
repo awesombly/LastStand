@@ -502,3 +502,6 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,windows,visualstudio,visualstudiocode
+
+# 서버 관련 빌드 파일 제외
+/Server/Output
