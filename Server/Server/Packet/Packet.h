@@ -1,4 +1,5 @@
-#include "Protocol.h"
+#pragma once
+#include "../Network/Protocol.h"
 
 #pragma pack( push, 1 )
 struct UPACKET
@@ -17,5 +18,5 @@ struct PACKET
 	SOCKET  socket;
 	UPACKET packet;
 
-	PACKET() : socket{}, packet{} { }
+	PACKET() : socket{}, packet{} {}
 };

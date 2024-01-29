@@ -7,19 +7,55 @@
     <Filter Include="Global">
       <UniqueIdentifier>{2126b9d9-1811-494f-ab08-db52eb7b7e91}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Connect">
+      <UniqueIdentifier>{ef05ed6e-65c7-4d44-a92a-6a99fd1266fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Packet">
+      <UniqueIdentifier>{c9f9b7ca-3a82-46a7-b6ee-0fb94e6730e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Synchronize">
+      <UniqueIdentifier>{a00f6e06-fd9f-476c-b37e-57d5b0e16062}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managed">
+      <UniqueIdentifier>{bcf55ed8-e523-420b-b46e-022357368a67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Run">
+      <UniqueIdentifier>{0ae8423a-8b82-49f9-81a0-3f4a6ee275e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Global\Main.cpp">
-      <Filter>Global</Filter>
-    </ClCompile>
     <ClCompile Include="Network\Network.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Network\Packet.cpp">
-      <Filter>Network</Filter>
+    <ClCompile Include="Connect\Acceptor.cpp">
+      <Filter>Connect</Filter>
+    </ClCompile>
+    <ClCompile Include="Connect\Session.cpp">
+      <Filter>Connect</Filter>
+    </ClCompile>
+    <ClCompile Include="Synchronize\CriticalSection.cpp">
+      <Filter>Synchronize</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\PacketManager.cpp">
+      <Filter>Managed</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\SessionManager.cpp">
+      <Filter>Managed</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\IOCP.cpp">
+      <Filter>Managed</Filter>
     </ClCompile>
     <ClCompile Include="Network\Protocol.cpp">
       <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet\Packet.cpp">
+      <Filter>Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Run\Main.cpp">
+      <Filter>Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Run\Server.cpp">
+      <Filter>Run</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -29,11 +65,38 @@
     <ClInclude Include="Network\Network.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="Network\Packet.h">
-      <Filter>Network</Filter>
+    <ClInclude Include="Connect\Acceptor.h">
+      <Filter>Connect</Filter>
+    </ClInclude>
+    <ClInclude Include="Connect\Session.h">
+      <Filter>Connect</Filter>
+    </ClInclude>
+    <ClInclude Include="Global\Singleton.hpp">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Synchronize\CriticalSection.h">
+      <Filter>Synchronize</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\PacketManager.h">
+      <Filter>Managed</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\SessionManager.h">
+      <Filter>Managed</Filter>
+    </ClInclude>
+    <ClInclude Include="Global\Global.hpp">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\IOCP.h">
+      <Filter>Managed</Filter>
     </ClInclude>
     <ClInclude Include="Network\Protocol.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\Packet.h">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Run\Server.h">
+      <Filter>Run</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

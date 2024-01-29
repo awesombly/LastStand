@@ -140,16 +140,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Connect\Acceptor.h" />
+    <ClInclude Include="Connect\Session.h" />
+    <ClInclude Include="Global\Global.hpp" />
     <ClInclude Include="Global\Header.h" />
+    <ClInclude Include="Global\Singleton.hpp" />
+    <ClInclude Include="Managed\IOCP.h" />
+    <ClInclude Include="Managed\PacketManager.h" />
+    <ClInclude Include="Managed\SessionManager.h" />
     <ClInclude Include="Network\Network.h" />
-    <ClInclude Include="Network\Packet.h" />
     <ClInclude Include="Network\Protocol.h" />
+    <ClInclude Include="Packet\Packet.h" />
+    <ClInclude Include="Run\Server.h" />
+    <ClInclude Include="Synchronize\CriticalSection.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Global\Main.cpp" />
+    <ClCompile Include="Connect\Acceptor.cpp" />
+    <ClCompile Include="Connect\Session.cpp" />
+    <ClCompile Include="Managed\IOCP.cpp" />
+    <ClCompile Include="Managed\PacketManager.cpp" />
+    <ClCompile Include="Managed\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />
-    <ClCompile Include="Network\Packet.cpp" />
     <ClCompile Include="Network\Protocol.cpp" />
+    <ClCompile Include="Packet\Packet.cpp" />
+    <ClCompile Include="Run\Main.cpp" />
+    <ClCompile Include="Run\Server.cpp" />
+    <ClCompile Include="Synchronize\CriticalSection.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

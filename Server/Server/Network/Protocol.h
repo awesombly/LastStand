@@ -1,7 +1,9 @@
-#include <Winsock2.h>
+#pragma once
+#include "../Global/Header.h"
 
-static const u_short HeaderSize  = 4;
+static const u_short HeaderSize = 4;
 static const u_short MaxDataSize = 2048;
+static const u_short MaxReceiveSize = 10000;
 
 using PacketType = u_short;
 

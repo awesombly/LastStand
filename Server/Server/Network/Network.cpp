@@ -9,27 +9,24 @@ bool Network::Initialize( int _port, const char* _ip )
 	switch ( ::WSAStartup( MAKEWORD( 2, 2 ), &wsa ) )
 	{
 		case WSASYSNOTREADY:
-			printf( "네트워크 통신에 대한 준비가 되지 않았습니다." );
+			std::cout << "네트워크 통신에 대한 준비가 되지 않았습니다." << std::endl;
 			break;
 
 		case WSAVERNOTSUPPORTED:
-			printf( "요청된 윈도우소켓 지원버전은 제공되지 않습니다." );
+			std::cout << "요청된 윈도우소켓 지원버전은 제공되지 않습니다." << std::endl;
 			break;
 
 		case WSAEINPROGRESS:
-			printf( "윈도우소켓 1.1작업이 진행 중입니다." );
+			std::cout << "윈도우소켓 1.1작업이 진행 중입니다." << std::endl;
 			break;
 
 		case WSAEPROCLIM:
-			printf( "윈도우소켓 구현에서 지원하는 작업 수가 제한에 도달했습니다." );
+			std::cout << "윈도우소켓 구현에서 지원하는 작업 수가 제한에 도달했습니다." << std::endl;
 			break;
 
 		case WSAEFAULT:
-			printf( "WSAData가 유효하지 않습니다." );
+			std::cout << "WSAData가 유효하지 않습니다." << std::endl;
 			break;
-
-		default:
-			printf( "WSADATA 초기화를 정상적으로 완료했습니다." );
 	}
 
 	// INET : 인터넷 프로토콜
