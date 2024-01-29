@@ -48,19 +48,16 @@ void SessionManager::Erase( Session* _session )
 	cs.UnLock();
 }
 
-void SessionManager::BroadCast( const PACKET& _packet, const std::unordered_map<SOCKET, Session*>& _sessions, bool _includeOneself )
+void SessionManager::BroadCast( const PACKET& _packet, const std::unordered_map<SOCKET, Session*>& _sessions )
 {
 	for ( const std::pair<SOCKET, Session*>& pair : _sessions )
 	{
 		Session* session = pair.second;
-		if ( !_includeOneself && _packet.socket == session->GetSocket() )
-			 continue;
-
-		session->Send( _packet.packet );
+		session->Send( _packet );
 	}
 }
 
-void SessionManager::BroadCast( const PACKET& _packet, bool _includeOneself ) const
+void SessionManager::BroadCast( const PACKET& _packet ) const
 {
-	BroadCast( _packet, sessions, _includeOneself );
+	BroadCast( _packet, sessions );
 }

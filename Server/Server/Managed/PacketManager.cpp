@@ -26,10 +26,10 @@ void PacketManager::Process()
 		cv.wait( lock, [&]() { return !packets.empty(); } );
 
 		PACKET* packet = &packets.front();
-		auto iter = protocols.find( packet->packet.type );
+		auto iter = protocols.find( packet->type );
 		if ( iter != protocols.cend() && iter->second != nullptr )
 		{
-			protocols[packet->packet.type]( *packet );
+			protocols[packet->type]( *packet );
 		}
 
 		packets.pop();

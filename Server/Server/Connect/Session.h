@@ -4,7 +4,7 @@
 class Session : public Network
 {
 private:
-	UPACKET* packet;
+	PACKET* packet;
 	byte temp[MaxReceiveSize];
 	u_int writePos, readPos;
 	u_int startPos;

@@ -37,7 +37,7 @@ public:
 
 public:
 	bool Connect() const;
-	bool Send( const UPACKET& _packet );
+	bool Send( const PACKET& _packet );
 	void Recieve();
 
 public:

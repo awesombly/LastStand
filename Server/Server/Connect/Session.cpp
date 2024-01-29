@@ -1,8 +1,8 @@
 #include "Session.h"
-//#include "../Managed/PacketManager.h"
+#include "../Managed/PacketManager.h"
 
 Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
-	: Network( _socket, _address ), packet( new UPACKET() ), temp{}, startPos( 0 ), writePos( 0 ), readPos( 0 ) { }
+	: Network( _socket, _address ), packet( new PACKET() ), temp{}, startPos( 0 ), writePos( 0 ), readPos( 0 ) { }
 
 	Session::~Session()
 	{
@@ -27,14 +27,14 @@ Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 				ZeroMemory( temp, sizeof( char ) * MaxReceiveSize );
 				::memcpy( temp, remain, readPos );
 
-				packet   = ( UPACKET* )temp;
+				packet   = ( PACKET* )temp;
 				startPos = 0;
 				writePos = readPos;
 			}
 
 			// wsaBuffer로 받은 만큼 큰 버퍼에 옮긴다. ( 한번에 하나의 패킷이 오지 않을 수도 있음 )
 			::memcpy( &temp[writePos], wsaBuffer.buf, sizeof( char ) * _size );
-			packet    = ( UPACKET* )&temp[startPos];
+			packet    = ( PACKET* )&temp[startPos];
 			writePos += _size; // 사용된 버퍼의 양( 위치 )
 			readPos  += _size;
 
@@ -44,18 +44,15 @@ Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 				do
 				{
 					PACKET newPacket;
-					newPacket.socket = GetSocket();
-					::memcpy( &newPacket.packet, packet, packet->length );
-					//PacketManager::Inst().Push( newPacket );
+					::memcpy( &newPacket, packet, packet->length );
+					PacketManager::Inst().Push( newPacket );
 
-					readPos -= packet->length;
+					readPos  -= packet->length;
 					startPos += packet->length;
-
-					// 패킷 풀에 넣기
 
 					// 일단 하나의 패킷은 완성되었다는 것을 알고
 					// 이 후 패킷이 완성된 상태로 들어왔을 수도 있기에 do-while문으로 한번에 처리한다.
-					packet = ( UPACKET* )&temp[startPos];
+					packet = ( PACKET* )&temp[startPos];
 					if ( packet->length <= 0 ) break;
 
 				} while ( readPos >= packet->length );

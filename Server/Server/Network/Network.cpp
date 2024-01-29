@@ -71,7 +71,7 @@ bool Network::Connect() const
 	return ::connect( socket, ( sockaddr* )&address, sizeof( address ) ) != SOCKET_ERROR;
 }
 
-bool Network::Send( const UPACKET& _packet )
+bool Network::Send( const PACKET& _packet )
 {
 	return ::send( socket, ( char* )&_packet, _packet.length, 0 ) != SOCKET_ERROR;
 }
