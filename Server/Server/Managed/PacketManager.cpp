@@ -26,11 +26,13 @@ void PacketManager::Process()
 		cv.wait( lock, [&]() { return !packets.empty(); } );
 
 		PACKET* packet = &packets.front();
-		auto iter = protocols.find( packet->type );
-		if ( iter != protocols.cend() && iter->second != nullptr )
-		{
-			protocols[packet->type]( *packet );
-		}
+		//auto iter = protocols.find( packet->type );
+		//if ( iter != protocols.cend() && iter->second != nullptr )
+		//{
+		//	protocols[packet->type]( *packet );
+		//}
+
+		std::cout << packet->type << " " << packet->length << "bytes" << " " << packet->data << std::endl;
 
 		packets.pop();
 	}

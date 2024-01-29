@@ -1,6 +1,6 @@
 #include "Protocol.h"
 
-PacketType GetPacketType( const char* _name )
+u_short GetPacketType( const char* _name )
 {
 	unsigned int hash = 0;
 
@@ -10,5 +10,5 @@ PacketType GetPacketType( const char* _name )
 		hash = _name[i] + ( hash << 6 ) + ( hash << 16 ) - hash;
 	}
 
-	return ( PacketType )hash;
+	return ( u_short )hash;
 }

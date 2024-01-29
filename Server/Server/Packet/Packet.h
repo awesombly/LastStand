@@ -5,7 +5,7 @@
 struct PACKET
 {
 	u_short length;
-	PacketType type;
+	u_short type;
 	byte data[MaxDataSize];
 
 	PACKET() : length( 0 ), type( 0 ), data{} {}

@@ -9,7 +9,7 @@ private:
 	std::condition_variable cv;
 	std::mutex mtx;
 
-	std::unordered_map<PacketType, std::function<void( const PACKET& )>> protocols;
+	// std::unordered_map<u_short/* Packet Type */, std::function<void(const PACKET&)>> protocols;
 
 public:
 	PacketManager() = default;
