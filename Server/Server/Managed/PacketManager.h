@@ -5,11 +5,11 @@
 class PacketManager : public Singleton<PacketManager>
 {
 private:
-	std::queue<PACKET> packets;
+	std::queue<Packet> packets;
 	std::condition_variable cv;
 	std::mutex mtx;
 
-	// std::unordered_map<u_short/* Packet Type */, std::function<void(const PACKET&)>> protocols;
+	std::unordered_map<u_short/* Packet Type */, std::function<void(const Packet&)>> protocols;
 
 public:
 	PacketManager() = default;
@@ -17,7 +17,7 @@ public:
 
 public:
 	bool Initialize();
-	void Push( const PACKET& _packet );
+	void Push( const Packet& _packet );
 
 private:
 	void Process();

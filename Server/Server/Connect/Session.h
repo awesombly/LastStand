@@ -1,10 +1,12 @@
 #pragma once
 #include "../Network/Network.h"
 
+static const u_short MaxReceiveSize = 10000;
+
 class Session : public Network
 {
 private:
-	PACKET* packet;
+	Packet* packet;
 	byte temp[MaxReceiveSize];
 	u_int writePos, readPos;
 	u_int startPos;

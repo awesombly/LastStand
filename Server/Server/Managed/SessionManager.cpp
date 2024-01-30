@@ -48,7 +48,7 @@ void SessionManager::Erase( Session* _session )
 	cs.UnLock();
 }
 
-void SessionManager::BroadCast( const PACKET& _packet, const std::unordered_map<SOCKET, Session*>& _sessions )
+void SessionManager::BroadCast( const Packet& _packet, const std::unordered_map<SOCKET, Session*>& _sessions )
 {
 	for ( const std::pair<SOCKET, Session*>& pair : _sessions )
 	{
@@ -57,7 +57,7 @@ void SessionManager::BroadCast( const PACKET& _packet, const std::unordered_map<
 	}
 }
 
-void SessionManager::BroadCast( const PACKET& _packet ) const
+void SessionManager::BroadCast( const Packet& _packet ) const
 {
 	BroadCast( _packet, sessions );
 }

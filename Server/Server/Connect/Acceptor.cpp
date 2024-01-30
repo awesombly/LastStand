@@ -33,10 +33,10 @@ void Acceptor::WaitForClients()  const
 
 	SOCKET clientSocket;
 	SOCKADDR_IN addr {};
-	int length = sizeof( addr );
+	int size = sizeof( addr );
 	while ( true )
 	{
-		clientSocket = ::accept( socket, ( sockaddr* )&addr, &length );
+		clientSocket = ::accept( socket, ( sockaddr* )&addr, &size );
 
 		Session* session = new Session( clientSocket, addr );
 		SessionManager::Inst().Push( session );
