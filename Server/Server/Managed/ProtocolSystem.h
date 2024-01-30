@@ -22,5 +22,4 @@ private:
 public:
 	ProtocolSystem()          = default;
 	virtual ~ProtocolSystem() = default;
-
 };

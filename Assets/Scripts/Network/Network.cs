@@ -3,8 +3,8 @@ using System.Net.Sockets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Threading;
 using System.Threading.Tasks;
-using UnityEditor.Sprites;
 
 
 public class Network : MonoBehaviour
@@ -17,12 +17,17 @@ public class Network : MonoBehaviour
     private byte[] buffer = new byte[ 1024 * 16 ];
     private Queue<Packet> packets = new Queue<Packet>();
 
-    bool IsConnected => socket.Connected;
+    public bool IsConnected => socket.Connected;
+    public bool IsRunning = true;
 
     private async void Start()
     {
-
         await Task.Run( () => Connect() );
+    }
+
+    private void OnApplicationQuit()
+    {
+        IsRunning = false;
     }
 
     private void Connect()
@@ -30,7 +35,7 @@ public class Network : MonoBehaviour
         socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
         IPEndPoint point = new IPEndPoint( IPAddress.Parse( ip), port );
 
-        while ( !socket.Connected )
+        while ( IsRunning && !socket.Connected )
         {
             try
             {
@@ -47,7 +52,7 @@ public class Network : MonoBehaviour
 
     private void Receive()
     {
-        while ( true )
+        while ( IsRunning )
         {
             SocketError error;
             socket.Receive( buffer, 0, buffer.Length, SocketFlags.None, out error );
