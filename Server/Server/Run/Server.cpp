@@ -1,5 +1,5 @@
 #include "Server.h"
-#include "../Managed/PacketManager.h"
+#include "../Managed/PacketSystem.h"
 #include "../Managed/IOCP.h"
 
 Server::Server()
@@ -14,7 +14,7 @@ void Server::Start( const int _port, const char* _address )
 		std::cout << "IOCP thread failed" << std::endl;
 	}
 
-	if ( !PacketManager::Inst().Initialize() )
+	if ( !PacketSystem::Inst().Initialize() )
 	{
 		std::cout << "Packet processing failed" << std::endl;
 	}

@@ -146,7 +146,7 @@
     <ClInclude Include="Global\Header.h" />
     <ClInclude Include="Global\Singleton.hpp" />
     <ClInclude Include="Managed\IOCP.h" />
-    <ClInclude Include="Managed\PacketManager.h" />
+    <ClInclude Include="Managed\PacketSystem.h" />
     <ClInclude Include="Managed\ProtocolSystem.h" />
     <ClInclude Include="Managed\SessionManager.h" />
     <ClInclude Include="Network\Network.h" />
@@ -159,7 +159,7 @@
     <ClCompile Include="Connect\Acceptor.cpp" />
     <ClCompile Include="Connect\Session.cpp" />
     <ClCompile Include="Managed\IOCP.cpp" />
-    <ClCompile Include="Managed\PacketManager.cpp" />
+    <ClCompile Include="Managed\PacketSystem.cpp" />
     <ClCompile Include="Managed\ProtocolSystem.cpp" />
     <ClCompile Include="Managed\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />

@@ -18,8 +18,8 @@ public static class Protocol
 
 public interface IProtocol
 {
-    public string Name => ToString();
-    public ushort Type => Protocol.GetPacketType( Name );
+    public string name => ToString();
+    public ushort type => Protocol.GetPacketType( name );
 }
 
 public struct ChatMessage : IProtocol

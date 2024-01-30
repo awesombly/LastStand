@@ -15,7 +15,7 @@ public struct Packet
 
     public Packet( IProtocol _protocol )
     {
-        type = _protocol.Type;
+        type = _protocol.type;
         data = System.Text.Encoding.UTF8.GetBytes( JsonUtility.ToJson( _protocol ) );
         size = ( ushort )( data.Length + HeaderSize );
     }

@@ -2,7 +2,7 @@
 #include "../Global/Singleton.hpp"
 #include "../Packet/Packet.h"
 
-class PacketManager : public Singleton<PacketManager>
+class PacketSystem : public Singleton<PacketSystem>
 {
 private:
 	std::queue<Packet> packets;
@@ -10,8 +10,8 @@ private:
 	std::mutex mtx;
 
 public:
-	PacketManager() = default;
-	virtual ~PacketManager() = default;
+	PacketSystem() = default;
+	virtual ~PacketSystem() = default;
 
 public:
 	bool Initialize();

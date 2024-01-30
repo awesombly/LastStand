@@ -39,7 +39,7 @@
     <ClCompile Include="Synchronize\CriticalSection.cpp">
       <Filter>Synchronize</Filter>
     </ClCompile>
-    <ClCompile Include="Managed\PacketManager.cpp">
+    <ClCompile Include="Managed\PacketSystem.cpp">
       <Filter>Managed</Filter>
     </ClCompile>
     <ClCompile Include="Managed\SessionManager.cpp">
@@ -83,7 +83,7 @@
     <ClInclude Include="Synchronize\CriticalSection.h">
       <Filter>Synchronize</Filter>
     </ClInclude>
-    <ClInclude Include="Managed\PacketManager.h">
+    <ClInclude Include="Managed\PacketSystem.h">
       <Filter>Managed</Filter>
     </ClInclude>
     <ClInclude Include="Managed\SessionManager.h">

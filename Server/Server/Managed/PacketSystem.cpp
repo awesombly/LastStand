@@ -1,25 +1,25 @@
-#include "PacketManager.h"
+#include "PacketSystem.h"
 #include "ProtocolSystem.h"
 
-bool PacketManager::Initialize()
+bool PacketSystem::Initialize()
 {
 	ProtocolSystem::Inst().Initialize();
 
 	std::cout << "Start packet processing" << std::endl;
-	std::thread th( [&]() { PacketManager::Process(); } );
+	std::thread th( [&]() { PacketSystem::Process(); } );
 	th.detach();
 
 	return true;
 }
 
-void PacketManager::Push( const Packet& _packet )
+void PacketSystem::Push( const Packet& _packet )
 {
 	std::lock_guard<std::mutex> lock( mtx );
 	packets.push( _packet );
 	cv.notify_one();
 }
 		 
-void PacketManager::Process()
+void PacketSystem::Process()
 {
 	while ( true )
 	{

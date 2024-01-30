@@ -7,9 +7,8 @@ class Session : public Network
 {
 private:
 	UPacket* packet;
-	byte temp[MaxReceiveSize];
-	u_int writePos, readPos;
-	u_int startPos;
+	byte buffer[MaxReceiveSize];
+	u_int startPos, writePos, readPos;
 
 public:
 	Session() = default;

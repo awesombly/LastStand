@@ -1,33 +1,27 @@
+using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
-using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
 
-public class Network : MonoBehaviour
+public class Network : Singleton<Network>
 {
     private int    port = 10000;
     private string ip   = "127.0.0.1"; // 콜백 주소
 
-    private Thread thread;
-    private Socket socket;
+    //private Thread thread;
+    public Socket socket { get; private set; }
 
-    private byte[] buffer = new byte[ 1024 * 16 ];
-    private Queue<Packet> packets = new Queue<Packet>();
-
-    public bool IsConnected => socket.Connected;
+    public bool IsConnected => socket != null && socket.Connected;
 
     private void Start()
     {
-        thread = new Thread( new ThreadStart( Connect ) );
-        thread.Start();
+        Connect();
     }
 
     private void OnDestroy()
     {
-        thread.Abort();
-
         if ( !ReferenceEquals( socket, null ) )
              socket.Close();
     }
@@ -35,59 +29,105 @@ public class Network : MonoBehaviour
     private void Connect()
     {
         socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
-        IPEndPoint point = new IPEndPoint( IPAddress.Parse( ip), port );
+        IPEndPoint point = new IPEndPoint( IPAddress.Parse( ip ), port );
 
-        while ( !socket.Connected )
-        {
-            try
-            {
-                socket.Connect( point );
-            }
-            catch ( SocketException _ex )
-            {
-                Debug.LogError( $"Socket Connect Error( {ip} ) : {_ex.Message}" );
-            }
-        }
-
-        Receive();
+        SocketAsyncEventArgs args = new SocketAsyncEventArgs();
+        args.RemoteEndPoint = point;
+        args.Completed += OnConnecteCompleted;
+        socket.ConnectAsync( args );
     }
 
-    private void Receive()
+    private void OnConnecteCompleted( object _sender, SocketAsyncEventArgs _args )
     {
-        while ( true )
+        if ( _args.SocketError == SocketError.Success )
         {
-            SocketError error;
-            socket.Receive( buffer, 0, buffer.Length, SocketFlags.None, out error );
-            if ( error != SocketError.Success )
-            {
-                Debug.LogError( "Socket receive failed. error = " + error.ToString() );
-                return;
-            }
+            Debug.Log( $"Server Connect" );
 
-            // TODO : 패킷이 중간에 짤린 경우에 대한 처리. (buffer length 이상 들어올시)
-            int offset = 0;
-            while ( true )
-            {
-                Packet packet = Global.Deserialize<Packet>( buffer, offset );
-                if ( ReferenceEquals( packet, null ) || packet.size == 0 )
-                {
-                    break;
-                }
+            SocketAsyncEventArgs sendArgs = new SocketAsyncEventArgs();
+            sendArgs.Completed += OnSendCompleted;
 
-                if ( packet.size > buffer.Length )
-                {
-                    Debug.LogError( "buffer overflow. packet = " + packet.size + ", buffer = " + buffer.Length );
-                    break;
-                }
+            SocketAsyncEventArgs recvArgs = new SocketAsyncEventArgs();
+            recvArgs.SetBuffer( new byte[1024], 0, 1024 );
+            recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnSendCompleted );
 
-                //string data = System.Text.Encoding.UTF8.GetString( packet.data, 0, packet.length - Packet.HeaderSize );
-                packets.Enqueue( packet );
-
-                System.Array.Clear( buffer, offset, packet.size );
-                offset += packet.size;
-            }
+            if ( socket.ReceiveAsync( recvArgs ) == false )
+                 OnReceiveCompleted( null, recvArgs );
         }
     }
+
+    private void OnSendCompleted( object _sender, SocketAsyncEventArgs _args )
+    {
+        Debug.Log( $"Receive" );
+        if ( _args.BytesTransferred <= 0 || _args.SocketError != SocketError.Success )
+            return;
+
+        string data = Encoding.UTF8.GetString( _args.Buffer, _args.Offset, _args.BytesTransferred );
+        Debug.Log( data );
+    }
+
+    private void OnReceiveCompleted( object _sender, SocketAsyncEventArgs _args )
+    {
+        Debug.Log( $"Receive" );
+        if ( _args.BytesTransferred <= 0 || _args.SocketError != SocketError.Success )
+             return;
+
+        string data = Encoding.UTF8.GetString( _args.Buffer, _args.Offset, _args.BytesTransferred );
+        Debug.Log( data );
+    }
+
+    //public bool Receive( ref byte[] _buffer )
+    //{
+    //    if ( !IsConnected )
+    //         return false;
+
+    //    socket.Receive( _buffer, 0, _buffer.Length, SocketFlags.None, out SocketError error );
+    //    socket.ReceiveAsync( );
+    //    Debug.Log( _buffer.Length );
+    //    if ( error != SocketError.Success )
+    //    {
+    //        Debug.LogError( error.ToString() );
+    //        return false;
+    //    }
+
+    //    return true;
+    //}
+
+    //private void Receive()
+    //{
+    //    while ( true )
+    //    {
+    //        SocketError error;
+    //        socket.Receive( buffer, 0, buffer.Length, SocketFlags.None, out error );
+    //        if ( error != SocketError.Success )
+    //        {
+    //            Debug.LogError( "Socket receive failed. error = " + error.ToString() );
+    //            return;
+    //        }
+
+    //        // TODO : 패킷이 중간에 짤린 경우에 대한 처리. (buffer length 이상 들어올시)
+    //        int offset = 0;
+    //        while ( true )
+    //        {
+    //            Packet packet = Global.Deserialize<Packet>( buffer, offset );
+    //            if ( ReferenceEquals( packet, null ) || packet.size == 0 )
+    //            {
+    //                break;
+    //            }
+
+    //            if ( packet.size > buffer.Length )
+    //            {
+    //                Debug.LogError( "buffer overflow. packet = " + packet.size + ", buffer = " + buffer.Length );
+    //                break;
+    //            }
+
+    //            //string data = System.Text.Encoding.UTF8.GetString( packet.data, 0, packet.length - Packet.HeaderSize );
+    //            packets.Enqueue( packet );
+
+    //            System.Array.Clear( buffer, offset, packet.size );
+    //            offset += packet.size;
+    //        }
+    //    }
+    //}
 
     private void Update()
     {
@@ -97,12 +137,6 @@ public class Network : MonoBehaviour
             message.message = "ABCDEFG";
 
             Send( message );
-        }
-
-        while ( packets.Count > 0 )
-        {
-            Packet packet = packets.Dequeue();
-            //Debug.Log( System.Text.Encoding.UTF8.GetString( packet.data ) );
         }
     }
 
