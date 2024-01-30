@@ -60,8 +60,8 @@
     <ClCompile Include="Protocol\Protocol.cpp">
       <Filter>Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="Protocol\ProtocolSystem.cpp">
-      <Filter>Protocol</Filter>
+    <ClCompile Include="Managed\ProtocolSystem.cpp">
+      <Filter>Managed</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,8 +104,8 @@
     <ClInclude Include="Protocol\Protocol.h">
       <Filter>Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol\ProtocolSystem.h">
-      <Filter>Protocol</Filter>
+    <ClInclude Include="Managed\ProtocolSystem.h">
+      <Filter>Managed</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

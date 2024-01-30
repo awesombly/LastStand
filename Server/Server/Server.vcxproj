@@ -147,11 +147,11 @@
     <ClInclude Include="Global\Singleton.hpp" />
     <ClInclude Include="Managed\IOCP.h" />
     <ClInclude Include="Managed\PacketManager.h" />
+    <ClInclude Include="Managed\ProtocolSystem.h" />
     <ClInclude Include="Managed\SessionManager.h" />
     <ClInclude Include="Network\Network.h" />
     <ClInclude Include="Packet\Packet.h" />
     <ClInclude Include="Protocol\Protocol.h" />
-    <ClInclude Include="Protocol\ProtocolSystem.h" />
     <ClInclude Include="Run\Server.h" />
     <ClInclude Include="Synchronize\CriticalSection.h" />
   </ItemGroup>
@@ -160,11 +160,11 @@
     <ClCompile Include="Connect\Session.cpp" />
     <ClCompile Include="Managed\IOCP.cpp" />
     <ClCompile Include="Managed\PacketManager.cpp" />
+    <ClCompile Include="Managed\ProtocolSystem.cpp" />
     <ClCompile Include="Managed\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="Packet\Packet.cpp" />
     <ClCompile Include="Protocol\Protocol.cpp" />
-    <ClCompile Include="Protocol\ProtocolSystem.cpp" />
     <ClCompile Include="Run\Main.cpp" />
     <ClCompile Include="Run\Server.cpp" />
     <ClCompile Include="Synchronize\CriticalSection.cpp" />

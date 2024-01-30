@@ -22,6 +22,6 @@ public:
 	void Erase( Session* _session );
 
 public:
-	static void BroadCast( const Packet& _packet, const std::unordered_map<SOCKET, Session*>& _sessions );
-	void BroadCast( const Packet& _packet ) const;
+	static void Broadcast( const Packet& _packet, const std::unordered_map<SOCKET, Session*>& _sessions );
+	void Broadcast( const Packet& _packet ) const;
 };
