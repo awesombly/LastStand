@@ -12,22 +12,26 @@ public class Network : MonoBehaviour
     private int    port = 10000;
     private string ip   = "127.0.0.1"; // 콜백 주소
 
+    private Thread thread;
     private Socket socket;
 
     private byte[] buffer = new byte[ 1024 * 16 ];
     private Queue<Packet> packets = new Queue<Packet>();
 
     public bool IsConnected => socket.Connected;
-    public bool IsRunning = true;
 
-    private async void Start()
+    private void Start()
     {
-        await Task.Run( () => Connect() );
+        thread = new Thread( new ThreadStart( Connect ) );
+        thread.Start();
     }
 
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
-        IsRunning = false;
+        thread.Abort();
+
+        if ( !ReferenceEquals( socket, null ) )
+             socket.Close();
     }
 
     private void Connect()
@@ -35,7 +39,7 @@ public class Network : MonoBehaviour
         socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
         IPEndPoint point = new IPEndPoint( IPAddress.Parse( ip), port );
 
-        while ( IsRunning && !socket.Connected )
+        while ( !socket.Connected )
         {
             try
             {
@@ -52,7 +56,7 @@ public class Network : MonoBehaviour
 
     private void Receive()
     {
-        while ( IsRunning )
+        while ( true )
         {
             SocketError error;
             socket.Receive( buffer, 0, buffer.Length, SocketFlags.None, out error );
@@ -112,7 +116,6 @@ public class Network : MonoBehaviour
         {
             return;
         }
-
 
         socket.Send( data );
     }
