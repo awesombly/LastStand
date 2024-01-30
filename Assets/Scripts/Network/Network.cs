@@ -1,10 +1,8 @@
 using System.Net;
 using System.Net.Sockets;
-using System.Collections;
+using System.Threading;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Threading;
-using System.Threading.Tasks;
 
 
 public class Network : MonoBehaviour
@@ -71,22 +69,22 @@ public class Network : MonoBehaviour
             while ( true )
             {
                 Packet packet = Global.Deserialize<Packet>( buffer, offset );
-                if ( ReferenceEquals( packet, null ) || packet.length == 0 )
+                if ( ReferenceEquals( packet, null ) || packet.size == 0 )
                 {
                     break;
                 }
 
-                if ( packet.length > buffer.Length )
+                if ( packet.size > buffer.Length )
                 {
-                    Debug.LogError( "buffer overflow. packet = " + packet.length + ", buffer = " + buffer.Length );
+                    Debug.LogError( "buffer overflow. packet = " + packet.size + ", buffer = " + buffer.Length );
                     break;
                 }
 
                 //string data = System.Text.Encoding.UTF8.GetString( packet.data, 0, packet.length - Packet.HeaderSize );
                 packets.Enqueue( packet );
 
-                System.Array.Clear( buffer, offset, packet.length );
-                offset += packet.length;
+                System.Array.Clear( buffer, offset, packet.size );
+                offset += packet.size;
             }
         }
     }

@@ -5,7 +5,7 @@ public class Global
 {
     public static byte[] Serialize( object _obj )
     {
-        int copySize = ( _obj as Packet ).length;
+        int copySize = ( ( Packet )_obj ).size;
         int bufSize = Marshal.SizeOf( _obj );
 
         System.IntPtr buffer = Marshal.AllocHGlobal( bufSize + 1 );
