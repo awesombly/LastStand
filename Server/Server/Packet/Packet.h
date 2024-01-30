@@ -5,13 +5,17 @@ static const u_short HeaderSize  = 4;
 static const u_short MaxDataSize = 2048;
 
 #pragma pack( push, 1 )
-struct Packet
+struct UPacket
 {
 	u_short type;
 	u_short size;
 	byte data[MaxDataSize];
 
-	Packet() : type( 0 ), size( 0 ), data{} {}
-
+	UPacket() : type( 0 ), size( 0 ), data{} {}
 };
 #pragma pack( pop )
+
+struct Packet : public UPacket
+{
+	SOCKET socket;
+};

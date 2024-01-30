@@ -30,10 +30,19 @@ void ProtocolSystem::Bind()
 
 void ProtocolSystem::Broadcast( const Packet& _packet )
 {
-	SessionManager::Inst().Broadcast( _packet );
+	for ( const std::pair<SOCKET, Session*>& pair : SessionManager::Inst().GetSessions() )
+	{
+		Session* session = pair.second;
+		session->Send( _packet );
+	}
 }
 
 void ProtocolSystem::BroadcastWithoutSelf( const Packet& _packet )
 {
-	SessionManager::Inst().Broadcast( _packet );
+	for ( const std::pair<SOCKET, Session*>& pair : SessionManager::Inst().GetSessions() )
+	{
+		Session* session = pair.second;
+		if ( session->GetSocket() != _packet.socket )
+	 		 session->Send( _packet );
+	}
 }

@@ -47,17 +47,3 @@ void SessionManager::Erase( Session* _session )
 	sessions.erase( socket );
 	cs.UnLock();
 }
-
-void SessionManager::Broadcast( const Packet& _packet, const std::unordered_map<SOCKET, Session*>& _sessions )
-{
-	for ( const std::pair<SOCKET, Session*>& pair : _sessions )
-	{
-		Session* session = pair.second;
-		session->Send( _packet );
-	}
-}
-
-void SessionManager::Broadcast( const Packet& _packet ) const
-{
-	Broadcast( _packet, sessions );
-}

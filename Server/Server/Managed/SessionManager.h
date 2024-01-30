@@ -20,8 +20,4 @@ public:
 public:
 	void Push( Session* _session );
 	void Erase( Session* _session );
-
-public:
-	static void Broadcast( const Packet& _packet, const std::unordered_map<SOCKET, Session*>& _sessions );
-	void Broadcast( const Packet& _packet ) const;
 };

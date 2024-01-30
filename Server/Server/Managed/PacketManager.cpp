@@ -2,8 +2,6 @@
 
 bool PacketManager::Initialize()
 {
-	BindProtocols();
-
 	std::cout << "Start packet processing" << std::endl;
 	std::thread th( [&]() { PacketManager::Process(); } );
 	th.detach();
@@ -36,9 +34,4 @@ void PacketManager::Process()
 
 		packets.pop();
 	}
-}
-
-void PacketManager::BindProtocols()
-{
-
 }

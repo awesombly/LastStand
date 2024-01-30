@@ -6,7 +6,7 @@ static const u_short MaxReceiveSize = 10000;
 class Session : public Network
 {
 private:
-	Packet* packet;
+	UPacket* packet;
 	byte temp[MaxReceiveSize];
 	u_int writePos, readPos;
 	u_int startPos;
