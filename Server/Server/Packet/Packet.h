@@ -1,14 +1,17 @@
 #pragma once
-#include "../Network/Protocol.h"
+#include "../Global/Header.h"
+
+static const u_short HeaderSize  = 4;
+static const u_short MaxDataSize = 2048;
 
 #pragma pack( push, 1 )
-struct PACKET
+struct Packet
 {
-	u_short length;
 	u_short type;
+	u_short size;
 	byte data[MaxDataSize];
 
-	PACKET() : length( 0 ), type( 0 ), data{} {}
+	Packet() : type( 0 ), size( 0 ), data{} {}
 
 };
 #pragma pack( pop )

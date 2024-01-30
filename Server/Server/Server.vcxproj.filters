@@ -22,6 +22,9 @@
     <Filter Include="Run">
       <UniqueIdentifier>{0ae8423a-8b82-49f9-81a0-3f4a6ee275e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protocol">
+      <UniqueIdentifier>{7d30e324-fada-4ab1-944d-9fbde3b2a473}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\Network.cpp">
@@ -45,9 +48,6 @@
     <ClCompile Include="Managed\IOCP.cpp">
       <Filter>Managed</Filter>
     </ClCompile>
-    <ClCompile Include="Network\Protocol.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="Packet\Packet.cpp">
       <Filter>Packet</Filter>
     </ClCompile>
@@ -56,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="Run\Server.cpp">
       <Filter>Run</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol\Protocol.cpp">
+      <Filter>Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol\ProtocolSystem.cpp">
+      <Filter>Protocol</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,14 +95,17 @@
     <ClInclude Include="Managed\IOCP.h">
       <Filter>Managed</Filter>
     </ClInclude>
-    <ClInclude Include="Network\Protocol.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="Packet\Packet.h">
       <Filter>Packet</Filter>
     </ClInclude>
     <ClInclude Include="Run\Server.h">
       <Filter>Run</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol\Protocol.h">
+      <Filter>Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol\ProtocolSystem.h">
+      <Filter>Protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ bool PacketManager::Initialize()
 	return true;
 }
 
-void PacketManager::Push( const PACKET& _packet )
+void PacketManager::Push( const Packet& _packet )
 {
 	std::lock_guard<std::mutex> lock( mtx );
 	packets.push( _packet );
@@ -25,14 +25,14 @@ void PacketManager::Process()
 		std::unique_lock<std::mutex> lock( mtx );
 		cv.wait( lock, [&]() { return !packets.empty(); } );
 
-		PACKET* packet = &packets.front();
+		Packet* packet = &packets.front();
 		//auto iter = protocols.find( packet->type );
 		//if ( iter != protocols.cend() && iter->second != nullptr )
 		//{
 		//	protocols[packet->type]( *packet );
 		//}
 
-		std::cout << packet->type << " " << packet->length << "bytes" << " " << packet->data << std::endl;
+		std::cout << packet->type << " " << packet->size << "bytes" << " " << packet->data << std::endl;
 
 		packets.pop();
 	}
