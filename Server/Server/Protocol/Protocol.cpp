@@ -1,6 +1,6 @@
 ﻿#include "Protocol.h"
 
-u_short GetPacketID( const char* _name )
+u_short GetPacketType( const char* _name )
 {
 	unsigned int hash = 0;
 

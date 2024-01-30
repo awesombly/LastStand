@@ -9,8 +9,6 @@ private:
 	std::condition_variable cv;
 	std::mutex mtx;
 
-	std::unordered_map<u_short/* Packet Type */, std::function<void(const Packet&)>> protocols;
-
 public:
 	PacketManager() = default;
 	virtual ~PacketManager() = default;

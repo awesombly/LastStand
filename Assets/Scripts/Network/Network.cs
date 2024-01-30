@@ -93,27 +93,28 @@ public class Network : MonoBehaviour
     {
         if ( Input.GetKeyDown( KeyCode.Space ) )
         {
-            // Temp
-            Send( new Packet( System.Text.Encoding.UTF8.GetBytes( "ABCDEFG" ) ) );
+            ChatMessage message;
+            message.message = "ABCDEFG";
+
+            Send( message );
         }
 
         while ( packets.Count > 0 )
         {
             Packet packet = packets.Dequeue();
-            Debug.Log( System.Text.Encoding.UTF8.GetString( packet.data ) );
+            //Debug.Log( System.Text.Encoding.UTF8.GetString( packet.data ) );
         }
     }
 
-    private void Send( Packet _packet )
+    private void Send( IProtocol _protocol )
     {
         if ( !IsConnected )
-            return;
+             return;
 
-        byte[] data = Global.Serialize( _packet );
+        Packet packet = new Packet( _protocol );
+        byte[] data   = Global.Serialize( packet );
         if ( ReferenceEquals( data, null ) )
-        {
-            return;
-        }
+             return;
 
         socket.Send( data );
     }

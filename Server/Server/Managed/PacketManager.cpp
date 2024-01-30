@@ -1,7 +1,10 @@
 #include "PacketManager.h"
+#include "ProtocolSystem.h"
 
 bool PacketManager::Initialize()
 {
+	ProtocolSystem::Inst().Initialize();
+
 	std::cout << "Start packet processing" << std::endl;
 	std::thread th( [&]() { PacketManager::Process(); } );
 	th.detach();
@@ -23,15 +26,9 @@ void PacketManager::Process()
 		std::unique_lock<std::mutex> lock( mtx );
 		cv.wait( lock, [&]() { return !packets.empty(); } );
 
-		Packet* packet = &packets.front();
-		//auto iter = protocols.find( packet->type );
-		//if ( iter != protocols.cend() && iter->second != nullptr )
-		//{
-		//	protocols[packet->type]( *packet );
-		//}
-
-		std::cout << packet->type << " " << packet->size << "bytes" << " " << packet->data << std::endl;
-
+		Packet packet = packets.front();
+		std::cout << "Receive( " << packet.type << ", " << packet.size << "bytes" << " ) " << packet.data << std::endl;
+		ProtocolSystem::Inst().Process( packet );
 		packets.pop();
 	}
 }

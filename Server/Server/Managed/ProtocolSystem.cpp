@@ -1,6 +1,12 @@
 #include "ProtocolSystem.h"
 #include "../Managed/SessionManager.h"
 
+void ProtocolSystem::Initialize()
+{
+	Regist( ChatMessage(), Broadcast );
+	std::cout << "Protocol bind completed" << std::endl;
+}
+
 void ProtocolSystem::Process( const Packet& _packet )
 {
 	if ( !protocols.contains( _packet.type ) )
@@ -14,7 +20,7 @@ void ProtocolSystem::Process( const Packet& _packet )
 
 void ProtocolSystem::Regist( const IProtocol& _protocol, void( *_func )( const Packet& ) )
 {
-	if ( !protocols.contains( _protocol.type ) )
+	if ( protocols.contains( _protocol.type ) )
 	{
 		std::cout << "The protocol is duplicated." << std::endl;
 		return;
@@ -23,13 +29,9 @@ void ProtocolSystem::Regist( const IProtocol& _protocol, void( *_func )( const P
 	protocols[_protocol.type] = _func;
 }
 
-void ProtocolSystem::Bind()
-{
-	Regist( ChatMessage(), Broadcast );
-}
-
 void ProtocolSystem::Broadcast( const Packet& _packet )
 {
+	std::cout << "Broadcast Packet Type : " << _packet.type << std::endl;
 	for ( const std::pair<SOCKET, Session*>& pair : SessionManager::Inst().GetSessions() )
 	{
 		Session* session = pair.second;

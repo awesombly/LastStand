@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using UnityEngine;
 
 [StructLayout( LayoutKind.Sequential, Pack = 1 )]
 public struct Packet
@@ -12,10 +13,10 @@ public struct Packet
     [MarshalAs( UnmanagedType.ByValArray, SizeConst = MaxDataSize )]
     public byte[] data;
 
-    public Packet( byte[] _data )
+    public Packet( IProtocol _protocol )
     {
-        type = 0;
-        data = _data;
+        type = _protocol.Type;
+        data = System.Text.Encoding.UTF8.GetBytes( JsonUtility.ToJson( _protocol ) );
         size = ( ushort )( data.Length + HeaderSize );
     }
 }

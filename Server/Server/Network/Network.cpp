@@ -73,6 +73,7 @@ bool Network::Connect() const
 
 bool Network::Send( const Packet& _packet )
 {
+	std::cout << "Send( " << _packet.type << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
 	return ::send( socket, ( char* )&_packet, _packet.size, 0 ) != SOCKET_ERROR;
 }
 

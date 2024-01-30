@@ -9,11 +9,11 @@ private:
 	std::unordered_map<u_short/* Packet Type */, void(*)( const Packet& ) > protocols;
 
 public:
+	void Initialize();
 	void Process( const Packet& _packet );
 
 private:
 	void Regist( const IProtocol& _protocol, void( *_func )( const Packet& ) );
-	void Bind();
 
 	// Protocol
 	static void Broadcast( const Packet& _packet );

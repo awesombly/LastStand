@@ -1,24 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Sprites;
+using System.Xml.Linq;
 using UnityEngine;
-
-//public interface IProtocol
-//{
-//    ushort GetPacketType();
-//}
-
-//public struct ChatMessage : IProtocol
-//{
-//    public string message;
-
-//    public static ushort PacketType = Packet.GetPacketType( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name );
-
-//    public ushort GetPacketType()
-//    {
-//        return PacketType;
-//    }
-//}
 
 public static class Protocol
 {
@@ -37,9 +18,11 @@ public static class Protocol
 
 public interface IProtocol
 {
+    public string Name => ToString();
+    public ushort Type => Protocol.GetPacketType( Name );
 }
 
 public struct ChatMessage : IProtocol
 {
-    public static ushort type = Protocol.GetPacketType( System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name );
+    public string message;
 }

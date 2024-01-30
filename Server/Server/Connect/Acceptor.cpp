@@ -43,8 +43,6 @@ void Acceptor::WaitForClients()  const
 		IOCP::Inst().Bind( ( HANDLE )clientSocket, ( ULONG_PTR )session );
 
 		// session->Send( Connected Packet );
-
-		std::cout << "Wait for new session..." << std::endl;
 	}
 }
 
