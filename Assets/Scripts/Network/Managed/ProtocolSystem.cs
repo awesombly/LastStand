@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ProtocolSystem : Singleton<ProtocolSystem>
 {
-    private Dictionary<ushort/* Packet Type */, Action<Packet>> protocols;
+    private Dictionary<ushort/* Packet Type */, Action<Packet>> protocols = new Dictionary<ushort, Action<Packet>>();
 
     public void Regist( IProtocol _protocol, Action<Packet> _func )
     {

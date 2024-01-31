@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices;
-using UnityEngine;
 
 public class Global
 {
@@ -10,25 +9,22 @@ public class Global
 
         System.IntPtr buffer = Marshal.AllocHGlobal( bufSize + 1 );
         if ( buffer == System.IntPtr.Zero )
-        {
-            Debug.LogError( "failed Marshal.AllocHGlobal()." );
-            return null;
-        }
+             return null;
 
         Marshal.StructureToPtr( _obj, buffer, false );
 
-        byte[] data = new byte[ copySize ];
+        byte[] data = new byte[copySize];
         Marshal.Copy( buffer, data, 0, copySize );
         Marshal.FreeHGlobal( buffer );
 
         return data;
     }
 
-    public static Type Deserialize<Type>( byte[] _value, int startIndex )
+    public static Type Deserialize<Type>( byte[] _value, int _start )
     {
         int size = Marshal.SizeOf( typeof( Type ) );
         System.IntPtr buffer = Marshal.AllocHGlobal( size );
-        Marshal.Copy( _value, startIndex, buffer, size );
+        Marshal.Copy( _value, _start, buffer, size );
         Type obj = ( Type )Marshal.PtrToStructure( buffer, typeof( Type ) );
         Marshal.FreeHGlobal( buffer );
 

@@ -1,7 +1,6 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using UnityEngine;
 
 
@@ -20,7 +19,6 @@ public class Network : Singleton<Network>
     private byte[] buffer = new byte[MaxReceiveSize];
     private int startPos, writePos, readPos;
     private Packet packet;
-
     public bool IsConnected => socket != null && socket.Connected;
 
     private void Start()
@@ -90,8 +88,7 @@ public class Network : Singleton<Network>
                 do
                 {
                     PacketSystem.Inst.Push( packet );
-                    Debug.Log( $"Receive Packet : {packet.type}  {packet.size}  {Encoding.UTF8.GetString( packet.data )} " );
-
+                    
                     readPos  -= packet.size;
                     startPos += packet.size;
 
@@ -115,23 +112,11 @@ public class Network : Singleton<Network>
              _args.BufferList = null;
     }
 
-    private void Send( IProtocol _protocol )
+    public void Send( Packet _packet )
     {
-        Packet packet = new Packet( _protocol );
-        byte[] data   = Global.Serialize( packet );
+        byte[] data = Global.Serialize( _packet );
         sendArgs.SetBuffer( data, 0, data.Length );
         
         socket.SendAsync( sendArgs );
-    }
-
-    private void Update()
-    {
-        if ( Input.GetKeyDown( KeyCode.Space ) )
-        {
-            ChatMessage message;
-            message.message = "ABCDEFG";
-
-            Send( message );
-        }
     }
 }

@@ -6,40 +6,33 @@ using UnityEngine;
 public class PacketSystem : Singleton<PacketSystem>
 {
     private Queue<Packet> packets = new Queue<Packet>();
-    private object cs = new object();
-    private Thread thread;
     
-    private void Start()
+    protected override void Awake()
     {
-        StartCoroutine( WaitConnectServer() );
+        base.Awake();
+
+        StartCoroutine( Process() );
     }
 
-    private void OnDestroy()
+    private IEnumerator Process()
     {
-        thread?.Abort();
-    }
+        yield return new WaitUntil( () => { return Network.Inst.IsConnected; } );
 
-    private IEnumerator WaitConnectServer()
-    {
-        yield return new WaitUntil( () => Network.Inst.IsConnected );
+        WaitUntil waitReceivePackets = new WaitUntil( () => { return packets.Count > 0; } );
+        while ( Network.Inst.IsConnected )
+        {
+            yield return waitReceivePackets;
 
-        thread = new Thread( new ThreadStart( Process ) );
-        thread.Start();
+            var packet = packets.Dequeue();
+            Debug.Log( $"Receive ( {packet.type}, {packet.size} bytes ) {packet.data}" );
+
+            ProtocolSystem.Inst.Process( packet );
+        }
     }
 
     public void Push( in Packet _packet )
     {
-        lock ( cs ) { packets.Enqueue( _packet ); }
-    }
-
-    private void Process()
-    {
-        while( packets.Count > 0 )
-        {
-            var packet = packets.Dequeue();
-            Debug.Log( $"Receive ( {packet.type}, {packet.size} bytes ) {packet.data}" );
-
-            lock ( cs ) { ProtocolSystem.Inst.Process( packet ); }
-        }
+        if ( _packet.size > 0 )
+             packets.Enqueue( _packet );
     }
 }
