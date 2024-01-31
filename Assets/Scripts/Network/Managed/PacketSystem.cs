@@ -8,8 +8,7 @@ public class PacketSystem : Singleton<PacketSystem>
     private Queue<Packet> packets;
     private Thread thread;
     private object cs;
-
-
+    
     private void Start()
     {
         StartCoroutine( WaitConnectServer() );
