@@ -8,8 +8,13 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public Vector2 inputVector;
-    public float moveSpeed;
+    public Vector2 Direction { get; private set; }
+
+    [SerializeField]
+    private float moveSpeed;
+
+    private Vector2 inputVector;
+    private Vector2 prevPosition;
     
     private Rigidbody2D rigid2D;
     private SpriteRenderer spriter;
@@ -26,6 +31,9 @@ public class Player : MonoBehaviour
     {
         Vector2 moveVector = inputVector * moveSpeed * Time.fixedDeltaTime;
         rigid2D.MovePosition( rigid2D.position + moveVector );
+
+        Direction = ( rigid2D.position - prevPosition ).normalized;
+        prevPosition = rigid2D.position;
     }
 
     private void LateUpdate()

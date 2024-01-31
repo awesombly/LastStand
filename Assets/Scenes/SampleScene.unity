@@ -201,7 +201,7 @@ Transform:
   m_GameObject: {fileID: 88936415}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: -10}
+  m_LocalPosition: {x: -39, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -370,8 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400916ac03e5d7449a47cba6870bb3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputVector: {x: 0, y: 0}
-  moveSpeed: 10
+  moveSpeed: 50
 --- !u!50 &253016588
 Rigidbody2D:
   serializedVersion: 4
@@ -460,7 +459,7 @@ Transform:
   m_GameObject: {fileID: 253016586}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: -39, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -641,7 +640,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: -10}
+  m_LocalPosition: {x: -39, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -825,8 +824,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 135b6761c7407e9468197feb2ee9101a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 253016587}
   originTilemap: {fileID: 1669271096013937839, guid: d5f38973fa62ba34a8097ac6866f2957, type: 3}
-  tilemapSize: 20
+  tilemapSize: 40
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
