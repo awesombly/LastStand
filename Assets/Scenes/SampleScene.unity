@@ -827,6 +827,7 @@ MonoBehaviour:
   player: {fileID: 253016587}
   originTilemap: {fileID: 1669271096013937839, guid: d5f38973fa62ba34a8097ac6866f2957, type: 3}
   tilemapSize: 40
+  ruleTile: {fileID: 11400000, guid: d20f7b48c2a7b3d4e876fade3728f1ad, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

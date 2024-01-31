@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
-// Todo
-// 타일맵에 Noise 적용
 
 public class TilemapManager : MonoBehaviour
 {
@@ -12,12 +11,17 @@ public class TilemapManager : MonoBehaviour
     [SerializeField]
     private GameObject originTilemap;
     [SerializeField]
+    private RuleTile ruleTile;
+    [SerializeField]
     private int tilemapSize;
 
+    private RuleTile.TilingRule tileRule;
     private Dictionary<int/*col*/, Dictionary<int/*row*/, GameObject/*tilemap*/>> tilemaps = new Dictionary<int, Dictionary<int, GameObject>>();
 
     private void Start()
     {
+        tileRule = ruleTile.m_TilingRules[0];
+
         CreateTilemap( -1, -1 );
         CreateTilemap( -1, 0 );
         CreateTilemap( -1, 1 );
@@ -45,6 +49,9 @@ public class TilemapManager : MonoBehaviour
         {
             return;
         }
+
+        // 노이즈 조절
+        tileRule.m_PerlinScale = Random.value;
 
         Vector2 position = new Vector2( col * tilemapSize, row * tilemapSize );
         GameObject newTilemap = Instantiate( originTilemap, position, Quaternion.identity, gameObject.transform );
