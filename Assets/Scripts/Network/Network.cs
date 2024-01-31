@@ -7,12 +7,19 @@ using UnityEngine;
 
 public class Network : Singleton<Network>
 {
-    private int    port = 10000;
-    private string ip   = "127.0.0.1"; // 妮归 林家
+    private const int    Port           = 10000;
+    private const string Ip             = "127.0.0.1"; // 妮归 林家
+    private const ushort MaxReceiveSize = 10000;
 
-    public Socket socket { get; private set; }
-    SocketAsyncEventArgs recvArgs = new SocketAsyncEventArgs();
-    SocketAsyncEventArgs sendArgs = new SocketAsyncEventArgs();
+    private Socket socket;
+    SocketAsyncEventArgs connectArgs = new SocketAsyncEventArgs();
+    SocketAsyncEventArgs recvArgs    = new SocketAsyncEventArgs();
+    SocketAsyncEventArgs sendArgs    = new SocketAsyncEventArgs();
+
+    // Receive
+    private byte[] buffer = new byte[MaxReceiveSize];
+    private int startPos, writePos, readPos;
+    private Packet packet;
 
     public bool IsConnected => socket != null && socket.Connected;
 
@@ -30,12 +37,11 @@ public class Network : Singleton<Network>
     private void Connect()
     {
         socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
-        IPEndPoint point = new IPEndPoint( IPAddress.Parse( ip ), port );
+        IPEndPoint point = new IPEndPoint( IPAddress.Parse( Ip ), Port );
 
-        SocketAsyncEventArgs args = new SocketAsyncEventArgs();
-        args.RemoteEndPoint = point;
-        args.Completed += OnConnecteCompleted;
-        socket.ConnectAsync( args );
+        connectArgs.RemoteEndPoint = point;
+        connectArgs.Completed += OnConnecteCompleted;
+        socket.ConnectAsync( connectArgs );
     }
 
     private void OnConnecteCompleted( object _sender, SocketAsyncEventArgs _args )
@@ -48,7 +54,7 @@ public class Network : Singleton<Network>
             sendArgs.Completed += OnSendCompleted;
 
             // Receive
-            recvArgs.SetBuffer( new byte[1024], 0, 1024 );
+            recvArgs.SetBuffer( buffer, 0, MaxReceiveSize );
             recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnReceiveCompleted );
 
             if ( socket.ReceiveAsync( recvArgs ) == false )
@@ -60,9 +66,42 @@ public class Network : Singleton<Network>
     {
         if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
         {
-            string data = Encoding.UTF8.GetString( _args.Buffer, _args.Offset, _args.BytesTransferred );
-            
-            // 单捞磐 贸府
+            int size = _args.BytesTransferred;
+            if ( writePos + size > MaxReceiveSize )
+            {
+                byte[] remain = new byte[MaxReceiveSize];
+                Array.Copy( buffer, remain, readPos );
+
+                Array.Clear( buffer, 0, MaxReceiveSize );
+                Array.Copy( remain, buffer, readPos );
+
+                packet   = Global.Deserialize<Packet>( buffer, 0 );
+                startPos = 0;
+                writePos = readPos;
+            }
+
+            Array.Copy( _args.Buffer, 0, buffer, writePos, size );
+            packet    = Global.Deserialize<Packet>( buffer, startPos );
+            writePos += size;
+            readPos  += size;
+
+            if ( readPos >= packet.size )
+            {
+                do
+                {
+                    PacketSystem.Inst.Push( packet );
+                    Debug.Log( $"Receive Packet : {packet.type}  {packet.size}  {Encoding.UTF8.GetString( packet.data )} " );
+
+                    readPos  -= packet.size;
+                    startPos += packet.size;
+
+                    packet = Global.Deserialize<Packet>( buffer, startPos );
+                    if ( packet.size <= 0 ) break;
+
+                } while ( readPos >= packet.size );
+            }
+
+            _args.BufferList = null;
 
             if ( socket.ReceiveAsync( recvArgs ) == false )
                  OnReceiveCompleted( null, recvArgs );

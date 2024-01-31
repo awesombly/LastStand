@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class PacketSystem : Singleton<PacketSystem>
 {
-    private Queue<Packet> packets;
+    private Queue<Packet> packets = new Queue<Packet>();
+    private object cs = new object();
     private Thread thread;
-    private object cs;
     
     private void Start()
     {
