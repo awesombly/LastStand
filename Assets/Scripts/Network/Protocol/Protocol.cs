@@ -22,6 +22,20 @@ public interface IProtocol
     public ushort type => Protocol.GetPacketType( name );
 }
 
+public struct SampleProtocol : IProtocol
+{
+    public int money;
+    public float speed;
+    public string name;
+}
+
+// From Server
+public struct ConnentMessage : IProtocol
+{
+    public string message;
+}
+
+// Both
 public struct ChatMessage : IProtocol
 {
     public string message;

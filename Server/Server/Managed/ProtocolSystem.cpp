@@ -3,7 +3,9 @@
 
 void ProtocolSystem::Initialize()
 {
-	Regist( ChatMessage(), Broadcast );
+	Regist( ChatMessage(),    Broadcast );
+	Regist( SampleProtocol(), Broadcast );
+	
 	std::cout << "Protocol bind completed" << std::endl;
 }
 

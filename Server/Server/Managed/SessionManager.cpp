@@ -1,6 +1,6 @@
 #include "SessionManager.h"
 #include "../Global/Global.hpp"
-
+#include "../Protocol/Protocol.h"
 
 SessionManager::~SessionManager()
 {
@@ -34,6 +34,13 @@ void SessionManager::Push( Session* _session )
 	cs.Lock();
 	sessions[_session->GetSocket()] = _session;
 	cs.UnLock();
+
+	 ConnectMessage message;
+	 message.message = "Welcome Join Server!!";
+
+	 UPacket packet = new UPacket( message );
+
+	 _session->Send( message );
 }
 
 void SessionManager::Erase( Session* _session )

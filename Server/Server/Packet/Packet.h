@@ -12,6 +12,12 @@ struct UPacket
 	byte data[MaxDataSize];
 
 	UPacket() : type( 0 ), size( 0 ), data{} {}
+
+	//UPacket( const IProtocol& _protocol )
+	//{
+	//	type = _protocol.type;
+	//	//size = data
+	//}
 };
 #pragma pack( pop )
 

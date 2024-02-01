@@ -2,10 +2,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class ProtocolSystem : Singleton<ProtocolSystem>
 {
     private Dictionary<ushort/* Packet Type */, Action<Packet>> protocols = new Dictionary<ushort, Action<Packet>>();
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Regist( new SampleProtocol(), SampleProcess );
+    }
+
+    private void SampleProcess( Packet _packet )
+    {
+        var sample = Global.Deserialize<SampleProtocol>( _packet.data, 0 );
+        Debug.Log( $"name : {sample.name}  speed : {sample.speed}  money : {sample.money}" );
+    }
+
 
     public void Regist( IProtocol _protocol, Action<Packet> _func )
     {

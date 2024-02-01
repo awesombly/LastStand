@@ -18,5 +18,23 @@ struct ChatMessage : public IProtocol
 public:
 	CONSTRUCTOR( ChatMessage )
 
-	std::string message;
+	std::string message = "";
+};
+
+struct ConnectMessage : public IProtocol
+{
+public:
+	CONSTRUCTOR( ConnectMessage )
+
+	std::string message = "";
+};
+
+struct SampleProtocol : public IProtocol
+{
+public:
+	CONSTRUCTOR( SampleProtocol )
+
+	int money = 0;
+	float speed = 0;
+	std::string name = "";
 };
