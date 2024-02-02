@@ -18,7 +18,6 @@ bool Acceptor::Listen()
 		return false;
 	}
 
-
 	std::cout << "Acceptor initialization completed" << std::endl;
 	std::thread th( [&]() { Acceptor::WaitForClients(); } );
 	th.detach();
@@ -41,8 +40,6 @@ void Acceptor::WaitForClients()  const
 		Session* session = new Session( clientSocket, addr );
 		SessionManager::Inst().Push( session );
 		IOCP::Inst().Bind( ( HANDLE )clientSocket, ( ULONG_PTR )session );
-
-		// session->Send( Connected Packet );
 	}
 }
 

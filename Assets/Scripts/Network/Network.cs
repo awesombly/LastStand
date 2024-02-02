@@ -2,9 +2,6 @@ using System;
 using System.Collections;
 using System.Net;
 using System.Net.Sockets;
-using Unity.Collections.LowLevel.Unsafe;
-using Unity.VisualScripting;
-using UnityEditor.Sprites;
 using UnityEngine;
 
 public class Network : Singleton<Network>
@@ -27,19 +24,6 @@ public class Network : Singleton<Network>
     private void Start()
     {
         Connect();
-
-        //StartCoroutine( Example() );
-    }
-
-    private IEnumerator Example()
-    {
-        yield return new WaitForSeconds( 1f );
-        ConnectMessage message;
-        message.message = "Connect Server";
-        Send( new Packet( message ) );
-
-        yield return new WaitForSeconds( 1f );
-        Send( new Packet( message ) );
     }
 
     private void OnDestroy()
@@ -125,13 +109,13 @@ public class Network : Singleton<Network>
 
     private void OnSendCompleted( object _sender, SocketAsyncEventArgs _args )
     {
-        Debug.Log( $"Send" );
         if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
              _args.BufferList = null;
     }
 
     public void Send( Packet _packet )
     {
+        Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
         byte[] data = Global.Serialize( _packet );
         sendArgs.SetBuffer( data, 0, data.Length );
         

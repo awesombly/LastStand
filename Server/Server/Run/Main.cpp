@@ -4,10 +4,7 @@
 
 int main()
 {
-	//Protocol  p;
-
-	//SampleProtocol1 p1;
-	//SampleProtocol2 p2;
+	SetConsoleOutputCP( CP_UTF8 );
 	
 	Server server;
 	server.Start( 10000 );

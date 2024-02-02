@@ -1,6 +1,6 @@
 #pragma once
 #include "../Global/Header.h"
-#include "../Packet/Packet.h"
+#include "../Packet/Packet.hpp"
 
 class Network
 {

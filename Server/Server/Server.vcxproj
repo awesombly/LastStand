@@ -156,7 +156,7 @@
     <ClInclude Include="Managed\ProtocolSystem.h" />
     <ClInclude Include="Managed\SessionManager.h" />
     <ClInclude Include="Network\Network.h" />
-    <ClInclude Include="Packet\Packet.h" />
+    <ClInclude Include="Packet\Packet.hpp" />
     <ClInclude Include="Protocol\Protocol.h" />
     <ClInclude Include="Run\Server.h" />
     <ClInclude Include="Synchronize\CriticalSection.h" />
@@ -169,7 +169,6 @@
     <ClCompile Include="Managed\ProtocolSystem.cpp" />
     <ClCompile Include="Managed\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />
-    <ClCompile Include="Packet\Packet.cpp" />
     <ClCompile Include="Protocol\Protocol.cpp" />
     <ClCompile Include="Run\Main.cpp" />
     <ClCompile Include="Run\Server.cpp" />
