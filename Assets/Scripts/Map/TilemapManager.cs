@@ -38,14 +38,14 @@ public class TilemapManager : MonoBehaviour
         UpdateTilemap();
     }
 
-    private void CreateTilemap( int col, int row )
+    private void CreateTilemap( int _col, int _row )
     {
-        if ( tilemaps.ContainsKey( col ) == false )
+        if ( tilemaps.ContainsKey( _col ) == false )
         {
-            tilemaps.Add( col, new Dictionary<int, GameObject>() );
+            tilemaps.Add( _col, new Dictionary<int, GameObject>() );
         }
 
-        if ( tilemaps[col].ContainsKey( row ) == true )
+        if ( tilemaps[_col].ContainsKey( _row ) == true )
         {
             return;
         }
@@ -53,10 +53,10 @@ public class TilemapManager : MonoBehaviour
         // 노이즈 조절
         tileRule.m_PerlinScale = Random.value;
 
-        Vector2 position = new Vector2( col * tilemapSize, row * tilemapSize );
+        Vector2 position = new Vector2( _col * tilemapSize, _row * tilemapSize );
         GameObject newTilemap = Instantiate( originTilemap, position, Quaternion.identity, gameObject.transform );
 
-        tilemaps[col].Add( row, newTilemap );
+        tilemaps[_col].Add( _row, newTilemap );
     }
 
     private void UpdateTilemap()

@@ -29,11 +29,11 @@ public class Enemy : MonoBehaviour
         spriter.flipX = rigid2D.position.x > target.position.x;
     }
 
-    private void OnTriggerExit2D( Collider2D other )
+    private void OnTriggerExit2D( Collider2D _other )
     {
-        if ( other.gameObject.layer.Equals( LayerMask.NameToLayer( "EnemyArea" ) ) )
+        if ( _other.gameObject.layer.Equals( LayerMask.NameToLayer( "EnemyArea" ) ) )
         {
-            Vector2 newPos = ( other.gameObject.transform.position - transform.position ) * 2;
+            Vector2 newPos = ( _other.gameObject.transform.position - transform.position ) * 2;
             transform.Translate( newPos );
         }
     }
