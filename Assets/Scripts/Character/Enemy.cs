@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : PoolObject
 {
     [SerializeField]
     private Rigidbody2D target;
@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
         rigid2D = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+
+        target = GameManager.Inst.player.GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
