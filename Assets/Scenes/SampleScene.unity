@@ -731,14 +731,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 253016587}
-  enemyInfo:
-    prefabs:
-    - {fileID: 4162547336221875147, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
-    - {fileID: 8966967114344492096, guid: f6dd5024449f6c647a9db0050662c174, type: 3}
-    - {fileID: 4868942455987347022, guid: 0121fcecdfc24c648885b38414df8dda, type: 3}
-    respawnTime: 0.5
-    respawnDistance: 30
-    respawnTimer: 0
+  levelInfo:
+    spawnDistance: 30
+    infos:
+    - spawnInfos:
+      - prefab: {fileID: 4162547336221875147, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
+        count: 3
+        delay: 1
+        timer: 0
+      - prefab: {fileID: 4868942455987347022, guid: 0121fcecdfc24c648885b38414df8dda, type: 3}
+        count: 1
+        delay: 3
+        timer: 0
+    - spawnInfos:
+      - prefab: {fileID: 4162547336221875147, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
+        count: 1
+        delay: 0.5
+        timer: 0
+      - prefab: {fileID: 8966967114344492096, guid: f6dd5024449f6c647a9db0050662c174, type: 3}
+        count: 2
+        delay: 2
+        timer: 0
 --- !u!4 &730634671
 Transform:
   m_ObjectHideFlags: 0
