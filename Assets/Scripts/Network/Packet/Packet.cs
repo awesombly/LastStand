@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.InteropServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [StructLayout( LayoutKind.Sequential, Pack = 1 )]
