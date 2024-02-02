@@ -38,9 +38,16 @@ void SessionManager::Push( Session* _session )
 	 ConnectMessage message;
 	 message.message = "Welcome Join Server!!";
 
-	 UPacket packet = new UPacket( message );
+	 _session->Send( UPacket( message ) );
 
-	 _session->Send( message );
+	 _session->Send( UPacket( message ) );
+
+	 SampleProtocol sample;
+	 sample.name = "wns";
+	 sample.money = 1924;
+	 sample.speed = 17.6f;
+
+	 _session->Send( UPacket( sample ) );
 }
 
 void SessionManager::Erase( Session* _session )

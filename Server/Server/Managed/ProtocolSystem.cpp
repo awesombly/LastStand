@@ -1,12 +1,20 @@
 #include "ProtocolSystem.h"
 #include "../Managed/SessionManager.h"
+#include <cereal/cereal.hpp>
+#include <cereal/archives/json.hpp>
 
 void ProtocolSystem::Initialize()
 {
 	Regist( ChatMessage(),    Broadcast );
 	Regist( SampleProtocol(), Broadcast );
+	Regist( ConnectMessage(), ConnectSession );
 	
 	std::cout << "Protocol bind completed" << std::endl;
+}
+
+void ProtocolSystem::ConnectSession( const Packet& _packet )
+{
+	std::cout << _packet.data << std::endl;
 }
 
 void ProtocolSystem::Process( const Packet& _packet )
@@ -33,7 +41,6 @@ void ProtocolSystem::Regist( const IProtocol& _protocol, void( *_func )( const P
 
 void ProtocolSystem::Broadcast( const Packet& _packet )
 {
-	std::cout << "Broadcast Packet Type : " << _packet.type << std::endl;
 	for ( const std::pair<SOCKET, Session*>& pair : SessionManager::Inst().GetSessions() )
 	{
 		Session* session = pair.second;

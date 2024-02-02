@@ -18,6 +18,7 @@ private:
 	// Protocol
 	static void Broadcast( const Packet& _packet );
 	static void BroadcastWithoutSelf( const Packet& _packet );
+	static void ConnectSession( const Packet& _packet );
 
 public:
 	ProtocolSystem()          = default;

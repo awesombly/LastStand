@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class ProtocolSystem : Singleton<ProtocolSystem>
 {
@@ -16,10 +15,9 @@ public class ProtocolSystem : Singleton<ProtocolSystem>
 
     private void SampleProcess( Packet _packet )
     {
-        var sample = Global.Deserialize<SampleProtocol>( _packet.data, 0 );
-        Debug.Log( $"name : {sample.name}  speed : {sample.speed}  money : {sample.money}" );
+        SampleProtocol data = JsonUtility.FromJson<SampleProtocol>( System.Text.Encoding.UTF8.GetString( _packet.data, 0, _packet.size - Global.HeaderSize ) );
+        Debug.Log( $"name : {data.name}  speed : {data.speed}  money : {data.money}" );
     }
-
 
     public void Regist( IProtocol _protocol, Action<Packet> _func )
     {

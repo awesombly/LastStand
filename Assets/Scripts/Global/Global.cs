@@ -1,7 +1,10 @@
 using System.Runtime.InteropServices;
 
-public class Global
+public static class Global
 {
+    public const int HeaderSize  = 4;
+    public const int MaxDataSize = 2048;
+
     public static byte[] Serialize( object _obj )
     {
         int copySize = ( ( Packet )_obj ).size;

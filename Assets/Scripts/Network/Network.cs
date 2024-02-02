@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
+using Unity.Collections.LowLevel.Unsafe;
+using Unity.VisualScripting;
+using UnityEditor.Sprites;
 using UnityEngine;
-
 
 public class Network : Singleton<Network>
 {
@@ -24,6 +27,19 @@ public class Network : Singleton<Network>
     private void Start()
     {
         Connect();
+
+        //StartCoroutine( Example() );
+    }
+
+    private IEnumerator Example()
+    {
+        yield return new WaitForSeconds( 1f );
+        ConnectMessage message;
+        message.message = "Connect Server";
+        Send( new Packet( message ) );
+
+        yield return new WaitForSeconds( 1f );
+        Send( new Packet( message ) );
     }
 
     private void OnDestroy()
@@ -73,7 +89,7 @@ public class Network : Singleton<Network>
                 Array.Clear( buffer, 0, MaxReceiveSize );
                 Array.Copy( remain, buffer, readPos );
 
-                packet   = Global.Deserialize<Packet>( buffer, 0 );
+                packet = Global.Deserialize<Packet>( buffer, 0 );
                 startPos = 0;
                 writePos = readPos;
             }
@@ -87,7 +103,9 @@ public class Network : Singleton<Network>
             {
                 do
                 {
-                    PacketSystem.Inst.Push( packet );
+                    byte[] data = new byte[packet.size - Global.HeaderSize];
+                    Array.Copy( packet.data, data, packet.size - Global.HeaderSize );
+                    PacketSystem.Inst.Push( new Packet( packet.type, packet.size, data ) );
                     
                     readPos  -= packet.size;
                     startPos += packet.size;

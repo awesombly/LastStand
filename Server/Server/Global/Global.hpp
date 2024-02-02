@@ -20,7 +20,7 @@ static void SafeDeleteArray( Type*& _pointer )
 	}
 }
 
-static std::string ToUFT8( const char* _string )
+static std::string ToUTF8( const char* _string )
 {
 	int lengthUnicode = 0;
 	int lengthUTF = 0;

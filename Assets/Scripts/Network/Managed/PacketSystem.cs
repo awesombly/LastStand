@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class PacketSystem : Singleton<PacketSystem>
@@ -24,7 +23,7 @@ public class PacketSystem : Singleton<PacketSystem>
             yield return waitReceivePackets;
 
             var packet = packets.Dequeue();
-            Debug.Log( $"Receive ( {packet.type}, {packet.size} bytes ) {packet.data}" );
+            Debug.Log( $"Receive ( {packet.type}, {packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( packet.data )}" );
 
             ProtocolSystem.Inst.Process( packet );
         }

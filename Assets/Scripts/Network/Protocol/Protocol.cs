@@ -30,7 +30,7 @@ public struct SampleProtocol : IProtocol
 }
 
 // From Server
-public struct ConnentMessage : IProtocol
+public struct ConnectMessage : IProtocol
 {
     public string message;
 }
