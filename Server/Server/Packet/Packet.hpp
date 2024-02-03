@@ -1,7 +1,7 @@
 #pragma once
-#include "../Global/Header.h"
-#include "../Global/Global.hpp"
-#include "../Protocol/Protocol.h"
+#include "Global/Header.h"
+#include "Global/Global.hpp"
+#include "Protocol/Protocol.h"
 #include <cereal/cereal.hpp>
 #include <cereal/archives/json.hpp>
 

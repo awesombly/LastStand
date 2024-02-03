@@ -1,7 +1,7 @@
 #pragma once
-#include "../Protocol/Protocol.h"
-#include "../Global/Singleton.hpp"
-#include "../Packet/Packet.hpp"
+#include "Protocol/Protocol.h"
+#include "Global/Singleton.hpp"
+#include "Packet/Packet.hpp"
 
 class ProtocolSystem : public Singleton<ProtocolSystem>
 {

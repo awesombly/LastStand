@@ -1,5 +1,5 @@
 #pragma once
-#include "../Network/Network.h"
+#include "Network/Network.h"
 
 class Acceptor : public Network
 {

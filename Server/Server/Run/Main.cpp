@@ -1,6 +1,6 @@
 #pragma once
 #include "Server.h"
-#include "../Protocol/Protocol.h"
+#include "Protocol/Protocol.h"
 
 int main()
 {

@@ -1,6 +1,6 @@
 #include "Acceptor.h"
-#include "../Managed/SessionManager.h"
-#include "../Managed/IOCP.h"
+#include "Managed/SessionManager.h"
+#include "Managed/IOCP.h"
 
 Acceptor::~Acceptor()
 {

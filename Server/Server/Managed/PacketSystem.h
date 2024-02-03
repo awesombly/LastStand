@@ -1,6 +1,6 @@
 #pragma once
-#include "../Global/Singleton.hpp"
-#include "../Packet/Packet.hpp"
+#include "Global/Singleton.hpp"
+#include "Packet/Packet.hpp"
 
 class PacketSystem : public Singleton<PacketSystem>
 {

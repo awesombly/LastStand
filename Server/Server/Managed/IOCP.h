@@ -1,5 +1,5 @@
 #pragma once
-#include "../Global/Singleton.hpp"
+#include "Global/Singleton.hpp"
 
 class IOCP : public Singleton<IOCP>
 {

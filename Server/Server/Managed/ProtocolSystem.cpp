@@ -1,5 +1,5 @@
 #include "ProtocolSystem.h"
-#include "../Managed/SessionManager.h"
+#include "Managed/SessionManager.h"
 #include <cereal/cereal.hpp>
 #include <cereal/archives/json.hpp>
 

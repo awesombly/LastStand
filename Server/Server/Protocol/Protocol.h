@@ -1,5 +1,5 @@
 #pragma once
-#include "../Global/Header.h"
+#include "Global/Header.h"
 
 #include <cereal/types/array.hpp>
 #include <cereal/types/atomic.hpp>

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Synchronize/CriticalSection.h"
+#include "Synchronize/CriticalSection.h"
 
 template<class Type>
 class Singleton

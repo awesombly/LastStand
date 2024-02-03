@@ -1,6 +1,6 @@
 #include "SessionManager.h"
-#include "../Global/Global.hpp"
-#include "../Protocol/Protocol.h"
+#include "Global/Global.hpp"
+#include "Protocol/Protocol.h"
 
 SessionManager::~SessionManager()
 {

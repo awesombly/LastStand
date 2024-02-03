@@ -1,5 +1,5 @@
 #pragma once
-#include "../Global/Header.h"
+#include "Global/Header.h"
 
 class CriticalSection
 {

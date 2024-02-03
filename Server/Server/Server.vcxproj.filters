@@ -25,6 +25,9 @@
     <Filter Include="Protocol">
       <UniqueIdentifier>{7d30e324-fada-4ab1-944d-9fbde3b2a473}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{72e0670d-5beb-4776-b52e-ed91ddd041fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\Network.cpp">
@@ -48,9 +51,6 @@
     <ClCompile Include="Managed\IOCP.cpp">
       <Filter>Managed</Filter>
     </ClCompile>
-    <ClCompile Include="Packet\Packet.cpp">
-      <Filter>Packet</Filter>
-    </ClCompile>
     <ClCompile Include="Run\Main.cpp">
       <Filter>Run</Filter>
     </ClCompile>
@@ -62,6 +62,9 @@
     </ClCompile>
     <ClCompile Include="Managed\ProtocolSystem.cpp">
       <Filter>Managed</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\Database.cpp">
+      <Filter>Database</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,9 +98,6 @@
     <ClInclude Include="Managed\IOCP.h">
       <Filter>Managed</Filter>
     </ClInclude>
-    <ClInclude Include="Packet\Packet.h">
-      <Filter>Packet</Filter>
-    </ClInclude>
     <ClInclude Include="Run\Server.h">
       <Filter>Run</Filter>
     </ClInclude>
@@ -106,6 +106,12 @@
     </ClInclude>
     <ClInclude Include="Managed\ProtocolSystem.h">
       <Filter>Managed</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet\Packet.hpp">
+      <Filter>Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\Database.h">
+      <Filter>Database</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

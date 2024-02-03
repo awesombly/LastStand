@@ -1,6 +1,6 @@
 #include "Server.h"
-#include "../Managed/PacketSystem.h"
-#include "../Managed/IOCP.h"
+#include "Managed/PacketSystem.h"
+#include "Managed/IOCP.h"
 
 Server::Server()
 {
