@@ -21,7 +21,7 @@ MonoBehaviour:
       m_Type: 0
       m_ExpectedControlType: Vector2
       m_Id: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
-      m_Processors: 
+      m_Processors: NormalizeVector2
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 1
@@ -38,7 +38,7 @@ MonoBehaviour:
       m_ExpectedControlType: Button
       m_Id: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
       m_Processors: 
-      m_Interactions: 
+      m_Interactions: Press
       m_SingletonActionBindings: []
       m_Flags: 0
     - m_Name: Interact
@@ -252,7 +252,7 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: b3c1c7f0-bd20-4ee7-a0f1-899b24bca6d7
-      m_Path: <Keyboard>/enter
+      m_Path: <Keyboard>/space
       m_Interactions: 
       m_Processors: 
       m_Groups: Keyboard&Mouse

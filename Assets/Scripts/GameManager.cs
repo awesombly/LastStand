@@ -14,16 +14,21 @@ public class GameManager : Singleton<GameManager>
         {
             if ( value >= levelInfo.infos.Count )
             {
-                Debug.Log( "StageLevel overflow : " + value );
-                value = 0;
+                Debug.Log( "StageLevel Overflow : " + value );
+                stageLevel = 0;
+                return;
             }
             stageLevel = value;
+            Debug.Log( $"StageLevel = {stageLevel}" );
         }
     }
+
+    private float levelTimer;
 
     [System.Serializable]
     protected class LevelInfo
     {
+        public float levelInterval;
         public float spawnDistance;
 
         [System.Serializable]
@@ -50,6 +55,12 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         ProcessSpawnEnemy( Time.deltaTime );
+        levelTimer += Time.deltaTime;
+        if ( levelTimer >= levelInfo.levelInterval )
+        {
+            levelTimer -= levelInfo.levelInterval;
+            ++StageLevel;
+        }
     }
 
     private void ProcessSpawnEnemy( float _deltaTime )

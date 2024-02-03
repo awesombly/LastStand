@@ -1,7 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Unity.VisualScripting.InputSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +8,8 @@ public class Player : MonoBehaviour
 {
     public Vector2 Direction { get; private set; }
 
+    [SerializeField]
+    private GameObject bullet;
     [SerializeField]
     private float moveSpeed;
 
@@ -49,5 +49,11 @@ public class Player : MonoBehaviour
     private void OnMove( InputValue _value )
     {
         inputVector = _value.Get<Vector2>();
+    }
+
+    private void OnAttack()
+    {
+        GameObject go = Instantiate( bullet );
+        go.transform.position = transform.position;
     }
 }
