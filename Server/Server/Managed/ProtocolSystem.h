@@ -9,6 +9,10 @@ private:
 	std::unordered_map<u_short/* Packet Type */, void(*)( const Packet& ) > protocols;
 
 public:
+	ProtocolSystem()          = default;
+	virtual ~ProtocolSystem() = default;
+
+public:
 	void Initialize();
 	void Process( const Packet& _packet );
 
@@ -19,8 +23,4 @@ private:
 	static void Broadcast( const Packet& _packet );
 	static void BroadcastWithoutSelf( const Packet& _packet );
 	static void ConnectSession( const Packet& _packet );
-
-public:
-	ProtocolSystem()          = default;
-	virtual ~ProtocolSystem() = default;
 };

@@ -8,7 +8,7 @@ private:
 	HANDLE handle;
 
 public:
-	IOCP() = default;
+	IOCP()          = default;
 	virtual ~IOCP() = default;
 
 public:

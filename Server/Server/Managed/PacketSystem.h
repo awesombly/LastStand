@@ -10,7 +10,7 @@ private:
 	std::mutex mtx;
 
 public:
-	PacketSystem() = default;
+	PacketSystem()          = default;
 	virtual ~PacketSystem() = default;
 
 public:

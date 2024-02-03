@@ -24,6 +24,7 @@
 #include <map>
 
 // Standard
+#include <stdlib.h>
 #include <iostream>
 #include <cstdio>
 #include <random>

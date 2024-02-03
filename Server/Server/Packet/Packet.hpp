@@ -17,9 +17,12 @@ struct UPacket
 
 	UPacket() : type( 0 ), size( 0 ), data{} {}
 
-	template<typename Type>
-	UPacket( const Type& _protocol )
+	//template<typename Type>
+	UPacket( IProtocol _protocol )
 	{
+		//::memcpy( &_protocol, data, MaxDataSize );
+		//data = _protocol;
+
 		// Unity - C++ Json 변환 중 일치하지 않는 부분 Unity 기준으로 통일
 		std::ostringstream stream;
 		{
