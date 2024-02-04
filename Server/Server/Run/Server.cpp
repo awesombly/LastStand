@@ -19,10 +19,9 @@ void Server::Start( const int _port, const char* _address )
 		std::cout << "Packet processing failed" << std::endl;
 	}
 
-	if ( acceptor.Initialize( _port, _address ) == false ||
-		 acceptor.Listen()                      == false )
+	if ( acceptor.Accept( _port, _address ) == false )
 	{
-		std::cout << "Listen failed" << std::endl;
+		std::cout << "Accept failed" << std::endl;
 	}
 
 	if ( ::WaitForSingleObject( kill, INFINITE ) == WAIT_FAILED )

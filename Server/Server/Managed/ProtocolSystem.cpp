@@ -9,19 +9,21 @@ void ProtocolSystem::Initialize()
 	Regist( SampleProtocol(), Broadcast );
 	Regist( ConnectMessage(), ConnectSession );
 	
-	std::cout << "Protocol bind completed" << std::endl;
+	std::cout << "Function binding completed for packet processing" << std::endl;
 }
 
 void ProtocolSystem::ConnectSession( const Packet& _packet )
 {
-	std::cout << _packet.data << std::endl;
+	ConnectMessage message = FromJson<ConnectMessage>( _packet );
+
+	std::cout << message.message << std::endl;
 }
 
 void ProtocolSystem::Process( const Packet& _packet )
 {
 	if ( !protocols.contains( _packet.type ) )
 	{
-		std::cout << "The protocol is not registered." << std::endl;
+		std::cout << "The protocol is not registered" << std::endl;
 		return;
 	}
 
@@ -30,13 +32,14 @@ void ProtocolSystem::Process( const Packet& _packet )
 
 void ProtocolSystem::Regist( const IProtocol& _protocol, void( *_func )( const Packet& ) )
 {
-	if ( protocols.contains( _protocol.type ) )
+	u_short type = _protocol.GetPacketType();
+	if ( protocols.contains( type ) )
 	{
-		std::cout << "The protocol is duplicated." << std::endl;
+		std::cout << "The protocol is duplicated" << std::endl;
 		return;
 	}
 
-	protocols[_protocol.type] = _func;
+	protocols[type] = _func;
 }
 
 void ProtocolSystem::Broadcast( const Packet& _packet )

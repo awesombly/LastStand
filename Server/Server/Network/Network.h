@@ -32,7 +32,6 @@ public:
 	virtual ~Network() = default;
 
 public:
-	bool Initialize( int _port, const char* _ip );
 	bool ClosedSocket();
 
 public:

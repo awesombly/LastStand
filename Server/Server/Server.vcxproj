@@ -43,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -106,7 +106,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -158,7 +158,7 @@
     <ClInclude Include="Managed\SessionManager.h" />
     <ClInclude Include="Network\Network.h" />
     <ClInclude Include="Packet\Packet.hpp" />
-    <ClInclude Include="Protocol\Protocol.h" />
+    <ClInclude Include="Protocol\Protocol.hpp" />
     <ClInclude Include="Run\Server.h" />
     <ClInclude Include="Synchronize\CriticalSection.h" />
   </ItemGroup>
@@ -170,7 +170,6 @@
     <ClCompile Include="Managed\ProtocolSystem.cpp" />
     <ClCompile Include="Managed\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />
-    <ClCompile Include="Protocol\Protocol.cpp" />
     <ClCompile Include="Run\Main.cpp" />
     <ClCompile Include="Run\Server.cpp" />
     <ClCompile Include="Synchronize\CriticalSection.cpp" />

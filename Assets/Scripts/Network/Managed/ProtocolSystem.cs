@@ -6,17 +6,26 @@ using UnityEngine;
 public class ProtocolSystem : Singleton<ProtocolSystem>
 {
     private Dictionary<ushort/* Packet Type */, Action<Packet>> protocols = new Dictionary<ushort, Action<Packet>>();
-
+    
     protected override void Awake()
     {
         base.Awake();
         Regist( new SampleProtocol(), SampleProcess );
+        Regist( new ConnectMessage(), OnConnected );
     }
 
     private void SampleProcess( Packet _packet )
     {
         SampleProtocol data = JsonUtility.FromJson<SampleProtocol>( System.Text.Encoding.UTF8.GetString( _packet.data, 0, _packet.size - Global.HeaderSize ) );
         Debug.Log( $"name : {data.name}  speed : {data.speed}  money : {data.money}" );
+    }
+
+    private void OnConnected( Packet _packet )
+    {
+        ConnectMessage message = JsonUtility.FromJson<ConnectMessage>( System.Text.Encoding.UTF8.GetString( _packet.data, 0, _packet.size - Global.HeaderSize ) );
+        Debug.Log( $"{message.message}" );
+
+        Network.Inst.Send( new Packet( message ) );
     }
 
     public void Regist( IProtocol _protocol, Action<Packet> _func )

@@ -8,9 +8,9 @@ public:
 	virtual ~Acceptor();
 
 public:
-	bool Listen();
+	bool Accept( int _port, const char* _ip );
 
 private:
 	void WaitForClients()  const;
-	bool SetSocketOption() const;
+	bool Listen();
 };

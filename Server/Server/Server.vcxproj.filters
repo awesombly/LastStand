@@ -54,9 +54,6 @@
     <ClCompile Include="Run\Server.cpp">
       <Filter>Run</Filter>
     </ClCompile>
-    <ClCompile Include="Protocol\Protocol.cpp">
-      <Filter>Protocol</Filter>
-    </ClCompile>
     <ClCompile Include="Managed\ProtocolSystem.cpp">
       <Filter>Managed</Filter>
     </ClCompile>
@@ -95,7 +92,7 @@
     <ClInclude Include="Run\Server.h">
       <Filter>Run</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol\Protocol.h">
+    <ClInclude Include="Protocol\Protocol.hpp">
       <Filter>Protocol</Filter>
     </ClInclude>
     <ClInclude Include="Managed\ProtocolSystem.h">
