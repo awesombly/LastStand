@@ -9,13 +9,7 @@ public class PoolObject : MonoBehaviour
 
     public void Release()
     {
-        if ( parentPool == null )
-        {
-            Debug.LogError( "parentPool is null : " + gameObject.name );
-            return;
-        }
-
-        parentPool.Release( this );
+        parentPool?.Release( this );
     }
 
     public void SetPool( IObjectPool<PoolObject> _pool )

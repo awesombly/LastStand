@@ -11,7 +11,7 @@ public class PoolManager : Singleton<PoolManager>
 
     public PoolObject Get( GameObject _prefab )
     {
-        if ( pools.ContainsKey( _prefab ) == false )
+        if ( !pools.ContainsKey( _prefab ) )
         {
             RegisterObject( _prefab );
         }
@@ -28,7 +28,7 @@ public class PoolManager : Singleton<PoolManager>
 
     private void RegisterObject( GameObject _prefab )
     {
-        if ( pools.ContainsKey( _prefab ) == true )
+        if ( pools.ContainsKey( _prefab ) )
         {
             Debug.Log( "Aleady Exist Object." );
             return;
@@ -51,7 +51,7 @@ public class PoolManager : Singleton<PoolManager>
             return null;
         }
 
-        if ( pools.ContainsKey( curPrefab ) == false )
+        if ( !pools.ContainsKey( curPrefab ) )
         {
             Debug.LogError( "Not exist pool : " + curPrefab );
             return null;

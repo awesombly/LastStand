@@ -40,12 +40,12 @@ public class TilemapManager : MonoBehaviour
 
     private void CreateTilemap( int _col, int _row )
     {
-        if ( tilemaps.ContainsKey( _col ) == false )
+        if ( !tilemaps.ContainsKey( _col ) )
         {
             tilemaps.Add( _col, new Dictionary<int, GameObject>() );
         }
 
-        if ( tilemaps[_col].ContainsKey( _row ) == true )
+        if ( tilemaps[_col].ContainsKey( _row ) )
         {
             return;
         }
