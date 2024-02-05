@@ -1,55 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class Enemy : PoolObject
 {
+    public float Hp { get; set; }
+
     [SerializeField]
     private EnemyData enemyData;
-    private float curHp;
 
+    private Rigidbody2D rigid;
     private Rigidbody2D target;
-
-    private Rigidbody2D rigid2D;
-    private SpriteRenderer spriter;
-    private Animator animator;
 
     private void Start()
     {
-        rigid2D = GetComponent<Rigidbody2D>();
-        spriter = GetComponent<SpriteRenderer>();
-        animator = GetComponent<Animator>();
-        
+        rigid  = GetComponent<Rigidbody2D>();
         target = GameManager.Inst.player.GetComponent<Rigidbody2D>();
     }
 
     private void FixedUpdate()
     {
-        Vector2 movePosition = ( target.position - rigid2D.position ).normalized * enemyData.moveSpeed * Time.fixedDeltaTime;
-        rigid2D.MovePosition( rigid2D.position + movePosition );
+        var normalize = ( target.position - rigid.position ).normalized;
 
-        spriter.flipX = rigid2D.position.x > target.position.x;
-    }
-
-    private void OnTriggerExit2D( Collider2D _other )
-    {
-        if ( 1 << _other.gameObject.layer == enemyData.enemyArea )
-        {
-            Vector2 newPos = ( _other.gameObject.transform.position - transform.position ) * 2;
-            transform.Translate( newPos );
-        }
+        Vector2 movePos = normalize * enemyData.moveSpeed * Time.fixedDeltaTime;
+        rigid.MovePosition( rigid.position + movePos );
     }
 
     public void HitDamage( float _damage )
     {
-        SetHp( curHp - _damage );
+        SetHp( Hp - _damage );
     }
 
     public void SetHp( float _hp )
     {
-        curHp = Mathf.Min( _hp, enemyData.maxHp );
-        if ( curHp <= 0 )
+        Hp = Mathf.Min( _hp, enemyData.maxHp );
+        if ( Hp <= 0 )
         {
             OnDead();
         }

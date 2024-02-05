@@ -13,12 +13,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 22100000, guid: 050556270436d4f4288557291a1a99c0, type: 2}
     - target: {fileID: 3801318815780965352, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
+      propertyPath: enemyData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1265bd17930a3f045b097014f8a0d7af, type: 2}
+    - target: {fileID: 3801318815780965352, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
       propertyPath: moveSpeed
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4162547336221875147, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
       propertyPath: m_Name
-      value: Enemy Variant
+      value: Enemy1
       objectReference: {fileID: 0}
     - target: {fileID: 8279224627552953850, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
       propertyPath: m_Sprite
