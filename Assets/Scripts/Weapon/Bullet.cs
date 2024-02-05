@@ -18,14 +18,13 @@ public class Bullet : PoolObject
         rigid2D = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
-    {
-        Vector2 delta = transform.up * moveSpeed * Time.fixedDeltaTime;
-        rigid2D.MovePosition( rigid2D.position + delta );
-    }
-
     private void OnTriggerEnter2D( Collider2D _other )
     {
+        if ( !gameObject.activeSelf )
+        {
+            return;
+        }
+
         if ( (1 << _other.gameObject.layer) != targetLayer )
         {
             return;
@@ -34,5 +33,10 @@ public class Bullet : PoolObject
         Enemy enemy = _other.GetComponent<Enemy>();
         enemy?.HitDamage( attackDamage );
         Release();
+    }
+
+    public void Fire()
+    {
+        rigid2D.velocity = transform.up * moveSpeed;
     }
 }

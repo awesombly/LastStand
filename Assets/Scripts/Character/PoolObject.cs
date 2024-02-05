@@ -9,7 +9,16 @@ public class PoolObject : MonoBehaviour
 
     public void Release()
     {
-        parentPool?.Release( this );
+        if ( parentPool == null )
+        {
+            Destroy( gameObject );
+            return;
+        }
+
+        if ( gameObject.activeSelf )
+        {
+            parentPool.Release( this );
+        }
     }
 
     public void SetPool( IObjectPool<PoolObject> _pool )
