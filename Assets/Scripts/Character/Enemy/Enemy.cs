@@ -13,17 +13,21 @@ public class EnemyData : ScriptableObject
 
 public class Enemy : PoolObject
 {
-    public float Hp { get; set; }
+    public GameObject bulletPrefab;
 
+    public float Hp { get; set; }
     [SerializeField]
     private EnemyData data;
 
     private Rigidbody2D rigid;
     private Rigidbody2D target;
     private SpriteRenderer rdr;
-    public float attackRange;
 
-    private enum EnemyState { Idle = 0, Chase, Attack, Reload, }
+    private readonly float EnemyAttackDelay = 1f;
+    private float attackRange;
+
+    private enum EnemyState : int { Idle = 0, Chase, Attack, Reload, }
+    EnemyState state;
     private Coroutine coroutine;
 
     #region Unity Callback
@@ -37,6 +41,7 @@ public class Enemy : PoolObject
     private void Start()
     {
         attackRange = UnityEngine.Random.Range( 3f, 10f );
+
         ChangeState( EnemyState.Idle );
     }
     #endregion
@@ -81,8 +86,27 @@ public class Enemy : PoolObject
     {
         while ( true )
         {
-            yield return YieldCache.WaitForSeconds( 1f );
-            ChangeState( EnemyState.Idle );
+            yield return null;
+
+            rdr.flipX = ( target.position.x - rigid.position.x ) < 0;
+            var distance = Vector2.Distance( target.position, rigid.position );
+            if ( distance > attackRange )
+            {
+                ChangeState( EnemyState.Chase );
+                yield break;
+            }
+
+            Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
+
+            Vector3 dir = ( target.position - rigid.position ).normalized;
+            float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
+            bullet.transform.rotation = Quaternion.Euler( 0, 0, angle - 90 );
+
+            bullet.targetLayer = Global.LayerValue.Player | Global.LayerValue.Misc;
+            bullet.transform.position = transform.position;
+            bullet?.Fire();
+
+            yield return YieldCache.WaitForSeconds( EnemyAttackDelay );
         }
     }
     #endregion
