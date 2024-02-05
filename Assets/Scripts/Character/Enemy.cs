@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,20 +12,76 @@ public class Enemy : PoolObject
 
     private Rigidbody2D rigid;
     private Rigidbody2D target;
+    private SpriteRenderer rdr;
 
-    private void Start()
+    public enum EnemyState { Idle = 0, Chase, Attack, Reload, }
+    public EnemyState state;
+
+    private Coroutine coroutine;
+
+    private float attackRange;
+
+    #region Unity Callback
+    private void Awake()
     {
+        rdr    = GetComponent<SpriteRenderer>();
         rigid  = GetComponent<Rigidbody2D>();
         target = GameManager.Inst.player.GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    private void Start()
     {
-        var normalize = ( target.position - rigid.position ).normalized;
-
-        Vector2 movePos = normalize * enemyData.moveSpeed * Time.fixedDeltaTime;
-        rigid.MovePosition( rigid.position + movePos );
+        ChangeState( EnemyState.Idle );
     }
+    #endregion
+
+    #region FSM
+    private void ChangeState( EnemyState _state )
+    {
+        if ( !ReferenceEquals( coroutine, null ) )
+             StopCoroutine( coroutine );
+
+        state = _state;
+        coroutine = StartCoroutine( state.ToString() );
+    }
+
+    private IEnumerator Idle()
+    {
+        yield return new WaitForSeconds( 1f );
+        attackRange = UnityEngine.Random.Range( 3f, 12f );
+
+        ChangeState( EnemyState.Chase );
+    }
+
+    private IEnumerator Chase()
+    {
+        while ( true )
+        {
+            yield return null;
+
+            rdr.flipX = ( target.position.x - rigid.position.x ) < 0;
+
+            var distance = Vector2.Distance( target.position, rigid.position );
+            if ( distance <= attackRange )
+            {
+                ChangeState( EnemyState.Attack );
+                yield break;
+            }
+
+            Vector2 dir = ( target.position - rigid.position ).normalized;
+            rigid.position += dir * enemyData.moveSpeed * Time.deltaTime;
+        }
+    }
+
+    private IEnumerator Attack()
+    {
+        while ( true )
+        {
+            yield return new WaitForSeconds( 1f );
+            ChangeState( EnemyState.Idle );
+        }
+    }
+    #endregion
 
     public void HitDamage( float _damage )
     {
