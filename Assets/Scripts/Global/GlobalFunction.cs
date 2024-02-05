@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-public static class Global
+public static partial class Global
 {
     public const int HeaderSize  = 4;
     public const int MaxDataSize = 2048;
@@ -14,7 +14,7 @@ public static class Global
 
         System.IntPtr buffer = Marshal.AllocHGlobal( bufSize + 1 );
         if ( buffer == System.IntPtr.Zero )
-             return null;
+            return null;
 
         Marshal.StructureToPtr( _obj, buffer, false );
 
@@ -58,7 +58,7 @@ public class YieldCache
     {
         WaitForSeconds wfs;
         if ( !times.TryGetValue( _time, out wfs ) )
-             times.Add( _time, wfs = new WaitForSeconds( _time ) );
+            times.Add( _time, wfs = new WaitForSeconds( _time ) );
 
         return wfs;
     }
