@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b9575e673fc1ec4ca476f3760ea5351, type: 3}
-  m_Name: EnemyData_2
+  m_Name: Default Enemy
   m_EditorClassIdentifier: 
-  maxHp: 300
-  moveSpeed: 7
-  attackDamage: 20
-  enemyArea:
-    serializedVersion: 2
-    m_Bits: 256
+  maxHp: 100
+  speed: 10
+  damage: 10
+  range: 10

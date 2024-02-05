@@ -3,23 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu( fileName = "Enemy", menuName = "Scriptable Objects/Default" )]
+public class EnemyData : ScriptableObject
+{
+    public float maxHp;
+    public float speed;
+    public float damage;
+    public float range;
+}
+
 public class Enemy : PoolObject
 {
     public float Hp { get; set; }
 
     [SerializeField]
-    private EnemyData enemyData;
+    private EnemyData data;
 
     private Rigidbody2D rigid;
     private Rigidbody2D target;
     private SpriteRenderer rdr;
 
-    public enum EnemyState { Idle = 0, Chase, Attack, Reload, }
-    public EnemyState state;
-
+    private enum EnemyState { Idle = 0, Chase, Attack, Reload, }
     private Coroutine coroutine;
-
-    private float attackRange;
 
     #region Unity Callback
     private void Awake()
@@ -41,14 +46,12 @@ public class Enemy : PoolObject
         if ( !ReferenceEquals( coroutine, null ) )
              StopCoroutine( coroutine );
 
-        state = _state;
-        coroutine = StartCoroutine( state.ToString() );
+        coroutine = StartCoroutine( _state.ToString() );
     }
 
     private IEnumerator Idle()
     {
-        yield return new WaitForSeconds( 1f );
-        attackRange = UnityEngine.Random.Range( 3f, 12f );
+        yield return YieldCache.WaitForSeconds( 1f );
 
         ChangeState( EnemyState.Chase );
     }
@@ -62,14 +65,14 @@ public class Enemy : PoolObject
             rdr.flipX = ( target.position.x - rigid.position.x ) < 0;
 
             var distance = Vector2.Distance( target.position, rigid.position );
-            if ( distance <= attackRange )
+            if ( distance <= data.range )
             {
                 ChangeState( EnemyState.Attack );
                 yield break;
             }
 
             Vector2 dir = ( target.position - rigid.position ).normalized;
-            rigid.position += dir * enemyData.moveSpeed * Time.deltaTime;
+            rigid.position += dir * data.speed * Time.deltaTime;
         }
     }
 
@@ -77,7 +80,7 @@ public class Enemy : PoolObject
     {
         while ( true )
         {
-            yield return new WaitForSeconds( 1f );
+            yield return YieldCache.WaitForSeconds( 1f );
             ChangeState( EnemyState.Idle );
         }
     }
@@ -85,21 +88,8 @@ public class Enemy : PoolObject
 
     public void HitDamage( float _damage )
     {
-        SetHp( Hp - _damage );
-    }
-
-    public void SetHp( float _hp )
-    {
-        Hp = Mathf.Min( _hp, enemyData.maxHp );
-        if ( Hp <= 0 )
-        {
-            OnDead();
-        }
-    }
-
-    private void OnDead()
-    {
-        /// +시체 처리, 점수 처리 등
-        Release();
+        Hp -= _damage;
+        if ( Hp < 0 )
+             Release();
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -39,5 +40,26 @@ public static class Global
     {
         string json = System.Text.Encoding.UTF8.GetString( _packet.data, 0, _packet.size - HeaderSize );
         return JsonUtility.FromJson<Type>( json );
+    }
+}
+
+public class YieldCache
+{
+    class FloatComparer : IEqualityComparer<float>
+    {
+        bool IEqualityComparer<float>.Equals( float x, float y ) => x == y;
+
+        int IEqualityComparer<float>.GetHashCode( float obj ) => obj.GetHashCode();
+    }
+
+    private static readonly Dictionary<float/*time*/, WaitForSeconds> times = new Dictionary<float, WaitForSeconds>( new FloatComparer() );
+    public static readonly WaitForEndOfFrame WaitForEndOfFrame = new WaitForEndOfFrame();
+    public static WaitForSeconds WaitForSeconds( float _time )
+    {
+        WaitForSeconds wfs;
+        if ( !times.TryGetValue( _time, out wfs ) )
+             times.Add( _time, wfs = new WaitForSeconds( _time ) );
+
+        return wfs;
     }
 }
