@@ -1,6 +1,6 @@
 #pragma once
-#include "../Global/Header.h"
-#include "../Packet/Packet.hpp"
+#include "Global/Header.h"
+#include "Packet/Packet.hpp"
 
 class Network
 {
@@ -32,7 +32,6 @@ public:
 	virtual ~Network() = default;
 
 public:
-	bool Initialize( int _port, const char* _ip );
 	bool ClosedSocket();
 
 public:

@@ -73,7 +73,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\\Output\\$(ProjectName)_d\\</OutDir>
     <IntDir>..\\Output\\$(ProjectName)_d\\</IntDir>
-    <IncludePath>External Library;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -105,7 +106,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -114,15 +115,16 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <TreatWarningAsError>true</TreatWarningAsError>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Server;External Library\Cereal;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Wv: 18 %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutputPath)Server.exe" "..\\..\\Server.exe"</Command>
@@ -156,7 +158,7 @@
     <ClInclude Include="Managed\SessionManager.h" />
     <ClInclude Include="Network\Network.h" />
     <ClInclude Include="Packet\Packet.hpp" />
-    <ClInclude Include="Protocol\Protocol.h" />
+    <ClInclude Include="Protocol\Protocol.hpp" />
     <ClInclude Include="Run\Server.h" />
     <ClInclude Include="Synchronize\CriticalSection.h" />
   </ItemGroup>
@@ -168,7 +170,6 @@
     <ClCompile Include="Managed\ProtocolSystem.cpp" />
     <ClCompile Include="Managed\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />
-    <ClCompile Include="Protocol\Protocol.cpp" />
     <ClCompile Include="Run\Main.cpp" />
     <ClCompile Include="Run\Server.cpp" />
     <ClCompile Include="Synchronize\CriticalSection.cpp" />

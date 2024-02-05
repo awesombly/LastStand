@@ -3,14 +3,14 @@
 
 bool IOCP::Initialize()
 {
+	std::cout << "Create " << WorkerThreadCount << " threads for IOCP" << std::endl;
 	handle = ::CreateIoCompletionPort( INVALID_HANDLE_VALUE, 0, 0, WorkerThreadCount );
-	for ( int count = 0; count < WorkerThreadCount; ++count )
+	for ( int count = 0; count < WorkerThreadCount; count++ )
 	{
+		std::cout << "Wait for data to be entered in the IO Completion Queue" << std::endl;
 		std::thread th( [&]() { IOCP::WaitCompletionStatus(); } );
 		th.detach();
 	}
-
-	std::cout << "Make " << WorkerThreadCount << " WorkerThreads" << std::endl;
 
 	return true;
 }
@@ -28,7 +28,7 @@ void IOCP::WaitCompletionStatus() const
 	ULONG_PTR key;
 	LPOVERLAPPED ov;
 	DWORD transferred;
-
+	
 	while ( true )
 	{
 		if ( ::GetQueuedCompletionStatus( handle, &transferred, &key, &ov, INFINITE ) == TRUE )

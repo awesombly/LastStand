@@ -1,5 +1,5 @@
 #pragma once
-#include "../Network/Network.h"
+#include "Network/Network.h"
 
 class Acceptor : public Network
 {
@@ -8,9 +8,9 @@ public:
 	virtual ~Acceptor();
 
 public:
-	bool Listen();
+	bool Accept( int _port, const char* _ip );
 
 private:
 	void WaitForClients()  const;
-	bool SetSocketOption() const;
+	bool Listen();
 };

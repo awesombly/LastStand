@@ -1,5 +1,5 @@
 #include "Session.h"
-#include "../Managed/PacketSystem.h"
+#include "Managed/PacketSystem.h"
 
 Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 				  : Network( _socket, _address ), packet( new Packet() ), buffer{}, startPos( 0 ), writePos( 0 ), readPos( 0 ) { }

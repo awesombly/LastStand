@@ -5,7 +5,7 @@ bool PacketSystem::Initialize()
 {
 	ProtocolSystem::Inst().Initialize();
 
-	std::cout << "Start packet processing" << std::endl;
+	std::cout << "Create thread for packet processing" << std::endl;
 	std::thread th( [&]() { PacketSystem::Process(); } );
 	th.detach();
 
@@ -21,6 +21,7 @@ void PacketSystem::Push( const Packet& _packet )
 		 
 void PacketSystem::Process()
 {
+	std::cout << "Waiting for received data to be converted into packets" << std::endl;
 	while ( true )
 	{
 		std::unique_lock<std::mutex> lock( mtx );

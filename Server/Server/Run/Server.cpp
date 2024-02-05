@@ -1,6 +1,6 @@
 #include "Server.h"
-#include "../Managed/PacketSystem.h"
-#include "../Managed/IOCP.h"
+#include "Managed/PacketSystem.h"
+#include "Managed/IOCP.h"
 
 Server::Server()
 {
@@ -9,19 +9,19 @@ Server::Server()
 
 void Server::Start( const int _port, const char* _address )
 {
-	if ( !IOCP::Inst().Initialize() )
+	if ( IOCP::Inst().Initialize() == false )
 	{
 		std::cout << "IOCP thread failed" << std::endl;
 	}
 
-	if ( !PacketSystem::Inst().Initialize() )
+	if ( PacketSystem::Inst().Initialize() == false )
 	{
 		std::cout << "Packet processing failed" << std::endl;
 	}
 
-	if ( !acceptor.Initialize( _port, _address ) || !acceptor.Listen() )
+	if ( acceptor.Accept( _port, _address ) == false )
 	{
-		std::cout << "Listen failed" << std::endl;
+		std::cout << "Accept failed" << std::endl;
 	}
 
 	if ( ::WaitForSingleObject( kill, INFINITE ) == WAIT_FAILED )

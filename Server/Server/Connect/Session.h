@@ -1,5 +1,5 @@
 #pragma once
-#include "../Network/Network.h"
+#include "Network/Network.h"
 
 static const u_short MaxReceiveSize = 10000;
 

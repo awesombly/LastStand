@@ -1,7 +1,7 @@
 #pragma once
-#include "../Global/Singleton.hpp"
-#include "../Connect/Session.h"
-#include "../Synchronize/CriticalSection.h"
+#include "Global/Singleton.hpp"
+#include "Connect/Session.h"
+#include "Synchronize/CriticalSection.h"
 
 class SessionManager : public Singleton<SessionManager>
 {

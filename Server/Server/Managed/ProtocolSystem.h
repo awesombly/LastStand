@@ -1,12 +1,16 @@
 #pragma once
-#include "../Protocol/Protocol.h"
-#include "../Global/Singleton.hpp"
-#include "../Packet/Packet.hpp"
+#include "Protocol/Protocol.hpp"
+#include "Global/Singleton.hpp"
+#include "Packet/Packet.hpp"
 
 class ProtocolSystem : public Singleton<ProtocolSystem>
 {
 private:
 	std::unordered_map<u_short/* Packet Type */, void(*)( const Packet& ) > protocols;
+
+public:
+	ProtocolSystem()          = default;
+	virtual ~ProtocolSystem() = default;
 
 public:
 	void Initialize();
@@ -18,9 +22,7 @@ private:
 	// Protocol
 	static void Broadcast( const Packet& _packet );
 	static void BroadcastWithoutSelf( const Packet& _packet );
-	static void ConnectSession( const Packet& _packet );
 
-public:
-	ProtocolSystem()          = default;
-	virtual ~ProtocolSystem() = default;
+	static void Sample( const Packet& _packet );
+	static void ConnectSession( const Packet& _packet );
 };

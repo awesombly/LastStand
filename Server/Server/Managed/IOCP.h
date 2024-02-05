@@ -1,5 +1,5 @@
 #pragma once
-#include "../Global/Singleton.hpp"
+#include "Global/Singleton.hpp"
 
 class IOCP : public Singleton<IOCP>
 {
@@ -8,7 +8,7 @@ private:
 	HANDLE handle;
 
 public:
-	IOCP() = default;
+	IOCP()          = default;
 	virtual ~IOCP() = default;
 
 public:

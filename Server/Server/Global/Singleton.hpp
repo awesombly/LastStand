@@ -1,11 +1,15 @@
 #pragma once
-#include "../Synchronize/CriticalSection.h"
+#include "Synchronize/CriticalSection.h"
 
 template<class Type>
 class Singleton
 {
+private:
+	static std::once_flag flag;
+	static std::shared_ptr<Type> inst;
+
 public:
-	Singleton() = default;
+	Singleton()          = default;
 	virtual ~Singleton() = default;
 
 public:
@@ -24,10 +28,6 @@ public:
 
 		return *inst.get();
 	}
-
-private:
-	static std::once_flag flag;
-	static std::shared_ptr<Type> inst;
 };
 
 template<class Type>

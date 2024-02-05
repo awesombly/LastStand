@@ -1,13 +1,13 @@
 #include "SessionManager.h"
-#include "../Global/Global.hpp"
-#include "../Protocol/Protocol.h"
+#include "Global/Global.hpp"
+#include "Protocol/Protocol.hpp"
 
 SessionManager::~SessionManager()
 {
 	auto pair( std::begin( sessions ) );
 	while ( pair++ != std::end( sessions ) )
 	{
-		SafeDelete( pair->second );
+		Global::Memory::SafeDelete( pair->second );
 	}
 
 	sessions.clear();
@@ -37,8 +37,14 @@ void SessionManager::Push( Session* _session )
 
 	 ConnectMessage message;
 	 message.message = "Server connection completed";
-
 	 _session->Send( UPacket( message ) );
+
+
+	 SampleProtocol sample;
+	 sample.name = "wns";
+	 sample.money = 10000;
+	 sample.speed = 17.24f;
+	 _session->Send( UPacket( sample ) );
 }
 
 void SessionManager::Erase( Session* _session )
@@ -48,7 +54,7 @@ void SessionManager::Erase( Session* _session )
 	SOCKET socket = _session->GetSocket();
 	cs.Lock();
 	_session->ClosedSocket();
-	SafeDelete( _session );
+	Global::Memory::SafeDelete( _session );
 	sessions.erase( socket );
 	cs.UnLock();
 }

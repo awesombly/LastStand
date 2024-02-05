@@ -10,7 +10,6 @@ public class ChatSystem : MonoBehaviour
     private void Awake()
     {
         ProtocolSystem.Inst.Regist( new ChatMessage(),    PrintMessage );
-        ProtocolSystem.Inst.Regist( new ConnectMessage(), PrintMessage );
 
         input.interactable = false;
     }
