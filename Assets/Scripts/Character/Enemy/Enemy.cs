@@ -9,7 +9,6 @@ public class EnemyData : ScriptableObject
     public float maxHp;
     public float speed;
     public float damage;
-    public float range;
 }
 
 public class Enemy : PoolObject
@@ -22,6 +21,7 @@ public class Enemy : PoolObject
     private Rigidbody2D rigid;
     private Rigidbody2D target;
     private SpriteRenderer rdr;
+    public float attackRange;
 
     private enum EnemyState { Idle = 0, Chase, Attack, Reload, }
     private Coroutine coroutine;
@@ -36,6 +36,7 @@ public class Enemy : PoolObject
 
     private void Start()
     {
+        attackRange = UnityEngine.Random.Range( 3f, 10f );
         ChangeState( EnemyState.Idle );
     }
     #endregion
@@ -65,7 +66,7 @@ public class Enemy : PoolObject
             rdr.flipX = ( target.position.x - rigid.position.x ) < 0;
 
             var distance = Vector2.Distance( target.position, rigid.position );
-            if ( distance <= data.range )
+            if ( distance <= attackRange )
             {
                 ChangeState( EnemyState.Attack );
                 yield break;
@@ -86,10 +87,22 @@ public class Enemy : PoolObject
     }
     #endregion
 
+    public void Initialize( Vector3 _pos )
+    {
+        transform.position = _pos;
+
+        ChangeState( EnemyState.Idle );
+    }
+
     public void HitDamage( float _damage )
     {
         Hp -= _damage;
         if ( Hp < 0 )
-             Release();
+        {
+            if ( !ReferenceEquals( coroutine, null ) )
+                 StopCoroutine( coroutine );
+             
+            Release();
+        }
     }
 }

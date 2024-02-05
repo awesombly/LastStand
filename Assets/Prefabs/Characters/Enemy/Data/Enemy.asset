@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b9575e673fc1ec4ca476f3760ea5351, type: 3}
-  m_Name: Default Enemy
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 0}
+  m_Name: Enemy
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   maxHp: 100
   speed: 10
   damage: 10
