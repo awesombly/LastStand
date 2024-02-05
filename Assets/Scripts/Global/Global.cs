@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using UnityEngine;
 
 public static class Global
 {
@@ -32,5 +33,11 @@ public static class Global
         Marshal.FreeHGlobal( buffer );
 
         return obj;
+    }
+
+    public static Type FromJson<Type>( in Packet _packet )
+    {
+        string json = System.Text.Encoding.UTF8.GetString( _packet.data, 0, _packet.size - HeaderSize );
+        return JsonUtility.FromJson<Type>( json );
     }
 }

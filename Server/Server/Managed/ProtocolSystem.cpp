@@ -6,10 +6,17 @@
 void ProtocolSystem::Initialize()
 {
 	Regist( ChatMessage(),    Broadcast );
-	Regist( SampleProtocol(), Broadcast );
+	Regist( SampleProtocol(), Sample );
 	Regist( ConnectMessage(), ConnectSession );
 	
 	std::cout << "Function binding completed for packet processing" << std::endl;
+}
+
+void ProtocolSystem::Sample( const Packet& _packet )
+{
+	SampleProtocol message = FromJson<SampleProtocol>( _packet );
+
+	std::cout << message.name << " " << message.speed << " " << message.money << std::endl;
 }
 
 void ProtocolSystem::ConnectSession( const Packet& _packet )

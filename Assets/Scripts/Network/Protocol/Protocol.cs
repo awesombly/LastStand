@@ -22,9 +22,9 @@ public interface IProtocol
 
 public struct SampleProtocol : IProtocol
 {
-    public int money;
-    public float speed;
     public string name;
+    public float speed;
+    public int money;
 }
 
 // From Server
