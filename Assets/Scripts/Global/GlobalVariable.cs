@@ -6,6 +6,29 @@ using UnityEngine;
 
 public static partial class Global
 {
+    [Flags]
+    public enum LayerValue
+    {
+        Default         = 1 << 0,
+        TransparentFX   = 1 << 1,
+        IgnoreRaycast   = 1 << 2,
+        Temp            = 1 << 3,
+        Water           = 1 << 4,
+        UI              = 1 << 5,
+        Player          = 1 << 6,
+        Enemy           = 1 << 7,
+        EnemyArea       = 1 << 8,
+        PlayerAttack    = 1 << 9,
+        EnemyAttack     = 1 << 10,
+        Misc            = 1 << 11,
+    }
+
+    public static bool CompareLayer( LayerValue _flagLayer, int _intLayer )
+    {
+        int result = ( int )_flagLayer & ( 1 << _intLayer );
+        return result != 0;
+    }
+
     [Serializable]
     public struct StatusFloat
     {

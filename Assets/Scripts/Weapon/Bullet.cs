@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Bullet : PoolObject
 {
-    [SerializeField]
-    private LayerMask targetLayer;
+    public Global.LayerValue targetLayer;
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
@@ -25,7 +24,7 @@ public class Bullet : PoolObject
             return;
         }
 
-        if ( (1 << _other.gameObject.layer) != targetLayer )
+        if ( !Global.CompareLayer( targetLayer, _other.gameObject.layer ) )
         {
             return;
         }

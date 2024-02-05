@@ -99,9 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e929d7c633f168c49b8beaf5b331eeaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  targetLayer: 0
   moveSpeed: 10
   attackDamage: 30
 --- !u!50 &-5355977176211696922
@@ -146,7 +144,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1911
+    m_Bits: 319
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

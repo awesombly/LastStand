@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Temp
   - Water
   - UI
   - Player
@@ -16,7 +16,7 @@ TagManager:
   - EnemyArea
   - PlayerAttack
   - EnemyAttack
-  - 
+  - Misc
   - 
   - 
   - 
