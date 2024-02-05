@@ -7,20 +7,7 @@ public class Enemy : PoolObject
 {
     [SerializeField]
     private EnemyData enemyData;
-
     private float curHp;
-    public float CurHp
-    {
-        get { return curHp; }
-        private set
-        {
-            curHp = Mathf.Min( value, enemyData.maxHp );
-            if ( curHp <= 0 )
-            {
-                OnDead();
-            }
-        }
-    }
 
     private Rigidbody2D target;
 
@@ -47,10 +34,24 @@ public class Enemy : PoolObject
 
     private void OnTriggerExit2D( Collider2D _other )
     {
-        if ( _other.gameObject.layer.Equals( LayerMask.NameToLayer( "EnemyArea" ) ) )
+        if ( 1 << _other.gameObject.layer == enemyData.enemyArea )
         {
             Vector2 newPos = ( _other.gameObject.transform.position - transform.position ) * 2;
             transform.Translate( newPos );
+        }
+    }
+
+    public void HitDamage( float _damage )
+    {
+        SetHp( curHp - _damage );
+    }
+
+    public void SetHp( float _hp )
+    {
+        curHp = Mathf.Min( _hp, enemyData.maxHp );
+        if ( curHp <= 0 )
+        {
+            OnDead();
         }
     }
 

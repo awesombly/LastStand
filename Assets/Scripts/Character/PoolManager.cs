@@ -20,12 +20,6 @@ public class PoolManager : Singleton<PoolManager>
         return pools[_prefab].Get();
     }
 
-    public void Release( PoolObject _object )
-    {
-        // 등록된 pool을 찾기엔 비용이 들어 PoolObject 내부에서 처리
-        _object.Release();
-    }
-
     private void RegisterObject( GameObject _prefab )
     {
         if ( pools.ContainsKey( _prefab ) )
