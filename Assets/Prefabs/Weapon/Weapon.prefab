@@ -98,8 +98,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039b49cf111fe9d489f270acfcdf8f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 11400000, guid: 53ab4d783e814c449bc166f6f11cd456, type: 2}
+  bulletPrefab: {fileID: 3777912928162346754, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
   shotPoint: {fileID: 897386766119268059}
+  ammo:
+    max: 120
+  magazine:
+    max: 12
+  repeatDelay:
+    max: 0.15
+  reloadDelay:
+    max: 1.2
+  isAllowKeyHold: 1
 --- !u!1 &3102544651425419412
 GameObject:
   m_ObjectHideFlags: 0

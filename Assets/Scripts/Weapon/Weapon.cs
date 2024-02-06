@@ -10,6 +10,20 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private Transform shotPoint;
 
+    [SerializeField]
+    private Global.StatusInt ammo;
+    [SerializeField]
+    private Global.StatusInt magazine;
+    [SerializeField]
+    private Global.StatusFloat repeatDelay;
+    [SerializeField]
+    private Global.StatusFloat reloadDelay;
+    [SerializeField]
+    private bool isAllowKeyHold;
+
+    private Player parent = null;
+
+    #region Unity Callback
     private void Start()
     {
         if ( shotPoint == null )
@@ -17,11 +31,40 @@ public class Weapon : MonoBehaviour
             shotPoint = transform;
         }
 
-        GameManager.Inst.player.OnAttackEvent += OnAttack;
+        ammo.SetMax();
+        magazine.SetMax();
+
+        GameManager.Inst.player.OnAttackPressEvent += OnAttackPress;
+        GameManager.Inst.player.OnReloadEvent += OnReload;
     }
 
-    private void OnAttack( InputValue _value )
+    private void OnEnable()
     {
+        parent = GetComponentInParent<Player>();
+    }
+
+    private void Update()
+    {
+        repeatDelay.Current -= Time.deltaTime;
+        reloadDelay.Current -= Time.deltaTime;
+        if ( isAllowKeyHold && parent.IsAttackHolded && repeatDelay.IsZero() && reloadDelay.IsZero() )
+        {
+            Fire();
+        }
+    }
+    #endregion
+
+    private void Fire()
+    {
+        repeatDelay.SetMax();
+        if ( magazine.IsZero() )
+        {
+            OnReload();
+            return;
+        }
+
+        --magazine.Current;
+        Debug.Log( $"mag:{magazine.Current}, ammo:{ammo.Current}" );
         Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 
         Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
@@ -33,5 +76,29 @@ public class Weapon : MonoBehaviour
         bullet.transform.rotation = Quaternion.Euler( 0, 0, angle - 90 );
 
         bullet.Fire();
+    }
+
+    private void OnAttackPress()
+    {
+        if ( !isAllowKeyHold && repeatDelay.IsZero() && reloadDelay.IsZero() )
+        {
+            Fire();
+        }
+    }
+
+    private void OnReload()
+    {
+        if ( magazine.IsMax() || ammo.IsZero() || reloadDelay.Current > 0f )
+        {
+            return;
+        }
+
+        reloadDelay.SetMax();
+
+        int oldMag = magazine.Current;
+        magazine.Current = Mathf.Clamp( magazine.Current + ammo.Current, 0, magazine.Max );
+        ammo.Current -= ( magazine.Current - oldMag );
+
+        Debug.Log( $"Reload, mag:{magazine.Current}, ammo:{ammo.Current}" );
     }
 }

@@ -65,7 +65,7 @@ public static partial class Global
                 }
 
                 float old = current;
-                current = Mathf.Clamp( value, 0.0f, Max );
+                current = Mathf.Clamp( value, 0f, Max );
 
                 OnChangeCurrent?.Invoke( old, current );
             }
@@ -73,8 +73,9 @@ public static partial class Global
         public Action<float/*old*/, float/*new*/> OnChangeCurrent;
 
         public void SetMax() => Current = max;
-
-        public void SetZero() => Current = 0.0f;
+        public void SetZero() => Current = 0f;
+        public bool IsMax() => Current == Max;
+        public bool IsZero() => Current == 0f;
     }
 
     [Serializable]
@@ -99,7 +100,7 @@ public static partial class Global
                 OnChangeMax?.Invoke( old, max );
             }
         }
-        public Action<float/*old*/, float/*new*/> OnChangeMax;
+        public Action<int/*old*/, int/*new*/> OnChangeMax;
 
         private int current;
         public int Current
@@ -118,10 +119,11 @@ public static partial class Global
                 OnChangeCurrent?.Invoke( old, current );
             }
         }
-        public Action<float/*old*/, float/*new*/> OnChangeCurrent;
+        public Action<int/*old*/, int/*new*/> OnChangeCurrent;
 
         public void SetMax() => Current = max;
-
         public void SetZero() => Current = 0;
+        public bool IsMax() => Current == Max;
+        public bool IsZero() => Current == 0;
     }
 }

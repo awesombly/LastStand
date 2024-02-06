@@ -7,10 +7,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    public Action<InputValue> OnMoveEvent;
-    public Action<InputValue> OnAttackEvent;
-
     public Vector2 Direction { get; private set; }
+    public bool IsAttackHolded { get; private set; }
 
     [SerializeField]
     private float moveSpeed;
@@ -22,6 +20,12 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriter;
     private Animator animator;
 
+    public Action<InputValue> OnMoveEvent;
+    public Action OnAttackPressEvent;
+    public Action OnAttackReleaseEvent;
+    public Action OnReloadEvent;
+
+    #region Unity Callback
     private void Awake()
     {
         Rigid2D = GetComponent<Rigidbody2D>();
@@ -47,7 +51,9 @@ public class Player : MonoBehaviour
             spriter.flipX = inputVector.x < 0f;
         }
     }
+    #endregion
 
+    #region InputSystem Callback
     private void OnMove( InputValue _value )
     {
         inputVector = _value.Get<Vector2>();
@@ -55,8 +61,21 @@ public class Player : MonoBehaviour
         OnMoveEvent?.Invoke( _value );
     }
 
-    private void OnAttack( InputValue _value )
+    private void OnAttackPress()
     {
-        OnAttackEvent?.Invoke( _value );
+        IsAttackHolded = true;
+        OnAttackPressEvent?.Invoke();
     }
+
+    private void OnAttackRelease()
+    {
+        IsAttackHolded = false;
+        OnAttackReleaseEvent?.Invoke();
+    }
+
+    private void OnReload()
+    {
+        OnReloadEvent?.Invoke();
+    }
+    #endregion
 }
