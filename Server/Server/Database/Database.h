@@ -2,23 +2,30 @@
 #include "Global/Singleton.hpp"
 #include "mysql.h"
 
+struct UserData
+{
+	std::string nickname;
+	std::string id;
+	std::string pw;
+};
+
 class Database : public Singleton<Database>
 {
 private:
 	MYSQL*     conn;
-	MYSQL_RES* data;
+	MYSQL_RES* result;
+	char sentence[256];
 
 public:
 	bool Initialize();
 
 public:
-	Database()          = default;
-	virtual ~Database() = default;
-};
+	UserData Search( const char* _id );
 
-struct UserData
-{
-	std::string Name;
-	std::string ID;
-	std::string PW;
+private:
+	bool Query( const char* _query );
+
+public:
+	Database()          = default;
+	virtual ~Database();
 };

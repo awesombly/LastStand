@@ -72,6 +72,7 @@ bool Acceptor::Listen()
 	}
 
 	std::cout << "Create thread for listening" << std::endl;
+	std::cout << "Waiting for a new session..." << std::endl;
 	std::thread th( [&]() { Acceptor::WaitForClients(); } );
 	th.detach();
 
@@ -80,8 +81,6 @@ bool Acceptor::Listen()
 
 void Acceptor::WaitForClients()  const
 {
-	std::cout << "Waiting for a new session..." << std::endl;
-
 	SOCKET clientSocket;
 	SOCKADDR_IN addr {};
 	int size = sizeof( addr );
