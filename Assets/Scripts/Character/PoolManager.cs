@@ -7,6 +7,7 @@ using UnityEngine.Pool;
 public class PoolManager : Singleton<PoolManager>
 {
     private Dictionary<GameObject/*Prefab*/, IObjectPool<PoolObject>> pools = new Dictionary<GameObject, IObjectPool<PoolObject>>();
+    private Dictionary<GameObject/*Prefab*/, GameObject/*Parent*/> poolParents = new Dictionary<GameObject, GameObject>();
     private GameObject curPrefab;
 
     public PoolObject Get( GameObject _prefab )
@@ -28,6 +29,10 @@ public class PoolManager : Singleton<PoolManager>
             return;
         }
 
+        var parentObject = new GameObject( _prefab.name );
+        parentObject.transform.SetParent( transform );
+        poolParents[_prefab] = parentObject;
+
         int initCapacity = 10;
         curPrefab = _prefab;
         pools.Add( curPrefab, new ObjectPool<PoolObject>( CreatePoolObject, OnGetAction, OnReleaseAction, OnDestroyAction, true/*checkError*/, initCapacity ) );
@@ -36,7 +41,7 @@ public class PoolManager : Singleton<PoolManager>
     #region ObjectPool Functions
     private PoolObject CreatePoolObject()
     {
-        GameObject go = Instantiate( curPrefab, gameObject.transform );
+        GameObject go = Instantiate( curPrefab, poolParents[curPrefab].transform );
 
         var poolObject = go.GetComponent<PoolObject>();
         if ( poolObject == null )

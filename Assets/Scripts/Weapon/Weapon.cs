@@ -34,8 +34,8 @@ public class Weapon : MonoBehaviour
         ammo.SetMax();
         magazine.SetMax();
 
-        GameManager.Inst.player.OnAttackPressEvent += OnAttackPress;
-        GameManager.Inst.player.OnReloadEvent += OnReload;
+        parent.OnAttackPressEvent += OnAttackPress;
+        parent.OnReloadEvent += OnReload;
     }
 
     private void OnEnable()
