@@ -115,7 +115,7 @@
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <TreatWarningAsError>true</TreatWarningAsError>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>..\Server;External Library\Cereal;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Server;External Library\Cereal;External Library\MySQL\include;External Library\Boost;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Wv: 18 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
@@ -123,8 +123,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>External Library\MySQL\lib;External Library\Boost\stage\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libmysql.lib;mysqlclient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutputPath)Server.exe" "..\\..\\Server.exe"</Command>
@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="Connect\Acceptor.h" />
     <ClInclude Include="Connect\Session.h" />
+    <ClInclude Include="Database\Database.h" />
     <ClInclude Include="Global\Global.hpp" />
     <ClInclude Include="Global\Header.h" />
     <ClInclude Include="Global\Singleton.hpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClCompile Include="Connect\Acceptor.cpp" />
     <ClCompile Include="Connect\Session.cpp" />
+    <ClCompile Include="Database\Database.cpp" />
     <ClCompile Include="Managed\IOCP.cpp" />
     <ClCompile Include="Managed\PacketSystem.cpp" />
     <ClCompile Include="Managed\ProtocolSystem.cpp" />

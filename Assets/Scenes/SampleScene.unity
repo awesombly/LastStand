@@ -1882,6 +1882,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 253016590}
     m_Modifications:
+    - target: {fileID: -2937649002793374908, guid: 1a4ac2947b994e448aaa06c571886fef, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 3777912928162346754, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
     - target: {fileID: 103125099357672999, guid: 1a4ac2947b994e448aaa06c571886fef, type: 3}
       propertyPath: m_Name
       value: Weapon
