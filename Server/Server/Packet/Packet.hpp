@@ -1,6 +1,5 @@
 #pragma once
 #include "Global/Header.h"
-#include "Global/Global.hpp"
 #include "Protocol/Protocol.hpp"
 
 
@@ -9,7 +8,7 @@ struct UPacket
 {
 	u_short type;
 	u_short size;
-	byte data[MaxDataSize];
+	byte data[Global::MaxDataSize];
 
 	UPacket() : type( 0 ), size( 0 ), data{} {}
 
@@ -31,11 +30,11 @@ struct UPacket
 		Global::String::ReplaceAll( json, "\": ", "\":" );
 		
 		// data √ ±‚»≠
-		::memset( data, 0, sizeof( byte ) * MaxDataSize );
+		::memset( data, 0, sizeof( byte ) * Global::MaxDataSize );
 		::memcpy( data, json.c_str(), json.length() );
 
 		type = _protocol.GetPacketType();
-		size = ( u_short )json.length() + HeaderSize;
+		size = ( u_short )json.length() + Global::HeaderSize;
 	}
 };
 #pragma pack( pop )

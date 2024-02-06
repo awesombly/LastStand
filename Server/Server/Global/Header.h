@@ -68,7 +68,8 @@
 #include <cereal/types/chrono.hpp>
 #include <cereal/types/polymorphic.hpp>
 
-static const u_short HeaderSize  = 4;
-static const u_short MaxDataSize = 2048;
+// Global Variables and Function
+#include "Global.hpp"
+
 
 #pragma comment( lib, "ws2_32.lib" )

@@ -10,9 +10,14 @@ Server::Server()
 
 void Server::Start( const int _port, const char* _address )
 {
+	if ( !Database::Inst().Initialize() )
+	{
+		std::cout << "MySQL connect failed" << std::endl;
+	}
+
 	if ( !IOCP::Inst().Initialize() )
 	{
-		std::cout << "IOCP thread failed" << std::endl;
+		std::cout << "IOCP initialize failed" << std::endl;
 	}
 
 	if ( !PacketSystem::Inst().Initialize() )
@@ -23,11 +28,6 @@ void Server::Start( const int _port, const char* _address )
 	if ( !acceptor.Accept( _port, _address ) )
 	{
 		std::cout << "Accept failed" << std::endl;
-	}
-
-	if ( Database::Inst().Initialize() )
-	{
-
 	}
 
 	if ( ::WaitForSingleObject( kill, INFINITE ) == WAIT_FAILED )

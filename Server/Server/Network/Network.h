@@ -24,7 +24,7 @@ protected:
 
 private:
 	OVERLAPPEDEX ov;
-	char buffer[HeaderSize + MaxDataSize];
+	char buffer[Global::HeaderSize + Global::MaxDataSize];
 
 public:
 	Network() = default;

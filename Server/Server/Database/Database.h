@@ -1,11 +1,12 @@
 #pragma once
-#include "mysql.h"
 #include "Global/Singleton.hpp"
+#include "mysql.h"
 
 class Database : public Singleton<Database>
 {
 private:
-
+	MYSQL*     conn;
+	MYSQL_RES* data;
 
 public:
 	bool Initialize();

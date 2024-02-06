@@ -89,9 +89,6 @@
     <ClInclude Include="Managed\SessionManager.h">
       <Filter>Managed</Filter>
     </ClInclude>
-    <ClInclude Include="Global\Global.hpp">
-      <Filter>Global</Filter>
-    </ClInclude>
     <ClInclude Include="Managed\IOCP.h">
       <Filter>Managed</Filter>
     </ClInclude>
@@ -109,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="Database\Database.h">
       <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Global\Global.hpp">
+      <Filter>Global</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

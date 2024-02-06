@@ -76,7 +76,6 @@ bool Acceptor::Listen()
 	th.detach();
 
 	return true;
-
 }
 
 void Acceptor::WaitForClients()  const

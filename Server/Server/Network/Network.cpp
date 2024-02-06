@@ -25,7 +25,7 @@ void Network::Recieve()
 	DWORD transferred = 0;
 	ov.flag = OVERLAPPEDEX::MODE_RECV;
 	wsaBuffer.buf = ( char* )buffer;
-	wsaBuffer.len = HeaderSize + MaxDataSize;
+	wsaBuffer.len = Global::HeaderSize + Global::MaxDataSize;
 	if ( ::WSARecv( socket, &wsaBuffer, 1, &transferred, &flag, ( LPOVERLAPPED )&ov, NULL ) == SOCKET_ERROR )
 	{
 		if ( ::WSAGetLastError() != WSA_IO_PENDING )

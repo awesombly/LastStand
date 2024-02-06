@@ -2,6 +2,17 @@
 
 namespace Global 
 {
+	static const u_short HeaderSize  = 4;
+	static const u_short MaxDataSize = 2048;
+
+	namespace DB
+	{
+		const static char* Host     = "localhost";
+		const static char* User     = "root";
+		const static char* Password = "0000";
+		const static char* Schema   = "VSLike";
+	}
+
 	namespace Memory
 	{
 		template<class Type>
