@@ -11,7 +11,6 @@ Database::~Database()
 
 bool Database::Initialize()
 {
-	MYSQL driver;
 	if ( ::mysql_init( &driver ) == nullptr )
 	 	 return false;
 
@@ -31,18 +30,20 @@ bool Database::Initialize()
 	return true;
 }
 
-UserData Database::Search( const char* _id )
+UserData Database::Search( const char* _email )
 {
-	::sprintf( sentence, R"Q(select * from userdata where email = '%s';)Q", _id );
+	::sprintf( sentence, R"Q(select * from userdata where email = '%s';)Q", _email );
 
 	if ( !Query( sentence ) || ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
 		std::cout << ::mysql_error( conn ) << std::endl;
-		return UserData();
+		throw std::exception( "Invalid query statement" );
 	}
-	MYSQL_ROW row = ::mysql_fetch_row( result );
-	
-	std::cout << "# Search( " << row[0] << " " << row[1] << " " << row[2] << " )" << std::endl;
+
+	MYSQL_ROW row;
+	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
+		throw std::exception( "The email was not found" );
+
 	return UserData{ row[0], row[1], row[2] };
 }
 

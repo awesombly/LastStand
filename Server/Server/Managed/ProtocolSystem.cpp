@@ -1,29 +1,38 @@
 #include "ProtocolSystem.h"
 #include "Managed/SessionManager.h"
-#include <cereal/cereal.hpp>
-#include <cereal/archives/json.hpp>
+#include <Database/Database.h>
 
 void ProtocolSystem::Initialize()
 {
-	Regist( ChatMessage(),    Broadcast );
-	Regist( SampleProtocol(), Sample );
-	Regist( ConnectMessage(), ConnectSession );
+	Regist( ChatMessage(), Broadcast );
+	Regist( ReqLogin(),    Login );
 	
 	std::cout << "Function binding completed for packet processing" << std::endl;
 }
 
-void ProtocolSystem::Sample( const Packet& _packet )
+void ProtocolSystem::Login( const Packet& _packet )
 {
-	SampleProtocol message = FromJson<SampleProtocol>( _packet );
+	auto data = FromJson<ReqLogin>( _packet );
+	try
+	{
+		UserData user = Database::Inst().Search( data.email.c_str() );
+		if ( data.password.compare( user.password ) != 0 )
+			 throw std::exception( "The password does not match" );
 
-	std::cout << message.name << " " << message.speed << " " << message.money << std::endl;
-}
+		ResLogin protocol;
+		protocol.nickname = user.nickname;
+		protocol.email    = user.email;
+		protocol.password = user.password;
 
-void ProtocolSystem::ConnectSession( const Packet& _packet )
-{
-	ConnectMessage message = FromJson<ConnectMessage>( _packet );
-
-	std::cout << message.message << std::endl;
+		SessionManager::Inst().Send( _packet.socket, UPacket( protocol ) );
+	}
+	catch ( const std::exception& _error )
+	{
+		// 일단 빈 객체를 보내고
+		// 에러 관련 프로토콜을 정의하는 등 클라에서 처리할 수 있는 방안을 찾아야됨
+		std::cout << "Exception : " << _error.what() << std::endl;
+		SessionManager::Inst().Send( _packet.socket, UPacket( ResLogin() ) );
+	}
 }
 
 void ProtocolSystem::Process( const Packet& _packet )

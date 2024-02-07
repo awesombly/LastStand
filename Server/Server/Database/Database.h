@@ -14,7 +14,8 @@ class Database : public Singleton<Database>
 private:
 	static const int MaxSentenceSize = 1024;
 
-	MYSQL*     conn;
+	MYSQL driver;
+	MYSQL* conn;
 	MYSQL_RES* result;
 	char sentence[MaxSentenceSize];
 

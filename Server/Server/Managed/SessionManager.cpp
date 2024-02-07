@@ -12,6 +12,18 @@ SessionManager::~SessionManager()
 	sessions.clear();
 }
 
+void SessionManager::Send( const SOCKET& _socket, const UPacket& _packet ) const
+{
+	Session* session = Find( _socket );
+	if ( session == nullptr )
+	{
+		std::cout << "The session was not found." << std::endl;
+		return;
+	}
+
+	session->Send( _packet );
+}
+
 Session* SessionManager::Find( const SOCKET& _socket ) const
 {
 	const auto& iter = sessions.find( _socket );
@@ -37,13 +49,6 @@ void SessionManager::Push( Session* _session )
 	 ConnectMessage message;
 	 message.message = "Server connection completed";
 	 _session->Send( UPacket( message ) );
-
-
-	 SampleProtocol sample;
-	 sample.name = "wns";
-	 sample.money = 10000;
-	 sample.speed = 17.24f;
-	 _session->Send( UPacket( sample ) );
 }
 
 void SessionManager::Erase( Session* _session )

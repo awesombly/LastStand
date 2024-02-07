@@ -61,6 +61,43 @@ public:
 	}
 };
 
+// Request 서버로 보내는 요청
+struct ReqLogin : public IProtocol
+{
+public:
+	CONSTRUCTOR()
+
+	std::string email;
+	std::string password;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( email ) );
+		ar( CEREAL_NVP( password ) );
+	}
+};
+
+// Response 요청에 대한 서버의 답변
+struct ResLogin : public IProtocol
+{
+public:
+	CONSTRUCTOR()
+
+	std::string nickname;
+	std::string email;
+	std::string password;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( nickname ) );
+		ar( CEREAL_NVP( email ) );
+		ar( CEREAL_NVP( password ) );
+	}
+};
+
+
 struct ChatMessage : public IProtocol
 {
 public:

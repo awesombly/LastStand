@@ -10,28 +10,13 @@ public class ProtocolSystem : Singleton<ProtocolSystem>
     protected override void Awake()
     {
         base.Awake();
-        Regist( new SampleProtocol(), SampleProcess );
         Regist( new ConnectMessage(), OnConnected );
-    }
-
-    private void SampleProcess( Packet _packet )
-    {
-        SampleProtocol data = Global.FromJson<SampleProtocol>( _packet );
-        Debug.Log( $"name : {data.name}  speed : {data.speed}  money : {data.money}" );
-
-        SampleProtocol sample;
-        sample.name = "sample";
-        sample.money = 2000;
-        sample.speed = 52.6f;
-        Network.Inst.Send( new Packet( sample ) );
     }
 
     private void OnConnected( Packet _packet )
     {
         ConnectMessage message = Global.FromJson<ConnectMessage>( _packet );
         Debug.Log( $"{message.message}" );
-
-        Network.Inst.Send( new Packet( message ) );
     }
 
     public void Regist( IProtocol _protocol, Action<Packet> _func )

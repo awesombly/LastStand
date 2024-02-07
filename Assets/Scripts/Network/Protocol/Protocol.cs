@@ -20,20 +20,27 @@ public interface IProtocol
     public ushort type => Protocol.GetPacketType( name );
 }
 
-public struct SampleProtocol : IProtocol
+// Request 서버로 보내는 요청
+public struct ReqLogin : IProtocol
 {
-    public string name;
-    public float speed;
-    public int money;
+    public string email;
+    public string password;
 }
 
-// From Server
+// Response 요청에 대한 답변
 public struct ConnectMessage : IProtocol
 {
     public string message;
 }
 
-// Both
+public struct ResLogin : IProtocol
+{
+    public string nickname;
+    public string email;
+    public string password;
+}
+
+// Both 
 public struct ChatMessage : IProtocol
 {
     public string message;

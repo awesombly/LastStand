@@ -48,7 +48,8 @@ template<typename Type>
 Type FromJson( const Packet& _data )
 {
 	std::string json;
-	std::string data = Global::Text::ToUTF8( ( const char* )_data.data );
+	std::string data = ( char* )_data.data;
+	// Global::Text::ToUTF8( ( const char* )_data.data );
 	size_t pos = data.find( "{\"value0\": " );
 	if ( pos == std::string::npos ) json.append( "{\"value0\": " ).append( data ).append( " }" );
 	else                   		    json = data;

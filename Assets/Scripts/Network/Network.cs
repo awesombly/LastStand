@@ -116,6 +116,7 @@ public class Network : Singleton<Network>
     public void Send( Packet _packet )
     {
         Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
+
         byte[] data = Global.Serialize( _packet );
         sendArgs.SetBuffer( data, 0, data.Length );
         

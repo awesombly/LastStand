@@ -14,6 +14,7 @@ public:
 	virtual ~SessionManager();
 
 public:
+	void Send( const SOCKET& _socket, const UPacket& _packet ) const;
 	Session* Find( const SOCKET& _socket ) const;
 	std::unordered_map<SOCKET, Session*> GetSessions() const;
 

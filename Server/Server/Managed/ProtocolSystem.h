@@ -25,4 +25,6 @@ private:
 
 	static void Sample( const Packet& _packet );
 	static void ConnectSession( const Packet& _packet );
+
+	static void Login( const Packet& _packet );
 };
