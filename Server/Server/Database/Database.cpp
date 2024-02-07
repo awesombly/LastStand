@@ -33,7 +33,7 @@ bool Database::Initialize()
 
 UserData Database::Search( const char* _id )
 {
-	::sprintf( sentence, R"Q(select * from userdata where id = '%s';)Q", _id );
+	::sprintf( sentence, R"Q(select * from userdata where email = '%s';)Q", _id );
 
 	if ( !Query( sentence ) || ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
@@ -48,20 +48,20 @@ UserData Database::Search( const char* _id )
 
 bool Database::Insert( const UserData& _data )
 {
-	::sprintf( sentence, R"Q(insert into userdata values( '%s', '%s', '%s' );)Q", _data.nickname, _data.id, _data.pw );
+	::sprintf( sentence, R"Q(insert into userdata values( '%s', '%s', '%s' );)Q", _data.nickname, _data.email, _data.password );
 	
 	return Query( sentence );
 }
 
 bool Database::Update( const UserData& _data )
 {
-	::sprintf( sentence, R"Q(update userdata set nickname = '%s', pw = '%s' where id = '%s';)Q", _data.nickname, _data.pw, _data.id );
+	::sprintf( sentence, R"Q(update userdata set nickname = '%s', password = '%s' where email = '%s';)Q", _data.nickname, _data.password, _data.email );
 	return Query( sentence );
 }
 
 bool Database::Delete( const UserData& _data )
 {
-	::sprintf( sentence, R"Q(delete from userdata where id = '%s';)Q", _data.id );
+	::sprintf( sentence, R"Q(delete from userdata where email = '%s';)Q", _data.email );
 	return Query( sentence );
 }
 
@@ -82,11 +82,11 @@ bool Database::Query( const char* _sentence )
 // select * from userdata where nickname = 'wns';
 
 // 삽입
-// insert into UserData( nickname, id, pw ) values( 'wns', 'wns', '0000' );
+// insert into UserData( nickname, email, password ) values( 'wns', 'wns', '0000' );
 // insert into userdata values( 'taehong', 'th', 1111 );
 
 // 수정
-// update userdata set pw ='0000' where nickname = 'wns';
+// update userdata set password ='0000' where nickname = 'wns';
 
 // 삭제
 // delete from userdata where nickname = 'wns';

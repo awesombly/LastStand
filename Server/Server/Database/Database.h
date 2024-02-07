@@ -5,8 +5,8 @@
 struct UserData
 {
 	const char* nickname;
-	const char* id;
-	const char* pw;
+	const char* email;
+	const char* password;
 };
 
 class Database : public Singleton<Database>
