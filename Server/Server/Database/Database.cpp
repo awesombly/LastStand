@@ -33,36 +33,48 @@ bool Database::Initialize()
 
 UserData Database::Search( const char* _id )
 {
-	::memset( sentence, 0, 256 );
 	::sprintf( sentence, R"Q(select * from userdata where id = '%s';)Q", _id );
 
-	if ( !Query( sentence ) )
-		 return UserData();
-
-	UserData data;
+	if ( !Query( sentence ) || ( result = ::mysql_store_result( conn ) ) == nullptr )
+	{
+		std::cout << ::mysql_error( conn ) << std::endl;
+		return UserData();
+	}
 	MYSQL_ROW row = ::mysql_fetch_row( result );
-	data.nickname = row[0];
-	data.id       = row[1];
-	data.pw       = row[2];
 	
-	std::cout << "# Search( " << data.nickname << " " << data.id << " " << data.pw << " )" << std::endl;
-	return data;
+	std::cout << "# Search( " << row[0] << " " << row[1] << " " << row[2] << " )" << std::endl;
+	return UserData{ row[0], row[1], row[2] };
+}
+
+bool Database::Insert( const UserData& _data )
+{
+	::sprintf( sentence, R"Q(insert into userdata values( '%s', '%s', '%s' );)Q", _data.nickname, _data.id, _data.pw );
+	
+	return Query( sentence );
+}
+
+bool Database::Update( const UserData& _data )
+{
+	::sprintf( sentence, R"Q(update userdata set nickname = '%s', pw = '%s' where id = '%s';)Q", _data.nickname, _data.pw, _data.id );
+	return Query( sentence );
+}
+
+bool Database::Delete( const UserData& _data )
+{
+	::sprintf( sentence, R"Q(delete from userdata where id = '%s';)Q", _data.id );
+	return Query( sentence );
 }
 
 bool Database::Query( const char* _sentence )
 {
-	if ( conn == nullptr || ( ::mysql_query( conn, _sentence ) != NULL ) )
+	std::cout << "# Query : " << sentence << std::endl;
+	if ( conn == nullptr || ( ::mysql_query( conn, sentence ) != NULL ) )
 	{
 		std::cout << ::mysql_error( conn ) << std::endl;
 		return false;
 	}
 
-	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
-	{
-		std::cout << ::mysql_error( conn ) << std::endl;
-		return false;
-	}
-
+	::memset( sentence, 0, MaxSentenceSize );
 	return true;
 }
 

@@ -4,26 +4,31 @@
 
 struct UserData
 {
-	std::string nickname;
-	std::string id;
-	std::string pw;
+	const char* nickname;
+	const char* id;
+	const char* pw;
 };
 
 class Database : public Singleton<Database>
 {
 private:
+	static const int MaxSentenceSize = 1024;
+
 	MYSQL*     conn;
 	MYSQL_RES* result;
-	char sentence[256];
+	char sentence[MaxSentenceSize];
 
 public:
 	bool Initialize();
 
 public:
 	UserData Search( const char* _id );
+	bool Insert( const UserData& _data );
+	bool Update( const UserData& _data );
+	bool Delete( const UserData& _data );
 
 private:
-	bool Query( const char* _query );
+	bool Query( const char* _sentence );
 
 public:
 	Database()          = default;
