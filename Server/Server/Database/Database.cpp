@@ -23,16 +23,16 @@ bool Database::Initialize()
 		Global::Memory::SafeDelete( conn );
 		return false;
 	}
-	
+
 	std::cout << "Connected MySQL Server( " << conn->host << ":" << conn->port << " " << 
 		                                       conn->user << " " << "****" << " " << conn->db << " )" << std::endl;
 
 	return true;
 }
 
-UserData Database::Search( const char* _email )
+UserData Database::Search( const std::string& _type, const std::string& _data )
 {
-	::sprintf( sentence, R"Q(select * from userdata where email = '%s';)Q", _email );
+	::sprintf( sentence, R"Q(select * from userdata where %s = '%s';)Q", _type.c_str(), _data.c_str() );
 
 	if ( !Query( sentence ) || ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
@@ -42,27 +42,27 @@ UserData Database::Search( const char* _email )
 
 	MYSQL_ROW row;
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
-		throw std::exception( "The email was not found" );
+		throw std::exception( "The data was not found" );
 
-	return UserData{ row[0], row[1], row[2] };
+	return UserData{ Global::Text::ToAnsi( row[0] ), Global::Text::ToAnsi( row[1] ), Global::Text::ToAnsi( row[2] )};
 }
 
 bool Database::Insert( const UserData& _data )
 {
-	::sprintf( sentence, R"Q(insert into userdata values( '%s', '%s', '%s' );)Q", _data.nickname, _data.email, _data.password );
+	::sprintf( sentence, R"Q(insert into userdata values( '%s', '%s', '%s' );)Q", _data.nickname.c_str(), _data.email.c_str(), _data.password.c_str() );
 	
 	return Query( sentence );
 }
 
 bool Database::Update( const UserData& _data )
 {
-	::sprintf( sentence, R"Q(update userdata set nickname = '%s', password = '%s' where email = '%s';)Q", _data.nickname, _data.password, _data.email );
+	::sprintf( sentence, R"Q(update userdata set nickname = '%s', password = '%s' where email = '%s';)Q", _data.nickname.c_str(), _data.password.c_str(), _data.email.c_str() );
 	return Query( sentence );
 }
 
 bool Database::Delete( const UserData& _data )
 {
-	::sprintf( sentence, R"Q(delete from userdata where email = '%s';)Q", _data.email );
+	::sprintf( sentence, R"Q(delete from userdata where email = '%s';)Q", _data.email.c_str() );
 	return Query( sentence );
 }
 

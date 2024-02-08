@@ -4,9 +4,9 @@
 
 struct UserData
 {
-	const char* nickname;
-	const char* email;
-	const char* password;
+	std::string nickname;
+	std::string email;
+	std::string password;
 };
 
 class Database : public Singleton<Database>
@@ -23,7 +23,7 @@ public:
 	bool Initialize();
 
 public:
-	UserData Search( const char* _id );
+	UserData Search( const std::string& _type, const std::string& _data );
 	bool Insert( const UserData& _data );
 	bool Update( const UserData& _data );
 	bool Delete( const UserData& _data );
