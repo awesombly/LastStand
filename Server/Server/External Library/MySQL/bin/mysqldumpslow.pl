@@ -18,16 +18,11 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License, version 2.0, for more details.
 #
-# You should have received a copy of the GNU Library General Public
-# License along with this library; if not, write to the Free
-# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
-# MA 02110-1301, USA
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
 
 # mysqldumpslow - parse and summarize the MySQL slow query log
-
-# Original version by Tim Bunce, sometime in 2000.
-# Further changes by Tim Bunce, 8th March 2001.
-# Handling of strings with \ and double '' by Monty 11 Aug 2001.
 
 use strict;
 use Getopt::Long;

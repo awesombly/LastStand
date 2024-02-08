@@ -18,10 +18,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License, version 2.0, for more details.
 #
-# You should have received a copy of the GNU Library General Public
-# License along with this library; if not, write to the Free
-# Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston,
-# MA 02110-1301, USA
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA
 
 use Getopt::Long;
 use POSIX qw(strftime getcwd);
@@ -332,7 +331,12 @@ sub start_mysqlds()
     $basedir_found= 0; # The default
     $mysqld_found= 1; # The default
     $mysqld_found= 0 if (!length($mysqld));
+
+    # Initialize the command.
     $com= "$mysqld";
+
+    # Initialize the command option list, process the options,
+    # reset command if relevant, append key options to command line.
     for ($j = 0, $tmp= ""; defined($options[$j]); $j++)
     {
       if ("--datadir=" eq substr($options[$j], 0, 10)) {
@@ -343,39 +347,18 @@ sub start_mysqlds()
           print "FATAL ERROR: Cannot create data directory $datadir: $!\n";
           exit(1);
         }
-        if (! -d $datadir."/mysql") {
-          if (-w $datadir) {
-            print "\n\nInstalling new database in $datadir\n\n";
-            $install_cmd="C:/Program Files (x86)/MySQL/bin/mysqld ";
-            $install_cmd.="--initialize ";
-            $install_cmd.="--user=mysql ";
-            $install_cmd.="--datadir=$datadir";
-            system($install_cmd);
-          } else {
-            print "\n";
-            print "FATAL ERROR: Tried to create mysqld under group [$groups[$i]],\n";
-            print "but the data directory is not writable.\n";
-            print "data directory used: $datadir\n";
-            exit(1);
-          }
-        }
-
-        if (! -d $datadir."/mysql") {
-          print "\n";
-          print "FATAL ERROR: Tried to start mysqld under group [$groups[$i]],\n";
-          print "but no data directory was found or could be created.\n";
-          print "data directory used: $datadir\n";
-          exit(1);
-        }
+        # Quote and append 'datadir' to command line.
+        $options[$j]= quote_shell_word($options[$j]);
+        $tmp.= " $options[$j]";
       }
-
-      if ("--mysqladmin=" eq substr($options[$j], 0, 13))
+      elsif ("--mysqladmin=" eq substr($options[$j], 0, 13))
       {
 	# catch this and ignore
       }
       elsif ("--mysqld=" eq substr($options[$j], 0, 9))
       {
 	$options[$j]=~ s/\-\-mysqld\=//;
+        # Reset command.
 	$com= $options[$j];
         $mysqld_found= 1;
       }
@@ -384,11 +367,13 @@ sub start_mysqlds()
         $basedir= $options[$j];
         $basedir =~ s/^--basedir=//;
         $basedir_found= 1;
+        # Quote and append 'basedir' to command line.
         $options[$j]= quote_shell_word($options[$j]);
         $tmp.= " $options[$j]";
       }
       else
       {
+        # Quote and append additional options to command line.
 	$options[$j]= quote_shell_word($options[$j]);
 	$tmp.= " $options[$j]";
       }
@@ -402,9 +387,9 @@ sub start_mysqlds()
       print "wanted mysqld binary.\n\n";
       $info_sent= 1;
     }
+    # Prepare command line by appending command and option list, and redirect output.
     $com.= $tmp;
     $com.= " >> $opt_log 2>&1" if (!$opt_no_log);
-    $com.= " &";
     if (!$mysqld_found)
     {
       print "\n";
@@ -419,7 +404,28 @@ sub start_mysqlds()
       $curdir=getcwd();
       chdir($basedir) or die "Can't change to datadir $basedir";
     }
-    system($com);
+    # Prepare datadir by initializing the server, unless this is already done.
+    if (! -d $datadir."/mysql") {
+      if (-w $datadir) {
+        print "\n\nInstalling new database in $datadir\n\n";
+        system($com." --initialize");
+      } else {
+        print "\n";
+        print "FATAL ERROR: Tried to create mysqld under group [$groups[$i]],\n";
+        print "but the data directory is not writable.\n";
+        print "data directory used: $datadir\n";
+        exit(1);
+      }
+    }
+    if (! -d $datadir."/mysql") {
+      print "\n";
+      print "FATAL ERROR: Tried to start mysqld under group [$groups[$i]],\n";
+      print "but no data directory was found or could be created.\n";
+      print "data directory used: $datadir\n";
+      exit(1);
+    }
+    # Start the command in the background.
+    system($com." &");
     if ($basedir_found)
     {
       chdir($curdir) or die "Can't change back to original dir $curdir";
@@ -806,8 +812,8 @@ password   = my_password
 [mysqld2]
 socket     = /tmp/mysql.sock2
 port       = 3307
-pid-file   = C:/Program Files/MySQL/MySQL Server 5.7/data2/hostname.pid2
-datadir    = C:/Program Files/MySQL/MySQL Server 5.7/data2
+pid-file   = C:/Program Files/MySQL/MySQL Server 8.0/data2/hostname.pid2
+datadir    = C:/Program Files/MySQL/MySQL Server 8.0/data2
 language   = C:/Program Files (x86)/MySQL/share/mysql/english
 user       = unix_user1
 
@@ -817,24 +823,24 @@ ledir      = /path/to/mysqld-binary/
 mysqladmin = /path/to/mysqladmin
 socket     = /tmp/mysql.sock3
 port       = 3308
-pid-file   = C:/Program Files/MySQL/MySQL Server 5.7/data3/hostname.pid3
-datadir    = C:/Program Files/MySQL/MySQL Server 5.7/data3
+pid-file   = C:/Program Files/MySQL/MySQL Server 8.0/data3/hostname.pid3
+datadir    = C:/Program Files/MySQL/MySQL Server 8.0/data3
 language   = C:/Program Files (x86)/MySQL/share/mysql/swedish
 user       = unix_user2
 
 [mysqld4]
 socket     = /tmp/mysql.sock4
 port       = 3309
-pid-file   = C:/Program Files/MySQL/MySQL Server 5.7/data4/hostname.pid4
-datadir    = C:/Program Files/MySQL/MySQL Server 5.7/data4
+pid-file   = C:/Program Files/MySQL/MySQL Server 8.0/data4/hostname.pid4
+datadir    = C:/Program Files/MySQL/MySQL Server 8.0/data4
 language   = C:/Program Files (x86)/MySQL/share/mysql/estonia
 user       = unix_user3
  
 [mysqld6]
 socket     = /tmp/mysql.sock6
 port       = 3311
-pid-file   = C:/Program Files/MySQL/MySQL Server 5.7/data6/hostname.pid6
-datadir    = C:/Program Files/MySQL/MySQL Server 5.7/data6
+pid-file   = C:/Program Files/MySQL/MySQL Server 8.0/data6/hostname.pid6
+datadir    = C:/Program Files/MySQL/MySQL Server 8.0/data6
 language   = C:/Program Files (x86)/MySQL/share/mysql/japanese
 user       = unix_user4
 EOF
