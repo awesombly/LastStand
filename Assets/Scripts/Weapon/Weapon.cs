@@ -68,6 +68,7 @@ public class Weapon : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 
         Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
+        bullet.owner = parent;
         bullet.targetLayer = Global.LayerValue.Enemy | Global.LayerValue.Misc;
         bullet.transform.position = shotPoint.position;
 

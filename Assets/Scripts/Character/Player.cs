@@ -5,13 +5,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     public Vector2 Direction { get; private set; }
     public bool IsAttackHolded { get; private set; }
-
-    [SerializeField]
-    private float moveSpeed;
 
     private Vector2 inputVector;
     private Vector2 prevPosition;
@@ -26,16 +23,22 @@ public class Player : MonoBehaviour
     public Action OnReloadEvent;
 
     #region Unity Callback
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Rigid2D = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        OnDeadEvent += OnDead;
+    }
+
     private void FixedUpdate()
     {
-        Vector2 delta = inputVector * moveSpeed * Time.fixedDeltaTime;
+        Vector2 delta = inputVector * data.moveSpeed * Time.fixedDeltaTime;
         Rigid2D.MovePosition( Rigid2D.position + delta );
 
         Direction = ( Rigid2D.position - prevPosition ).normalized;
@@ -52,6 +55,12 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnDead( Character _dead, Character _attacker )
+    {
+        Debug.Log( "Player dead." );
+        Hp = data.maxHp;
+    }
 
     #region InputSystem Callback
     private void OnMove( InputValue _value )

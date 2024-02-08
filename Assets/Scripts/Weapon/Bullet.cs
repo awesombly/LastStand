@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,10 @@ public class Bullet : PoolObject
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
-    private float attackDamage;
+    private float damage;
 
+    [HideInInspector]
+    public Character owner;
     private Rigidbody2D rigid2D;
 
     private void Awake()
@@ -29,8 +32,8 @@ public class Bullet : PoolObject
             return;
         }
 
-        Enemy enemy = _other.GetComponent<Enemy>();
-        enemy?.HitDamage( attackDamage );
+        Character character = _other.GetComponent<Character>();
+        character?.HitAttack( owner, damage );
         Release();
     }
 

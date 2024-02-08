@@ -242,8 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400916ac03e5d7449a47cba6870bb3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 3777912928162346754, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
-  moveSpeed: 20
+  data: {fileID: 11400000, guid: 0c128d2c50c140742bbde51a827fee73, type: 2}
 --- !u!114 &217799048942653620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: a4da082e5a99e3747afae99d51f4bb46, type: 3}
+  m_Actions: {fileID: -8346226380518104943, guid: 00000000000000002000000000000000, type: 0}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:

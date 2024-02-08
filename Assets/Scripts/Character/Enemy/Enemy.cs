@@ -3,21 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu( fileName = "Enemy", menuName = "Scriptable Objects/Default" )]
-public class EnemyData : ScriptableObject
-{
-    public float maxHp;
-    public float speed;
-    public float damage;
-}
 
-public class Enemy : PoolObject
+public class Enemy : Character
 {
     public GameObject bulletPrefab;
-
-    public float Hp { get; set; }
-    [SerializeField]
-    private EnemyData data;
 
     private Rigidbody2D rigid;
     private Rigidbody2D target;
@@ -31,8 +20,9 @@ public class Enemy : PoolObject
     private Coroutine coroutine;
 
     #region Unity Callback
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rdr    = GetComponent<SpriteRenderer>();
         rigid  = GetComponent<Rigidbody2D>();
         target = GameManager.Inst.player.GetComponent<Rigidbody2D>();
@@ -41,6 +31,7 @@ public class Enemy : PoolObject
     private void Start()
     {
         attackRange = UnityEngine.Random.Range( 3f, 10f );
+        OnDeadEvent += OnDead;
 
         ChangeState( EnemyState.Idle );
     }
@@ -78,7 +69,7 @@ public class Enemy : PoolObject
             }
 
             Vector2 dir = ( target.position - rigid.position ).normalized;
-            rigid.position += dir * data.speed * Time.deltaTime;
+            rigid.position += dir * data.moveSpeed * Time.deltaTime;
         }
     }
 
@@ -97,6 +88,7 @@ public class Enemy : PoolObject
             }
 
             Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
+            bullet.owner = this;
 
             Vector3 dir = ( target.position - rigid.position ).normalized;
             float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
@@ -118,15 +110,12 @@ public class Enemy : PoolObject
         ChangeState( EnemyState.Idle );
     }
 
-    public void HitDamage( float _damage )
+    private void OnDead( Character _dead, Character _attacker )
     {
-        Hp -= _damage;
-        if ( Hp < 0 )
+        if ( !ReferenceEquals( coroutine, null ) )
         {
-            if ( !ReferenceEquals( coroutine, null ) )
-                 StopCoroutine( coroutine );
-             
-            Release();
+            StopCoroutine( coroutine );
         }
+        Release();
     }
 }
