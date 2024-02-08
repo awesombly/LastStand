@@ -23,8 +23,8 @@ private:
 	static void Broadcast( const Packet& _packet );
 	static void BroadcastWithoutSelf( const Packet& _packet );
 
-	static void Sample( const Packet& _packet );
-	static void ConnectSession( const Packet& _packet );
-
+	// Login, Sign Up
 	static void Login( const Packet& _packet );
+	static void RequestSignUp( const Packet& _packet );
+	static void RequestSignUpMail( const Packet& _packet );
 };

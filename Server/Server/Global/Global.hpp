@@ -59,14 +59,14 @@ namespace Global
 
 	namespace Text
 	{
-		static std::string ToUTF8( const char* _string )
+		static std::string ToUTF8( const std::string& _string )
 		{
 			int lengthUnicode = 0;
 			int lengthUTF = 0;
 			wchar_t* UnicodeBuffer = nullptr;
 			char* multibyteBuffer = nullptr;
 
-			if ( ( lengthUnicode = ::MultiByteToWideChar( CP_ACP, 0, _string, ( int )::strlen( _string ), NULL, 0 ) ) < 0 )
+			if ( ( lengthUnicode = ::MultiByteToWideChar( CP_ACP, 0, _string.c_str(), ( int )::strlen( _string.c_str() ), NULL, 0) ) < 0 )
 			{
 				return std::string();
 			}
@@ -75,7 +75,7 @@ namespace Global
 			::memset( UnicodeBuffer, 0x00, ( size_t )( sizeof( wchar_t ) * lengthUnicode ) );
 
 			// Ansi -> Unicode
-			lengthUnicode = ::MultiByteToWideChar( CP_ACP, 0, _string, ( int )::strlen( _string ), UnicodeBuffer, lengthUnicode );
+			lengthUnicode = ::MultiByteToWideChar( CP_ACP, 0, _string.c_str(), ( int )::strlen( _string.c_str() ), UnicodeBuffer, lengthUnicode );
 			if ( ( lengthUTF = ::WideCharToMultiByte( CP_UTF8, 0, UnicodeBuffer, lengthUnicode, NULL, 0, NULL, NULL ) ) < 0 )
 			{
 				delete[] UnicodeBuffer;
@@ -97,14 +97,14 @@ namespace Global
 			return result;
 		}
 
-		static std::string ToAnsi( const char* _string )
+		static std::string ToAnsi( const std::string& _string )
 		{
 			int lengthUnicode = 0;
 			int lengthUTF = 0;
 			wchar_t* UnicodeBuffer = nullptr;
 			char* multibyteBuffer = nullptr;
 
-			if ( ( lengthUnicode = ::MultiByteToWideChar( CP_UTF8, 0, _string, ( int )::strlen( _string ), NULL, 0 ) ) < 0 )
+			if ( ( lengthUnicode = ::MultiByteToWideChar( CP_UTF8, 0, _string.c_str(), ( int )::strlen( _string.c_str() ), NULL, 0) ) < 0 )
 			{
 				return std::string();
 			}
@@ -113,7 +113,7 @@ namespace Global
 			::memset( UnicodeBuffer, 0x00, ( size_t )( sizeof( wchar_t ) * lengthUnicode ) );
 
 			// UTF-8 -> Unicode
-			lengthUnicode = ::MultiByteToWideChar( CP_UTF8, 0, _string, ( int )::strlen( _string ), UnicodeBuffer, lengthUnicode );
+			lengthUnicode = ::MultiByteToWideChar( CP_UTF8, 0, _string.c_str(), ( int )::strlen( _string.c_str() ), UnicodeBuffer, lengthUnicode );
 			if ( ( lengthUTF = ::WideCharToMultiByte( CP_ACP, 0, UnicodeBuffer, lengthUnicode, NULL, 0, NULL, NULL ) ) < 0 )
 			{
 				delete[] UnicodeBuffer;

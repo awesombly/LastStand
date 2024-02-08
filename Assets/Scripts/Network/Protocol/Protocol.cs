@@ -27,6 +27,19 @@ public struct ReqLogin : IProtocol
     public string password;
 }
 
+public struct ReqSignUp : IProtocol
+{
+    public string nickname;
+    public string email;
+    public string password;
+}
+
+public struct ReqSignUpMail : IProtocol
+{
+    public string email;
+    public string password;
+}
+
 // Response 요청에 대한 답변
 public struct ConnectMessage : IProtocol
 {
@@ -36,9 +49,18 @@ public struct ConnectMessage : IProtocol
 public struct ResLogin : IProtocol
 {
     public string nickname;
-    public string email;
-    public string password;
 }
+
+public struct ResSignUp : IProtocol
+{
+    public bool isCompleted;
+}
+
+public struct ResSignUpMail : IProtocol
+{
+    public bool isPossible;
+}
+
 
 // Both 
 public struct ChatMessage : IProtocol

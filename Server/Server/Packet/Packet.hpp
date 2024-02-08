@@ -23,7 +23,7 @@ struct UPacket
 		}
 
 		// 인코딩 방식 : UTF8
-		std::string json = Global::Text::ToUTF8( std::move( stream.str().c_str() ) );
+		std::string json = Global::Text::ToUTF8( Global::Text::ToAnsi( stream.str() ) );
 
 		// 송수신 Byte 등 확인하기 편하도록 Unity와 Json 형식 통일
 		Global::String::RemoveAll( json, '\n' );
@@ -49,7 +49,6 @@ Type FromJson( const Packet& _data )
 {
 	std::string json;
 	std::string data = ( char* )_data.data;
-	// Global::Text::ToUTF8( ( const char* )_data.data );
 	size_t pos = data.find( "{\"value0\": " );
 	if ( pos == std::string::npos ) json.append( "{\"value0\": " ).append( data ).append( " }" );
 	else                   		    json = data;

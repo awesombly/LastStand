@@ -4,8 +4,12 @@
 
 void ProtocolSystem::Initialize()
 {
-	Regist( ChatMessage(), Broadcast );
-	Regist( ReqLogin(),    Login );
+	Regist( ChatMessage(),   Broadcast );
+
+	// Login, SignUp
+	Regist( ReqLogin(),      Login );
+	Regist( ReqSignUpMail(), RequestSignUpMail );
+	Regist( ReqSignUp(),     RequestSignUp );
 	
 	std::cout << "Function binding completed for packet processing" << std::endl;
 }
@@ -15,14 +19,12 @@ void ProtocolSystem::Login( const Packet& _packet )
 	auto data = FromJson<ReqLogin>( _packet );
 	try
 	{
-		UserData user = Database::Inst().Search( data.email.c_str() );
+		UserData user = Database::Inst().Search( "email", data.email );
 		if ( data.password.compare( user.password ) != 0 )
 			 throw std::exception( "The password does not match" );
 
 		ResLogin protocol;
 		protocol.nickname = user.nickname;
-		protocol.email    = user.email;
-		protocol.password = user.password;
 
 		SessionManager::Inst().Send( _packet.socket, UPacket( protocol ) );
 	}
@@ -33,6 +35,33 @@ void ProtocolSystem::Login( const Packet& _packet )
 		std::cout << "Exception : " << _error.what() << std::endl;
 		SessionManager::Inst().Send( _packet.socket, UPacket( ResLogin() ) );
 	}
+}
+
+void ProtocolSystem::RequestSignUpMail( const Packet& _packet )
+{
+	auto data = FromJson<ReqSignUpMail>( _packet );
+	ResSignUpMail protocol;
+	
+	try
+	{
+		UserData user = Database::Inst().Search( "email", data.email );
+		protocol.isPossible = false;
+	}
+	catch ( const std::exception& )
+	{
+		protocol.isPossible = true;
+	}
+
+	SessionManager::Inst().Send( _packet.socket, UPacket( protocol ) );
+}
+
+void ProtocolSystem::RequestSignUp( const Packet& _packet )
+{
+	auto data = FromJson<ReqSignUp>( _packet );
+	ResSignUp protocol;
+	protocol.isCompleted = Database::Inst().Insert( UserData{ data.nickname, data.email, data.password } );
+	
+	SessionManager::Inst().Send( _packet.socket, UPacket( protocol ) );
 }
 
 void ProtocolSystem::Process( const Packet& _packet )

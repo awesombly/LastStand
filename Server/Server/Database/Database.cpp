@@ -17,7 +17,7 @@ bool Database::Initialize()
 	conn = ::mysql_real_connect( &driver, Global::DB::Host,     Global::DB::User,
 									      Global::DB::Password, Global::DB::Schema, 3306, ( const char* )NULL, 0 );
 
-	if ( conn == nullptr || ( ::mysql_select_db(conn, Global::DB::Schema) != NULL ) )
+	if ( conn == nullptr || ( ::mysql_select_db( conn, Global::DB::Schema ) != NULL ) )
 	{
 		std::cout << ::mysql_error( conn ) << std::endl;
 		Global::Memory::SafeDelete( conn );
@@ -44,7 +44,7 @@ UserData Database::Search( const std::string& _type, const std::string& _data )
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
 		throw std::exception( "The data was not found" );
 
-	return UserData{ Global::Text::ToAnsi( row[0] ), Global::Text::ToAnsi( row[1] ), Global::Text::ToAnsi( row[2] )};
+	return UserData{ row[0], row[1], row[2] };
 }
 
 bool Database::Insert( const UserData& _data )
