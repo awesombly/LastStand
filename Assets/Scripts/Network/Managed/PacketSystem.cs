@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using UnityEditor.Sprites;
 using UnityEngine;
 
 public class PacketSystem : Singleton<PacketSystem>
@@ -22,16 +24,15 @@ public class PacketSystem : Singleton<PacketSystem>
         {
             yield return waitReceivePackets;
 
-            var packet = packets.Dequeue();
-            Debug.Log( $"Receive ( {packet.type}, {packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( packet.data )}" );
-
-            ProtocolSystem.Inst.Process( packet );
+            ProtocolSystem.Inst.Process( packets.Dequeue() );
         }
     }
 
     public void Push( in Packet _packet )
     {
-        if ( _packet.size > 0 )
-             packets.Enqueue( _packet );
+        if ( _packet.type != Global.AliveProtocolType )
+             Debug.Log( $"Receive ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
+
+        packets.Enqueue( _packet );
     }
 }

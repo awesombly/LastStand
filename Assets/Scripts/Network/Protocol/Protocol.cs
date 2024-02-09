@@ -20,6 +20,11 @@ public interface IProtocol
     public ushort type => Protocol.GetPacketType( name );
 }
 
+public struct Heartbeat : IProtocol 
+{
+    // 서버 연결을 확인하기 위한 프로토콜
+}
+
 // Request 서버로 보내는 요청
 public struct ReqLogin : IProtocol
 {
@@ -41,11 +46,6 @@ public struct ReqSignUpMail : IProtocol
 }
 
 // Response 요청에 대한 답변
-public struct ConnectMessage : IProtocol
-{
-    public string message;
-}
-
 public struct ResLogin : IProtocol
 {
     public string nickname;

@@ -22,6 +22,7 @@ public struct Packet
     {
         type = _protocol.type;
         data = System.Text.Encoding.UTF8.GetBytes( JsonUtility.ToJson( _protocol ) );
-        size = ( ushort )( data.Length + Global.HeaderSize );
+        size = data.Length < 2 ? ( ushort )( data.Length + Global.HeaderSize ) // 정상적인 프로토콜
+                               : ( ushort )Global.HeaderSize; // 빈 프로토콜인데 JSON 변환시 {} 2문자만 들어감
     }
 }

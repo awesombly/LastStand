@@ -61,6 +61,31 @@ public:
 	}
 };
 
+// Both
+struct Heartbeat : public IProtocol
+{
+public:
+	CONSTRUCTOR()
+
+	// 클라 연결을 확인하기 위한 프로토콜
+	template <class Archive>
+	void serialize( Archive& ar ) {	}
+};
+
+struct ChatMessage : public IProtocol
+{
+public:
+	CONSTRUCTOR()
+
+		std::string message = "";
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( message ) );
+	}
+};
+
 // Request 서버로 보내는 요청
 struct ReqLogin : public IProtocol
 {
@@ -152,34 +177,5 @@ public:
 	void serialize( Archive& ar )
 	{
 		ar( CEREAL_NVP( isCompleted ) );
-	}
-};
-
-// Both
-struct ChatMessage : public IProtocol
-{
-public:
-	CONSTRUCTOR()
-
-	std::string message = "";
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( message ) );
-	}
-};
-
-struct ConnectMessage : public IProtocol
-{
-public:
-	CONSTRUCTOR()
-
-	std::string message = "";
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( message ) );
 	}
 };

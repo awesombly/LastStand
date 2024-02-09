@@ -5,6 +5,7 @@
 void ProtocolSystem::Initialize()
 {
 	Regist( ChatMessage(),   Broadcast );
+	Regist( Heartbeat(), []( const Packet& ) {} );
 
 	// Login, SignUp
 	Regist( ReqLogin(),      Login );

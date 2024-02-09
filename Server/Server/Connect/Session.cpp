@@ -2,7 +2,10 @@
 #include "Managed/PacketSystem.h"
 
 Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
-				  : Network( _socket, _address ), packet( new Packet() ), buffer{}, startPos( 0 ), writePos( 0 ), readPos( 0 ) { }
+				  : Network( _socket, _address ), packet( new Packet() ), 
+	                buffer{}, startPos( 0 ), writePos( 0 ), readPos( 0 ),
+					lastResponseTime( std::chrono::system_clock::now() ),
+					unresponse( 0 ), time( 0 ) { }
 
 Session::~Session()
 {
@@ -10,9 +13,36 @@ Session::~Session()
 	::closesocket( socket );
 }
 
+const int   Session::MaxUnresponse = 10;
+const float Session::MinResponseWaitTime = 10.0f;
+const float Session::RequestDelay = 5.0f;
+
+void Session::Alive()
+{
+	lastResponseTime = std::chrono::system_clock::now();
+	unresponse = 0;
+}
+
+bool Session::CheckAlive()
+{
+	time = std::chrono::system_clock::now() - lastResponseTime;
+	if ( time.count() > MinResponseWaitTime + ( RequestDelay * unresponse ) )
+	{
+		if ( unresponse++ > MaxUnresponse )
+		{
+			return false;
+		}
+
+		std::cout << "Verify that the session is alive( " << GetPort() << ", " << GetAddress() << " )" << std::endl;
+		Send( Packet( Heartbeat(/* ºó ÇÁ·ÎÅäÄÝ */ ) ) );
+	}
+
+	return true;
+}
 
 void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 {
+	Alive();
 	OVERLAPPEDEX* overalapped = ( OVERLAPPEDEX* )_ov;
 	if ( overalapped->flag == OVERLAPPEDEX::MODE_RECV )
 	{
@@ -46,8 +76,9 @@ void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 				Packet newPacket;
 				::memcpy( &newPacket, packet, packet->size );
 				newPacket.socket = socket;
+				
 				PacketSystem::Inst().Push( newPacket );
-
+				
 				readPos  -= packet->size;
 				startPos += packet->size;
 

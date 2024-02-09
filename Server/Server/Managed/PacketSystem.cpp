@@ -15,6 +15,10 @@ bool PacketSystem::Initialize()
 
 void PacketSystem::Push( const Packet& _packet )
 {
+	std::cout << "Receive( " << _packet.type << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
+
+	// 헤더 사이즈보다 클때만 추가??
+
 	std::lock_guard<std::mutex> lock( mtx );
 	packets.push( _packet );
 	cv.notify_one();
@@ -28,7 +32,6 @@ void PacketSystem::Process()
 		cv.wait( lock, [&]() { return !packets.empty(); } );
 
 		Packet packet = packets.front();
-		std::cout << "Receive( " << packet.type << ", " << packet.size << "bytes" << " ) " << packet.data << std::endl;
 		ProtocolSystem::Inst().Process( packet );
 		packets.pop();
 	}

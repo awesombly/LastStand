@@ -7,18 +7,6 @@ public class ProtocolSystem : Singleton<ProtocolSystem>
 {
     private Dictionary<ushort/* Packet Type */, Action<Packet>> protocols = new Dictionary<ushort, Action<Packet>>();
     
-    protected override void Awake()
-    {
-        base.Awake();
-        Regist( new ConnectMessage(), OnConnected );
-    }
-
-    private void OnConnected( Packet _packet )
-    {
-        ConnectMessage message = Global.FromJson<ConnectMessage>( _packet );
-        Debug.Log( $"{message.message}" );
-    }
-
     public void Regist( IProtocol _protocol, Action<Packet> _func )
     {
         if ( protocols.ContainsKey( _protocol.type ) )

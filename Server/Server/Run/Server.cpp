@@ -1,6 +1,7 @@
 #include "Server.h"
-#include "Managed/PacketSystem.h"
 #include "Managed/IOCP.h"
+#include "Managed/PacketSystem.h"
+#include "Managed/SessionManager.h"
 #include "Database/Database.h"
 
 Server::Server()
@@ -23,6 +24,11 @@ void Server::Start( const int _port, const char* _address )
 	if ( !PacketSystem::Inst().Initialize() )
 	{
 		std::cout << "Packet processing failed" << std::endl;
+	}
+
+	if ( !SessionManager::Inst().Initialize() )
+	{
+		std::cout << "SessionManager Initialize failed" << std::endl;
 	}
 
 	if ( !acceptor.Accept( _port, _address ) )

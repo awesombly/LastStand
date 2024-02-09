@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using UnityEngine;
 
 public class Network : Singleton<Network>
@@ -11,57 +12,99 @@ public class Network : Singleton<Network>
     private const ushort MaxReceiveSize = 10000;
 
     private Socket socket;
-    SocketAsyncEventArgs connectArgs = new SocketAsyncEventArgs();
-    SocketAsyncEventArgs recvArgs    = new SocketAsyncEventArgs();
-    SocketAsyncEventArgs sendArgs    = new SocketAsyncEventArgs();
+    SocketAsyncEventArgs connectArgs;
+    SocketAsyncEventArgs recvArgs;
+    SocketAsyncEventArgs sendArgs;
 
     // Receive
     private byte[] buffer = new byte[MaxReceiveSize];
     private int startPos, writePos, readPos;
     private Packet packet;
-    public bool IsConnected => socket != null && socket.Connected;
+    
+    public bool IsConnected => isConnected;
+    private bool isConnected;
+    private bool shouldReconnect;
+    private readonly float ReconnectDelay = 3f;
+
+    private double LastResponseTime => ( DateTime.Now.TimeOfDay.TotalSeconds - lastResponseSystemTime );
+    private double lastResponseSystemTime;
+    private static readonly float ResponseTimeout = 60f;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        StartCoroutine( ConfirmDisconnect() );
+        StartCoroutine( ReconnectProcess() );
+
+        Connect();
+    }
 
     private void Start()
     {
-        Connect();
+        ProtocolSystem.Inst.Regist( new Heartbeat(), ( Packet ) => { Send( new Packet( new Heartbeat() ) ); } );
     }
 
     private void OnDestroy()
     {
-        if ( !ReferenceEquals( socket, null ) )
-             socket.Close();
+        Release();
+    }
+
+    private void Release()
+    {
+        connectArgs?.Dispose();
+        recvArgs?.Dispose();
+        sendArgs?.Dispose();
+
+        socket?.Close();
     }
 
     private void Connect()
     {
         socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
+        socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.DontLinger, true );
+        socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.Linger,     false );
         IPEndPoint point = new IPEndPoint( IPAddress.Parse( Ip ), Port );
 
+        connectArgs = new SocketAsyncEventArgs();
         connectArgs.RemoteEndPoint = point;
-        connectArgs.Completed += OnConnecteCompleted;
+        connectArgs.Completed += OnConnectCompleted;
+
         socket.ConnectAsync( connectArgs );
     }
 
-    private void OnConnecteCompleted( object _sender, SocketAsyncEventArgs _args )
+    private void OnConnectCompleted( object _sender, SocketAsyncEventArgs _args )
     {
         if ( _args.SocketError == SocketError.Success )
         {
-            Debug.Log( $"Server Connect" );
+            Debug.Log( $"Server connection completed" );
+            
+            lastResponseSystemTime = DateTime.Now.TimeOfDay.TotalSeconds;
+            shouldReconnect = false;
+            isConnected     = true;
 
             // Send
+            sendArgs = new SocketAsyncEventArgs();
             sendArgs.Completed += OnSendCompleted;
 
             // Receive
+            recvArgs = new SocketAsyncEventArgs();
             recvArgs.SetBuffer( buffer, 0, MaxReceiveSize );
             recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnReceiveCompleted );
 
             if ( socket.ReceiveAsync( recvArgs ) == false )
                  OnReceiveCompleted( null, recvArgs );
         }
+        else
+        {
+            Debug.LogWarning( $"Server connection failed" );
+            shouldReconnect = true;
+        }
     }
 
     private void OnReceiveCompleted( object _sender, SocketAsyncEventArgs _args )
     {
+        lastResponseSystemTime = DateTime.Now.TimeOfDay.TotalSeconds;
         if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
         {
             int size = _args.BytesTransferred;
@@ -115,11 +158,50 @@ public class Network : Singleton<Network>
 
     public void Send( Packet _packet )
     {
-        Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
+        if ( _packet.type != Global.AliveProtocolType )
+             Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
 
         byte[] data = Global.Serialize( _packet );
         sendArgs.SetBuffer( data, 0, data.Length );
         
         socket.SendAsync( sendArgs );
     }
+
+    #region KeepAlive Server
+    private IEnumerator ReconnectProcess()
+    {
+        WaitUntil waitReconnectTiming = new WaitUntil( () => shouldReconnect );
+        while ( true )
+        {
+            yield return waitReconnectTiming;
+
+            shouldReconnect = false;
+
+            Debug.Log( $"Reconnect to the server" );
+            if ( socket.ConnectAsync( connectArgs ) == false )
+                 OnConnectCompleted( null, connectArgs );
+
+            yield return YieldCache.WaitForSeconds( ReconnectDelay );
+        }
+    }
+
+    private IEnumerator ConfirmDisconnect()
+    {
+        WaitUntil waitConnected = new WaitUntil( () => isConnected );
+        while ( true )
+        {
+            yield return waitConnected;
+
+            if ( LastResponseTime > ResponseTimeout )
+            {
+                isConnected     = false;
+                shouldReconnect = false;
+                Release();
+
+                Debug.LogError( $"Server connection is not smooth" );
+                Connect();
+            }
+        }
+    }
+    #endregion
 }

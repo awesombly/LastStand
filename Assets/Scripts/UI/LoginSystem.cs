@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEditor.Sprites;
+using Unity.VisualScripting;
 
 public class LoginSystem : MonoBehaviour
 {
@@ -11,13 +12,16 @@ public class LoginSystem : MonoBehaviour
     public TMP_InputField password;
     public TMP_InputField nickname;
 
-    [Header( "Panel" )]
+[Header( "Panel" )]
     public GameObject      errorPanel;
     public TextMeshProUGUI errorMessage;
 
     public GameObject      signUpPanel;
     public TextMeshProUGUI signUpMessage;
     public GameObject      signUpExit;
+
+    private enum LoginPanelType { Default, Error, SignUp, SignUpComplete }
+    private LoginPanelType type = LoginPanelType.Default;
 
     private void Awake()
     {
@@ -37,67 +41,79 @@ public class LoginSystem : MonoBehaviour
     public void ActiveErrorPanel( bool _isActive )
     {
         errorPanel.SetActive( _isActive );
+        if ( _isActive )
+        {
+            type = LoginPanelType.Error;
+            password.DeactivateInputField();
+            email.DeactivateInputField();
+            nickname.DeactivateInputField();
+        }
+        else
+        {
+            type = LoginPanelType.Default;
+            email.ActivateInputField();
+        }
     }
     
     public void ActiveSignUpPanel( bool _isActive )
     {
         signUpPanel.SetActive( _isActive );
+        if ( _isActive )
+        {
+            type = LoginPanelType.SignUp;
+            nickname.ActivateInputField();
+        }
+        else
+        {
+            type = LoginPanelType.Default;
+            email.ActivateInputField();
+        }
     }
-
-    public void ActiveInitialize()
-    {
-        errorPanel.SetActive( false );
-        signUpPanel.SetActive( false );
-        signUpExit.SetActive( false );
-    }
-
 
     private void Update()
     {
-        bool isDefault = !errorPanel.activeInHierarchy &&
-                         !signUpPanel.activeInHierarchy;
-
-        if ( isDefault )
+        if ( type == LoginPanelType.Default &&
+                     Input.GetKeyDown( KeyCode.Tab ) )
         {
-            if ( Input.GetKeyDown( KeyCode.Tab ) )
-            {
-                if ( email.isFocused )
-                {
-                    email.DeactivateInputField();
-                    password.ActivateInputField();
-                }
-                else
-                {
-                    email.ActivateInputField();
-                    password.DeactivateInputField();
-                }
-            }
+            if ( email.isFocused ) password.ActivateInputField();
+            else                   email.ActivateInputField();
         }
 
         if ( Input.GetKeyDown( KeyCode.Return ) )
         {
-            if ( isDefault )
+            switch ( type )
             {
-                ReqLogin protocol;
-                protocol.email = email.text;
-                protocol.password = password.text;
-                Network.Inst.Send( new Packet( protocol ) );
-            }
+                case LoginPanelType.Default:
+                {
+                    ReqLogin protocol;
+                    protocol.email = email.text;
+                    protocol.password = password.text;
+                    Network.Inst.Send( new Packet( protocol ) );
+                } break;
 
-            if ( errorPanel.activeInHierarchy )
-            {
-                ActiveErrorPanel( false );
-            }
+                case LoginPanelType.SignUp:
+                {
+                    if ( nickname.text == string.Empty )
+                         break;
 
-            if ( signUpPanel.activeInHierarchy && nickname.text != string.Empty )
-            {
-                ReqSignUp protocol;
-                protocol.nickname = nickname.text;
-                protocol.email    = email.text;
-                protocol.password = password.text;
+                    ReqSignUp protocol;
+                    protocol.nickname = nickname.text;
+                    protocol.email = email.text;
+                    protocol.password = password.text;
 
-                Network.Inst.Send( new Packet( protocol ) );
-            }
+                    Network.Inst.Send( new Packet( protocol ) );
+                } break;
+
+                case LoginPanelType.Error:
+                {
+                    ActiveErrorPanel( false );
+                } break;
+
+                case LoginPanelType.SignUpComplete:
+                {
+                    ActiveSignUpPanel( false );
+                } break;
+            } 
         }
     }
 
@@ -114,8 +130,10 @@ public class LoginSystem : MonoBehaviour
         var data = Global.FromJson<ResSignUpMail>( _packet );
         if ( data.isPossible )
         {
-            signUpPanel.SetActive( true );
+            ActiveSignUpPanel( true );
+            signUpExit.SetActive( false );
             signUpMessage.text = string.Empty;
+            nickname.text      = string.Empty;
         }
         else
         {
@@ -130,7 +148,8 @@ public class LoginSystem : MonoBehaviour
 
         if ( data.isCompleted )
         {
-            signUpExit.SetActive( true ); 
+            type = LoginPanelType.SignUpComplete;
+            signUpExit.SetActive( true );
             signUpMessage.text = "가입 완료";
         }
         else

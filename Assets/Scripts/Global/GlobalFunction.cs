@@ -6,6 +6,7 @@ public static partial class Global
 {
     public const int HeaderSize  = 4;
     public const int MaxDataSize = 2048;
+    public const ushort AliveProtocolType = 26972;
 
     public static byte[] Serialize( object _obj )
     {
