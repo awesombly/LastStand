@@ -2,8 +2,9 @@
 
 namespace Global 
 {
-	static const u_short HeaderSize  = 4;
-	static const u_short MaxDataSize = 2048;
+	static const u_short HeaderSize        = 4;
+	static const u_short MaxDataSize       = 2048;
+	static const u_short AliveProtocolType = 26972;
 
 	namespace DB
 	{
