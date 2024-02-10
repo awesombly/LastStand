@@ -8,7 +8,6 @@ class SessionManager : public Singleton<SessionManager>
 private:
 	std::queue<Session*> unresponsiveSessions;
 	std::unordered_map<SOCKET, Session*> sessions;
-	//CriticalSection cs;
 	std::mutex mtx;
 
 public:

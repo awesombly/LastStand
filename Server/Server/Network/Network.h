@@ -29,14 +29,14 @@ private:
 public:
 	Network() = default;
 	Network( const SOCKET& _socket, const SOCKADDR_IN& _address );
-	virtual ~Network() = default;
+	virtual ~Network();
 
 public:
 	bool ClosedSocket();
 
 public:
 	bool Connect() const;
-	bool Send( const UPacket& _packet );
+	void Send( const UPacket& _packet );
 	void Recieve();
 
 public:

@@ -26,7 +26,7 @@ namespace Global
 			}
 		}
 
-		template<class Type>
+		template<typename Type>
 		static void SafeDeleteArray( Type*& _data )
 		{
 			if ( _data != nullptr )

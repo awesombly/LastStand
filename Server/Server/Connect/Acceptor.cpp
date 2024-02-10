@@ -4,6 +4,7 @@
 
 Acceptor::~Acceptor()
 {
+	std::cout << "Acceptor Destructor" << std::endl;
 	::WSACleanup();
 }
 
@@ -50,7 +51,6 @@ bool Acceptor::Accept( int _port, const char* _ip )
 	// ntohs : network to host short
 	// ntohl : network to host long
 	// 0x12345678 -> 0x78, 0x56, 0x34, 0x12 하위 비트부터 바이트 단위로 저장 ( 리틀 엔디안 )
-
 	if ( _ip == nullptr ) address.sin_addr.S_un.S_addr = ::htonl( INADDR_ANY );
 	else                  address.sin_addr.S_un.S_addr = ::inet_addr( _ip );
 

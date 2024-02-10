@@ -3,6 +3,12 @@
 Network::Network( const SOCKET& _socket, const SOCKADDR_IN& _address ) 
 	: socket( _socket ), address( _address ), wsaBuffer{}, ov{}, buffer{} { }
 
+Network::~Network()
+{
+	std::cout << "Network Destructor" << std::endl;
+	ClosedSocket();
+}
+
 bool Network::ClosedSocket()
 {
 	return ::closesocket( socket ) != SOCKET_ERROR;
@@ -13,12 +19,16 @@ bool Network::Connect() const
 	return ::connect( socket, ( sockaddr* )&address, sizeof( address ) ) != SOCKET_ERROR;
 }
 
-bool Network::Send( const UPacket& _packet )
+void Network::Send( const UPacket& _packet )
 {
 	if ( _packet.type != Global::AliveProtocolType )
 		 std::cout << "Send( " << _packet.type << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
 
-	return ::send( socket, ( const char* )&_packet, _packet.size, 0 ) != SOCKET_ERROR;
+	if ( ::send( socket, ( const char* )&_packet, _packet.size, 0 ) == SOCKET_ERROR )
+	{
+		if ( ::WSAGetLastError() != WSA_IO_PENDING )
+	 		 std::cout << "Send LastError : " << ::WSAGetLastError() << std::endl;
+	}
 }
 
 void Network::Recieve()
@@ -31,9 +41,7 @@ void Network::Recieve()
 	if ( ::WSARecv( socket, &wsaBuffer, 1, &transferred, &flag, ( LPOVERLAPPED )&ov, NULL ) == SOCKET_ERROR )
 	{
 		if ( ::WSAGetLastError() != WSA_IO_PENDING )
-		{
-			// ·Î±×
-		}
+			 std::cout << "Recv LastError : " << ::WSAGetLastError() << std::endl;
 	}
 }
 

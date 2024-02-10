@@ -78,8 +78,10 @@ std::unordered_map<SOCKET, Session*> SessionManager::GetSessions() const
 
 void SessionManager::Push( Session* _session )
 {
-	std::cout << "Resister a new session( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	if ( _session == nullptr )
+	 	 return;
 
+	std::cout << "Resister a new session( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
 		sessions[_session->GetSocket()] = _session;
@@ -88,8 +90,10 @@ void SessionManager::Push( Session* _session )
 
 void SessionManager::Erase( Session* _session )
 {
-	std::cout << "The session has left( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	if ( _session == nullptr )
+		 return;
 
+	std::cout << "The session has left( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
 		SOCKET socket = _session->GetSocket();

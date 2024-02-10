@@ -15,11 +15,8 @@ bool PacketSystem::Initialize()
 
 void PacketSystem::Push( const Packet& _packet )
 {
-
 	if ( _packet.type != Global::AliveProtocolType )
 		std::cout << "Receive( " << _packet.type << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
-
-	// 헤더 사이즈보다 클때만 추가??
 
 	std::lock_guard<std::mutex> lock( mtx );
 	packets.push( _packet );

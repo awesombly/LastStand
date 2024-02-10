@@ -21,7 +21,7 @@ private:
 public:
 	Session() = default;
 	Session( const SOCKET& _socket, const SOCKADDR_IN& _address );
-	virtual ~Session();
+	virtual ~Session() override;
 
 private:
 	void Alive();
