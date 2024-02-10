@@ -28,6 +28,9 @@
     <Filter Include="Database">
       <UniqueIdentifier>{5057c96d-6b85-4939-a454-030967189570}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Protocol\Scene">
+      <UniqueIdentifier>{27ce9a5d-293a-4a92-8efe-1c92a31d9ba5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Network\Network.cpp">
@@ -63,6 +66,10 @@
     <ClCompile Include="Database\Database.cpp">
       <Filter>Database</Filter>
     </ClCompile>
+    <ClCompile Include="Protocol\Scene\Login.cpp">
+      <Filter>Protocol\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Protocol\Scene\Lobby.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global\Header.h">
@@ -110,5 +117,9 @@
     <ClInclude Include="Global\Global.hpp">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="Protocol\Scene\Login.h">
+      <Filter>Protocol\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Protocol\Scene\Lobby.h" />
   </ItemGroup>
 </Project>

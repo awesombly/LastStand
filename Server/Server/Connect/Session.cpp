@@ -9,7 +9,6 @@ Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 
 Session::~Session()
 {
-	std::cout << "Session Destructor" << std::endl;
 	::shutdown( socket, SD_SEND );
 }
 

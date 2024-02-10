@@ -5,7 +5,6 @@ Network::Network( const SOCKET& _socket, const SOCKADDR_IN& _address )
 
 Network::~Network()
 {
-	std::cout << "Network Destructor" << std::endl;
 	ClosedSocket();
 }
 

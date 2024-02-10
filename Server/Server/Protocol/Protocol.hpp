@@ -19,6 +19,7 @@
 	return ( u_short )hash;											  \
 }																	  \
 
+
 interface IProtocol
 {
 public:
@@ -41,6 +42,14 @@ public:
 	//    - 서버 및 클라 간의 통일을 목표로 한다.
 	
 	// # 서버는 serealize에 선언된 순서를 기준으로 직렬화한다.
+};
+
+struct RoomData
+{
+public:
+	u_short uid;
+	std::string title;
+	int personnel;
 };
 
 struct SampleProtocol : public IProtocol
@@ -77,7 +86,7 @@ struct ChatMessage : public IProtocol
 public:
 	CONSTRUCTOR()
 
-		std::string message = "";
+	std::string message = "";
 
 	template <class Archive>
 	void serialize( Archive& ar )

@@ -153,6 +153,7 @@
     <ClInclude Include="Global\Global.hpp" />
     <ClInclude Include="Global\Header.h" />
     <ClInclude Include="Global\Singleton.hpp" />
+    <ClInclude Include="Protocol\Scene\Lobby.h" />
     <ClInclude Include="Managed\IOCP.h" />
     <ClInclude Include="Managed\PacketSystem.h" />
     <ClInclude Include="Managed\ProtocolSystem.h" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Network\Network.h" />
     <ClInclude Include="Packet\Packet.hpp" />
     <ClInclude Include="Protocol\Protocol.hpp" />
+    <ClInclude Include="Protocol\Scene\Login.h" />
     <ClInclude Include="Run\Server.h" />
     <ClInclude Include="Synchronize\CriticalSection.h" />
   </ItemGroup>
@@ -167,11 +169,13 @@
     <ClCompile Include="Connect\Acceptor.cpp" />
     <ClCompile Include="Connect\Session.cpp" />
     <ClCompile Include="Database\Database.cpp" />
+    <ClCompile Include="Protocol\Scene\Lobby.cpp" />
     <ClCompile Include="Managed\IOCP.cpp" />
     <ClCompile Include="Managed\PacketSystem.cpp" />
     <ClCompile Include="Managed\ProtocolSystem.cpp" />
     <ClCompile Include="Managed\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />
+    <ClCompile Include="Protocol\Scene\Login.cpp" />
     <ClCompile Include="Run\Main.cpp" />
     <ClCompile Include="Run\Server.cpp" />
     <ClCompile Include="Synchronize\CriticalSection.cpp" />
