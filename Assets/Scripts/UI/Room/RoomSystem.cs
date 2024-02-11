@@ -4,7 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Newtonsoft.Json;
-    
+
+
+using static PacketType;
 public struct RoomData
 {
     public ushort uid;
@@ -32,8 +34,8 @@ public class RoomSystem : MonoBehaviour
 
     private void Awake()
     {
-        ProtocolSystem.Inst.Regist( new ResMakeRoom(), ResponseMakeRoom );
-        ProtocolSystem.Inst.Regist( new ResTakeRoom(), ResponseTakeRoom );
+        ProtocolSystem.Inst.Regist( CREATE_ROOM_RES, ResponseMakeRoom );
+        ProtocolSystem.Inst.Regist( TAKE_ROOM_LIST,  ResponseTakeRoom );
     }
 
     public void ShowMakeRoomPanel( bool _active )
@@ -74,7 +76,7 @@ public class RoomSystem : MonoBehaviour
         protocol.title = title.text;
         protocol.maxPersonnel = maxPersonnel;
 
-        Network.Inst.Send( new Packet( protocol ) );
+        Network.Inst.Send( new Packet( CREATE_ROOM_REQ, protocol ) );
     }
 
     private void ResponseMakeRoom( Packet _packet )

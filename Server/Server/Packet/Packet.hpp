@@ -12,7 +12,7 @@ struct UPacket
 	UPacket() : type( 0 ), size( 0 ), data{} {}
 
 	template<typename Type>
-	UPacket( Type _protocol )
+	UPacket( const PacketType& _type, Type _protocol )
 	{
 		// Json Á÷·ÄÈ­
 		std::ostringstream stream;
@@ -32,7 +32,7 @@ struct UPacket
 		::memset( data, 0, sizeof( byte ) * Global::MaxDataSize );
 		::memcpy( data, json.c_str(), json.length() );
 
-		type = _protocol.GetPacketType();
+		type = _type;
 		size = ( u_short )json.length() + Global::HeaderSize;
 	}
 };

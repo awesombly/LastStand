@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class ProtocolSystem : Singleton<ProtocolSystem>
 {
-    private Dictionary<ushort/* Packet Type */, Action<Packet>> protocols = new Dictionary<ushort, Action<Packet>>();
+    private Dictionary<PacketType/* Packet Type */, Action<Packet>> protocols = new Dictionary<PacketType, Action<Packet>>();
     
-    public void Regist( IProtocol _protocol, Action<Packet> _func )
+    public void Regist( PacketType _type, Action<Packet> _func )
     {
-        if ( protocols.ContainsKey( _protocol.type ) )
+        if ( protocols.ContainsKey( _type ) )
         {
-            Debug.LogWarning( $"The {_protocol.type} protocol is dulicated." );
+            Debug.LogWarning( $"The {_type} protocol is dulicated." );
             return;
         }
 
-        protocols.Add( _protocol.type, _func );
+        protocols.Add( _type, _func );
     }
 
     public void Process( in Packet _packet )

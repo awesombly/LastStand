@@ -1,54 +1,28 @@
 #pragma once
 #include "Global/Header.h"
 
-#define CONSTRUCTOR() u_short GetPacketType() const override          \
-{																	  \
-	std::string name = typeid( *this ).name();						  \
-	size_t pos = name.find_first_of( " " );							  \
-																	  \
-	if ( pos != std::string::npos )									  \
-		 name = name.substr( pos + 1, name.length() );				  \
-																	  \
-	unsigned int hash = 0;											  \
-	const size_t size = ::strlen( name.c_str() );					  \
-	for ( size_t i = 0; i < size; i++ )								  \
-	{																  \
-		hash = name[i] + ( hash << 6 ) + ( hash << 16 ) - hash;		  \
-	}																  \
-																	  \
-	return ( u_short )hash;											  \
-}																	  \
-
-
-interface IProtocol
+enum PacketType : u_short
 {
-public:
-	virtual u_short GetPacketType() const = 0;
-	//
-	// # Protocol 생성
-	// 
-	// 1. CONSTRUCTOR 정의
-	//    - 구조체 이름으로 Protocol Type을 생성하는 과정 중에
-	//    - 함수가 실행되는 구조체 안에서 typeid를 사용해야
-	//    - 원하는 결과를 얻을 수 있다.
+	NONE = 0,
+	PACKET_HEARTBEAT, // 주기적인 통신을 위한 프로토콜
+	PACKET_CHAT_MSG,  // 일반적인 채팅 메세지
 
-	// 2. serialize 정의
-	//    - Cereal 직렬화를 위한 밑작업으로
-	//    - SampleProtocol serailize 함수를 참고한다.
+	CONFIRM_LOGIN_REQ = 1000, // 로그인 확인 요청
+	CONFIRM_LOGIN_RES,        // 로그인 확인 응답
+	DUPLICATE_EMAIL_REQ,      // 이메일 중복확인 요청
+	DUPLICATE_EMAIL_RES,      // 이메일 중복확인 응답
+	CONFIRM_SIGNUP_REQ,       // 이메일 생성 요청
+	CONFIRM_SIGNUP_RES,       // 이메일 생성 응답
 
-	// 3. 변수와 serealize 함수 내 선언 순서 통일
-	//    - Json 타입으로 송수신하여 결과는 같지만
-	//    - 패킷과 프로토콜 등 네트워크 작업은
-	//    - 서버 및 클라 간의 통일을 목표로 한다.
-	
-	// # 서버는 serealize에 선언된 순서를 기준으로 직렬화한다.
+	CREATE_ROOM_REQ = 2000, // 방 생성 요청
+	CREATE_ROOM_RES,        // 방 생성 응답
+	TAKE_ROOM_LIST,         // 방 목록 전달
 };
 
-struct SampleProtocol : public IProtocol
+
+struct SampleProtocol
 {
 public:
-	CONSTRUCTOR()
-
 	std::string name = "";
 	float speed = 0;
 	int money = 0;
@@ -63,21 +37,17 @@ public:
 };
 
 // Both
-struct Heartbeat : public IProtocol
+struct Heartbeat
 {
 public:
-	CONSTRUCTOR()
-
 	// 클라 연결을 확인하기 위한 프로토콜
 	template <class Archive>
 	void serialize( Archive& ar ) {	}
 };
 
-struct ChatMessage : public IProtocol
+struct ChatMessage
 {
 public:
-	CONSTRUCTOR()
-
 	std::string message = "";
 
 	template <class Archive>

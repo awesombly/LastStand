@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Threading;
 using UnityEngine;
 
+using static PacketType;
 public class Network : Singleton<Network>
 {
     private const int    Port           = 10000;
@@ -42,7 +43,7 @@ public class Network : Singleton<Network>
 
     private void Start()
     {
-        ProtocolSystem.Inst.Regist( new Heartbeat(), ( Packet ) => { Send( new Packet( new Heartbeat() ) ); } );
+        ProtocolSystem.Inst.Regist( PACKET_HEARTBEAT, ( Packet ) => { Send( new Packet( PACKET_HEARTBEAT, new Heartbeat() ) ); } );
     }
 
     private void OnDestroy()
@@ -158,7 +159,7 @@ public class Network : Singleton<Network>
 
     public void Send( Packet _packet )
     {
-        if ( _packet.type != Global.AliveProtocolType )
+        if ( _packet.type != PACKET_HEARTBEAT )
              Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
 
         byte[] data = Global.Serialize( _packet );

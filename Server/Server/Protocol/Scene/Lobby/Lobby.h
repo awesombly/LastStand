@@ -20,11 +20,9 @@ public:
 	virtual void Bind() override;
 };
 
-struct ResMakeRoom : public IProtocol
+struct ResMakeRoom
 {
 public:
-	CONSTRUCTOR()
-
 	u_short uid;
 	bool isCompleted;
 
@@ -36,11 +34,9 @@ public:
 	}
 };
 
-struct ResTakeRoom : public IProtocol
+struct ResTakeRoom
 {
 public:
-	CONSTRUCTOR()
-
 	std::list<RoomData> rooms;
 
 	template <class Archive>

@@ -1,25 +1,42 @@
-
 using System.Collections.Generic;
 
 public static class Protocol
 {
     // 서버/클라 결과 동일해야함. (Sdbm Hash)
-    public static ushort GetPacketType( string _name )
-    {
-        uint hash = 0;
-        foreach ( char elem in _name )
-        {
-            hash = elem + ( hash << 6 ) + ( hash << 16 ) - hash;
-        }
+    //public static ushort GetPacketType( string _name )
+    //{
+    //    uint hash = 0;
+    //    foreach ( char elem in _name )
+    //    {
+    //        hash = elem + ( hash << 6 ) + ( hash << 16 ) - hash;
+    //    }
 
-        return ( ushort )hash;
-    }
+    //    return ( ushort )hash;
+    //}
 }
+
+public enum PacketType : ushort
+{
+    NONE = 0,
+    PACKET_HEARTBEAT, // 주기적인 통신을 위한 프로토콜
+    PACKET_CHAT_MSG,  // 일반적인 채팅 메세지
+
+    CONFIRM_LOGIN_REQ = 1000, // 로그인 확인 요청
+    CONFIRM_LOGIN_RES,        // 로그인 확인 응답
+    DUPLICATE_EMAIL_REQ,      // 이메일 중복확인 요청
+    DUPLICATE_EMAIL_RES,      // 이메일 중복확인 응답
+    CONFIRM_SIGNUP_REQ,       // 이메일 생성 요청
+    CONFIRM_SIGNUP_RES,       // 이메일 생성 응답
+
+    CREATE_ROOM_REQ = 2000, // 방 생성 요청
+    CREATE_ROOM_RES,        // 방 생성 응답
+    TAKE_ROOM_LIST,         // 방 목록 전달
+};
 
 public interface IProtocol
 {
-    public string name => ToString();
-    public ushort type => Protocol.GetPacketType( name );
+    //public string name => ToString();
+    //public ushort type => Protocol.GetPacketType( name );
 }
 
 // Both 

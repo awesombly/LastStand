@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 
+using static PacketType;
 public class ChatSystem : MonoBehaviour
 {
     public TextMeshProUGUI prefab;
@@ -9,7 +10,7 @@ public class ChatSystem : MonoBehaviour
 
     private void Awake()
     {
-        ProtocolSystem.Inst.Regist( new ChatMessage(), PrintMessage );
+        ProtocolSystem.Inst.Regist( PACKET_CHAT_MSG, PrintMessage );
 
         input.interactable = false;
     }
@@ -32,7 +33,7 @@ public class ChatSystem : MonoBehaviour
                 ChatMessage message;
                 message.message = input.text;
 
-                Network.Inst.Send( new Packet( message ) );
+                Network.Inst.Send( new Packet( PACKET_CHAT_MSG, message ) );
 
                 input.text = string.Empty;
             }

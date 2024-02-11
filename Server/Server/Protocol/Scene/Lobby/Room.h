@@ -37,11 +37,9 @@ public:
 	const u_short& GetUID() const;
 };
 
-struct ReqMakeRoom : public IProtocol
+struct ReqMakeRoom
 {
 public:
-	CONSTRUCTOR()
-
 	std::string title;
 	int maxPersonnel;
 

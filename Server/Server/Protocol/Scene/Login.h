@@ -17,10 +17,23 @@ private:
 };
 
 // Request 서버로 보내는 요청
-struct ReqLogin : public IProtocol
+struct ReqLogin
 {
 public:
-	CONSTRUCTOR()
+	std::string email;
+	std::string password;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( email ) );
+		ar( CEREAL_NVP( password ) );
+	}
+};
+
+struct ReqSignUpMail
+{
+public:
 
 	std::string email;
 	std::string password;
@@ -33,27 +46,9 @@ public:
 	}
 };
 
-struct ReqSignUpMail : public IProtocol
+struct ReqSignUp
 {
 public:
-	CONSTRUCTOR()
-
-	std::string email;
-	std::string password;
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( email ) );
-		ar( CEREAL_NVP( password ) );
-	}
-};
-
-struct ReqSignUp : public IProtocol
-{
-public:
-	CONSTRUCTOR()
-
 	std::string nickname;
 	std::string email;
 	std::string password;
@@ -68,11 +63,9 @@ public:
 };
 
 // Response 요청에 대한 서버의 답변
-struct ResLogin : public IProtocol
+struct ResLogin
 {
 public:
-	CONSTRUCTOR()
-
 	std::string nickname;
 
 	template <class Archive>
@@ -82,11 +75,9 @@ public:
 	}
 };
 
-struct ResSignUpMail : public IProtocol
+struct ResSignUpMail
 {
 public:
-	CONSTRUCTOR()
-
 	bool isPossible;
 
 	template <class Archive>
@@ -96,11 +87,9 @@ public:
 	}
 };
 
-struct ResSignUp : public IProtocol
+struct ResSignUp
 {
 public:
-	CONSTRUCTOR()
-
 	bool isCompleted;
 
 	template <class Archive>

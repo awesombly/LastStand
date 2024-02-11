@@ -8,7 +8,7 @@ std::list<RoomData> Lobby::roomDatas;
 
 void Lobby::Bind()
 {
-	ProtocolSystem::Inst().Regist( ReqMakeRoom(), MakeRoom );
+	ProtocolSystem::Inst().Regist( CREATE_ROOM_REQ, MakeRoom );
 }
 
 void Lobby::MakeRoom( const Packet& _packet )
@@ -28,10 +28,10 @@ void Lobby::MakeRoom( const Packet& _packet )
 		ResTakeRoom takeRoom;
 		takeRoom.rooms = roomDatas;
 
-		SessionManager::Inst().Send( _packet.socket, Packet( takeRoom ) );
+		SessionManager::Inst().Send( _packet.socket, UPacket( TAKE_ROOM_LIST, takeRoom ) );
 
 		std::cout << "Create a new room( " << rooms.size() << " )" << std::endl;
 	}
 
-	SessionManager::Inst().Send( _packet.socket, Packet( ret ) );
+	SessionManager::Inst().Send( _packet.socket, UPacket( CREATE_ROOM_RES, ret ) );
 }

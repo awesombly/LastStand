@@ -12,7 +12,7 @@ public:
 class ProtocolSystem : public Singleton<ProtocolSystem>
 {
 private:
-	std::unordered_map<u_short/* Packet Type */, void(*)( const Packet& ) > protocols;
+	std::unordered_map<u_short/* Packet Type */, void(*)( const Packet& )> protocols;
 	std::list<IScene*> scenes;
 
 public:
@@ -22,7 +22,7 @@ public:
 public:
 	void Initialize();
 	void Process( const Packet& _packet );
-	void Regist( const IProtocol& _protocol, void( *_func )( const Packet& ) );
+	void Regist( const PacketType& _type, void( *_func )( const Packet& ) );
 
 	static void Broadcast( const Packet& _packet );
 	static void BroadcastWithoutSelf( const Packet& _packet );

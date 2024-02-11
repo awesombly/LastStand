@@ -5,9 +5,9 @@
 void Login::Bind()
 {
 	// Login, SignUp
-	ProtocolSystem::Inst().Regist( ReqLogin(),      ConfirmLogin );
-	ProtocolSystem::Inst().Regist( ReqSignUpMail(), RequestSignUpMail );
-	ProtocolSystem::Inst().Regist( ReqSignUp(),     RequestSignUp );
+	ProtocolSystem::Inst().Regist( CONFIRM_SIGNUP_REQ,  ConfirmLogin );
+	ProtocolSystem::Inst().Regist( DUPLICATE_EMAIL_REQ, RequestSignUpMail );
+	ProtocolSystem::Inst().Regist( CONFIRM_SIGNUP_REQ,  RequestSignUp );
 }
 
 void Login::ConfirmLogin( const Packet& _packet )
@@ -22,14 +22,14 @@ void Login::ConfirmLogin( const Packet& _packet )
 		ResLogin protocol;
 		protocol.nickname = user.nickname;
 
-		SessionManager::Inst().Send( _packet.socket, UPacket( protocol ) );
+		SessionManager::Inst().Send( _packet.socket, UPacket( CONFIRM_LOGIN_RES, protocol ) );
 	}
 	catch ( const std::exception& _error )
 	{
 		// 일단 빈 객체를 보내고
 		// 에러 관련 프로토콜을 정의하는 등 클라에서 처리할 수 있는 방안을 찾아야됨
 		std::cout << "Exception : " << _error.what() << std::endl;
-		SessionManager::Inst().Send( _packet.socket, UPacket( ResLogin() ) );
+		SessionManager::Inst().Send( _packet.socket, UPacket( CONFIRM_LOGIN_RES, ResLogin() ) );
 	}
 }
 
@@ -48,7 +48,7 @@ void Login::RequestSignUpMail( const Packet& _packet )
 		protocol.isPossible = true;
 	}
 
-	SessionManager::Inst().Send( _packet.socket, UPacket( protocol ) );
+	SessionManager::Inst().Send( _packet.socket, UPacket( DUPLICATE_EMAIL_RES, protocol ) );
 }
 
 void Login::RequestSignUp( const Packet& _packet )
@@ -57,5 +57,5 @@ void Login::RequestSignUp( const Packet& _packet )
 	ResSignUp protocol;
 	protocol.isCompleted = Database::Inst().Insert( UserData{ data.nickname, data.email, data.password } );
 
-	SessionManager::Inst().Send( _packet.socket, UPacket( protocol ) );
+	SessionManager::Inst().Send( _packet.socket, UPacket( CONFIRM_SIGNUP_RES, protocol ) );
 }

@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEditor.Sprites;
-using Unity.VisualScripting;
 
+
+using static PacketType;
 public class LoginSystem : MonoBehaviour
 {
     public TMP_InputField email;
@@ -33,9 +33,9 @@ public class LoginSystem : MonoBehaviour
 
     private void Start()
     {
-        ProtocolSystem.Inst.Regist( new ResLogin(),      ResponseLogin );
-        ProtocolSystem.Inst.Regist( new ResSignUp(),     ResponseSignUp );
-        ProtocolSystem.Inst.Regist( new ResSignUpMail(), ResponseSignUpMail );
+        ProtocolSystem.Inst.Regist( CONFIRM_LOGIN_RES,   ResponseLogin );
+        ProtocolSystem.Inst.Regist( CONFIRM_SIGNUP_RES,  ResponseSignUp );
+        ProtocolSystem.Inst.Regist( DUPLICATE_EMAIL_RES, ResponseSignUpMail );
     }
 
     public void ActiveErrorPanel( bool _isActive )
@@ -88,7 +88,7 @@ public class LoginSystem : MonoBehaviour
                     ReqLogin protocol;
                     protocol.email = email.text;
                     protocol.password = password.text;
-                    Network.Inst.Send( new Packet( protocol ) );
+                    Network.Inst.Send( new Packet( CONFIRM_LOGIN_REQ, protocol ) );
                 } break;
 
                 case LoginPanelType.SignUp:
@@ -101,7 +101,7 @@ public class LoginSystem : MonoBehaviour
                     protocol.email = email.text;
                     protocol.password = password.text;
 
-                    Network.Inst.Send( new Packet( protocol ) );
+                    Network.Inst.Send( new Packet( CONFIRM_SIGNUP_REQ, protocol ) );
                 } break;
 
                 case LoginPanelType.Error:
@@ -122,7 +122,7 @@ public class LoginSystem : MonoBehaviour
         ReqSignUpMail protocol;
         protocol.email    = email.text;
         protocol.password = password.text;
-        Network.Inst.Send( new Packet( protocol ) );
+        Network.Inst.Send( new Packet( DUPLICATE_EMAIL_REQ, protocol ) );
     }
 
     private void ResponseSignUpMail( Packet _packet )

@@ -33,7 +33,7 @@ bool Session::CheckAlive()
 		}
 
 		std::cout << "Verify that the session is alive( " << GetPort() << ", " << GetAddress() << " )" << std::endl;
-		Send( Packet( Heartbeat(/* ºó ÇÁ·ÎÅäÄÝ */ ) ) );
+		Send( UPacket( PACKET_HEARTBEAT, Heartbeat(/* ºó ÇÁ·ÎÅäÄÝ */ ) ) );
 	}
 
 	return true;

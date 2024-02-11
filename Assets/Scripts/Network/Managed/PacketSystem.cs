@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using UnityEditor.Sprites;
 using UnityEngine;
 
+using static PacketType;
 public class PacketSystem : Singleton<PacketSystem>
 {
     private Queue<Packet> packets = new Queue<Packet>();
@@ -30,7 +31,7 @@ public class PacketSystem : Singleton<PacketSystem>
 
     public void Push( in Packet _packet )
     {
-        if ( _packet.type != Global.AliveProtocolType )
+        if ( _packet.type != PACKET_HEARTBEAT )
              Debug.Log( $"Receive ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
 
         packets.Enqueue( _packet );

@@ -20,8 +20,8 @@ void ProtocolSystem::Initialize()
 
 void ProtocolSystem::Bind()
 {
-	Regist( ChatMessage(), Broadcast );
-	Regist( Heartbeat(), []( const Packet& ) {} );
+	Regist( PACKET_CHAT_MSG, Broadcast );
+	Regist( PACKET_HEARTBEAT, []( const Packet& ) {} );
 
 	for ( auto iter = scenes.begin(); iter != scenes.end(); iter++ )
 	{
@@ -42,16 +42,16 @@ void ProtocolSystem::Process( const Packet& _packet )
 	protocols[_packet.type]( _packet );
 }
 
-void ProtocolSystem::Regist( const IProtocol& _protocol, void( *_func )( const Packet& ) )
+void ProtocolSystem::Regist( const PacketType& _type, void( *_func )( const Packet& ) )
 {
-	u_short type = _protocol.GetPacketType();
-	if ( protocols.contains( type ) )
+	//u_short type = _protocol.GetPacketType();
+	if ( protocols.contains( _type ) )
 	{
 		std::cout << "The protocol is duplicated" << std::endl;
 		return;
 	}
 
-	protocols[type] = _func;
+	protocols[_type] = _func;
 }
 
 void ProtocolSystem::Broadcast( const Packet& _packet )
