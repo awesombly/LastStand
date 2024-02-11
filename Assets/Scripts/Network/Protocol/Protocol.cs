@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+
 public static class Protocol
 {
     // 서버/클라 결과 동일해야함. (Sdbm Hash)
@@ -42,6 +44,11 @@ public struct ResMakeRoom : IProtocol
 {
     public ushort uid;
     public bool isCompleted;
+}
+
+public struct ResTakeRoom : IProtocol
+{
+    public List<RoomData> rooms;
 }
 
 // 로그인

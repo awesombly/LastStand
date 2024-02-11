@@ -8,8 +8,16 @@ public:
 	int maxPersonnel;
 
 public:
+	RoomData() : title( "" ), maxPersonnel( 0 ) {}
 	RoomData( const std::string& _title, int _maxPersonnel ) : 
 	          title( _title ), maxPersonnel( _maxPersonnel ) { }
+
+public:
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( title ), CEREAL_NVP( maxPersonnel ) );
+	}
 };
 
 class Room

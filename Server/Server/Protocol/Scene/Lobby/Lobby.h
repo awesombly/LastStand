@@ -7,6 +7,7 @@ class Lobby : public IScene
 private:
 	static u_short RoomUID;
 	static std::list<Room*> rooms;
+	static std::list<RoomData> roomDatas;
 
 public:
 	Lobby()          = default;
@@ -32,5 +33,19 @@ public:
 	{
 		ar( CEREAL_NVP( uid ) );
 		ar( CEREAL_NVP( isCompleted ) );
+	}
+};
+
+struct ResTakeRoom : public IProtocol
+{
+public:
+	CONSTRUCTOR()
+
+	std::list<RoomData> rooms;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( rooms ) );
 	}
 };

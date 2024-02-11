@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Newtonsoft.Json;
+    
 public struct RoomData
 {
     public ushort uid;
@@ -22,6 +23,8 @@ public class RoomSystem : MonoBehaviour
 {
     public GameObject canvas;
     public TMP_InputField title;
+    public Transform contents;
+    public Room prefab;
     
     public List<Outline> personnelOutlines = new List<Outline>();
     private int maxPersonnel;
@@ -30,6 +33,7 @@ public class RoomSystem : MonoBehaviour
     private void Awake()
     {
         ProtocolSystem.Inst.Regist( new ResMakeRoom(), ResponseMakeRoom );
+        ProtocolSystem.Inst.Regist( new ResTakeRoom(), ResponseTakeRoom );
     }
 
     public void ShowMakeRoomPanel( bool _active )
@@ -86,5 +90,25 @@ public class RoomSystem : MonoBehaviour
         {
             // 실패 메세지
         }
+    }
+
+    private void ResponseTakeRoom( Packet _packet )
+    {
+        // Room room = Instantiate( prefab, contents as RectTransform );
+        // var data = Global.FromJson<ResTakeRoom>( _packet );
+        // room.Initialize( data.room );
+
+        //List<RoomData> rooms = new List<RoomData>()
+        //{
+        //    new RoomData(1,"fslkafjksla", 100),
+        //    new RoomData(2,"sfdSFKDOPK", 200),
+        //    new RoomData(3,"FSDOPFMOP", 300),
+        //};
+
+        var rooms = JsonConvert.DeserializeObject<ResTakeRoom>( System.Text.Encoding.UTF8.GetString( _packet.data ) );
+        foreach ( var room in rooms.rooms )
+            Debug.Log( $"{room.uid}  {room.title}  {room.maxPersonnel}" );
+
+        //Debug.Log( JsonConvert.SerializeObject( rooms, Formatting.None ) );
     }
 }
