@@ -30,7 +30,7 @@ public class ChatSystem : MonoBehaviour
                 input.interactable = false;
                 input.DeactivateInputField();
 
-                ChatMessage message;
+                MESSAGE message;
                 message.message = input.text;
 
                 Network.Inst.Send( new Packet( PACKET_CHAT_MSG, message ) );

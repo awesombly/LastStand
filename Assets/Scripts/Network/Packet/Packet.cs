@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [StructLayout( LayoutKind.Sequential, Pack = 1 )]
 public struct Packet

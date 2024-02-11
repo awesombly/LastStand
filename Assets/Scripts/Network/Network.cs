@@ -43,7 +43,7 @@ public class Network : Singleton<Network>
 
     private void Start()
     {
-        ProtocolSystem.Inst.Regist( PACKET_HEARTBEAT, ( Packet ) => { Send( new Packet( PACKET_HEARTBEAT, new Heartbeat() ) ); } );
+        ProtocolSystem.Inst.Regist( PACKET_HEARTBEAT, ( Packet ) => { Send( new Packet( PACKET_HEARTBEAT, new EMPTY() ) ); } );
     }
 
     private void OnDestroy()

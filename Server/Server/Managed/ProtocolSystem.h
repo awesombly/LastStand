@@ -12,7 +12,7 @@ public:
 class ProtocolSystem : public Singleton<ProtocolSystem>
 {
 private:
-	std::unordered_map<u_short/* Packet Type */, void(*)( const Packet& )> protocols;
+	std::unordered_map<PacketType, void(*)( const Packet& )> protocols;
 	std::list<IScene*> scenes;
 
 public:

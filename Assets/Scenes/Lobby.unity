@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 12988610}
   - component: {fileID: 12988613}
   m_Layer: 5
-  m_Name: Make Room
+  m_Name: Cteate Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,8 +417,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: Room, Assembly-CSharp
-        m_MethodName: ShowMakeRoomPanel
+        m_TargetAssemblyTypeName: RoomSystem, Assembly-CSharp
+        m_MethodName: ShowCreateRoomPanel
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1691,7 +1691,7 @@ GameObject:
   - component: {fileID: 633061485}
   - component: {fileID: 633061484}
   m_Layer: 5
-  m_Name: Make Room
+  m_Name: Create Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4619,8 +4619,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: Room, Assembly-CSharp
-        m_MethodName: MakeRoom
+        m_TargetAssemblyTypeName: RoomSystem, Assembly-CSharp
+        m_MethodName: CreateRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

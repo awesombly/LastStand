@@ -1,20 +1,9 @@
 using System.Collections.Generic;
+using UnityEngine.AI;
 
-public static class Protocol
-{
-    // 서버/클라 결과 동일해야함. (Sdbm Hash)
-    //public static ushort GetPacketType( string _name )
-    //{
-    //    uint hash = 0;
-    //    foreach ( char elem in _name )
-    //    {
-    //        hash = elem + ( hash << 6 ) + ( hash << 16 ) - hash;
-    //    }
 
-    //    return ( ushort )hash;
-    //}
-}
-
+// null이 포함된 데이터를 JSON으로 만들면 서버가 뻗습니다.
+// string 같은 클래스는 꼭 초기화 해주세요.
 public enum PacketType : ushort
 {
     NONE = 0,
@@ -33,72 +22,28 @@ public enum PacketType : ushort
     TAKE_ROOM_LIST,         // 방 목록 전달
 };
 
-public interface IProtocol
-{
-    //public string name => ToString();
-    //public ushort type => Protocol.GetPacketType( name );
-}
-
+public interface IProtocol { }
 // Both 
-public struct Heartbeat : IProtocol 
-{
-    // 서버 연결을 확인하기 위한 프로토콜
-}
+public struct EMPTY : IProtocol { }
+public struct MESSAGE : IProtocol { public string message; }
+public struct CONFIRM : IProtocol { public bool isCompleted; }
 
-public struct ChatMessage : IProtocol
-{
-    public string message;
-}
-
-// 방 생성
-public struct ReqMakeRoom : IProtocol
-{
-    public string title;
-    public int maxPersonnel;
-}
-
-public struct ResMakeRoom : IProtocol
+public struct Personnel { public int current, maximum; }
+public struct ROOM_INFO : IProtocol
 {
     public ushort uid;
-    public bool isCompleted;
+    public string title;
+    public Personnel personnel;
 }
 
-public struct ResTakeRoom : IProtocol
-{
-    public List<RoomData> rooms;
-}
-
-// 로그인
-public struct ReqLogin : IProtocol
-{
-    public string email;
-    public string password;
-}
-
-public struct ReqSignUp : IProtocol
+public struct LOGIN_INFO : IProtocol
 {
     public string nickname;
     public string email;
     public string password;
 }
 
-public struct ReqSignUpMail : IProtocol
-{
-    public string email;
-    public string password;
-}
-
-public struct ResLogin : IProtocol
-{
-    public string nickname;
-}
-
-public struct ResSignUp : IProtocol
-{
-    public bool isCompleted;
-}
-
-public struct ResSignUpMail : IProtocol
-{
-    public bool isPossible;
-}
+//public struct ResTakeRoom : IProtocol
+//{
+//    public List<RoomData> rooms;
+//}

@@ -15,8 +15,8 @@ bool PacketSystem::Initialize()
 
 void PacketSystem::Push( const Packet& _packet )
 {
-	if ( _packet.type != Global::AliveProtocolType )
-		std::cout << "Receive( " << _packet.type << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
+	if ( _packet.type != PACKET_HEARTBEAT )
+		 std::cout << "Receive( " << _packet.type << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
 
 	std::lock_guard<std::mutex> lock( mtx );
 	packets.push( _packet );

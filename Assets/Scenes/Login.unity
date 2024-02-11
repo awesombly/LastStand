@@ -342,7 +342,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1948390484}
         m_TargetAssemblyTypeName: LoginSystem, Assembly-CSharp
-        m_MethodName: RequestSignUpMail
+        m_MethodName: ReqConfirmDuplicateInfo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1375,8 +1375,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1948390484}
         m_TargetAssemblyTypeName: LoginSystem, Assembly-CSharp
-        m_MethodName: ActiveInitialize
-        m_Mode: 1
+        m_MethodName: ActiveSignUpPanel
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

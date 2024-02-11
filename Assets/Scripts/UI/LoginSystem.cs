@@ -33,9 +33,9 @@ public class LoginSystem : MonoBehaviour
 
     private void Start()
     {
-        ProtocolSystem.Inst.Regist( CONFIRM_LOGIN_RES,   ResponseLogin );
-        ProtocolSystem.Inst.Regist( CONFIRM_SIGNUP_RES,  ResponseSignUp );
-        ProtocolSystem.Inst.Regist( DUPLICATE_EMAIL_RES, ResponseSignUpMail );
+        ProtocolSystem.Inst.Regist( CONFIRM_LOGIN_RES,   ResConfirmMatchData );
+        ProtocolSystem.Inst.Regist( CONFIRM_SIGNUP_RES,  ResAddToDatabase );
+        ProtocolSystem.Inst.Regist( DUPLICATE_EMAIL_RES, ResConfirmDuplicateInfo );
     }
 
     public void ActiveErrorPanel( bool _isActive )
@@ -85,9 +85,10 @@ public class LoginSystem : MonoBehaviour
             {
                 case LoginPanelType.Default:
                 {
-                    ReqLogin protocol;
+                    LOGIN_INFO protocol;
                     protocol.email = email.text;
                     protocol.password = password.text;
+                    protocol.nickname = string.Empty;
                     Network.Inst.Send( new Packet( CONFIRM_LOGIN_REQ, protocol ) );
                 } break;
 
@@ -96,7 +97,7 @@ public class LoginSystem : MonoBehaviour
                     if ( nickname.text == string.Empty )
                          break;
 
-                    ReqSignUp protocol;
+                    LOGIN_INFO protocol;
                     protocol.nickname = nickname.text;
                     protocol.email = email.text;
                     protocol.password = password.text;
@@ -117,18 +118,19 @@ public class LoginSystem : MonoBehaviour
         }
     }
 
-    public void RequestSignUpMail()
+    public void ReqConfirmDuplicateInfo()
     {
-        ReqSignUpMail protocol;
+        LOGIN_INFO protocol;
         protocol.email    = email.text;
         protocol.password = password.text;
+        protocol.nickname = string.Empty;
         Network.Inst.Send( new Packet( DUPLICATE_EMAIL_REQ, protocol ) );
     }
 
-    private void ResponseSignUpMail( Packet _packet )
+    private void ResConfirmDuplicateInfo( Packet _packet )
     {
-        var data = Global.FromJson<ResSignUpMail>( _packet );
-        if ( data.isPossible )
+        var data = Global.FromJson<CONFIRM>( _packet );
+        if ( data.isCompleted )
         {
             ActiveSignUpPanel( true );
             signUpExit.SetActive( false );
@@ -142,9 +144,9 @@ public class LoginSystem : MonoBehaviour
         }
     }
 
-    public void ResponseSignUp( Packet _packet )
+    public void ResAddToDatabase( Packet _packet )
     {
-        var data = Global.FromJson<ResSignUp>( _packet );
+        var data = Global.FromJson<CONFIRM>( _packet );
 
         if ( data.isCompleted )
         {
@@ -159,9 +161,9 @@ public class LoginSystem : MonoBehaviour
     }
 
 
-    private void ResponseLogin( Packet _packet )
+    private void ResConfirmMatchData( Packet _packet )
     {
-        var data = Global.FromJson<ResLogin>( _packet );
+        var data = Global.FromJson<LOGIN_INFO>( _packet );
         if ( data.nickname == string.Empty )
         {
             ActiveErrorPanel( true );

@@ -34,11 +34,11 @@ public class RoomSystem : MonoBehaviour
 
     private void Awake()
     {
-        ProtocolSystem.Inst.Regist( CREATE_ROOM_RES, ResponseMakeRoom );
-        ProtocolSystem.Inst.Regist( TAKE_ROOM_LIST,  ResponseTakeRoom );
+        ProtocolSystem.Inst.Regist( CREATE_ROOM_RES, ResCreateRoom );
+        ProtocolSystem.Inst.Regist( TAKE_ROOM_LIST,  ResTakeRoom );
     }
 
-    public void ShowMakeRoomPanel( bool _active )
+    public void ShowCreateRoomPanel( bool _active )
     {
         if ( _active )
         {
@@ -66,27 +66,27 @@ public class RoomSystem : MonoBehaviour
         }
     }
 
-    public void MakeRoom()
+    public void CreateRoom()
     {
         if ( !canSendMakeRoom )
              return;
 
         canSendMakeRoom = false;
-        ReqMakeRoom protocol;
-        protocol.title = title.text;
-        protocol.maxPersonnel = maxPersonnel;
+        ROOM_INFO protocol;
+        protocol.uid       = 0;
+        protocol.title     = title.text;
+        protocol.personnel = new Personnel { current = 0, maximum = maxPersonnel };
 
         Network.Inst.Send( new Packet( CREATE_ROOM_REQ, protocol ) );
     }
 
-    private void ResponseMakeRoom( Packet _packet )
+    private void ResCreateRoom( Packet _packet )
     {
         canSendMakeRoom = true;
-        var data = Global.FromJson<ResMakeRoom>( _packet );
+        var data = Global.FromJson<CONFIRM>( _packet );
         if ( data.isCompleted )
         {
             // 게임 접속
-            GameManager.Inst.roomData = new RoomData( data.uid, title.text, maxPersonnel );
         }
         else
         {
@@ -94,7 +94,7 @@ public class RoomSystem : MonoBehaviour
         }
     }
 
-    private void ResponseTakeRoom( Packet _packet )
+    private void ResTakeRoom( Packet _packet )
     {
         // Room room = Instantiate( prefab, contents as RectTransform );
         // var data = Global.FromJson<ResTakeRoom>( _packet );
@@ -107,9 +107,9 @@ public class RoomSystem : MonoBehaviour
         //    new RoomData(3,"FSDOPFMOP", 300),
         //};
 
-        var rooms = JsonConvert.DeserializeObject<ResTakeRoom>( System.Text.Encoding.UTF8.GetString( _packet.data ) );
-        foreach ( var room in rooms.rooms )
-            Debug.Log( $"{room.uid}  {room.title}  {room.maxPersonnel}" );
+        //var rooms = JsonConvert.DeserializeObject<ResTakeRoom>( System.Text.Encoding.UTF8.GetString( _packet.data ) );
+        //foreach ( var room in rooms.rooms )
+        //    Debug.Log( $"{room.uid}  {room.title}  {room.maxPersonnel}" );
 
         //Debug.Log( JsonConvert.SerializeObject( rooms, Formatting.None ) );
     }

@@ -5,11 +5,11 @@
 #pragma pack( push, 1 )
 struct UPacket
 {
-	u_short type;
+	PacketType type;
 	u_short size;
 	byte data[Global::MaxDataSize];
 
-	UPacket() : type( 0 ), size( 0 ), data{} {}
+	UPacket() : type( PacketType::NONE ), size( 0 ), data{} {}
 
 	template<typename Type>
 	UPacket( const PacketType& _type, Type _protocol )
@@ -24,7 +24,7 @@ struct UPacket
 		// 인코딩 방식 : UTF8
 		std::string json = Global::Text::ToUTF8( Global::Text::ToAnsi( stream.str() ) );
 
-		// 송수신 Byte 등 확인하기 편하도록 Unity와 Json 형식 통일
+		// Json 크기 축소
 		Global::String::RemoveAll( json, '\n' );
 		Global::String::ReplaceAll( json, "\": ", "\":" );
 		
