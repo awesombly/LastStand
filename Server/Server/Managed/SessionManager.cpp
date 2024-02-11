@@ -81,7 +81,7 @@ void SessionManager::Push( Session* _session )
 	if ( _session == nullptr )
 	 	 return;
 
-	std::cout << "Resister a new session( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	std::cout << "Register a new session( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
 		sessions[_session->GetSocket()] = _session;

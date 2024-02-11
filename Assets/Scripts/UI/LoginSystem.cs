@@ -29,13 +29,10 @@ public class LoginSystem : MonoBehaviour
 
         if ( password != null )
              password.contentType = TMP_InputField.ContentType.Password;
-    }
 
-    private void Start()
-    {
-        ProtocolSystem.Inst.Regist( CONFIRM_LOGIN_RES,   ResConfirmMatchData );
-        ProtocolSystem.Inst.Regist( CONFIRM_SIGNUP_RES,  ResAddToDatabase );
-        ProtocolSystem.Inst.Regist( DUPLICATE_EMAIL_RES, ResConfirmDuplicateInfo );
+        ProtocolSystem.Inst.Regist( CONFIRM_LOGIN_ACK,   AckConfirmMatchData );
+        ProtocolSystem.Inst.Regist( CONFIRM_ACCOUNT_ACK, AckAddToDatabase );
+        ProtocolSystem.Inst.Regist( DUPLICATE_EMAIL_ACK, AckConfirmDuplicateInfo );
     }
 
     public void ActiveErrorPanel( bool _isActive )
@@ -102,7 +99,7 @@ public class LoginSystem : MonoBehaviour
                     protocol.email = email.text;
                     protocol.password = password.text;
 
-                    Network.Inst.Send( new Packet( CONFIRM_SIGNUP_REQ, protocol ) );
+                    Network.Inst.Send( new Packet( CONFIRM_ACCOUNT_REQ, protocol ) );
                 } break;
 
                 case LoginPanelType.Error:
@@ -127,7 +124,7 @@ public class LoginSystem : MonoBehaviour
         Network.Inst.Send( new Packet( DUPLICATE_EMAIL_REQ, protocol ) );
     }
 
-    private void ResConfirmDuplicateInfo( Packet _packet )
+    private void AckConfirmDuplicateInfo( Packet _packet )
     {
         var data = Global.FromJson<CONFIRM>( _packet );
         if ( data.isCompleted )
@@ -144,7 +141,7 @@ public class LoginSystem : MonoBehaviour
         }
     }
 
-    public void ResAddToDatabase( Packet _packet )
+    public void AckAddToDatabase( Packet _packet )
     {
         var data = Global.FromJson<CONFIRM>( _packet );
 
@@ -160,8 +157,7 @@ public class LoginSystem : MonoBehaviour
         }
     }
 
-
-    private void ResConfirmMatchData( Packet _packet )
+    private void AckConfirmMatchData( Packet _packet )
     {
         var data = Global.FromJson<LOGIN_INFO>( _packet );
         if ( data.nickname == string.Empty )

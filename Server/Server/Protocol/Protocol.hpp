@@ -4,19 +4,21 @@
 enum PacketType : u_short
 {
 	NONE = 0,
-	PACKET_HEARTBEAT,              // 주기적인 통신을 위한 프로토콜
-	PACKET_CHAT_MSG,               // 일반적인 채팅 메세지
+	PACKET_HEARTBEAT,              // 주기적인 통신을 위한 패킷
+	PACKET_CHAT_MSG,               // 채팅 메세지
 							       
-	CONFIRM_LOGIN_REQ = 1000,      // 로그인 확인 요청
-	CONFIRM_LOGIN_RES,             // 로그인 확인 응답
+	CONFIRM_LOGIN_REQ = 1000,      // 로그인 요청
+	CONFIRM_LOGIN_ACK,             // 로그인 응답
+	CONFIRM_ACCOUNT_REQ,           // 계정 생성 요청
+	CONFIRM_ACCOUNT_ACK,           // 계정 생성 응답
 	DUPLICATE_EMAIL_REQ,           // 이메일 중복확인 요청
-	DUPLICATE_EMAIL_RES,           // 이메일 중복확인 응답
-	CONFIRM_SIGNUP_REQ,            // 이메일 생성 요청
-	CONFIRM_SIGNUP_RES,            // 이메일 생성 응답
+	DUPLICATE_EMAIL_ACK,           // 이메일 중복확인 응답
 							       
-	CREATE_ROOM_REQ = 2000,        // 방 생성 요청
-	CREATE_ROOM_RES,               // 방 생성 응답
-	TAKE_ROOM_LIST,                // 방 목록 전달
+	LOBBY_INFO_REQ = 2000,         // 로비 정보 요청
+	LOBBY_INFO_ACK,                // 로비 정보 응답
+
+	CREATE_ROOM_REQ,               // 방 생성 요청
+	CREATE_ROOM_ACK,               // 방 생성 응답
 };
 
 typedef struct EmptyProtocol
@@ -71,6 +73,9 @@ struct Personnel
 public:
 	int current, maximum;
 	
+	Personnel() : current( 0 ), maximum( 0 ) { }
+	Personnel( int _cur, int _max ) : current( _cur ), maximum( _max ) { }
+
 	template <class Archive>
 	void serialize( Archive& ar )
 	{

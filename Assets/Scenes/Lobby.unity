@@ -608,8 +608,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: Room, Assembly-CSharp
-        m_MethodName: ShowMakeRoomPanel
+        m_TargetAssemblyTypeName: RoomSystem, Assembly-CSharp
+        m_MethodName: ShowCreateRoomPanel
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

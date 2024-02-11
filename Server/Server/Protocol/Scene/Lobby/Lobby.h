@@ -7,7 +7,7 @@ class Lobby : public IScene
 private:
 	static u_short RoomUID;
 	static std::list<Room*> rooms;
-	static std::list<RoomInfo> roomInfos;
+	static std::list<RoomInfo> infos;
 
 public:
 	Lobby()          = default;
@@ -15,19 +15,20 @@ public:
 
 private:
 	static void CreateRoom( const Packet& _packet );
+	static void TakeLobbyInfo( const Packet& _packet );
 
 public:
 	virtual void Bind() override;
 };
 
-struct ResTakeRoom
+typedef struct LobbyInfo
 {
 public:
-	std::list<RoomInfo> rooms;
+	std::list<ROOM_INFO> infos;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
-		ar( CEREAL_NVP( rooms ) );
+		ar( CEREAL_NVP( infos ) );
 	}
-};
+} LOBBY_INFO;

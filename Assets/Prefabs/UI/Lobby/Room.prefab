@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 1379477279091084884}
   - component: {fileID: 5465971324969061607}
   m_Layer: 5
-  m_Name: Total
+  m_Name: Cur
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -406,8 +406,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   title: {fileID: 6677850051313283835}
-  curPersonnel: {fileID: 7608674659581998759}
-  maxPersonnel: {fileID: 5465971324969061607}
+  curPersonnel: {fileID: 5465971324969061607}
+  maxPersonnel: {fileID: 7608674659581998759}
 --- !u!1 &6430950330916288435
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 3651593700952470979}
   - component: {fileID: 7608674659581998759}
   m_Layer: 5
-  m_Name: Current
+  m_Name: Max
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

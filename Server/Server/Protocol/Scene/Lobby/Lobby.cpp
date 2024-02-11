@@ -4,11 +4,12 @@
 
 u_short Lobby::RoomUID = 0;
 std::list<Room*> Lobby::rooms;
-std::list<RoomInfo> Lobby::roomInfos;
+std::list<RoomInfo> Lobby::infos;
 
 void Lobby::Bind()
 {
 	ProtocolSystem::Inst().Regist( CREATE_ROOM_REQ, CreateRoom );
+	ProtocolSystem::Inst().Regist( LOBBY_INFO_REQ,  TakeLobbyInfo );
 }
 
 void Lobby::CreateRoom( const Packet& _packet )
@@ -21,15 +22,20 @@ void Lobby::CreateRoom( const Packet& _packet )
 		RoomInfo roomData;
 		roomData.uid       = RoomUID++;
 		roomData.title     = data.title;
-		roomData.personnel = data.personnel;
+		roomData.personnel.maximum = data.personnel.maximum;
+		roomData.personnel.current = 1;
 
 		rooms.push_back( new Room( _packet.socket, roomData ) );
-		roomInfos.push_back( roomData );
-
-		//ResTakeRoom takeRoom;
-		//takeRoom.rooms = roomInfos;
-		//SessionManager::Inst().Send( _packet.socket, UPacket( TAKE_ROOM_LIST, takeRoom ) );
+		infos.push_back( roomData );
 	}
 
-	SessionManager::Inst().Send( _packet.socket, UPacket( CREATE_ROOM_RES, confirm ) );
+	SessionManager::Inst().Send( _packet.socket, UPacket( CREATE_ROOM_ACK, confirm ) );
+}
+
+void Lobby::TakeLobbyInfo( const Packet& _packet )
+{
+	LOBBY_INFO info;
+	info.infos = infos;
+
+	SessionManager::Inst().Send( _packet.socket, UPacket( LOBBY_INFO_ACK, info ) );
 }

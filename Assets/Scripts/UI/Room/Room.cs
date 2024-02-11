@@ -9,14 +9,14 @@ public class Room : MonoBehaviour
     public TextMeshProUGUI curPersonnel;
     public TextMeshProUGUI maxPersonnel;
 
-    public RoomData data;
+    public ROOM_INFO info;
 
-    public void Initialize( RoomData _data )
+    public void Initialize( ROOM_INFO _info )
     {
-        data = _data;
+        info = _info;
 
-        title.text        = data.title;
-        maxPersonnel.text = data.maxPersonnel.ToString();
-        curPersonnel.text = 0.ToString();
+        title.text        = info.title;
+        maxPersonnel.text = $"{info.personnel.maximum}";
+        curPersonnel.text = $"{info.personnel.current}";
     }
 }
