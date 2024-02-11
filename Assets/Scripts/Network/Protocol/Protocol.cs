@@ -20,12 +20,31 @@ public interface IProtocol
     public ushort type => Protocol.GetPacketType( name );
 }
 
+// Both 
 public struct Heartbeat : IProtocol 
 {
     // 서버 연결을 확인하기 위한 프로토콜
 }
 
-// Request 서버로 보내는 요청
+public struct ChatMessage : IProtocol
+{
+    public string message;
+}
+
+// 방 생성
+public struct ReqMakeRoom : IProtocol
+{
+    public string title;
+    public int maxPersonnel;
+}
+
+public struct ResMakeRoom : IProtocol
+{
+    public ushort uid;
+    public bool isCompleted;
+}
+
+// 로그인
 public struct ReqLogin : IProtocol
 {
     public string email;
@@ -45,7 +64,6 @@ public struct ReqSignUpMail : IProtocol
     public string password;
 }
 
-// Response 요청에 대한 답변
 public struct ResLogin : IProtocol
 {
     public string nickname;
@@ -59,11 +77,4 @@ public struct ResSignUp : IProtocol
 public struct ResSignUpMail : IProtocol
 {
     public bool isPossible;
-}
-
-
-// Both 
-public struct ChatMessage : IProtocol
-{
-    public string message;
 }

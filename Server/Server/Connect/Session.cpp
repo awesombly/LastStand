@@ -1,6 +1,10 @@
 #include "Session.h"
 #include "Managed/PacketSystem.h"
 
+const int   Session::MaxUnresponse       = 10;
+const float Session::MinResponseWaitTime = 10.0f;
+const float Session::RequestDelay        = 5.0f;
+
 Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 				  : Network( _socket, _address ), packet( new Packet() ), 
 	                buffer{}, startPos( 0 ), writePos( 0 ), readPos( 0 ),
@@ -11,10 +15,6 @@ Session::~Session()
 {
 	::shutdown( socket, SD_SEND );
 }
-
-const int   Session::MaxUnresponse = 10;
-const float Session::MinResponseWaitTime = 10.0f;
-const float Session::RequestDelay = 5.0f;
 
 void Session::Alive()
 {

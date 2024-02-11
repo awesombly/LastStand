@@ -69,7 +69,8 @@
     <ClCompile Include="Protocol\Scene\Login.cpp">
       <Filter>Protocol\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Protocol\Scene\Lobby.cpp" />
+    <ClCompile Include="Protocol\Scene\Lobby\Lobby.cpp" />
+    <ClCompile Include="Protocol\Scene\Lobby\Room.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global\Header.h">
@@ -120,6 +121,7 @@
     <ClInclude Include="Protocol\Scene\Login.h">
       <Filter>Protocol\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol\Scene\Lobby.h" />
+    <ClInclude Include="Protocol\Scene\Lobby\Lobby.h" />
+    <ClInclude Include="Protocol\Scene\Lobby\Room.h" />
   </ItemGroup>
 </Project>

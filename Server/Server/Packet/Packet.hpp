@@ -2,7 +2,6 @@
 #include "Global/Header.h"
 #include "Protocol/Protocol.hpp"
 
-
 #pragma pack( push, 1 )
 struct UPacket
 {
