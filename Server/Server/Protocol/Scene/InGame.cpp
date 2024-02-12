@@ -3,11 +3,12 @@
 
 void InGame::Bind()
 {
-	ProtocolSystem::Inst().Regist( SPAWN_ENEMY_REQ, SpawnEnemy );
+	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ, SpawnEnemy );
 }
 
 void InGame::SpawnEnemy( const Packet& _packet )
 {
-	SPAWN_ENEMY data = FromJson<SPAWN_ENEMY>( _packet );
-	SessionManager::Inst().Broadcast( _packet.socket, UPacket( SPAWN_ENEMY_ACK, data ) );
+	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	data.serial = Global::GetNewSerial();
+	SessionManager::Inst().Broadcast( _packet.socket, UPacket( SPAWN_ACTOR_ACK, data ) );
 }

@@ -1,35 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static PacketType;
 
 public class GameManager : Singleton<GameManager>
 {
     public Player localPlayer;
 
-    public List<GameObject/*Prefab*/> prefabList;
+    [SerializeField]
+    private List<GameObject/*Prefab*/> prefabList;
+
+    public Dictionary<uint/*Serial*/, PoolObject> objects;
 
     protected override void Awake()
     {
         base.Awake();
-        ProtocolSystem.Inst.Regist( SPAWN_ENEMY_ACK, AckSpawnEnemy );
     }
 
-    public void SpawnEnemy( GameObject _prefab, Vector2 _position, Quaternion _rotation )
+    public int GetPrefabIndex( GameObject _prefab )
     {
-        SPAWN_ENEMY protocol;
-        protocol.prefab = prefabList.FindIndex( ( _item ) => _item == _prefab );
-        protocol.serial = 0;
-        protocol.x = _position.x;
-        protocol.y = _position.y;
-        Network.Inst.Send( new Packet( SPAWN_ENEMY_REQ, protocol ) );
+        int index = prefabList.FindIndex( ( _item ) => _item == _prefab );
+        if ( index == -1 )
+        {
+            Debug.LogError( "Prefab not found : " + _prefab );
+        }
+
+        return index;
     }
 
-    private void AckSpawnEnemy( Packet _packet )
+    public GameObject GetPrefab( int _index )
     {
-        var data = Global.FromJson<SPAWN_ENEMY>( _packet );
-        Enemy po = PoolManager.Inst.Get( prefabList[data.prefab] ) as Enemy;
-        po.serial = (uint)data.serial;
-        po.Initialize( new Vector3( data.x, data.y, 0f ) );
+        if ( prefabList.Count <= _index || _index < 0 )
+        {
+            Debug.LogError( $"Invalid index : {_index}, prefabCount : {prefabList.Count}" );
+            return null;
+        }
+
+        return prefabList[_index];
     }
 }
