@@ -138,36 +138,24 @@ public:
 typedef struct StageInfo
 {
 public:
-	u_short uid;
+	SerialType serial;
 	std::string title;
 	Personnel personnel;
 
 public:
 	StageInfo() = default;
-	StageInfo( u_short _uid, const std::string& _title, Personnel _personnel ) :
-		      uid( _uid ), title( _title ), personnel( _personnel ) { }
+	StageInfo( u_short _serial, const std::string& _title, Personnel _personnel ) :
+		serial( _serial ), title( _title ), personnel( _personnel ) { }
 
 public:
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
-		ar( CEREAL_NVP( uid ) );
+		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( title ) );
 		ar( CEREAL_NVP( personnel ) );
 	}
 } STAGE_INFO;
-
-typedef struct LobbyInfo
-{
-public:
-	std::list<STAGE_INFO> infos;
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( infos ) );
-	}
-} LOBBY_INFO;
 
 typedef struct SpawnEnemy
 {

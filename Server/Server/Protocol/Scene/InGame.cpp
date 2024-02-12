@@ -9,5 +9,5 @@ void InGame::Bind()
 void InGame::SpawnEnemy( const Packet& _packet )
 {
 	SPAWN_ENEMY data = FromJson<SPAWN_ENEMY>( _packet );
-	SessionManager::Inst().Broadcast( _packet.socket, UPacket( SPAWN_ENEMY_ACK, data ) );
+	SessionManager::Inst().Broadcast( UPacket( SPAWN_ENEMY_ACK, data ) );
 }

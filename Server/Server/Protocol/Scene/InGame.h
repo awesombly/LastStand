@@ -8,7 +8,7 @@ public:
 	virtual ~InGame() = default;
 
 private:
-	static void SpawnEnemy(const Packet& _packet);
+	static void SpawnEnemy( const Packet& _packet );
 
 public:
 	virtual void Bind() override;

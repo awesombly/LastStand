@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using UnityEngine;
 
 // null이 포함된 데이터를 JSON으로 만들면 서버가 뻗습니다.
 // string 같은 클래스는 꼭 초기화 해주세요.
@@ -42,7 +42,7 @@ public struct CONFIRM : IProtocol { public bool isCompleted; }
 public struct Personnel { public int current, maximum; }
 public struct STAGE_INFO : IProtocol
 {
-    public ushort uid;
+    public ushort serial;
     public string title;
     public Personnel personnel;
 }
@@ -54,15 +54,16 @@ public struct LOGIN_INFO : IProtocol
     public string password;
 }
 
-public struct LOBBY_INFO : IProtocol
-{
-    public List<STAGE_INFO> infos;
-}
-
 public struct SPAWN_ENEMY : IProtocol
 {
     public int prefab;
     public int serial;
     public float x;
     public float y;
+}
+
+public struct SAMPLE : IProtocol
+{
+    public System.Numerics.Vector3 v3;
+    public System.Numerics.Vector4 v4;
 }

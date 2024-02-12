@@ -1,9 +1,7 @@
 #include "Lobby.h"
 #include "Managed/ProtocolSystem.h"
 #include "Managed/SessionManager.h"
-
-std::list<Stage*> Lobby::stages;
-std::list<STAGE_INFO> Lobby::infos;
+#include "Managed/StageManager.h"
 
 void Lobby::Bind()
 {
@@ -19,15 +17,14 @@ void Lobby::CreateStage( const Packet& _packet )
 	if ( confirm.isCompleted )
 	{
 		STAGE_INFO stageData;
-		stageData.uid       = Global::GetNewSerial();
-		stageData.title     = data.title;
+		stageData.serial            = Global::GetNewSerial();
+		stageData.title             = data.title;
 		stageData.personnel.maximum = data.personnel.maximum;
 		stageData.personnel.current = 1;
 
-		stages.push_back( new Stage( _packet.socket, stageData ) );
-		infos.push_back( stageData );
-
-		SessionManager::Inst().Broadcast( _packet.socket, UPacket( INSERT_STAGE_INFO, stageData ) );
+		StageManager::Inst().CreateStage( _packet.socket, stageData );
+		
+		SessionManager::Inst().Broadcast( UPacket( INSERT_STAGE_INFO, stageData ) );
 	}
 
 	SessionManager::Inst().Send( _packet.socket, UPacket( CREATE_STAGE_ACK, confirm ) );
@@ -35,8 +32,9 @@ void Lobby::CreateStage( const Packet& _packet )
 
 void Lobby::TakeLobbyInfo( const Packet& _packet )
 {
-	LOBBY_INFO info;
-	info.infos = infos;
-
-	SessionManager::Inst().Send( _packet.socket, UPacket( LOBBY_INFO_ACK, info ) );
+	for ( const std::pair<SerialType, Stage*>& pair : StageManager::Inst().GetStages() )
+	{
+		SessionManager::Inst().Send( _packet.socket, UPacket( LOBBY_INFO_ACK, pair.second->GetInfo() ) );
+		::Sleep( 1 );
+	}
 }

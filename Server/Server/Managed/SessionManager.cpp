@@ -103,7 +103,7 @@ void SessionManager::Send( const SOCKET& _socket, const UPacket& _packet ) const
 	session->Send( _packet );
 }
 
-void SessionManager::Broadcast( const SOCKET& _socket, const UPacket& _packet ) const
+void SessionManager::Broadcast( const UPacket& _packet ) const
 {
 	for ( const std::pair<SOCKET, Session*>& pair : sessions )
 	{

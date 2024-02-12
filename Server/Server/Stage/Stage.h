@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Connect/Session.h"
+#include "Network/Session.h"
 
 class Stage
 {

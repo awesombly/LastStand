@@ -1,6 +1,6 @@
 #pragma once
 #include "Global/Singleton.hpp"
-#include "Connect/Session.h"
+#include "Network/Session.h"
 #include "Synchronize/CriticalSection.h"
 
 class SessionManager : public Singleton<SessionManager>
@@ -23,7 +23,7 @@ public:
 	std::unordered_map<SOCKET, Session*> GetSessions() const;
 
 	void Send( const SOCKET& _socket, const UPacket& _packet ) const;
-	void Broadcast( const SOCKET& _socket, const UPacket& _packet ) const;
+	void Broadcast( const UPacket& _packet ) const;
 	void BroadcastWithoutSelf( const SOCKET& _socket, const UPacket& _packet ) const;
 
 public:

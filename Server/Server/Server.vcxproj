@@ -147,8 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Connect\Acceptor.h" />
-    <ClInclude Include="Connect\Session.h" />
+    <ClInclude Include="Network\Acceptor.h" />
+    <ClInclude Include="Network\Session.h" />
     <ClInclude Include="Database\Database.h" />
     <ClInclude Include="Global\Global.hpp" />
     <ClInclude Include="Global\Header.h" />
@@ -163,13 +163,14 @@
     <ClInclude Include="Packet\Packet.hpp" />
     <ClInclude Include="Protocol\Protocol.hpp" />
     <ClInclude Include="Protocol\Scene\Login.h" />
+    <ClInclude Include="Managed\StageManager.h" />
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Run\Server.h" />
     <ClInclude Include="Synchronize\CriticalSection.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Connect\Acceptor.cpp" />
-    <ClCompile Include="Connect\Session.cpp" />
+    <ClCompile Include="Network\Acceptor.cpp" />
+    <ClCompile Include="Network\Session.cpp" />
     <ClCompile Include="Database\Database.cpp" />
     <ClCompile Include="Protocol\Scene\InGame.cpp" />
     <ClCompile Include="Protocol\Scene\Lobby.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Managed\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="Protocol\Scene\Login.cpp" />
+    <ClCompile Include="Managed\StageManager.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="Run\Main.cpp" />
     <ClCompile Include="Run\Server.cpp" />

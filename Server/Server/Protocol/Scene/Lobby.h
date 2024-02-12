@@ -4,10 +4,6 @@
 
 class Lobby : public IScene
 {
-private:
-	static std::list<Stage*> stages;
-	static std::list<STAGE_INFO> infos;
-
 public:
 	Lobby()          = default;
 	virtual ~Lobby() = default;

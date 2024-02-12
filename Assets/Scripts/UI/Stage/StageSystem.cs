@@ -22,11 +22,11 @@ public class StageSystem : MonoBehaviour
 
     private void Awake()
     {
-        ProtocolSystem.Inst.Regist( LOBBY_INFO_ACK,   AckLobbyInfo );
         ProtocolSystem.Inst.Regist( CREATE_STAGE_ACK,  AckCreateStage );
-        ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
+        ProtocolSystem.Inst.Regist( LOBBY_INFO_ACK,    AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( INSERT_STAGE_INFO, AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
+        ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
     }
 
     private void Start()
@@ -73,7 +73,7 @@ public class StageSystem : MonoBehaviour
 
         canSendMakeStage = false;
         STAGE_INFO protocol;
-        protocol.uid       = 0;
+        protocol.serial    = 0;
         protocol.title     = title.text;
         protocol.personnel = new Personnel { current = 0, maximum = maxPersonnel };
         
@@ -96,26 +96,26 @@ public class StageSystem : MonoBehaviour
         }
     }
 
-    // 로비에 처음 입장 시 서버에 등록된 방 정보 갱신
-    private void AckLobbyInfo( Packet _packet )
-    {
-        var data = Global.FromJson<LOBBY_INFO>( _packet );
-        foreach ( var info in data.infos )
-        {
-            // 풀링하기
-            Stage stage = Instantiate( prefab, contents );
-            stage.Initialize( info );
+    //// 로비에 처음 입장 시 서버에 등록된 방 정보 갱신
+    //private void AckLobbyInfo( Packet _packet )
+    //{
+    //    var data = Global.FromJson<LOBBY_INFO>( _packet );
+    //    foreach ( var info in data.infos )
+    //    {
+    //        // 풀링하기
+    //        Stage stage = Instantiate( prefab, contents );
+    //        stage.Initialize( info );
 
-            stages.AddLast( stage );
-        }
-    }
+    //        stages.AddLast( stage );
+    //    }
+    //}
 
-    private LinkedListNode<Stage> FindStageInfoNode( ushort _uid )
+    private LinkedListNode<Stage> FindStageInfoNode( ushort _seiral )
     {
         for ( var node = stages.First; node != null; node = node.Next )
         {
             var stage = node.Value;
-            if ( stage.info.uid == _uid )
+            if ( stage.info.serial == _seiral )
                  return node;
         }
 
@@ -127,7 +127,7 @@ public class StageSystem : MonoBehaviour
     {
         var data = Global.FromJson<STAGE_INFO>( _packet );
 
-        var node = FindStageInfoNode( data.uid );
+        var node = FindStageInfoNode( data.serial );
         if ( node == null )
              return;
 
@@ -147,7 +147,7 @@ public class StageSystem : MonoBehaviour
     {
         var data = Global.FromJson<STAGE_INFO>( _packet );
 
-        var node = FindStageInfoNode( data.uid );
+        var node = FindStageInfoNode( data.serial );
         if ( node == null )
              return;
 
