@@ -21,7 +21,8 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private bool isAllowKeyHold;
 
-    private Player parent = null;
+    private Character owner;
+    private ActionReceiver receiver;
 
     #region Unity Callback
     private void Start()
@@ -33,21 +34,27 @@ public class Weapon : MonoBehaviour
 
         ammo.SetMax();
         magazine.SetMax();
-
-        parent.OnAttackPressEvent += OnAttackPress;
-        parent.OnReloadEvent += OnReload;
     }
 
     private void OnEnable()
     {
-        parent = GetComponentInParent<Player>();
+        owner = GetComponentInParent<Character>();
+        receiver = GetComponentInParent<ActionReceiver>();
+        receiver.OnAttackPressEvent += OnAttackPress;
+        receiver.OnReloadEvent += OnReload;
+    }
+
+    private void OnDisable()
+    {
+        receiver.OnAttackPressEvent -= OnAttackPress;
+        receiver.OnReloadEvent -= OnReload;
     }
 
     private void Update()
     {
         repeatDelay.Current -= Time.deltaTime;
         reloadDelay.Current -= Time.deltaTime;
-        if ( isAllowKeyHold && parent.IsAttackHolded && repeatDelay.IsZero() && reloadDelay.IsZero() )
+        if ( isAllowKeyHold && receiver.IsAttackHolded && repeatDelay.IsZero() && reloadDelay.IsZero() )
         {
             Fire();
         }
@@ -68,7 +75,7 @@ public class Weapon : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 
         Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
-        bullet.owner = parent;
+        bullet.owner = owner;
         bullet.targetLayer = Global.LayerValue.Enemy | Global.LayerValue.Misc;
         bullet.transform.position = shotPoint.position;
 

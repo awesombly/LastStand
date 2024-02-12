@@ -8,19 +8,12 @@ using UnityEngine.InputSystem;
 public class Player : Character
 {
     public Vector2 Direction { get; private set; }
-    public bool IsAttackHolded { get; private set; }
-
-    private Vector2 inputVector;
     private Vector2 prevPosition;
 
     public Rigidbody2D Rigid2D { get; private set; }
     private SpriteRenderer spriter;
     private Animator animator;
-
-    public Action<InputValue> OnMoveEvent;
-    public Action OnAttackPressEvent;
-    public Action OnAttackReleaseEvent;
-    public Action OnReloadEvent;
+    private ActionReceiver receiver;
 
     #region Unity Callback
     protected override void Awake()
@@ -29,6 +22,7 @@ public class Player : Character
         Rigid2D = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        receiver = GetComponent<ActionReceiver>();
     }
 
     private void Start()
@@ -38,7 +32,7 @@ public class Player : Character
 
     private void FixedUpdate()
     {
-        Vector2 delta = inputVector * data.moveSpeed * Time.fixedDeltaTime;
+        Vector2 delta = receiver.InputVector * data.moveSpeed * Time.fixedDeltaTime;
         Rigid2D.MovePosition( Rigid2D.position + delta );
 
         Direction = ( Rigid2D.position - prevPosition ).normalized;
@@ -47,6 +41,8 @@ public class Player : Character
 
     private void LateUpdate()
     {
+        Vector2 inputVector = receiver.InputVector;
+
         animator.SetFloat( "MoveSpeed", inputVector.sqrMagnitude );
 
         if ( inputVector.x != 0f )
@@ -61,30 +57,4 @@ public class Player : Character
         Debug.Log( "Player dead." );
         Hp = data.maxHp;
     }
-
-    #region InputSystem Callback
-    private void OnMove( InputValue _value )
-    {
-        inputVector = _value.Get<Vector2>();
-
-        OnMoveEvent?.Invoke( _value );
-    }
-
-    private void OnAttackPress()
-    {
-        IsAttackHolded = true;
-        OnAttackPressEvent?.Invoke();
-    }
-
-    private void OnAttackRelease()
-    {
-        IsAttackHolded = false;
-        OnAttackReleaseEvent?.Invoke();
-    }
-
-    private void OnReload()
-    {
-        OnReloadEvent?.Invoke();
-    }
-    #endregion
 }
