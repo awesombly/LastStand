@@ -2,7 +2,6 @@ using Newtonsoft.Json;
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [StructLayout( LayoutKind.Sequential, Pack = 1 )]
 public struct Packet
@@ -24,7 +23,7 @@ public struct Packet
     {
         type = _type;
         data = System.Text.Encoding.UTF8.GetBytes( JsonConvert.SerializeObject( _protocol ) );
-        size = data.Length > 2 ? ( ushort )( data.Length + Global.HeaderSize ) // 정상적인 프로토콜
-                               : ( ushort )Global.HeaderSize; // 빈 프로토콜인데 JSON 변환시 {} 2문자만 들어감
+        size = data.Length > 2 ? ( ushort )( data.Length + Global.HeaderSize ) // 정상 패킷
+                               : ( ushort )Global.HeaderSize;                  // 빈 패킷은 JSON 변환시 {} 2문자만 들어감
     }
 }

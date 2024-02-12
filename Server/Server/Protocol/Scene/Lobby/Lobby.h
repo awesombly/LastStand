@@ -20,15 +20,3 @@ private:
 public:
 	virtual void Bind() override;
 };
-
-typedef struct LobbyInfo
-{
-public:
-	std::list<ROOM_INFO> infos;
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( infos ) );
-	}
-} LOBBY_INFO;

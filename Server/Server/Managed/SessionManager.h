@@ -19,9 +19,12 @@ public:
 	void ConfirmDisconnect();
 
 public:
-	void Send( const SOCKET& _socket, const UPacket& _packet ) const;
 	Session* Find( const SOCKET& _socket ) const;
 	std::unordered_map<SOCKET, Session*> GetSessions() const;
+
+	void Send( const SOCKET& _socket, const UPacket& _packet ) const;
+	void Broadcast( const SOCKET& _socket, const UPacket& _packet ) const;
+	void BroadcastWithoutSelf( const SOCKET& _socket, const UPacket& _packet ) const;
 
 public:
 	void Push( Session* _session );

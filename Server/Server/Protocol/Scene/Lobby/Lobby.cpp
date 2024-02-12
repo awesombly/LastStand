@@ -4,7 +4,7 @@
 
 u_short Lobby::RoomUID = 0;
 std::list<Room*> Lobby::rooms;
-std::list<RoomInfo> Lobby::infos;
+std::list<ROOM_INFO> Lobby::infos;
 
 void Lobby::Bind()
 {
@@ -19,7 +19,7 @@ void Lobby::CreateRoom( const Packet& _packet )
 	confirm.isCompleted = data.title.size() > 0;
 	if ( confirm.isCompleted )
 	{
-		RoomInfo roomData;
+		ROOM_INFO roomData;
 		roomData.uid       = RoomUID++;
 		roomData.title     = data.title;
 		roomData.personnel.maximum = data.personnel.maximum;
@@ -27,6 +27,8 @@ void Lobby::CreateRoom( const Packet& _packet )
 
 		rooms.push_back( new Room( _packet.socket, roomData ) );
 		infos.push_back( roomData );
+
+		SessionManager::Inst().BroadcastWithoutSelf( _packet.socket, UPacket( INSERT_ROOM_INFO, confirm ) );
 	}
 
 	SessionManager::Inst().Send( _packet.socket, UPacket( CREATE_ROOM_ACK, confirm ) );

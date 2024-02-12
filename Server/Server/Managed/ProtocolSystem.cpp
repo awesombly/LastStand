@@ -44,7 +44,6 @@ void ProtocolSystem::Process( const Packet& _packet )
 
 void ProtocolSystem::Regist( const PacketType& _type, void( *_func )( const Packet& ) )
 {
-	//u_short type = _protocol.GetPacketType();
 	if ( protocols.contains( _type ) )
 	{
 		std::cout << "The protocol is duplicated" << std::endl;

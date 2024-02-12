@@ -50,18 +50,6 @@ void SessionManager::ConfirmDisconnect()
 	}
 }
 
-void SessionManager::Send( const SOCKET& _socket, const UPacket& _packet ) const
-{
-	Session* session = Find( _socket );
-	if ( session == nullptr )
-	{
-		std::cout << "The session was not found" << std::endl;
-		return;
-	}
-
-	session->Send( _packet );
-}
-
 Session* SessionManager::Find( const SOCKET& _socket ) const
 {
 	const auto& iter = sessions.find( _socket );
@@ -100,5 +88,36 @@ void SessionManager::Erase( Session* _session )
 		_session->ClosedSocket();
 		Global::Memory::SafeDelete( _session );
 		sessions.erase( socket );
+	}
+}
+
+void SessionManager::Send( const SOCKET& _socket, const UPacket& _packet ) const
+{
+	Session* session = Find( _socket );
+	if ( session == nullptr )
+	{
+		std::cout << "The session was not found" << std::endl;
+		return;
+	}
+
+	session->Send( _packet );
+}
+
+void SessionManager::Broadcast( const SOCKET& _socket, const UPacket& _packet ) const
+{
+	for ( const std::pair<SOCKET, Session*>& pair : sessions )
+	{
+		Session* session = pair.second;
+		session->Send( _packet );
+	}
+}
+
+void SessionManager::BroadcastWithoutSelf( const SOCKET& _socket, const UPacket& _packet ) const
+{
+	for ( const std::pair<SOCKET, Session*>& pair : sessions )
+	{
+		Session* session = pair.second;
+		if ( session->GetSocket() != _socket )
+			 session->Send( _packet );
 	}
 }
