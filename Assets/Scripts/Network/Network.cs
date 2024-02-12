@@ -12,25 +12,28 @@ public class Network : Singleton<Network>
 {
     public enum IpType { NONE/* 콜백 주소 */, WNS, TAE, }
     public IpType ip = IpType.NONE;
-    private string Ip;
 
+    private Socket       socket;
+    private string       Ip;
     private const int    Port           = 10000;
     private const ushort MaxReceiveSize = 10000;
-
-    private Socket socket;
-    SocketAsyncEventArgs connectArgs;
-    SocketAsyncEventArgs recvArgs;
-    SocketAsyncEventArgs sendArgs;
 
     // Receive
     private byte[] buffer = new byte[MaxReceiveSize];
     private int startPos, writePos, readPos;
     private Packet packet;
-    
-    public bool IsConnected => isConnected;
+
+    // Connect
+    public  bool IsConnected => isConnected;
     private bool isConnected;
     private bool shouldReconnect;
     private readonly float ReconnectDelay = 3f;
+
+    public event Action OnConnected, OnReconnected, OnDisconnected;
+
+    private SocketAsyncEventArgs connectArgs;
+    private SocketAsyncEventArgs recvArgs;
+    private SocketAsyncEventArgs sendArgs;
 
     private double LastResponseTime => ( DateTime.Now.TimeOfDay.TotalSeconds - lastResponseSystemTime );
     private double lastResponseSystemTime;
@@ -90,6 +93,9 @@ public class Network : Singleton<Network>
         {
             Debug.Log( $"Server connection completed" );
             
+            if ( shouldReconnect ) OnReconnected?.Invoke();
+            else                   OnConnected?.Invoke();
+
             lastResponseSystemTime = DateTime.Now.TimeOfDay.TotalSeconds;
             shouldReconnect = false;
             isConnected     = true;
@@ -205,6 +211,8 @@ public class Network : Singleton<Network>
 
             if ( LastResponseTime > ResponseTimeout )
             {
+                OnDisconnected?.Invoke();
+
                 isConnected     = false;
                 shouldReconnect = false;
                 Release();
