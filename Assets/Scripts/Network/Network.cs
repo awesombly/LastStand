@@ -6,10 +6,15 @@ using System.Threading;
 using UnityEngine;
 
 using static PacketType;
+
+
 public class Network : Singleton<Network>
 {
+    public enum IpType { NONE/* 妮归 林家 */, WNS, TAE, }
+    public IpType ip = IpType.NONE;
+    private string Ip;
+
     private const int    Port           = 10000;
-    private const string Ip             = "114.199.144.213"; // 妮归 林家
     private const ushort MaxReceiveSize = 10000;
 
     private Socket socket;
@@ -34,6 +39,10 @@ public class Network : Singleton<Network>
     protected override void Awake()
     {
         base.Awake();
+        
+       Ip = ip == IpType.WNS ? "114.199.144.213" :
+            ip == IpType.TAE ? "49.142.77.208"   :
+                               "127.0.0.1";
 
         StartCoroutine( ConfirmDisconnect() );
         StartCoroutine( ReconnectProcess() );
@@ -65,6 +74,7 @@ public class Network : Singleton<Network>
         socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
         socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.DontLinger, true );
         socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.Linger,     false );
+
         IPEndPoint point = new IPEndPoint( IPAddress.Parse( Ip ), Port );
 
         connectArgs = new SocketAsyncEventArgs();
