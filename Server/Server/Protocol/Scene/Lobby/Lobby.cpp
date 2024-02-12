@@ -28,7 +28,7 @@ void Lobby::CreateRoom( const Packet& _packet )
 		rooms.push_back( new Room( _packet.socket, roomData ) );
 		infos.push_back( roomData );
 
-		SessionManager::Inst().BroadcastWithoutSelf( _packet.socket, UPacket( INSERT_ROOM_INFO, confirm ) );
+		SessionManager::Inst().Broadcast( _packet.socket, UPacket( INSERT_ROOM_INFO, roomData ) );
 	}
 
 	SessionManager::Inst().Send( _packet.socket, UPacket( CREATE_ROOM_ACK, confirm ) );

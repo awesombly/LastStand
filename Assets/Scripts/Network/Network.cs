@@ -9,7 +9,7 @@ using static PacketType;
 public class Network : Singleton<Network>
 {
     private const int    Port           = 10000;
-    private const string Ip             = "127.0.0.1"; // 妮归 林家
+    private const string Ip             = "114.199.144.213"; // 妮归 林家
     private const ushort MaxReceiveSize = 10000;
 
     private Socket socket;

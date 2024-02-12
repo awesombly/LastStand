@@ -71,6 +71,7 @@
     </ClCompile>
     <ClCompile Include="Protocol\Scene\Lobby\Lobby.cpp" />
     <ClCompile Include="Protocol\Scene\Lobby\Room.cpp" />
+    <ClCompile Include="Protocol\Scene\InGame\InGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global\Header.h">
@@ -123,5 +124,6 @@
     </ClInclude>
     <ClInclude Include="Protocol\Scene\Lobby\Lobby.h" />
     <ClInclude Include="Protocol\Scene\Lobby\Room.h" />
+    <ClInclude Include="Protocol\Scene\InGame\InGame.h" />
   </ItemGroup>
 </Project>

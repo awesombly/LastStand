@@ -153,6 +153,7 @@
     <ClInclude Include="Global\Global.hpp" />
     <ClInclude Include="Global\Header.h" />
     <ClInclude Include="Global\Singleton.hpp" />
+    <ClInclude Include="Protocol\Scene\InGame\InGame.h" />
     <ClInclude Include="Protocol\Scene\Lobby\Lobby.h" />
     <ClInclude Include="Managed\IOCP.h" />
     <ClInclude Include="Managed\PacketSystem.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="Connect\Acceptor.cpp" />
     <ClCompile Include="Connect\Session.cpp" />
     <ClCompile Include="Database\Database.cpp" />
+    <ClCompile Include="Protocol\Scene\InGame\InGame.cpp" />
     <ClCompile Include="Protocol\Scene\Lobby\Lobby.cpp" />
     <ClCompile Include="Managed\IOCP.cpp" />
     <ClCompile Include="Managed\PacketSystem.cpp" />

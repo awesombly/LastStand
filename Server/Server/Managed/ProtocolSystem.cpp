@@ -2,6 +2,7 @@
 #include "SessionManager.h"
 #include "Protocol/Scene/Login.h"
 #include "Protocol/Scene/Lobby/Lobby.h"
+#include "Protocol/Scene/InGame/InGame.h"
 
 ProtocolSystem::~ProtocolSystem()
 {
@@ -13,6 +14,7 @@ void ProtocolSystem::Initialize()
 {
 	scenes.push_back( new Login() );
 	scenes.push_back( new Lobby() );
+	scenes.push_back( new InGame() );
 
 	Bind();
 	std::cout << "Function binding completed for packet processing" << std::endl;
