@@ -12,6 +12,7 @@ SessionManager::~SessionManager()
 	sessions.clear();
 }
 
+#pragma region Default
 bool SessionManager::Initialize()
 {
 	std::cout << "Create thread for unresponsive session processing" << std::endl;
@@ -50,24 +51,24 @@ void SessionManager::ConfirmDisconnect()
 	}
 }
 
-Session* SessionManager::Find( const SOCKET& _socket ) const
+void SessionManager::Send( const SOCKET& _socket, const UPacket& _packet ) const
 {
-	const auto& iter = sessions.find( _socket );
-	if ( iter == std::cend( sessions ) )
-		 return nullptr;
+	Session* session = Find( _socket );
+	if ( session == nullptr )
+	{
+		std::cout << "The session was not found" << std::endl;
+		return;
+	}
 
-	return iter->second;
+	session->Send( _packet );
 }
+#pragma endregion
 
-std::unordered_map<SOCKET, Session*> SessionManager::GetSessions() const
-{
-	return sessions;
-}
-
+#pragma region Full Management
 void SessionManager::Push( Session* _session )
 {
 	if ( _session == nullptr )
-	 	 return;
+		return;
 
 	std::cout << "Register a new session( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
@@ -79,7 +80,7 @@ void SessionManager::Push( Session* _session )
 void SessionManager::Erase( Session* _session )
 {
 	if ( _session == nullptr )
-		 return;
+		return;
 
 	std::cout << "The session has left( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
@@ -91,16 +92,13 @@ void SessionManager::Erase( Session* _session )
 	}
 }
 
-void SessionManager::Send( const SOCKET& _socket, const UPacket& _packet ) const
+Session* SessionManager::Find( const SOCKET& _socket ) const
 {
-	Session* session = Find( _socket );
-	if ( session == nullptr )
-	{
-		std::cout << "The session was not found" << std::endl;
-		return;
-	}
+	const auto& iter = sessions.find( _socket );
+	if ( iter == std::cend( sessions ) )
+		 return nullptr;
 
-	session->Send( _packet );
+	return iter->second;
 }
 
 void SessionManager::Broadcast( const UPacket& _packet ) const
@@ -118,6 +116,47 @@ void SessionManager::BroadcastWithoutSelf( const SOCKET& _socket, const UPacket&
 	{
 		Session* session = pair.second;
 		if ( session->GetSocket() != _socket )
-			 session->Send( _packet );
+			session->Send( _packet );
 	}
 }
+
+std::unordered_map<SOCKET, Session*> SessionManager::GetSessions() const
+{
+	return sessions;
+}
+#pragma endregion
+
+#pragma region Stage Management
+void SessionManager::CreateStage( const SOCKET& _host, const STAGE_INFO& _info )
+{
+	if ( stages.contains( _info.serial ) )
+	{
+		std::cout << " The stage already exists" << std::endl;
+	}
+
+	Session* host = SessionManager::Inst().Find( _host );
+	std::cout << "Create a new Stage( " << host->GetPort() << ", " << host->GetAddress() << " )" << std::endl;
+	std::lock_guard<std::mutex> lock( mtx );
+	{
+		stages[_info.serial] = new Stage( _host, _info );
+	}
+}
+
+void SessionManager::EntryStage( const SOCKET& _session, const STAGE_INFO& _info )
+{
+	if ( !stages.contains( _info.serial ) )
+	{
+		std::cout << "This stage does not exist" << std::endl;
+		return;
+	}
+
+	Session* session = Find( _session );
+	std::cout << "The session has entered Stage " << _info.serial << "( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
+	stages[_info.serial]->Entry( session );
+}
+
+std::unordered_map<SerialType, Stage*> SessionManager::GetStages() const
+{
+	return stages;
+}
+#pragma endregion

@@ -1,12 +1,12 @@
 #include "Lobby.h"
-#include "Managed/ProtocolSystem.h"
-#include "Managed/SessionManager.h"
-#include "Managed/StageManager.h"
+#include "Management/ProtocolSystem.h"
+#include "Management/SessionManager.h"
 
 void Lobby::Bind()
 {
 	ProtocolSystem::Inst().Regist( CREATE_STAGE_REQ, CreateStage );
 	ProtocolSystem::Inst().Regist( LOBBY_INFO_REQ,   TakeLobbyInfo );
+	ProtocolSystem::Inst().Regist( ENTRY_STAGE_REQ,  EntryStage );
 }
 
 void Lobby::CreateStage( const Packet& _packet )
@@ -22,7 +22,7 @@ void Lobby::CreateStage( const Packet& _packet )
 		stageData.personnel.maximum = data.personnel.maximum;
 		stageData.personnel.current = 1;
 
-		StageManager::Inst().CreateStage( _packet.socket, stageData );
+		SessionManager::Inst().CreateStage( _packet.socket, stageData );
 		
 		SessionManager::Inst().Broadcast( UPacket( INSERT_STAGE_INFO, stageData ) );
 	}
@@ -32,9 +32,17 @@ void Lobby::CreateStage( const Packet& _packet )
 
 void Lobby::TakeLobbyInfo( const Packet& _packet )
 {
-	for ( const std::pair<SerialType, Stage*>& pair : StageManager::Inst().GetStages() )
+	for ( const std::pair<SerialType, Stage*>& pair : SessionManager::Inst().GetStages() )
 	{
 		SessionManager::Inst().Send( _packet.socket, UPacket( LOBBY_INFO_ACK, pair.second->GetInfo() ) );
 		::Sleep( 1 );
 	}
+}
+
+void Lobby::EntryStage( const Packet& _packet )
+{
+	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
+	
+	// 바뀐 스테이지
+	SessionManager::Inst().EntryStage( _packet.socket, data );
 }

@@ -18,6 +18,8 @@ private:
 	byte buffer[MaxReceiveSize];
 	u_int startPos, writePos, readPos;
 
+	LOGIN_INFO loginInfo;
+
 public:
 	Session() = default;
 	Session( const SOCKET& _socket, const SOCKADDR_IN& _address );
@@ -28,7 +30,5 @@ private:
 
 public:
 	bool CheckAlive();
-
-public:
 	void Dispatch( const LPOVERLAPPED& _ov, DWORD _size );
 };

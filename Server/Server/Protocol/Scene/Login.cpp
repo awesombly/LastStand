@@ -1,5 +1,5 @@
 #include "Login.h"
-#include "Managed/SessionManager.h"
+#include "Management/SessionManager.h"
 #include <Database/Database.h>
 
 void Login::Bind()

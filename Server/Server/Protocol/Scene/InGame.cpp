@@ -1,5 +1,5 @@
 #include "InGame.h"
-#include "Managed/SessionManager.h"
+#include "Management/SessionManager.h"
 
 void InGame::Bind()
 {

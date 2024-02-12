@@ -1,7 +1,7 @@
 #include "Server.h"
-#include "Managed/IOCP.h"
-#include "Managed/PacketSystem.h"
-#include "Managed/SessionManager.h"
+#include "Management/IOCP.h"
+#include "Management/PacketSystem.h"
+#include "Management/SessionManager.h"
 #include "Database/Database.h"
 
 Server::Server()

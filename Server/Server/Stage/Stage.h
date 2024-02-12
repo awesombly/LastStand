@@ -13,5 +13,8 @@ public:
 	virtual ~Stage() = default;
 
 public:
+	void Entry( Session* _session );
+
+public:
 	const STAGE_INFO& GetInfo() const;
 };

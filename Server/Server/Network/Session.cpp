@@ -1,5 +1,5 @@
 #include "Session.h"
-#include "Managed/PacketSystem.h"
+#include "Management/PacketSystem.h"
 
 const int   Session::MaxUnresponse       = 10;
 const float Session::MinResponseWaitTime = 10.0f;
