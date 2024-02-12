@@ -1,20 +1,20 @@
 #pragma once
 #include "Managed/ProtocolSystem.h"
-#include "Room.h"
+#include "Stage/Stage.h"
 
 class Lobby : public IScene
 {
 private:
-	static u_short RoomUID;
-	static std::list<Room*> rooms;
-	static std::list<RoomInfo> infos;
+	static u_short StageUID;
+	static std::list<Stage*> stages;
+	static std::list<STAGE_INFO> infos;
 
 public:
 	Lobby()          = default;
 	virtual ~Lobby() = default;
 
 private:
-	static void CreateRoom( const Packet& _packet );
+	static void CreateStage( const Packet& _packet );
 	static void TakeLobbyInfo( const Packet& _packet );
 
 public:

@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 12988610}
   - component: {fileID: 12988613}
   m_Layer: 5
-  m_Name: Cteate Room
+  m_Name: Cteate Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,8 +417,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: RoomSystem, Assembly-CSharp
-        m_MethodName: ShowCreateRoomPanel
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+        m_MethodName: ShowCreateStagePanel
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -608,8 +608,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: RoomSystem, Assembly-CSharp
-        m_MethodName: ShowCreateRoomPanel
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+        m_MethodName: ShowCreateStagePanel
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -991,7 +991,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC785\uC7A5"
+  m_text: "\uC0DD\uC131"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28245597d40653b40988cb8d080c074e, type: 2}
   m_sharedMaterial: {fileID: 6894193451600055778, guid: 28245597d40653b40988cb8d080c074e, type: 2}
@@ -1691,7 +1691,7 @@ GameObject:
   - component: {fileID: 633061485}
   - component: {fileID: 633061484}
   m_Layer: 5
-  m_Name: Create Room
+  m_Name: Create Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2336,6 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dd3b5a969599f4296bf308214d3afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ip: 0
 --- !u!4 &971291470
 Transform:
   m_ObjectHideFlags: 0
@@ -4619,8 +4620,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: RoomSystem, Assembly-CSharp
-        m_MethodName: CreateRoom
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+        m_MethodName: CreateStage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

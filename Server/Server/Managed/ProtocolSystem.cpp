@@ -1,8 +1,8 @@
 #include "ProtocolSystem.h"
 #include "SessionManager.h"
 #include "Protocol/Scene/Login.h"
-#include "Protocol/Scene/Lobby/Lobby.h"
-#include "Protocol/Scene/InGame/InGame.h"
+#include "Protocol/Scene/Lobby.h"
+#include "Protocol/Scene/InGame.h"
 
 ProtocolSystem::~ProtocolSystem()
 {

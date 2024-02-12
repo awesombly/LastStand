@@ -6,28 +6,27 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 
 using static PacketType;
-using Unity.VisualScripting;
 
-public class RoomSystem : MonoBehaviour
+public class StageSystem : MonoBehaviour
 {
     public GameObject canvas;
     public TMP_InputField title;
     public Transform contents;
-    public Room prefab;
+    public Stage prefab;
     
     public List<Outline> personnelOutlines = new List<Outline>();
     private int maxPersonnel;
-    private bool canSendMakeRoom = true;
+    private bool canSendMakeStage = true;
 
-    public LinkedList<Room> rooms = new LinkedList<Room>();
+    public LinkedList<Stage> stages = new LinkedList<Stage>();
 
     private void Awake()
     {
         ProtocolSystem.Inst.Regist( LOBBY_INFO_ACK,   AckLobbyInfo );
-        ProtocolSystem.Inst.Regist( CREATE_ROOM_ACK,  AckCreateRoom );
-        ProtocolSystem.Inst.Regist( UPDATE_ROOM_INFO, AckUpdateRoomInfo );
-        ProtocolSystem.Inst.Regist( INSERT_ROOM_INFO, AckInsertRoomInfo );
-        ProtocolSystem.Inst.Regist( DELETE_ROOM_INFO, AckDeleteRoomInfo );
+        ProtocolSystem.Inst.Regist( CREATE_STAGE_ACK,  AckCreateStage );
+        ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
+        ProtocolSystem.Inst.Regist( INSERT_STAGE_INFO, AckInsertStageInfo );
+        ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
     }
 
     private void Start()
@@ -39,7 +38,7 @@ public class RoomSystem : MonoBehaviour
     }
 
     #region Button Events
-    public void ShowCreateRoomPanel( bool _active )
+    public void ShowCreateStagePanel( bool _active )
     {
         if ( _active )
         {
@@ -67,25 +66,25 @@ public class RoomSystem : MonoBehaviour
         }
     }
 
-    public void CreateRoom()
+    public void CreateStage()
     {
-        if ( !canSendMakeRoom )
+        if ( !canSendMakeStage )
              return;
 
-        canSendMakeRoom = false;
-        ROOM_INFO protocol;
+        canSendMakeStage = false;
+        STAGE_INFO protocol;
         protocol.uid       = 0;
         protocol.title     = title.text;
         protocol.personnel = new Personnel { current = 0, maximum = maxPersonnel };
         
-        Network.Inst.Send( new Packet( CREATE_ROOM_REQ, protocol ) );
+        Network.Inst.Send( new Packet( CREATE_STAGE_REQ, protocol ) );
     }
     #endregion
 
     #region Protocols
-    private void AckCreateRoom( Packet _packet )
+    private void AckCreateStage( Packet _packet )
     {
-        canSendMakeRoom = true;
+        canSendMakeStage = true;
         var data = Global.FromJson<CONFIRM>( _packet );
         if ( data.isCompleted )
         {
@@ -104,55 +103,55 @@ public class RoomSystem : MonoBehaviour
         foreach ( var info in data.infos )
         {
             // 풀링하기
-            Room room = Instantiate( prefab, contents );
-            room.Initialize( info );
+            Stage stage = Instantiate( prefab, contents );
+            stage.Initialize( info );
 
-            rooms.AddLast( room );
+            stages.AddLast( stage );
         }
     }
 
-    private LinkedListNode<Room> FindRoomInfoNode( ushort _uid )
+    private LinkedListNode<Stage> FindStageInfoNode( ushort _uid )
     {
-        for ( var node = rooms.First; node != null; node = node.Next )
+        for ( var node = stages.First; node != null; node = node.Next )
         {
-            var room = node.Value;
-            if ( room.info.uid == _uid )
+            var stage = node.Value;
+            if ( stage.info.uid == _uid )
                  return node;
         }
 
         return null;
     }
 
-    #region Update Room Info
-    private void AckUpdateRoomInfo( Packet _packet )
+    #region Update Stage Info
+    private void AckUpdateStageInfo( Packet _packet )
     {
-        var data = Global.FromJson<ROOM_INFO>( _packet );
+        var data = Global.FromJson<STAGE_INFO>( _packet );
 
-        var node = FindRoomInfoNode( data.uid );
+        var node = FindStageInfoNode( data.uid );
         if ( node == null )
              return;
 
         node.Value.Initialize( data );
     }
 
-    private void AckInsertRoomInfo( Packet _packet )
+    private void AckInsertStageInfo( Packet _packet )
     {
-        var data = Global.FromJson<ROOM_INFO>( _packet );
-        Room newRoom = Instantiate( prefab, contents );
-        newRoom.Initialize( data );
+        var data = Global.FromJson<STAGE_INFO>( _packet );
+        Stage newStage = Instantiate( prefab, contents );
+        newStage.Initialize( data );
 
-        rooms.AddLast( newRoom );
+        stages.AddLast( newStage );
     }
 
-    private void AckDeleteRoomInfo( Packet _packet )
+    private void AckDeleteStageInfo( Packet _packet )
     {
-        var data = Global.FromJson<ROOM_INFO>( _packet );
+        var data = Global.FromJson<STAGE_INFO>( _packet );
 
-        var node = FindRoomInfoNode( data.uid );
+        var node = FindStageInfoNode( data.uid );
         if ( node == null )
              return;
 
-        rooms.Remove( node );
+        stages.Remove( node );
     }
     #endregion
     #endregion

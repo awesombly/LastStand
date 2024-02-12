@@ -17,19 +17,61 @@ enum PacketType : u_short
 	LOBBY_INFO_REQ = 2000,         // 로비 정보 요청
 	LOBBY_INFO_ACK,                // 로비 정보 응답
 
-	CREATE_ROOM_REQ = 3000,        // 방 생성 요청
-	CREATE_ROOM_ACK,               // 방 생성 응답
-	UPDATE_ROOM_INFO,              // 방 정보가 갱신됨
-	INSERT_ROOM_INFO,              // 방 정보가 추가됨
-	DELETE_ROOM_INFO,              // 방 정보가 삭제됨
-	ENTRY_ROOM_REQ,                // 방 입장 요청
-	ENTRY_ROOM_ACK,                // 방 입장 응답
-	EXIT_ROOM_REQ,                 // 방 퇴장 요청
-	EXIT_ROOM_ACK,                 // 방 퇴장 응답
+	CREATE_STAGE_REQ = 3000,       // 방 생성 요청
+	CREATE_STAGE_ACK,              // 방 생성 응답
+	UPDATE_STAGE_INFO,             // 방 정보가 갱신됨
+	INSERT_STAGE_INFO,             // 방 정보가 추가됨
+	DELETE_STAGE_INFO,             // 방 정보가 삭제됨
+	ENTRY_STAGE_REQ,               // 방 입장 요청
+	ENTRY_STAGE_ACK,               // 방 입장 응답
+	EXIT_STAGE_REQ,                // 방 퇴장 요청
+	EXIT_STAGE_ACK,                // 방 퇴장 응답
 
 	SPAWN_ENEMY_REQ = 5000,       // 적 스폰 요청
 	SPAWN_ENEMY_ACK,              // 적 스폰 응답
 };
+
+typedef struct Vector2
+{
+public:
+	float x, y;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( x ) );
+		ar( CEREAL_NVP( y ) );
+	}
+} VECTOR2;
+
+typedef struct Vector3
+{
+public:
+	float x, y, z;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( x ) );
+		ar( CEREAL_NVP( y ) );
+		ar( CEREAL_NVP( z ) );
+	}
+} VECTOR3;
+
+typedef struct Vector4
+{
+public:
+	float x, y, z, w;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( x ) );
+		ar( CEREAL_NVP( y ) );
+		ar( CEREAL_NVP( z ) );
+		ar( CEREAL_NVP( w ) );
+	}
+} Quaternion, QUATERNION, Quaternion;
 
 typedef struct EmptyProtocol
 {
@@ -93,7 +135,7 @@ public:
 		ar( CEREAL_NVP( maximum ) );
 	}
 };
-typedef struct RoomInfo
+typedef struct StageInfo
 {
 public:
 	u_short uid;
@@ -101,8 +143,8 @@ public:
 	Personnel personnel;
 
 public:
-	RoomInfo() = default;
-	RoomInfo( u_short _uid, const std::string& _title, Personnel _personnel ) :
+	StageInfo() = default;
+	StageInfo( u_short _uid, const std::string& _title, Personnel _personnel ) :
 		      uid( _uid ), title( _title ), personnel( _personnel ) { }
 
 public:
@@ -113,12 +155,12 @@ public:
 		ar( CEREAL_NVP( title ) );
 		ar( CEREAL_NVP( personnel ) );
 	}
-} ROOM_INFO;
+} STAGE_INFO;
 
 typedef struct LobbyInfo
 {
 public:
-	std::list<ROOM_INFO> infos;
+	std::list<STAGE_INFO> infos;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -144,3 +186,19 @@ public:
 		ar(CEREAL_NVP(y));
 	}
 } SPAWN_ENEMY;
+
+typedef struct ActorInfo
+{
+public:
+	u_int serial;
+	Vector3 position;
+	Vector4 rotation;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( position ) );
+		ar( CEREAL_NVP( rotation ) );
+	}
+} ACTOR_INFO;

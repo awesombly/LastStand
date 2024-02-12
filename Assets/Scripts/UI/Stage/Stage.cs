@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Room : MonoBehaviour
+public class Stage : MonoBehaviour
 {
     public TextMeshProUGUI title;
     public TextMeshProUGUI curPersonnel;
     public TextMeshProUGUI maxPersonnel;
 
-    public ROOM_INFO info;
+    public STAGE_INFO info;
 
-    public void Initialize( ROOM_INFO _info )
+    public void Initialize( STAGE_INFO _info )
     {
         info = _info;
 
