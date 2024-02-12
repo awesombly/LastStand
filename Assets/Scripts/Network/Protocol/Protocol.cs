@@ -28,6 +28,9 @@ public enum PacketType : ushort
     ENTRY_ROOM_ACK,                // 방 입장 응답
     EXIT_ROOM_REQ,                 // 방 퇴장 요청
     EXIT_ROOM_ACK,                 // 방 퇴장 응답
+
+    SPAWN_ENEMY_REQ = 5000,       // 적 스폰 요청
+    SPAWN_ENEMY_ACK,              // 적 스폰 응답
 };
 
 public interface IProtocol { }
@@ -54,4 +57,12 @@ public struct LOGIN_INFO : IProtocol
 public struct LOBBY_INFO : IProtocol
 {
     public List<ROOM_INFO> infos;
+}
+
+public struct SPAWN_ENEMY : IProtocol
+{
+    public int prefab;
+    public int serial;
+    public float x;
+    public float y;
 }

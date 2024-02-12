@@ -5,6 +5,9 @@ using UnityEngine.Pool;
 
 public class PoolObject : MonoBehaviour
 {
+    public uint serial;
+    public bool isLocal = false;
+
     private IObjectPool<PoolObject> parentPool = null;
 
     public void Release()

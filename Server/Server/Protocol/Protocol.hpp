@@ -26,6 +26,9 @@ enum PacketType : u_short
 	ENTRY_ROOM_ACK,                // 방 입장 응답
 	EXIT_ROOM_REQ,                 // 방 퇴장 요청
 	EXIT_ROOM_ACK,                 // 방 퇴장 응답
+
+	SPAWN_ENEMY_REQ = 5000,       // 적 스폰 요청
+	SPAWN_ENEMY_ACK,              // 적 스폰 응답
 };
 
 typedef struct EmptyProtocol
@@ -123,3 +126,21 @@ public:
 		ar( CEREAL_NVP( infos ) );
 	}
 } LOBBY_INFO;
+
+typedef struct SpawnEnemy
+{
+public:
+	int prefab;
+	u_int serial;
+	float x;
+	float y;
+
+	template <class Archive>
+	void serialize(Archive& ar)
+	{
+		ar(CEREAL_NVP(prefab));
+		ar(CEREAL_NVP(serial));
+		ar(CEREAL_NVP(x));
+		ar(CEREAL_NVP(y));
+	}
+} SPAWN_ENEMY;

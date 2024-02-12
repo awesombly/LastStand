@@ -848,7 +848,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758d9a52b4a9a77438c44202660a55ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 253016587}
+  localPlayer: {fileID: 253016587}
+  prefabList:
+  - {fileID: 7487538481690052668, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
+  - {fileID: 4162547336221875147, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
+  - {fileID: 8966967114344492096, guid: f6dd5024449f6c647a9db0050662c174, type: 3}
+  - {fileID: 4868942455987347022, guid: 0121fcecdfc24c648885b38414df8dda, type: 3}
 --- !u!4 &730634671
 Transform:
   m_ObjectHideFlags: 0

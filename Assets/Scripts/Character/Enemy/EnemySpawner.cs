@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        player = GameManager.Inst.player;
+        player = GameManager.Inst.localPlayer;
     }
 
     private void Start()
@@ -34,9 +34,9 @@ public class EnemySpawner : MonoBehaviour
 
     private void Spawn()
     {
-        Enemy obj = PoolManager.Inst.Get( prefabs[Random.Range( 0, prefabs.Count )] ) as Enemy;
-
+        var prefab = prefabs[Random.Range( 0, prefabs.Count )];
         Vector2 delta = new Vector2( Random.Range( -1f, 1f ), Random.Range( -1f, 1f ) ).normalized;
-        obj.Initialize( player.Rigid2D.position + delta * 25f );
+
+        GameManager.Inst.SpawnEnemy( prefab, player.Rigid2D.position + delta * 25f, Quaternion.identity );
     }
 }
