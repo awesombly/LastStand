@@ -5,7 +5,6 @@
 class Lobby : public IScene
 {
 private:
-	static u_short StageUID;
 	static std::list<Stage*> stages;
 	static std::list<STAGE_INFO> infos;
 

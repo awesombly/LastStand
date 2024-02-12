@@ -2,14 +2,13 @@
 #include "Managed/ProtocolSystem.h"
 #include "Managed/SessionManager.h"
 
-u_short Lobby::StageUID = 0;
 std::list<Stage*> Lobby::stages;
 std::list<STAGE_INFO> Lobby::infos;
 
 void Lobby::Bind()
 {
 	ProtocolSystem::Inst().Regist( CREATE_STAGE_REQ, CreateStage );
-	ProtocolSystem::Inst().Regist( LOBBY_INFO_REQ,  TakeLobbyInfo );
+	ProtocolSystem::Inst().Regist( LOBBY_INFO_REQ,   TakeLobbyInfo );
 }
 
 void Lobby::CreateStage( const Packet& _packet )
@@ -20,7 +19,7 @@ void Lobby::CreateStage( const Packet& _packet )
 	if ( confirm.isCompleted )
 	{
 		STAGE_INFO stageData;
-		stageData.uid       = StageUID++;
+		stageData.uid       = Global::GetNewSerial();
 		stageData.title     = data.title;
 		stageData.personnel.maximum = data.personnel.maximum;
 		stageData.personnel.current = 1;

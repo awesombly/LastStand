@@ -1,9 +1,16 @@
 #pragma once
 
+using SerialType = u_int;
 namespace Global 
 {
-	static const u_short HeaderSize        = 4;
-	static const u_short MaxDataSize       = 2048;
+	static const u_short HeaderSize  = 4;
+	static const u_short MaxDataSize = 2048;
+
+	static SerialType GetNewSerial()
+	{
+		static SerialType serial = 0;
+		return serial++;
+	}
 
 	namespace DB
 	{
