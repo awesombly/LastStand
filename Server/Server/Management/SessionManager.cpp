@@ -43,8 +43,9 @@ void SessionManager::ConfirmDisconnect()
 			while ( !unAckSessions.empty() )
 			{
 				Session* session = unAckSessions.front();
-
+					
 				sessions.erase( session->GetSocket() );
+				session->ClosedSocket();
 				Global::Memory::SafeDelete( session );
 				unAckSessions.pop();
 			}
@@ -74,10 +75,11 @@ void SessionManager::Erase( Session* _session )
 	std::cout << "The session has left( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
-		SOCKET socket = _session->GetSocket();
-		_session->ClosedSocket();
-		Global::Memory::SafeDelete( _session );
-		sessions.erase( socket );
+		unAckSessions.push( _session );
+		// SOCKET socket = _session->GetSocket();
+		// _session->ClosedSocket();
+		// Global::Memory::SafeDelete( _session );
+		// sessions.erase( socket );
 	}
 }
 
@@ -142,7 +144,7 @@ void SessionManager::AddStage( Stage* _stage )
 		 return;
 
 	Session* host = _stage->host;
-	std::cout << "Create a new Stage( " << data.serial << " )" << std::endl;
+	std::cout << "\"" << host->loginInfo.nickname << "\" created stage " << data.serial << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
 		stages[data.serial] = _stage;
@@ -161,7 +163,7 @@ void SessionManager::UpdateStage( const SerialType& _serial, Session* _session )
 	}
 
 	Stage* stage = stages[_serial];
-	std::cout << "The session has entered Stage " << _serial << "( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	std::cout << "\"" << _session->loginInfo.nickname << "\" entered stage " << _serial << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
 		stage->Entry( _session );
