@@ -137,39 +137,53 @@ const std::unordered_map<SerialType, Stage*>& SessionManager::GetStages() const
 	return stages;
 }
 
-void SessionManager::AddStage( Stage* _stage )
+void SessionManager::ExitStage( Session* _session, const STAGE_INFO& _info )
 {
-	STAGE_INFO data = _stage->info;
-	if ( stages.contains( data.serial ) )
-		 return;
-
-	Session* host = _stage->host;
-	std::cout << "\"" << host->loginInfo.nickname << "\" created stage " << data.serial << std::endl;
-	std::lock_guard<std::mutex> lock( mtx );
-	{
-		stages[data.serial] = _stage;
-		host->isPlaying = true;
-	}
-
-	BroadcastWaitingRoom( UPacket( INSERT_STAGE_INFO, data ) );
-}
-
-void SessionManager::UpdateStage( const SerialType& _serial, Session* _session )
-{
-	if ( !stages.contains( _serial ) )
+	SerialType serial = _info.serial;
+	if ( !stages.contains( serial ) )
 	{
 		std::cout << "This stage does not exist" << std::endl;
 		return;
 	}
 
-	Stage* stage = stages[_serial];
-	std::cout << "\"" << _session->loginInfo.nickname << "\" entered stage " << _serial << std::endl;
+	std::cout << "\"" << _session->loginInfo.nickname << "\" exit stage " << serial << std::endl;
+	Stage* stage = stages[serial];
 	std::lock_guard<std::mutex> lock( mtx );
 	{
-		stage->Entry( _session );
-		_session->isPlaying = true;
+		if ( !stage->Exit( _session ) )
+		{
+			// 방에 아무도 없을 때
+			Global::Memory::SafeDelete( stage );
+			stages.erase( serial );
+		}
 	}
 
+	_session->isPlaying = false;
+	BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
+}
+
+void SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
+{
+	Stage* stage = nullptr;
+	SerialType serial = _info.serial;
+	if ( !stages.contains( serial ) )
+	{
+		// 방 생성하고 입장
+		std::cout << "\"" << _session->loginInfo.nickname << "\" created stage " << serial << std::endl;
+		std::lock_guard<std::mutex> lock( mtx );
+		stage = new Stage( _session, _info );
+		stages[serial] = stage;
+	}
+	else
+	{
+		// 이미 존재하는 방에 입장
+		stage = stages[serial];
+		std::cout << "\"" << _session->loginInfo.nickname << "\" entered stage " << serial << std::endl;
+		std::lock_guard<std::mutex> lock( mtx );
+		stage->Entry( _session );
+	}
+
+	_session->isPlaying = true;
 	BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
 }
 #pragma endregion

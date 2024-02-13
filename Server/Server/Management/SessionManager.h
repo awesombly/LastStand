@@ -33,7 +33,7 @@ public:
 	std::unordered_map<SOCKET, Session*> GetSessions() const;
 
 	// Stage Management
-	void AddStage( Stage* _stage );
-	void UpdateStage( const SerialType& _serial, Session* _session );
+	void EntryStage( Session* _session, const STAGE_INFO& _serial );
+	void ExitStage( Session* _session, const STAGE_INFO& _serial );
 	const std::unordered_map<SerialType, Stage*>& GetStages() const;
 };

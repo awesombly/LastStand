@@ -3,7 +3,13 @@
 
 void InGame::Bind()
 {
+	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,  AckExitStage );
 	ProtocolSystem::Inst().Regist( SPAWN_ENEMY_REQ, SpawnEnemy );
+}
+
+void InGame::AckExitStage( const Packet& _packet )
+{
+
 }
 
 void InGame::SpawnEnemy( const Packet& _packet )

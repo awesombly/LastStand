@@ -6,14 +6,30 @@ Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _
 	sessions.push_back( host );
 }
 
-void Stage::Entry( Session* _session )
+bool Stage::Entry( Session* _session )
 {
 	if ( sessions.size() + 1 >= Global::MaxStagePersonnel )
 	{
 		std::cout << "The stage is full of people" << std::endl;
-		return;
+		return false;
 	}
 
 	sessions.push_back( _session );
 	info.personnel.current = ( int )sessions.size();
+
+	return true;
+}
+
+bool Stage::Exit( Session* _session )
+{
+	if ( sessions.size() <= 0 )
+		 throw std::exception( "There's no one in the stage" );
+
+	sessions.erase( std::find( sessions.begin(), sessions.end(), _session ) );
+	info.personnel.current = ( int )sessions.size();
+
+	if ( sessions.size() > 0 && host->GetSocket() == _session->GetSocket() )
+		 host = *sessions.begin();
+
+	return sessions.size() <= 0;
 }

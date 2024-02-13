@@ -15,5 +15,6 @@ public:
 	virtual ~Stage() = default;
 
 public:
-	void Entry( Session* _session );
+	bool Entry( Session* _session );
+	bool Exit( Session* _session );
 };

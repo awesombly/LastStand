@@ -24,7 +24,7 @@ void Lobby::AckCreateStage( const Packet& _packet )
 		stageData.personnel.maximum = data.personnel.maximum;
 		stageData.personnel.current = 1;
 
-		SessionManager::Inst().AddStage( new Stage( session, stageData ) );
+		SessionManager::Inst().EntryStage( session, stageData );
 	}
 
 	session->Send( UPacket( CREATE_STAGE_ACK, confirm ) );
@@ -32,8 +32,9 @@ void Lobby::AckCreateStage( const Packet& _packet )
 
 void Lobby::AckEntryStage( const Packet& _packet )
 {
+	Session* session = _packet.session;
 	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
-	SessionManager::Inst().UpdateStage( data.serial, _packet.session );
+	SessionManager::Inst().EntryStage( session, data );
 
 	_packet.session->Send( UPacket( ENTRY_STAGE_ACK, CONFIRM( true ) ) );
 }

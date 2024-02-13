@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static PacketType;
 
 public class GameManager : Singleton<GameManager>
@@ -13,6 +14,20 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         ProtocolSystem.Inst.Regist( SPAWN_ENEMY_ACK, AckSpawnEnemy );
+        ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK,  AckExitStage );
+    }
+
+    private void Update()
+    {
+        if ( Input.GetKeyDown( KeyCode.Escape ) )
+        {
+            Network.Inst.Send( new Packet( EXIT_STAGE_REQ, new EMPTY() ) );
+        }
+    }
+
+    private void AckExitStage( Packet _packet )
+    {
+        SceneManager.LoadScene( "Lobby" );
     }
 
     public void SpawnEnemy( GameObject _prefab, Vector2 _position, Quaternion _rotation )

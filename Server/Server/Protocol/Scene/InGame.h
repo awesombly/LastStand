@@ -9,6 +9,7 @@ public:
 
 private:
 	static void SpawnEnemy( const Packet& _packet );
+	static void AckExitStage( const Packet& _packet );
 
 public:
 	virtual void Bind() override;
