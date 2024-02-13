@@ -13,7 +13,7 @@ public class InGameScene : MonoBehaviour
     private void AckSpawnEnemy( Packet _packet )
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );
-        Enemy enemy = PoolManager.Inst.Get( GameManager.Inst.GetPrefab( data.prefab ) ) as Enemy;
+        Enemy enemy = PoolManager.Inst.Get( data.prefab ) as Enemy;
         enemy.serial = data.serial;
         enemy.Initialize( new Vector3( data.position.x, data.position.y, data.position.z ) );
     }

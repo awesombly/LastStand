@@ -42,6 +42,6 @@ public class EnemySpawner : MonoBehaviour
         protocol.serial = 0;
         protocol.position = new VECTOR3( player.Rigid2D.position + delta * 25f );
         protocol.rotation = new QUATERNION( Quaternion.identity );
-        Network.Inst.Send( new Packet( PacketType.SPAWN_ACTOR_REQ, protocol ) );
+        Network.Inst.Send( PacketType.SPAWN_ACTOR_REQ, protocol );
     }
 }

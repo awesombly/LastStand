@@ -21,6 +21,11 @@ public class PoolManager : Singleton<PoolManager>
         return pools[_prefab].Get();
     }
 
+    public PoolObject Get( int _prefabIndex )
+    {
+        return Get( GameManager.Inst.GetPrefab( _prefabIndex ) );
+    }
+
     private void RegisterObject( GameObject _prefab )
     {
         if ( pools.ContainsKey( _prefab ) )
