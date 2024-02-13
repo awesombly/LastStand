@@ -8,7 +8,7 @@ class Session : public Network
 {
 private:
 	int unresponse;
-	std::chrono::system_clock::time_point lastResponseTime;
+	std::chrono::steady_clock::time_point lastResponseTime;
 
 	static const int   MaxUnresponse;
 	static const float MinResponseWaitTime;
@@ -20,7 +20,6 @@ private:
 	u_int startPos, writePos, readPos;
 
 public:
-	//bool isPlaying;
 	LOGIN_INFO loginInfo;
 	Stage* stage;
 

@@ -16,6 +16,7 @@ bool Stage::Entry( Session* _session )
 
 	sessions.push_back( _session );
 	info.personnel.current = ( int )sessions.size();
+	std::cout << "######### Host is " << host->GetPort() << std::endl;
 
 	return true;
 }
@@ -29,7 +30,10 @@ bool Stage::Exit( Session* _session )
 	info.personnel.current = ( int )sessions.size();
 
 	if ( sessions.size() > 0 && host->GetSocket() == _session->GetSocket() )
+	{
 		 host = *sessions.begin();
+		 std::cout << "######### Host is " << host->GetPort() << std::endl;
+	}
 
 	return sessions.size() > 0;
 }
