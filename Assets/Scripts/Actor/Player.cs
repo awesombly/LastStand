@@ -9,6 +9,9 @@ public class Player : Character
 {
     public Vector2 Direction { get; private set; }
     private Vector2 prevPosition;
+    private Vector3 prevVelocity;
+    [SerializeField]
+    private float allowSynkInterval;
 
     public Rigidbody2D Rigid2D { get; private set; }
     private SpriteRenderer spriter;
@@ -34,11 +37,17 @@ public class Player : Character
 
     private void FixedUpdate()
     {
-        Vector2 delta = receiver.InputVector * data.moveSpeed * Time.fixedDeltaTime;
-        Rigid2D.MovePosition( Rigid2D.position + delta );
+        Rigid2D.velocity = receiver.InputVector * data.moveSpeed;
 
         Direction = ( Rigid2D.position - prevPosition ).normalized;
+
+        if ( IsLocal )
+        {
+            ReqSynkMovement();
+        }
+
         prevPosition = Rigid2D.position;
+        prevVelocity = Rigid2D.velocity;
     }
 
     private void LateUpdate()
@@ -53,6 +62,29 @@ public class Player : Character
         }
     }
     #endregion
+
+    private void ReqSynkMovement()
+    {
+        float velocityInterval = Vector2.Distance( Rigid2D.velocity, prevVelocity );
+        if ( velocityInterval >= allowSynkInterval )
+        {
+            ACTOR_INFO protocol;
+            protocol.isLocal = false;
+            protocol.prefab = 0;
+            protocol.serial = 0;
+            protocol.position = new VECTOR3( Rigid2D.position );
+            protocol.rotation = new QUATERNION( transform.rotation );
+            protocol.velocity = new VECTOR3( Rigid2D.velocity );
+            Network.Inst.Send( PacketType.SYNK_MOVEMENT_REQ, protocol );
+        }
+    }
+
+    public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
+    {
+        Rigid2D.MovePosition( _position );
+        transform.rotation = _rotation;
+        Rigid2D.velocity = _velocity;
+    }
 
     private void OnDead( Character _dead, Character _attacker )
     {
