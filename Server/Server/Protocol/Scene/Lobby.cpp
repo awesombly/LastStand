@@ -1,42 +1,46 @@
 #include "Lobby.h"
-#include "Managed/ProtocolSystem.h"
-#include "Managed/SessionManager.h"
-
-std::list<Stage*> Lobby::stages;
-std::list<STAGE_INFO> Lobby::infos;
+#include "Management/ProtocolSystem.h"
+#include "Management/SessionManager.h"
 
 void Lobby::Bind()
 {
-	ProtocolSystem::Inst().Regist( CREATE_STAGE_REQ, CreateStage );
-	ProtocolSystem::Inst().Regist( LOBBY_INFO_REQ,   TakeLobbyInfo );
+	ProtocolSystem::Inst().Regist( STAGE_INFO_REQ,   AckStageList );
+	ProtocolSystem::Inst().Regist( CREATE_STAGE_REQ, AckCreateStage );
+	ProtocolSystem::Inst().Regist( ENTRY_STAGE_REQ,  AckEntryStage );
 }
 
-void Lobby::CreateStage( const Packet& _packet )
+void Lobby::AckCreateStage( const Packet& _packet )
 {
 	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
 	CONFIRM confirm;
 	confirm.isCompleted = data.title.size() > 0;
+
+	Session* session = _packet.session;
 	if ( confirm.isCompleted )
 	{
 		STAGE_INFO stageData;
-		stageData.uid       = Global::GetNewSerial();
-		stageData.title     = data.title;
+		stageData.serial = Global::GetNewSerial();
+		stageData.title = data.title;
 		stageData.personnel.maximum = data.personnel.maximum;
 		stageData.personnel.current = 1;
 
-		stages.push_back( new Stage( _packet.socket, stageData ) );
-		infos.push_back( stageData );
-
-		SessionManager::Inst().Broadcast( _packet.socket, UPacket( INSERT_STAGE_INFO, stageData ) );
+		SessionManager::Inst().AddStage( new Stage( session, stageData ) );
 	}
 
-	SessionManager::Inst().Send( _packet.socket, UPacket( CREATE_STAGE_ACK, confirm ) );
+	session->Send( UPacket( CREATE_STAGE_ACK, confirm ) );
 }
 
-void Lobby::TakeLobbyInfo( const Packet& _packet )
+void Lobby::AckEntryStage( const Packet& _packet )
 {
-	LOBBY_INFO info;
-	info.infos = infos;
+	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
 
-	SessionManager::Inst().Send( _packet.socket, UPacket( LOBBY_INFO_ACK, info ) );
+	SessionManager::Inst().UpdateStage( data.serial, _packet.session );
+}
+
+void Lobby::AckStageList( const Packet& _packet )
+{
+	for ( const std::pair<SerialType, Stage*>& pair : SessionManager::Inst().GetStages() )
+	{
+		_packet.session->Send( UPacket( STAGE_INFO_ACK, pair.second->info ) );
+	}
 }

@@ -1,5 +1,5 @@
 #include "Session.h"
-#include "Managed/PacketSystem.h"
+#include "Management/PacketSystem.h"
 
 const int   Session::MaxUnresponse       = 10;
 const float Session::MinResponseWaitTime = 10.0f;
@@ -74,7 +74,8 @@ void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 			{
 				Packet newPacket;
 				::memcpy( &newPacket, packet, packet->size );
-				newPacket.socket = socket;
+				newPacket.session = this;
+				newPacket.socket  = socket;
 				
 				PacketSystem::Inst().Push( newPacket );
 				

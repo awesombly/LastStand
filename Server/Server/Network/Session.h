@@ -19,6 +19,10 @@ private:
 	u_int startPos, writePos, readPos;
 
 public:
+	bool isPlaying;
+	LOGIN_INFO loginInfo;
+
+public:
 	Session() = default;
 	Session( const SOCKET& _socket, const SOCKADDR_IN& _address );
 	virtual ~Session() override;
@@ -28,7 +32,5 @@ private:
 
 public:
 	bool CheckAlive();
-
-public:
 	void Dispatch( const LPOVERLAPPED& _ov, DWORD _size );
 };

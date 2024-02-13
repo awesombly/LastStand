@@ -14,10 +14,9 @@ enum PacketType : u_short
 	DUPLICATE_EMAIL_REQ,           // 이메일 중복확인 요청
 	DUPLICATE_EMAIL_ACK,           // 이메일 중복확인 응답
 							       
-	LOBBY_INFO_REQ = 2000,         // 로비 정보 요청
-	LOBBY_INFO_ACK,                // 로비 정보 응답
-
-	CREATE_STAGE_REQ = 3000,       // 방 생성 요청
+	STAGE_INFO_REQ = 2000,         // 방 정보 요청
+	STAGE_INFO_ACK,                // 방 정보 응답
+	CREATE_STAGE_REQ,	           // 방 생성 요청
 	CREATE_STAGE_ACK,              // 방 생성 응답
 	UPDATE_STAGE_INFO,             // 방 정보가 갱신됨
 	INSERT_STAGE_INFO,             // 방 정보가 추가됨
@@ -138,36 +137,24 @@ public:
 typedef struct StageInfo
 {
 public:
-	u_short uid;
+	SerialType serial;
 	std::string title;
 	Personnel personnel;
 
 public:
 	StageInfo() = default;
-	StageInfo( u_short _uid, const std::string& _title, Personnel _personnel ) :
-		      uid( _uid ), title( _title ), personnel( _personnel ) { }
+	StageInfo( u_short _serial, const std::string& _title, Personnel _personnel ) :
+		serial( _serial ), title( _title ), personnel( _personnel ) { }
 
 public:
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
-		ar( CEREAL_NVP( uid ) );
+		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( title ) );
 		ar( CEREAL_NVP( personnel ) );
 	}
 } STAGE_INFO;
-
-typedef struct LobbyInfo
-{
-public:
-	std::list<STAGE_INFO> infos;
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( infos ) );
-	}
-} LOBBY_INFO;
 
 typedef struct ActorInfo
 {

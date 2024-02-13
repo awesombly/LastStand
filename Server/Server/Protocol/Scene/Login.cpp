@@ -1,5 +1,5 @@
 #include "Login.h"
-#include "Managed/SessionManager.h"
+#include "Management/SessionManager.h"
 #include <Database/Database.h>
 
 void Login::Bind()
@@ -22,14 +22,15 @@ void Login::ConfirmMatchData( const Packet& _packet )
 		LOGIN_INFO protocol;
 		protocol.nickname = user.nickname;
 
-		SessionManager::Inst().Send( _packet.socket, UPacket( CONFIRM_LOGIN_ACK, protocol ) );
+		
+		_packet.session->Send( UPacket( CONFIRM_LOGIN_ACK, protocol ) );
 	}
 	catch ( const std::exception& _error )
 	{
 		// 일단 빈 객체를 보내고
 		// 에러 관련 프로토콜을 정의하는 등 클라에서 처리할 수 있는 방안을 찾아야됨
 		std::cout << "Exception : " << _error.what() << std::endl;
-		SessionManager::Inst().Send( _packet.socket, UPacket( CONFIRM_LOGIN_ACK, LOGIN_INFO() ) );
+		_packet.session->Send( UPacket( CONFIRM_LOGIN_ACK, LOGIN_INFO() ) );
 	}
 }
 
@@ -48,7 +49,7 @@ void Login::ConfirmDuplicateInfo( const Packet& _packet )
 		protocol.isCompleted = true;
 	}
 
-	SessionManager::Inst().Send( _packet.socket, UPacket( DUPLICATE_EMAIL_ACK, protocol ) );
+	_packet.session->Send( UPacket( DUPLICATE_EMAIL_ACK, protocol ) );
 }
 
 void Login::AddToDatabase( const Packet& _packet )
@@ -58,5 +59,5 @@ void Login::AddToDatabase( const Packet& _packet )
 	CONFIRM protocol;
 	protocol.isCompleted = Database::Inst().Insert( UserData{ data.nickname, data.email, data.password } );
 
-	SessionManager::Inst().Send( _packet.socket, UPacket( CONFIRM_ACCOUNT_ACK, protocol ) );
+	_packet.session->Send( UPacket( CONFIRM_ACCOUNT_ACK, protocol ) );
 }

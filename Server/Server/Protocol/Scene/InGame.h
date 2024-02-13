@@ -1,5 +1,5 @@
 #pragma once
-#include "Managed/ProtocolSystem.h"
+#include "Management/ProtocolSystem.h"
 
 class InGame : public IScene
 {
@@ -8,7 +8,7 @@ public:
 	virtual ~InGame() = default;
 
 private:
-	static void SpawnEnemy(const Packet& _packet);
+	static void SpawnEnemy( const Packet& _packet );
 
 public:
 	virtual void Bind() override;
