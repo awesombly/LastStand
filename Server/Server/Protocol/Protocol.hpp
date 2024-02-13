@@ -1,20 +1,25 @@
 #pragma once
 #include "Global/Header.h"
+#include "magic_enum.hpp"
 
+// 서버에서 패킷타입을 문자열로 출력하기위해
+// 타입은 0부터 순서대로 지정되도록 합니다.
 enum PacketType : u_short
 {
 	NONE = 0,
 	PACKET_HEARTBEAT,              // 주기적인 통신을 위한 패킷
 	PACKET_CHAT_MSG,               // 채팅 메세지
-							       
-	CONFIRM_LOGIN_REQ = 1000,      // 로그인 요청
+	
+	// Login
+	CONFIRM_LOGIN_REQ,             // 로그인 요청
 	CONFIRM_LOGIN_ACK,             // 로그인 응답
 	CONFIRM_ACCOUNT_REQ,           // 계정 생성 요청
 	CONFIRM_ACCOUNT_ACK,           // 계정 생성 응답
 	DUPLICATE_EMAIL_REQ,           // 이메일 중복확인 요청
 	DUPLICATE_EMAIL_ACK,           // 이메일 중복확인 응답
-							       
-	STAGE_INFO_REQ = 2000,         // 방 정보 요청
+		
+	// Stage
+	STAGE_INFO_REQ,                // 방 정보 요청
 	STAGE_INFO_ACK,                // 방 정보 응답
 	CREATE_STAGE_REQ,	           // 방 생성 요청
 	CREATE_STAGE_ACK,              // 방 생성 응답
@@ -26,7 +31,8 @@ enum PacketType : u_short
 	EXIT_STAGE_REQ,                // 방 퇴장 요청
 	EXIT_STAGE_ACK,                // 방 퇴장 응답
 
-	SPAWN_ACTOR_REQ = 5000,        // Actor 스폰 요청
+	// Actor
+	SPAWN_ACTOR_REQ,               // Actor 스폰 요청
 	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
 	SPAWN_PLAYER_ACK,              // Player 스폰 요청
 	SPAWN_PLAYER_REQ,              // Player 스폰 응답

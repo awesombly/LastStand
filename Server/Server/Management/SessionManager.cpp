@@ -151,7 +151,6 @@ void SessionManager::ExitStage( Session* _session )
 		return;
 	}
 
-	std::cout << "\"" << _session->loginInfo.nickname << "\" exit stage " << serial << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
 		if ( !stage->Exit( _session ) )
@@ -177,11 +176,9 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 	if ( !stages.contains( serial ) )
 	{
 		// 방 생성하고 입장
-		std::cout << "\"" << _session->loginInfo.nickname << "\" created stage " << serial << std::endl;
 		std::lock_guard<std::mutex> lock( mtx );
 		stage = new Stage( _session, _info );
-		stages[serial] = stage;
-
+		stages[serial]  = stage;
 		_session->stage = stage;
 		BroadcastWaitingRoom( UPacket( INSERT_STAGE_INFO, stage->info ) );
 	}
@@ -192,8 +189,6 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 		std::lock_guard<std::mutex> lock( mtx );
 		if ( stage->Entry( _session ) )
 		{
-			std::cout << "\"" << _session->loginInfo.nickname << "\" entered stage " << serial << std::endl;
-
 			_session->stage = stage;
 			_session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
 			BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );

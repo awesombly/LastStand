@@ -16,7 +16,7 @@ bool PacketSystem::Initialize()
 void PacketSystem::Push( const Packet& _packet )
 {
 	if ( _packet.type != PACKET_HEARTBEAT )
-		 std::cout << "Receive( " << _packet.type << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
+		 std::cout << "Receive( " << magic_enum::enum_name( _packet.type ) << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
 
 	std::lock_guard<std::mutex> lock( mtx );
 	packets.push( _packet );
