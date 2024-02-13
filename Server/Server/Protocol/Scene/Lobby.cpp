@@ -30,7 +30,7 @@ void Lobby::AckEntryStage( const Packet& _packet )
 	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
 
 	Stage* stage = SessionManager::Inst().EntryStage( session, data );
-	_packet.session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
+	
 }
 
 void Lobby::AckStageList( const Packet& _packet )

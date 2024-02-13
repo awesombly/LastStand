@@ -36,23 +36,8 @@
     <ClCompile Include="Network\Network.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="Connect\Acceptor.cpp">
-      <Filter>Connect</Filter>
-    </ClCompile>
-    <ClCompile Include="Connect\Session.cpp">
-      <Filter>Connect</Filter>
-    </ClCompile>
     <ClCompile Include="Synchronize\CriticalSection.cpp">
       <Filter>Synchronize</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\PacketSystem.cpp">
-      <Filter>Managed</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\SessionManager.cpp">
-      <Filter>Managed</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\IOCP.cpp">
-      <Filter>Managed</Filter>
     </ClCompile>
     <ClCompile Include="Run\Main.cpp">
       <Filter>Run</Filter>
@@ -60,18 +45,21 @@
     <ClCompile Include="Run\Server.cpp">
       <Filter>Run</Filter>
     </ClCompile>
-    <ClCompile Include="Managed\ProtocolSystem.cpp">
-      <Filter>Managed</Filter>
-    </ClCompile>
     <ClCompile Include="Database\Database.cpp">
       <Filter>Database</Filter>
     </ClCompile>
     <ClCompile Include="Protocol\Scene\Login.cpp">
       <Filter>Protocol\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Protocol\Scene\Lobby\Lobby.cpp" />
-    <ClCompile Include="Protocol\Scene\Lobby\Room.cpp" />
-    <ClCompile Include="Protocol\Scene\InGame\InGame.cpp" />
+    <ClCompile Include="Network\Acceptor.cpp" />
+    <ClCompile Include="Network\Session.cpp" />
+    <ClCompile Include="Protocol\Scene\InGame.cpp" />
+    <ClCompile Include="Protocol\Scene\Lobby.cpp" />
+    <ClCompile Include="Management\IOCP.cpp" />
+    <ClCompile Include="Management\PacketSystem.cpp" />
+    <ClCompile Include="Management\ProtocolSystem.cpp" />
+    <ClCompile Include="Management\SessionManager.cpp" />
+    <ClCompile Include="Stage\Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global\Header.h">
@@ -80,35 +68,17 @@
     <ClInclude Include="Network\Network.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="Connect\Acceptor.h">
-      <Filter>Connect</Filter>
-    </ClInclude>
-    <ClInclude Include="Connect\Session.h">
-      <Filter>Connect</Filter>
-    </ClInclude>
     <ClInclude Include="Global\Singleton.hpp">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="Synchronize\CriticalSection.h">
       <Filter>Synchronize</Filter>
     </ClInclude>
-    <ClInclude Include="Managed\PacketSystem.h">
-      <Filter>Managed</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\SessionManager.h">
-      <Filter>Managed</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\IOCP.h">
-      <Filter>Managed</Filter>
-    </ClInclude>
     <ClInclude Include="Run\Server.h">
       <Filter>Run</Filter>
     </ClInclude>
     <ClInclude Include="Protocol\Protocol.hpp">
       <Filter>Protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\ProtocolSystem.h">
-      <Filter>Managed</Filter>
     </ClInclude>
     <ClInclude Include="Packet\Packet.hpp">
       <Filter>Packet</Filter>
@@ -122,8 +92,14 @@
     <ClInclude Include="Protocol\Scene\Login.h">
       <Filter>Protocol\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Protocol\Scene\Lobby\Lobby.h" />
-    <ClInclude Include="Protocol\Scene\Lobby\Room.h" />
-    <ClInclude Include="Protocol\Scene\InGame\InGame.h" />
+    <ClInclude Include="Network\Acceptor.h" />
+    <ClInclude Include="Network\Session.h" />
+    <ClInclude Include="Protocol\Scene\InGame.h" />
+    <ClInclude Include="Protocol\Scene\Lobby.h" />
+    <ClInclude Include="Management\IOCP.h" />
+    <ClInclude Include="Management\PacketSystem.h" />
+    <ClInclude Include="Management\ProtocolSystem.h" />
+    <ClInclude Include="Management\SessionManager.h" />
+    <ClInclude Include="Stage\Stage.h" />
   </ItemGroup>
 </Project>

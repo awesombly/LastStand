@@ -11,7 +11,7 @@ public class ProtocolSystem : Singleton<ProtocolSystem>
     {
         if ( protocols.ContainsKey( _type ) )
         {
-            Debug.LogWarning( $"The {_type} protocol is dulicated." );
+            protocols[_type] = _func;
             return;
         }
 

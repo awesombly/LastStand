@@ -8,7 +8,7 @@ Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _
 
 bool Stage::Entry( Session* _session )
 {
-	if ( sessions.size() + 1 >= Global::MaxStagePersonnel )
+	if ( sessions.size() + 1 > info.personnel.maximum )
 	{
 		std::cout << "The stage is full of people" << std::endl;
 		return false;
@@ -31,5 +31,5 @@ bool Stage::Exit( Session* _session )
 	if ( sessions.size() > 0 && host->GetSocket() == _session->GetSocket() )
 		 host = *sessions.begin();
 
-	return sessions.size() <= 0;
+	return sessions.size() > 0;
 }

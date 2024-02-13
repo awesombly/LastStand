@@ -170,10 +170,10 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 {
 	Stage* stage = nullptr;
 	SerialType serial = _info.serial;
-	_session->isPlaying = true;
 	if ( !stages.contains( serial ) )
 	{
 		// 방 생성하고 입장
+		_session->isPlaying = true;
 		std::cout << "\"" << _session->loginInfo.nickname << "\" created stage " << serial << std::endl;
 		std::lock_guard<std::mutex> lock( mtx );
 		stage = new Stage( _session, _info );
@@ -184,10 +184,15 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 	{
 		// 이미 존재하는 방에 입장
 		stage = stages[serial];
-		std::cout << "\"" << _session->loginInfo.nickname << "\" entered stage " << serial << std::endl;
 		std::lock_guard<std::mutex> lock( mtx );
-		stage->Entry( _session );
-		BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
+		// 풀방일 땐 입장하지않음
+		if ( stage->Entry( _session ) )
+		{
+			_session->isPlaying = true;
+			std::cout << "\"" << _session->loginInfo.nickname << "\" entered stage " << serial << std::endl;
+			_session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
+			BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
+		}
 	}
 
 	return stage;
