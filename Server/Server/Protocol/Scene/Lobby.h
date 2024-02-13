@@ -9,9 +9,9 @@ public:
 	virtual ~Lobby() = default;
 
 private:
-	static void CreateStage( const Packet& _packet );
-	static void TakeLobbyInfo( const Packet& _packet );
-	static void EntryStage( const Packet& _packet );
+	static void AckCreateStage( const Packet& _packet );
+	static void AckStageList( const Packet& _packet );
+	static void AckEntryStage( const Packet& _packet );
 
 public:
 	virtual void Bind() override;

@@ -14,10 +14,9 @@ enum PacketType : u_short
 	DUPLICATE_EMAIL_REQ,           // 이메일 중복확인 요청
 	DUPLICATE_EMAIL_ACK,           // 이메일 중복확인 응답
 							       
-	LOBBY_INFO_REQ = 2000,         // 로비 정보 요청
-	LOBBY_INFO_ACK,                // 로비 정보 응답
-
-	CREATE_STAGE_REQ = 3000,       // 방 생성 요청
+	STAGE_INFO_REQ = 2000,         // 방 정보 요청
+	STAGE_INFO_ACK,                // 방 정보 응답
+	CREATE_STAGE_REQ,	           // 방 생성 요청
 	CREATE_STAGE_ACK,              // 방 생성 응답
 	UPDATE_STAGE_INFO,             // 방 정보가 갱신됨
 	INSERT_STAGE_INFO,             // 방 정보가 추가됨
@@ -168,10 +167,10 @@ public:
 	template <class Archive>
 	void serialize(Archive& ar)
 	{
-		ar(CEREAL_NVP(prefab));
-		ar(CEREAL_NVP(serial));
-		ar(CEREAL_NVP(x));
-		ar(CEREAL_NVP(y));
+		ar( CEREAL_NVP( prefab ) );
+		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( x ) );
+		ar( CEREAL_NVP( y ) );
 	}
 } SPAWN_ENEMY;
 

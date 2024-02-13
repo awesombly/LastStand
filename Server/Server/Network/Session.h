@@ -18,6 +18,8 @@ private:
 	byte buffer[MaxReceiveSize];
 	u_int startPos, writePos, readPos;
 
+public:
+	bool isPlaying;
 	LOGIN_INFO loginInfo;
 
 public:

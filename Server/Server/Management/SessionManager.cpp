@@ -1,4 +1,5 @@
 #include "SessionManager.h"
+#include "ProtocolSystem.h"
 #include "Protocol/Protocol.hpp"
 
 SessionManager::~SessionManager()
@@ -33,34 +34,22 @@ void SessionManager::ConfirmDisconnect()
 			if ( !session->CheckAlive() )
 			{
 				std::cout << "Remove unresponsive session( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
-				unresponsiveSessions.push( session );
+				unAckSessions.push( session );
 			}
 		}
 
 		std::lock_guard<std::mutex> lock( mtx );
 		{
-			while ( !unresponsiveSessions.empty() )
+			while ( !unAckSessions.empty() )
 			{
-				Session* session = unresponsiveSessions.front();
+				Session* session = unAckSessions.front();
 
 				sessions.erase( session->GetSocket() );
 				Global::Memory::SafeDelete( session );
-				unresponsiveSessions.pop();
+				unAckSessions.pop();
 			}
 		}
 	}
-}
-
-void SessionManager::Send( const SOCKET& _socket, const UPacket& _packet ) const
-{
-	Session* session = Find( _socket );
-	if ( session == nullptr )
-	{
-		std::cout << "The session was not found" << std::endl;
-		return;
-	}
-
-	session->Send( _packet );
 }
 #pragma endregion
 
@@ -68,7 +57,7 @@ void SessionManager::Send( const SOCKET& _socket, const UPacket& _packet ) const
 void SessionManager::Push( Session* _session )
 {
 	if ( _session == nullptr )
-		return;
+		 return;
 
 	std::cout << "Register a new session( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
@@ -116,7 +105,21 @@ void SessionManager::BroadcastWithoutSelf( const SOCKET& _socket, const UPacket&
 	{
 		Session* session = pair.second;
 		if ( session->GetSocket() != _socket )
+			 session->Send( _packet );
+	}
+}
+
+void SessionManager::BroadcastWaitingRoom( const UPacket& _packet )
+{
+	for ( const std::pair<SOCKET, Session*>& pair : sessions )
+	{
+		Session* session = pair.second;
+
+		LOGIN_INFO login = session->loginInfo;
+		if ( login.nickname.empty() && !session->isPlaying )
+		{
 			session->Send( _packet );
+		}
 	}
 }
 
@@ -127,36 +130,44 @@ std::unordered_map<SOCKET, Session*> SessionManager::GetSessions() const
 #pragma endregion
 
 #pragma region Stage Management
-void SessionManager::CreateStage( const SOCKET& _host, const STAGE_INFO& _info )
+const std::unordered_map<SerialType, Stage*>& SessionManager::GetStages() const
 {
-	if ( stages.contains( _info.serial ) )
-	{
-		std::cout << " The stage already exists" << std::endl;
-	}
-
-	Session* host = SessionManager::Inst().Find( _host );
-	std::cout << "Create a new Stage( " << host->GetPort() << ", " << host->GetAddress() << " )" << std::endl;
-	std::lock_guard<std::mutex> lock( mtx );
-	{
-		stages[_info.serial] = new Stage( _host, _info );
-	}
+	return stages;
 }
 
-void SessionManager::EntryStage( const SOCKET& _session, const STAGE_INFO& _info )
+void SessionManager::AddStage( Stage* _stage )
 {
-	if ( !stages.contains( _info.serial ) )
+	STAGE_INFO data = _stage->info;
+	if ( stages.contains( data.serial ) )
+		 return;
+
+	Session* host = _stage->host;
+	std::cout << "Create a new Stage( " << data.serial << " )" << std::endl;
+	std::lock_guard<std::mutex> lock( mtx );
+	{
+		stages[data.serial] = _stage;
+		host->isPlaying = true;
+	}
+
+	BroadcastWaitingRoom( UPacket( INSERT_STAGE_INFO, data ) );
+}
+
+void SessionManager::UpdateStage( const SerialType& _serial, Session* _session )
+{
+	if ( !stages.contains( _serial ) )
 	{
 		std::cout << "This stage does not exist" << std::endl;
 		return;
 	}
 
-	Session* session = Find( _session );
-	std::cout << "The session has entered Stage " << _info.serial << "( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
-	stages[_info.serial]->Entry( session );
-}
+	Stage* stage = stages[_serial];
+	std::cout << "The session has entered Stage " << _serial << "( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	std::lock_guard<std::mutex> lock( mtx );
+	{
+		stage->Entry( _session );
+		_session->isPlaying = true;
+	}
 
-std::unordered_map<SerialType, Stage*> SessionManager::GetStages() const
-{
-	return stages;
+	BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
 }
 #pragma endregion

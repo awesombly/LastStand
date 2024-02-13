@@ -16,18 +16,17 @@ public enum PacketType : ushort
     DUPLICATE_EMAIL_REQ,           // 이메일 중복확인 요청
     DUPLICATE_EMAIL_ACK,           // 이메일 중복확인 응답
 
-    LOBBY_INFO_REQ = 2000,         // 로비 정보 요청
-    LOBBY_INFO_ACK,                // 로비 정보 응답
-
-    CREATE_STAGE_REQ = 3000,        // 방 생성 요청
-    CREATE_STAGE_ACK,               // 방 생성 응답
-    UPDATE_STAGE_INFO,              // 방 정보가 갱신됨
-    INSERT_STAGE_INFO,              // 방 정보가 추가됨
-    DELETE_STAGE_INFO,              // 방 정보가 삭제됨
-    ENTRY_STAGE_REQ,                // 방 입장 요청
-    ENTRY_STAGE_ACK,                // 방 입장 응답
-    EXIT_STAGE_REQ,                 // 방 퇴장 요청
-    EXIT_STAGE_ACK,                 // 방 퇴장 응답
+    STAGE_INFO_REQ = 2000,         // 방 정보 요청
+    STAGE_INFO_ACK,                // 방 정보 응답
+    CREATE_STAGE_REQ,              // 방 생성 요청
+    CREATE_STAGE_ACK,              // 방 생성 응답
+    UPDATE_STAGE_INFO,             // 방 정보가 갱신됨
+    INSERT_STAGE_INFO,             // 방 정보가 추가됨
+    DELETE_STAGE_INFO,             // 방 정보가 삭제됨
+    ENTRY_STAGE_REQ,               // 방 입장 요청
+    ENTRY_STAGE_ACK,               // 방 입장 응답
+    EXIT_STAGE_REQ,                // 방 퇴장 요청
+    EXIT_STAGE_ACK,                // 방 퇴장 응답
 
     SPAWN_ENEMY_REQ = 5000,       // 적 스폰 요청
     SPAWN_ENEMY_ACK,              // 적 스폰 응답

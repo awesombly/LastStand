@@ -3,18 +3,17 @@
 
 class Stage
 {
-private:
+public:
 	STAGE_INFO info;
 	Session* host;
+
+private:
 	std::list<Session*> sessions;
 
 public:
-	Stage( const SOCKET& _host, const STAGE_INFO& _info );
+	Stage( Session* _host, const STAGE_INFO& _info );
 	virtual ~Stage() = default;
 
 public:
 	void Entry( Session* _session );
-
-public:
-	const STAGE_INFO& GetInfo() const;
 };

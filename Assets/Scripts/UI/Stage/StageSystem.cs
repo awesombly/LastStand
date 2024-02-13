@@ -23,7 +23,7 @@ public class StageSystem : MonoBehaviour
     private void Awake()
     {
         ProtocolSystem.Inst.Regist( CREATE_STAGE_ACK,  AckCreateStage );
-        ProtocolSystem.Inst.Regist( LOBBY_INFO_ACK,    AckInsertStageInfo );
+        ProtocolSystem.Inst.Regist( STAGE_INFO_ACK,    AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( INSERT_STAGE_INFO, AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
         ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
@@ -33,7 +33,7 @@ public class StageSystem : MonoBehaviour
     {
         if ( Network.Inst.IsConnected )
         {
-            Network.Inst.Send( new Packet( LOBBY_INFO_REQ, new EMPTY() ) );
+            Network.Inst.Send( new Packet( STAGE_INFO_REQ, new EMPTY() ) );
         }
     }
 
@@ -95,20 +95,6 @@ public class StageSystem : MonoBehaviour
             // 실패 메세지
         }
     }
-
-    //// 로비에 처음 입장 시 서버에 등록된 방 정보 갱신
-    //private void AckLobbyInfo( Packet _packet )
-    //{
-    //    var data = Global.FromJson<LOBBY_INFO>( _packet );
-    //    foreach ( var info in data.infos )
-    //    {
-    //        // 풀링하기
-    //        Stage stage = Instantiate( prefab, contents );
-    //        stage.Initialize( info );
-
-    //        stages.AddLast( stage );
-    //    }
-    //}
 
     private LinkedListNode<Stage> FindStageInfoNode( ushort _seiral )
     {

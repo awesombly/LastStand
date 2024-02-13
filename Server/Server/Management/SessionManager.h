@@ -7,7 +7,7 @@
 class SessionManager : public Singleton<SessionManager>
 {
 private:
-	std::queue<Session*> unresponsiveSessions;
+	std::queue<Session*> unAckSessions;
 	std::unordered_map<SOCKET, Session*> sessions;
 	std::unordered_map<SerialType, Stage*> stages;
 	std::mutex mtx;
@@ -16,11 +16,11 @@ public:
 	SessionManager() = default;
 	virtual ~SessionManager();
 
-public:
-	// Default
-	bool Initialize();
+private:
 	void ConfirmDisconnect();
-	void Send( const SOCKET& _socket, const UPacket& _packet ) const;
+
+public:
+	bool Initialize();
 
 	// Full Management
 	void Push( Session* _session );
@@ -29,12 +29,11 @@ public:
 
 	void Broadcast( const UPacket& _packet ) const;
 	void BroadcastWithoutSelf( const SOCKET& _socket, const UPacket& _packet ) const;
-
+	void BroadcastWaitingRoom( const UPacket& _packet );
 	std::unordered_map<SOCKET, Session*> GetSessions() const;
 
 	// Stage Management
-	void CreateStage( const SOCKET& _host, const STAGE_INFO& _info );
-	void EntryStage( const SOCKET& _user, const STAGE_INFO& _info );
-
-	std::unordered_map<SerialType, Stage*> GetStages() const;
+	void AddStage( Stage* _stage );
+	void UpdateStage( const SerialType& _serial, Session* _session );
+	const std::unordered_map<SerialType, Stage*>& GetStages() const;
 };

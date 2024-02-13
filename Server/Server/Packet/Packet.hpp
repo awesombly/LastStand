@@ -38,8 +38,10 @@ struct UPacket
 };
 #pragma pack( pop )
 
+class Session;
 struct Packet : public UPacket
 {
+	Session* session;
 	SOCKET socket;
 };
 
