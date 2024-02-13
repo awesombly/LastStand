@@ -6,6 +6,7 @@ using TMPro;
 
 
 using static PacketType;
+using UnityEngine.SceneManagement;
 public class LoginSystem : MonoBehaviour
 {
     public TMP_InputField email;
@@ -82,11 +83,7 @@ public class LoginSystem : MonoBehaviour
             {
                 case LoginPanelType.Default:
                 {
-                    LOGIN_INFO protocol;
-                    protocol.email = email.text;
-                    protocol.password = password.text;
-                    protocol.nickname = string.Empty;
-                    Network.Inst.Send( new Packet( CONFIRM_LOGIN_REQ, protocol ) );
+                    ConfirmLoginInfo();
                 } break;
 
                 case LoginPanelType.SignUp:
@@ -115,7 +112,16 @@ public class LoginSystem : MonoBehaviour
         }
     }
 
-    public void ReqConfirmDuplicateInfo()
+    public void ConfirmLoginInfo()
+    {
+        LOGIN_INFO protocol;
+        protocol.email = email.text;
+        protocol.password = password.text;
+        protocol.nickname = string.Empty;
+        Network.Inst.Send( new Packet( CONFIRM_LOGIN_REQ, protocol ) );
+    }
+
+    public void ConfirmDuplicateInfo()
     {
         LOGIN_INFO protocol;
         protocol.email    = email.text;
@@ -159,13 +165,15 @@ public class LoginSystem : MonoBehaviour
 
     private void AckConfirmMatchData( Packet _packet )
     {
-        var data = Global.FromJson<LOGIN_INFO>( _packet );
-        if ( data.nickname == string.Empty )
+        var data = Global.FromJson<CONFIRM>( _packet );
+        if ( data.isCompleted )
+        {
+            SceneManager.LoadScene( "Lobby" );
+        }
+        else
         {
             ActiveErrorPanel( true );
             errorMessage.text = "아이디 또는 비밀번호가 일치하지 않습니다.";
         }
-        else
-            Debug.Log( $"{data.nickname} 유저가 입장했습니다." );
     }
 }
