@@ -30,6 +30,8 @@ enum PacketType : u_short
 	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
 	SPAWN_PLAYER_ACK,              // Player 스폰 요청
 	SPAWN_PLAYER_REQ,              // Player 스폰 응답
+	SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 요청
+	SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 응답
 };
 
 typedef struct Vector2
@@ -166,6 +168,7 @@ public:
 	SerialType serial;
 	Vector3 position;
 	Vector4 rotation;
+	Vector3 velocity;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -175,5 +178,6 @@ public:
 		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( position ) );
 		ar( CEREAL_NVP( rotation ) );
+		ar( CEREAL_NVP( velocity ) );
 	}
 } ACTOR_INFO;

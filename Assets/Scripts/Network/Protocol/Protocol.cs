@@ -32,6 +32,8 @@ public enum PacketType : ushort
     SPAWN_ACTOR_ACK,               // Actor 스폰 응답
     SPAWN_PLAYER_ACK,              // Player 스폰 요청
     SPAWN_PLAYER_REQ,              // Player 스폰 응답
+    SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 요청
+    SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 응답
 };
 
 public struct VECTOR3
@@ -97,6 +99,7 @@ public struct ACTOR_INFO : IProtocol
     public uint serial;
     public VECTOR3 position;
     public QUATERNION rotation;
+    public VECTOR3 velocity;
 }
 
 public struct SAMPLE : IProtocol
