@@ -3,6 +3,7 @@
 
 static const u_short MaxReceiveSize = 10000;
 
+class Stage;
 class Session : public Network
 {
 private:
@@ -19,8 +20,9 @@ private:
 	u_int startPos, writePos, readPos;
 
 public:
-	bool isPlaying;
+	//bool isPlaying;
 	LOGIN_INFO loginInfo;
+	Stage* stage;
 
 public:
 	Session() = default;

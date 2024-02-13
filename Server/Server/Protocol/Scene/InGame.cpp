@@ -28,11 +28,9 @@ void InGame::SpawnActor( const Packet& _packet )
 
 void InGame::AckExitStage( const Packet& _packet )
 {
-	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
-
 	Session* session = _packet.session;
-	SessionManager::Inst().ExitStage( session, data );
-	_packet.session->Send( UPacket( EXIT_STAGE_ACK, data ) );
+	SessionManager::Inst().ExitStage( session );
+	_packet.session->Send( UPacket( EXIT_STAGE_ACK, EMPTY() ) );
 }
 
 void InGame::SynkMovement( const Packet& _packet )

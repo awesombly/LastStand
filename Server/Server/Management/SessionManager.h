@@ -1,7 +1,6 @@
 #pragma once
 #include "Global/Singleton.hpp"
 #include "Network/Session.h"
-#include "Synchronize/CriticalSection.h"
 #include "Stage/Stage.h"
 
 class SessionManager : public Singleton<SessionManager>
@@ -33,7 +32,7 @@ public:
 	std::unordered_map<SOCKET, Session*> GetSessions() const;
 
 	// Stage Management
-	Stage* EntryStage( Session* _session, const STAGE_INFO& _serial );
-	void ExitStage( Session* _session, const STAGE_INFO& _serial );
+	Stage* EntryStage( Session* _session, const STAGE_INFO& _info );
+	void ExitStage( Session* _session );
 	const std::unordered_map<SerialType, Stage*>& GetStages() const;
 };

@@ -14,7 +14,7 @@ public class Sample : MonoBehaviour
     private void Update()
     {
         if ( Input.GetKeyDown( KeyCode.Escape ) )
-             Network.Inst.Send( EXIT_STAGE_REQ, StageSystem.Info );
+             Network.Inst.Send( EXIT_STAGE_REQ, new EMPTY() );
     }
 
     private void AckExitStage( Packet _packet )
