@@ -184,6 +184,11 @@ public class Network : Singleton<Network>
         socket.SendAsync( sendArgs );
     }
 
+    public void Send( PacketType _type, in IProtocol _protocol )
+    {
+        Send( new Packet( _type, _protocol ) );
+    }
+
     #region KeepAlive Server
     private IEnumerator ReconnectProcess()
     {

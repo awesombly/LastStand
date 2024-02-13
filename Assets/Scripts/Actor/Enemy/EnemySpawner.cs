@@ -37,6 +37,12 @@ public class EnemySpawner : MonoBehaviour
         var prefab = prefabs[Random.Range( 0, prefabs.Count )];
         Vector2 delta = new Vector2( Random.Range( -1f, 1f ), Random.Range( -1f, 1f ) ).normalized;
 
-        GameManager.Inst.SpawnEnemy( prefab, player.Rigid2D.position + delta * 25f, Quaternion.identity );
+        ACTOR_INFO protocol;
+        protocol.isLocal = false;
+        protocol.prefab = GameManager.Inst.GetPrefabIndex( prefab );
+        protocol.serial = 0;
+        protocol.position = new VECTOR3( player.Rigid2D.position + delta * 25f );
+        protocol.rotation = new QUATERNION( Quaternion.identity );
+        Network.Inst.Send( PacketType.SPAWN_ACTOR_REQ, protocol );
     }
 }

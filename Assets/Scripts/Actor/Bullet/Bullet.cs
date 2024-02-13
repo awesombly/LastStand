@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : PoolObject
+public class Bullet : Actor
 {
     public Global.LayerValue targetLayer;
     [SerializeField]

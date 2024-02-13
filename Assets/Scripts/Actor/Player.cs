@@ -14,6 +14,7 @@ public class Player : Character
     private SpriteRenderer spriter;
     private Animator animator;
     private ActionReceiver receiver;
+    private PlayerInput playerInput;
 
     #region Unity Callback
     protected override void Awake()
@@ -23,6 +24,7 @@ public class Player : Character
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         receiver = GetComponent<ActionReceiver>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start()
@@ -56,5 +58,11 @@ public class Player : Character
     {
         Debug.Log( "Player dead." );
         Hp = data.maxHp;
+    }
+
+    protected override void OnChangeLocal( bool _isLocal )
+    {
+        base.OnChangeLocal( _isLocal );
+        playerInput.enabled = _isLocal;
     }
 }

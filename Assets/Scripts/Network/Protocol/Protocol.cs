@@ -28,9 +28,46 @@ public enum PacketType : ushort
     EXIT_STAGE_REQ,                // 방 퇴장 요청
     EXIT_STAGE_ACK,                // 방 퇴장 응답
 
-    SPAWN_ENEMY_REQ = 5000,       // 적 스폰 요청
-    SPAWN_ENEMY_ACK,              // 적 스폰 응답
+    SPAWN_ACTOR_REQ = 5000,        // Actor 스폰 요청
+    SPAWN_ACTOR_ACK,               // Actor 스폰 응답
+    SPAWN_PLAYER_ACK,              // Player 스폰 요청
+    SPAWN_PLAYER_REQ,              // Player 스폰 응답
 };
+
+public struct VECTOR3
+{
+    public float x, y, z;
+
+    public VECTOR3( Vector3 _vector3 )
+    {
+        x = _vector3.x;
+        y = _vector3.y;
+        z = _vector3.z;
+    }
+
+    public Vector3 To()
+    {
+        return new Vector3( x, y, z );
+    }
+}
+
+public struct QUATERNION
+{
+    public float x, y, z, w;
+
+    public QUATERNION( Quaternion _quaternion )
+    {
+        x = _quaternion.x;
+        y = _quaternion.y;
+        z = _quaternion.z;
+        w = _quaternion.w;
+    }
+
+    public Quaternion To()
+    {
+        return new Quaternion( x, y, z, w );
+    }
+}
 
 public interface IProtocol { }
 // Both 
@@ -53,12 +90,13 @@ public struct LOGIN_INFO : IProtocol
     public string password;
 }
 
-public struct SPAWN_ENEMY : IProtocol
+public struct ACTOR_INFO : IProtocol
 {
     public int prefab;
-    public int serial;
-    public float x;
-    public float y;
+    public bool isLocal;
+    public uint serial;
+    public VECTOR3 position;
+    public QUATERNION rotation;
 }
 
 public struct SAMPLE : IProtocol
