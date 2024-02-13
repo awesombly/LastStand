@@ -38,6 +38,7 @@ public class EnemySpawner : MonoBehaviour
         Vector2 delta = new Vector2( Random.Range( -1f, 1f ), Random.Range( -1f, 1f ) ).normalized;
 
         ACTOR_INFO protocol;
+        protocol.isLocal = false;
         protocol.prefab = GameManager.Inst.GetPrefabIndex( prefab );
         protocol.serial = 0;
         protocol.position = new VECTOR3( player.Rigid2D.position + delta * 25f );

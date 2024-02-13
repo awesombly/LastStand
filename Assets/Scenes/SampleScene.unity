@@ -239,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07dd3b5a969599f4296bf308214d3afb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ip: 0
 --- !u!4 &249029204
 Transform:
   m_ObjectHideFlags: 0
@@ -1393,6 +1394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnTransform: {fileID: 0}
+  playerPrefab: {fileID: 7487538481690052668, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
 --- !u!4 &1643772087
 Transform:
   m_ObjectHideFlags: 0
@@ -1402,7 +1404,7 @@ Transform:
   m_GameObject: {fileID: 1643772085}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.39351857, z: 90}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

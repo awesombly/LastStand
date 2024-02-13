@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    [HideInInspector]
     public Player localPlayer;
 
     [SerializeField]    // PoolManager를 사용할 모든 프리팹들
@@ -18,6 +19,12 @@ public class GameManager : Singleton<GameManager>
 
     public void RegistObject( PoolObject _object )
     {
+        if ( _object == null
+            || objects.ContainsKey( _object.Serial ) )
+        {
+            Debug.LogWarning( "Invalid Object : " + _object );
+        }
+
         objects[_object.Serial] = _object;
     }
 

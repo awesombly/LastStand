@@ -26,8 +26,10 @@ enum PacketType : u_short
 	EXIT_STAGE_REQ,                // 방 퇴장 요청
 	EXIT_STAGE_ACK,                // 방 퇴장 응답
 
-	SPAWN_ACTOR_REQ = 5000,       // Actor 스폰 요청
-	SPAWN_ACTOR_ACK,              // Actor 스폰 응답
+	SPAWN_ACTOR_REQ = 5000,        // Actor 스폰 요청
+	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
+	SPAWN_PLAYER_ACK,              // Player 스폰 요청
+	SPAWN_PLAYER_REQ,              // Player 스폰 응답
 };
 
 typedef struct Vector2
@@ -160,6 +162,7 @@ typedef struct ActorInfo
 {
 public:
 	int prefab;
+	bool isLocal;
 	SerialType serial;
 	Vector3 position;
 	Vector4 rotation;
@@ -168,6 +171,7 @@ public:
 	void serialize( Archive& ar )
 	{
 		ar( CEREAL_NVP( prefab ) );
+		ar( CEREAL_NVP( isLocal ) );
 		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( position ) );
 		ar( CEREAL_NVP( rotation ) );

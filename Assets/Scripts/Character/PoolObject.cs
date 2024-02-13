@@ -5,7 +5,13 @@ using UnityEngine.Pool;
 
 public class PoolObject : MonoBehaviour
 {
-    public bool isLocal = true;
+    private bool isLocal = true;
+    public bool IsLocal
+    {
+        get => isLocal;
+        set { OnChangeLocal( isLocal = value ); }
+    }
+
     private uint serial = uint.MaxValue;
     public uint Serial
     {
@@ -43,5 +49,9 @@ public class PoolObject : MonoBehaviour
     public void SetPool( IObjectPool<PoolObject> _pool )
     {
         parentPool = _pool;
+    }
+
+    protected virtual void OnChangeLocal( bool _isLocal )
+    {
     }
 }

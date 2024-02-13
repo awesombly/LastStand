@@ -30,6 +30,8 @@ public enum PacketType : ushort
 
     SPAWN_ACTOR_REQ = 5000,        // Actor 스폰 요청
     SPAWN_ACTOR_ACK,               // Actor 스폰 응답
+    SPAWN_PLAYER_ACK,              // Player 스폰 요청
+    SPAWN_PLAYER_REQ,              // Player 스폰 응답
 };
 
 public struct VECTOR3
@@ -90,6 +92,7 @@ public struct LOGIN_INFO : IProtocol
 
 public struct ACTOR_INFO : IProtocol
 {
+    public bool isLocal;
     public int prefab;
     public uint serial;
     public VECTOR3 position;
