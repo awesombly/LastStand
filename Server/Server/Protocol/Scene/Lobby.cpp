@@ -33,8 +33,9 @@ void Lobby::AckCreateStage( const Packet& _packet )
 void Lobby::AckEntryStage( const Packet& _packet )
 {
 	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
-
 	SessionManager::Inst().UpdateStage( data.serial, _packet.session );
+
+	_packet.session->Send( UPacket( ENTRY_STAGE_ACK, CONFIRM( true ) ) );
 }
 
 void Lobby::AckStageList( const Packet& _packet )

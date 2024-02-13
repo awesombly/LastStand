@@ -8,7 +8,7 @@ Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _
 
 void Stage::Entry( Session* _session )
 {
-	if ( sessions.size() + 1 <= Global::MaxStagePersonnel )
+	if ( sessions.size() + 1 >= Global::MaxStagePersonnel )
 	{
 		std::cout << "The stage is full of people" << std::endl;
 		return;

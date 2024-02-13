@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using Newtonsoft.Json;
 
 using static PacketType;
+using UnityEngine.SceneManagement;
 
 public class StageSystem : MonoBehaviour
 {
@@ -16,13 +17,14 @@ public class StageSystem : MonoBehaviour
     
     public List<Outline> personnelOutlines = new List<Outline>();
     private int maxPersonnel;
-    private bool canSendMakeStage = true;
+    private bool canSendCreateStage = true;
 
     public LinkedList<Stage> stages = new LinkedList<Stage>();
 
     private void Awake()
     {
         ProtocolSystem.Inst.Regist( CREATE_STAGE_ACK,  AckCreateStage );
+        ProtocolSystem.Inst.Regist( ENTRY_STAGE_ACK,   AckEntryStage );
         ProtocolSystem.Inst.Regist( STAGE_INFO_ACK,    AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( INSERT_STAGE_INFO, AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
@@ -68,10 +70,10 @@ public class StageSystem : MonoBehaviour
 
     public void CreateStage()
     {
-        if ( !canSendMakeStage )
+        if ( !canSendCreateStage )
              return;
 
-        canSendMakeStage = false;
+        canSendCreateStage = false;
         STAGE_INFO protocol;
         protocol.serial    = 0;
         protocol.title     = title.text;
@@ -82,20 +84,6 @@ public class StageSystem : MonoBehaviour
     #endregion
 
     #region Protocols
-    private void AckCreateStage( Packet _packet )
-    {
-        canSendMakeStage = true;
-        var data = Global.FromJson<CONFIRM>( _packet );
-        if ( data.isCompleted )
-        {
-            // 게임 접속
-        }
-        else
-        {
-            // 실패 메세지
-        }
-    }
-
     private LinkedListNode<Stage> FindStageInfoNode( ushort _seiral )
     {
         for ( var node = stages.First; node != null; node = node.Next )
@@ -106,6 +94,29 @@ public class StageSystem : MonoBehaviour
         }
 
         return null;
+    }
+
+    private void AckCreateStage( Packet _packet )
+    {
+        canSendCreateStage = true;
+        var data = Global.FromJson<CONFIRM>( _packet );
+        if ( data.isCompleted )
+        {
+            SceneManager.LoadScene( "SampleScene" );
+        }
+        else
+        {
+            // 실패 메세지
+        }
+    }
+
+    private void AckEntryStage( Packet _packet )
+    {
+        var data = Global.FromJson<CONFIRM>( _packet );
+        if ( data.isCompleted )
+        {
+            SceneManager.LoadScene( "SampleScene" );
+        }
     }
 
     #region Update Stage Info
