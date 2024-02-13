@@ -30,7 +30,7 @@ bool Database::Initialize()
 	return true;
 }
 
-UserData Database::Search( const std::string& _type, const std::string& _data )
+LOGIN_INFO Database::Search( const std::string& _type, const std::string& _data )
 {
 	::sprintf( sentence, R"Q(select * from userdata where %s = '%s';)Q", _type.c_str(), _data.c_str() );
 
@@ -44,23 +44,23 @@ UserData Database::Search( const std::string& _type, const std::string& _data )
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
 		throw std::exception( "The data was not found" );
 
-	return UserData{ row[0], row[1], row[2] };
+	return LOGIN_INFO{ row[0], row[1], row[2] };
 }
 
-bool Database::Insert( const UserData& _data )
+bool Database::Insert( const LOGIN_INFO& _data )
 {
 	::sprintf( sentence, R"Q(insert into userdata values( '%s', '%s', '%s' );)Q", _data.nickname.c_str(), _data.email.c_str(), _data.password.c_str() );
 	
 	return Query( sentence );
 }
 
-bool Database::Update( const UserData& _data )
+bool Database::Update( const LOGIN_INFO& _data )
 {
 	::sprintf( sentence, R"Q(update userdata set nickname = '%s', password = '%s' where email = '%s';)Q", _data.nickname.c_str(), _data.password.c_str(), _data.email.c_str() );
 	return Query( sentence );
 }
 
-bool Database::Delete( const UserData& _data )
+bool Database::Delete( const LOGIN_INFO& _data )
 {
 	::sprintf( sentence, R"Q(delete from userdata where email = '%s';)Q", _data.email.c_str() );
 	return Query( sentence );

@@ -13,25 +13,26 @@ void Login::Bind()
 void Login::ConfirmMatchData( const Packet& _packet )
 {
 	auto data = FromJson<LOGIN_INFO>( _packet );
+
+	CONFIRM ack;
 	try
 	{
-		UserData user = Database::Inst().Search( "email", data.email );
-		if ( data.password.compare( user.password ) != 0 )
-			throw std::exception( "The password does not match" );
+		LOGIN_INFO info = Database::Inst().Search( "email", data.email );
+		if ( data.password.compare( info.password ) != 0 )
+			 throw std::exception( "The password does not match" );
 
-		LOGIN_INFO protocol;
-		protocol.nickname = user.nickname;
-
+		std::cout << "\"" << info.nickname << "\" entered the lobby" << std::endl;
 		
-		_packet.session->Send( UPacket( CONFIRM_LOGIN_ACK, protocol ) );
+		ack.isCompleted = true;
+		_packet.session->loginInfo = info;
 	}
 	catch ( const std::exception& _error )
 	{
-		// 일단 빈 객체를 보내고
-		// 에러 관련 프로토콜을 정의하는 등 클라에서 처리할 수 있는 방안을 찾아야됨
+		ack.isCompleted = false;
 		std::cout << "Exception : " << _error.what() << std::endl;
-		_packet.session->Send( UPacket( CONFIRM_LOGIN_ACK, LOGIN_INFO() ) );
 	}
+
+	_packet.session->Send( UPacket( CONFIRM_LOGIN_ACK, ack ) );
 }
 
 void Login::ConfirmDuplicateInfo( const Packet& _packet )
@@ -41,7 +42,7 @@ void Login::ConfirmDuplicateInfo( const Packet& _packet )
 
 	try
 	{
-		UserData user = Database::Inst().Search( "email", data.email );
+		LOGIN_INFO user = Database::Inst().Search( "email", data.email );
 		protocol.isCompleted = false;
 	}
 	catch ( const std::exception& )
@@ -57,7 +58,7 @@ void Login::AddToDatabase( const Packet& _packet )
 	auto data = FromJson<LOGIN_INFO>( _packet );
 
 	CONFIRM protocol;
-	protocol.isCompleted = Database::Inst().Insert( UserData{ data.nickname, data.email, data.password } );
+	protocol.isCompleted = Database::Inst().Insert( LOGIN_INFO{ data.nickname, data.email, data.password } );
 
 	_packet.session->Send( UPacket( CONFIRM_ACCOUNT_ACK, protocol ) );
 }

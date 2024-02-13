@@ -1,13 +1,7 @@
 #pragma once
 #include "Global/Singleton.hpp"
 #include "mysql.h"
-
-struct UserData
-{
-	std::string nickname;
-	std::string email;
-	std::string password;
-};
+#include "Protocol/Protocol.hpp"
 
 class Database : public Singleton<Database>
 {
@@ -23,15 +17,15 @@ public:
 	bool Initialize();
 
 public:
-	UserData Search( const std::string& _type, const std::string& _data );
-	bool Insert( const UserData& _data );
-	bool Update( const UserData& _data );
-	bool Delete( const UserData& _data );
+	LOGIN_INFO Search( const std::string& _type, const std::string& _data );
+	bool Insert( const LOGIN_INFO& _data );
+	bool Update( const LOGIN_INFO& _data );
+	bool Delete( const LOGIN_INFO& _data );
 
 private:
 	bool Query( const char* _sentence );
 
 public:
-	Database()          = default;
+	Database() = default;
 	virtual ~Database();
 };
