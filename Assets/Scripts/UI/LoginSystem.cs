@@ -13,7 +13,7 @@ public class LoginSystem : MonoBehaviour
     public TMP_InputField password;
     public TMP_InputField nickname;
 
-[Header( "Panel" )]
+    [Header( "Panel" )]
     public GameObject      errorPanel;
     public TextMeshProUGUI errorMessage;
 
@@ -168,7 +168,7 @@ public class LoginSystem : MonoBehaviour
         var data = Global.FromJson<CONFIRM>( _packet );
         if ( data.isCompleted )
         {
-            SceneManager.LoadScene( "Lobby" );
+            SceneBase.ChangeScene( SceneType.Lobby );
         }
         else
         {

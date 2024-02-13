@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Newtonsoft.Json;
 
 using static PacketType;
-using UnityEngine.SceneManagement;
 
 public class StageSystem : MonoBehaviour
 {
@@ -19,16 +17,18 @@ public class StageSystem : MonoBehaviour
     private int maxPersonnel;
     private bool canSendCreateStage = true;
 
-    public LinkedList<Stage> stages = new LinkedList<Stage>();
+    public static STAGE_INFO Info { get; private set; }
+    public List<Stage> stages = new List<Stage>();
 
     private void Awake()
     {
-        ProtocolSystem.Inst.Regist( CREATE_STAGE_ACK,  AckCreateStage );
-        ProtocolSystem.Inst.Regist( ENTRY_STAGE_ACK,   AckEntryStage );
+        var net = Network.Inst;
         ProtocolSystem.Inst.Regist( STAGE_INFO_ACK,    AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( INSERT_STAGE_INFO, AckInsertStageInfo );
-        ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
+        ProtocolSystem.Inst.Regist( CREATE_STAGE_ACK,  AckEntryStage );
+        ProtocolSystem.Inst.Regist( ENTRY_STAGE_ACK,   AckEntryStage );
         ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
+        ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
     }
 
     private void Start()
@@ -84,71 +84,55 @@ public class StageSystem : MonoBehaviour
     #endregion
 
     #region Protocols
-    private LinkedListNode<Stage> FindStageInfoNode( ushort _seiral )
-    {
-        for ( var node = stages.First; node != null; node = node.Next )
-        {
-            var stage = node.Value;
-            if ( stage.info.serial == _seiral )
-                 return node;
-        }
-
-        return null;
-    }
-
-    private void AckCreateStage( Packet _packet )
-    {
-        canSendCreateStage = true;
-        var data = Global.FromJson<CONFIRM>( _packet );
-        if ( data.isCompleted )
-        {
-            SceneManager.LoadScene( "SampleScene" );
-        }
-        else
-        {
-            // 실패 메세지
-        }
-    }
-
     private void AckEntryStage( Packet _packet )
     {
-        var data = Global.FromJson<CONFIRM>( _packet );
-        if ( data.isCompleted )
-        {
-            SceneManager.LoadScene( "SampleScene" );
-        }
+        canSendCreateStage = true;
+        Info = Global.FromJson<STAGE_INFO>( _packet );
+        SceneBase.ChangeScene( SceneType.InGame );
     }
 
     #region Update Stage Info
     private void AckUpdateStageInfo( Packet _packet )
     {
         var data = Global.FromJson<STAGE_INFO>( _packet );
+        foreach ( var stage in stages )
+        {
+            if ( stage == null )
+                 Debug.LogError( "Stage is NULL" );
 
-        var node = FindStageInfoNode( data.serial );
-        if ( node == null )
-             return;
-
-        node.Value.Initialize( data );
+            if ( stage.info.serial == data.serial )
+            {
+                stage.Initialize( data );
+                return;
+            }
+        }
     }
 
     private void AckInsertStageInfo( Packet _packet )
     {
         var data = Global.FromJson<STAGE_INFO>( _packet );
+
         Stage newStage = Instantiate( prefab, contents );
         newStage.Initialize( data );
 
-        stages.AddLast( newStage );
+        stages.Add( newStage );
     }
 
     private void AckDeleteStageInfo( Packet _packet )
     {
         var data = Global.FromJson<STAGE_INFO>( _packet );
+        foreach ( var stage in stages )
+        {
+            if ( stage == null )
+                 Debug.LogError( "Stage is NULL" );
 
-        var node = FindStageInfoNode( data.serial );
-        if ( node == null )
-             return;
-
-        stages.Remove( node );
+            if ( stage.info.serial == data.serial )
+            {
+                stages.Remove( stage );
+                Destroy( stage.gameObject );
+                return;
+            }
+        }
     }
     #endregion
     #endregion

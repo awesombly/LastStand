@@ -47,6 +47,9 @@ public class Network : Singleton<Network>
             ip == IpType.TAE ? "49.142.77.208"   :
                                "127.0.0.1";
 
+        var protocolSystem = ProtocolSystem.Inst;
+        var packetSystem   = PacketSystem.Inst;
+
         StartCoroutine( ConfirmDisconnect() );
         StartCoroutine( ReconnectProcess() );
 

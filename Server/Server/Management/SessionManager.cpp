@@ -118,7 +118,7 @@ void SessionManager::BroadcastWaitingRoom( const UPacket& _packet )
 		Session* session = pair.second;
 
 		LOGIN_INFO login = session->loginInfo;
-		if ( login.nickname.empty() && !session->isPlaying )
+		if ( !session->isPlaying ) //login.nickname.empty() && !session->isPlaying )
 		{
 			session->Send( _packet );
 		}
@@ -153,19 +153,24 @@ void SessionManager::ExitStage( Session* _session, const STAGE_INFO& _info )
 		if ( !stage->Exit( _session ) )
 		{
 			// 방에 아무도 없을 때
+			BroadcastWaitingRoom( UPacket( DELETE_STAGE_INFO, stage->info ) );
 			Global::Memory::SafeDelete( stage );
 			stages.erase( serial );
 		}
+		else
+		{
+			BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
+		}
 	}
-
 	_session->isPlaying = false;
-	BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
 }
 
-void SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
+// return : 변경 및 생성된 스테이지
+Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 {
 	Stage* stage = nullptr;
 	SerialType serial = _info.serial;
+	_session->isPlaying = true;
 	if ( !stages.contains( serial ) )
 	{
 		// 방 생성하고 입장
@@ -173,6 +178,7 @@ void SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 		std::lock_guard<std::mutex> lock( mtx );
 		stage = new Stage( _session, _info );
 		stages[serial] = stage;
+		BroadcastWaitingRoom( UPacket( INSERT_STAGE_INFO, stage->info ) );
 	}
 	else
 	{
@@ -181,9 +187,9 @@ void SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 		std::cout << "\"" << _session->loginInfo.nickname << "\" entered stage " << serial << std::endl;
 		std::lock_guard<std::mutex> lock( mtx );
 		stage->Entry( _session );
+		BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
 	}
 
-	_session->isPlaying = true;
-	BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
+	return stage;
 }
 #pragma endregion

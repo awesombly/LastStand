@@ -12,31 +12,25 @@ void Lobby::Bind()
 void Lobby::AckCreateStage( const Packet& _packet )
 {
 	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
-	CONFIRM confirm;
-	confirm.isCompleted = data.title.size() > 0;
-
 	Session* session = _packet.session;
-	if ( confirm.isCompleted )
-	{
-		STAGE_INFO stageData;
-		stageData.serial = Global::GetNewSerial();
-		stageData.title = data.title;
-		stageData.personnel.maximum = data.personnel.maximum;
-		stageData.personnel.current = 1;
 
-		SessionManager::Inst().EntryStage( session, stageData );
-	}
+	STAGE_INFO stageData;
+	stageData.serial = Global::GetNewSerial();
+	stageData.title = data.title;
+	stageData.personnel.maximum = data.personnel.maximum;
+	stageData.personnel.current = 1;
 
-	session->Send( UPacket( CREATE_STAGE_ACK, confirm ) );
+	Stage* stage = SessionManager::Inst().EntryStage( session, stageData );
+	session->Send( UPacket( CREATE_STAGE_ACK, stage->info ) );
 }
 
 void Lobby::AckEntryStage( const Packet& _packet )
 {
 	Session* session = _packet.session;
 	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
-	SessionManager::Inst().EntryStage( session, data );
 
-	_packet.session->Send( UPacket( ENTRY_STAGE_ACK, CONFIRM( true ) ) );
+	Stage* stage = SessionManager::Inst().EntryStage( session, data );
+	_packet.session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
 }
 
 void Lobby::AckStageList( const Packet& _packet )
