@@ -5,7 +5,7 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 
-public class Character : PoolObject
+public class Character : Actor
 {
     public float Hp { get; set; }
     [SerializeField]

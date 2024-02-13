@@ -92,8 +92,8 @@ public struct LOGIN_INFO : IProtocol
 
 public struct ACTOR_INFO : IProtocol
 {
-    public bool isLocal;
     public int prefab;
+    public bool isLocal;
     public uint serial;
     public VECTOR3 position;
     public QUATERNION rotation;

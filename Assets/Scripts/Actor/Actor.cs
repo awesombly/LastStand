@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class PoolObject : MonoBehaviour
+public class Actor : MonoBehaviour
 {
     private bool isLocal = true;
     public bool IsLocal
@@ -25,11 +25,11 @@ public class PoolObject : MonoBehaviour
             }
 
             serial = value;
-            GameManager.Inst.RegistObject( this );
+            GameManager.Inst.RegistActor( this );
         }
     }
 
-    private IObjectPool<PoolObject> parentPool = null;
+    private IObjectPool<Actor> parentPool = null;
 
     public void Release()
     {
@@ -41,12 +41,12 @@ public class PoolObject : MonoBehaviour
 
         if ( gameObject.activeSelf )
         {
-            GameManager.Inst.UnRegistObject( serial );
+            GameManager.Inst.UnregistActor( serial );
             parentPool.Release( this );
         }
     }
 
-    public void SetPool( IObjectPool<PoolObject> _pool )
+    public void SetPool( IObjectPool<Actor> _pool )
     {
         parentPool = _pool;
     }

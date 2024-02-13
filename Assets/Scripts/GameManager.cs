@@ -10,25 +10,25 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]    // PoolManager를 사용할 모든 프리팹들
     private List<GameObject/*Prefab*/> prefabList;
 
-    private Dictionary<uint/*Serial*/, PoolObject> objects = new Dictionary<uint, PoolObject>();
+    private Dictionary<uint/*Serial*/, Actor> objects = new Dictionary<uint, Actor>();
 
     protected override void Awake()
     {
         base.Awake();
     }
 
-    public void RegistObject( PoolObject _object )
+    public void RegistActor( Actor _actor )
     {
-        if ( _object == null
-            || objects.ContainsKey( _object.Serial ) )
+        if ( _actor == null
+            || objects.ContainsKey( _actor.Serial ) )
         {
-            Debug.LogWarning( "Invalid Object : " + _object );
+            Debug.LogWarning( "Invalid Actor : " + _actor );
         }
 
-        objects[_object.Serial] = _object;
+        objects[_actor.Serial] = _actor;
     }
 
-    public void UnRegistObject( uint _serial )
+    public void UnregistActor( uint _serial )
     {
         if ( _serial == uint.MaxValue )
         {

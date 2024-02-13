@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayer: 0
   moveSpeed: 10
-  damage: 20
+  damage: 60
   owner: {fileID: 0}
 --- !u!50 &-5355977176211696922
 Rigidbody2D:

@@ -6,11 +6,11 @@ using UnityEngine.Pool;
 
 public class PoolManager : Singleton<PoolManager>
 {
-    private Dictionary<GameObject/*Prefab*/, IObjectPool<PoolObject>> pools = new Dictionary<GameObject, IObjectPool<PoolObject>>();
+    private Dictionary<GameObject/*Prefab*/, IObjectPool<Actor>> pools = new Dictionary<GameObject, IObjectPool<Actor>>();
     private Dictionary<GameObject/*Prefab*/, GameObject/*Parent*/> poolParents = new Dictionary<GameObject, GameObject>();
-    private GameObject curPrefab;
+    private GameObject curPrefab;       // GameObject 생성시 프리팹 구별이 안되서 추가
 
-    public PoolObject Get( GameObject _prefab )
+    public Actor Get( GameObject _prefab )
     {
         if ( !pools.ContainsKey( _prefab ) )
         {
@@ -21,7 +21,7 @@ public class PoolManager : Singleton<PoolManager>
         return pools[_prefab].Get();
     }
 
-    public PoolObject Get( int _prefabIndex )
+    public Actor Get( int _prefabIndex )
     {
         return Get( GameManager.Inst.GetPrefab( _prefabIndex ) );
     }
@@ -40,18 +40,18 @@ public class PoolManager : Singleton<PoolManager>
 
         int initCapacity = 10;
         curPrefab = _prefab;
-        pools.Add( curPrefab, new ObjectPool<PoolObject>( CreatePoolObject, OnGetAction, OnReleaseAction, OnDestroyAction, true/*checkError*/, initCapacity ) );
+        pools.Add( curPrefab, new ObjectPool<Actor>( CreateActor, OnGetAction, OnReleaseAction, OnDestroyAction, true/*checkError*/, initCapacity ) );
     }
 
     #region ObjectPool Functions
-    private PoolObject CreatePoolObject()
+    private Actor CreateActor()
     {
         GameObject go = Instantiate( curPrefab, poolParents[curPrefab].transform );
 
-        var poolObject = go.GetComponent<PoolObject>();
-        if ( poolObject == null )
+        var actor = go.GetComponent<Actor>();
+        if ( actor == null )
         {
-            Debug.LogError( "Not found PoolObject : " + go.name );
+            Debug.LogError( "Not found Actor : " + go.name );
             return null;
         }
 
@@ -61,24 +61,24 @@ public class PoolManager : Singleton<PoolManager>
             return null;
         }
 
-        poolObject.SetPool( pools[curPrefab] );
+        actor.SetPool( pools[curPrefab] );
 
-        return poolObject;
+        return actor;
     }
 
-    private void OnGetAction( PoolObject _object )
+    private void OnGetAction( Actor _actor )
     {
-        _object.gameObject.SetActive( true );
+        _actor.gameObject.SetActive( true );
     }
 
-    private void OnReleaseAction( PoolObject _object )
+    private void OnReleaseAction( Actor _actor )
     {
-        _object.gameObject.SetActive( false );
+        _actor.gameObject.SetActive( false );
     }
 
-    private void OnDestroyAction( PoolObject _object )
+    private void OnDestroyAction( Actor _actor )
     {
-        Destroy( _object.gameObject );
+        Destroy( _actor.gameObject );
     }
     #endregion
 }
