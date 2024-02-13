@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Login.unity
     guid: f2916f122e345524eb2e88a18bfbd66a
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/InGame.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: f4172ccf09a9d4f4eada43091352464d, type: 2}
