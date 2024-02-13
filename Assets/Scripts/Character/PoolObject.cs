@@ -5,8 +5,23 @@ using UnityEngine.Pool;
 
 public class PoolObject : MonoBehaviour
 {
-    public uint serial;
-    public bool isLocal = false;
+    public bool isLocal = true;
+    private uint serial = uint.MaxValue;
+    public uint Serial
+    {
+        get => serial; 
+        set
+        {
+            if ( serial == value )
+            {
+                Debug.LogWarning( "Is same serial : " + serial );
+                return;
+            }
+
+            serial = value;
+            GameManager.Inst.RegistObject( this );
+        }
+    }
 
     private IObjectPool<PoolObject> parentPool = null;
 
@@ -20,6 +35,7 @@ public class PoolObject : MonoBehaviour
 
         if ( gameObject.activeSelf )
         {
+            GameManager.Inst.UnRegistObject( serial );
             parentPool.Release( this );
         }
     }

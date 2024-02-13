@@ -6,14 +6,32 @@ public class GameManager : Singleton<GameManager>
 {
     public Player localPlayer;
 
-    [SerializeField]
+    [SerializeField]    // PoolManager를 사용할 모든 프리팹들
     private List<GameObject/*Prefab*/> prefabList;
 
-    public Dictionary<uint/*Serial*/, PoolObject> objects;
+    private Dictionary<uint/*Serial*/, PoolObject> objects = new Dictionary<uint, PoolObject>();
 
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    public void RegistObject( PoolObject _object )
+    {
+        objects[_object.Serial] = _object;
+    }
+
+    public void UnRegistObject( uint _serial )
+    {
+        if ( _serial == uint.MaxValue )
+        {
+            return;
+        }
+
+        if ( !objects.Remove( _serial ) )
+        {
+            Debug.LogWarning( "Invalid Serial : " + _serial );
+        }
     }
 
     public int GetPrefabIndex( GameObject _prefab )

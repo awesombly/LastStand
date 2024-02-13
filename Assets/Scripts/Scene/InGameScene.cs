@@ -14,7 +14,7 @@ public class InGameScene : MonoBehaviour
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Enemy enemy = PoolManager.Inst.Get( data.prefab ) as Enemy;
-        enemy.serial = data.serial;
+        enemy.Serial = data.serial;
         enemy.Initialize( new Vector3( data.position.x, data.position.y, data.position.z ) );
     }
 }
