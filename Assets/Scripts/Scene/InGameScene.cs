@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PacketType;
 
-public class InGameScene : MonoBehaviour
+public class InGameScene : SceneBase
 {
     [SerializeField]
     private Transform spawnTransform;
@@ -22,8 +22,9 @@ public class InGameScene : MonoBehaviour
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK, AckSynkMovement );
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         InitLocalPlayer();
         ReqSpawnPlayer();
     }

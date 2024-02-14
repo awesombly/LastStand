@@ -8,7 +8,13 @@ public class PoolManager : Singleton<PoolManager>
 {
     private Dictionary<GameObject/*Prefab*/, IObjectPool<Actor>> pools = new Dictionary<GameObject, IObjectPool<Actor>>();
     private Dictionary<GameObject/*Prefab*/, GameObject/*Parent*/> poolParents = new Dictionary<GameObject, GameObject>();
-    private GameObject curPrefab;       // GameObject 생성시 프리팹 구별이 안되서 추가
+    private GameObject curPrefab = null;    // GameObject 생성시 프리팹 구별이 안되서 추가
+
+    protected override void Awake()
+    {
+        base.Awake();
+        SceneBase.OnBeforeSceneLoad += Clear;
+    }
 
     public Actor Get( GameObject _prefab )
     {
@@ -41,6 +47,23 @@ public class PoolManager : Singleton<PoolManager>
         int initCapacity = 10;
         curPrefab = _prefab;
         pools.Add( curPrefab, new ObjectPool<Actor>( CreateActor, OnGetAction, OnReleaseAction, OnDestroyAction, true/*checkError*/, initCapacity ) );
+    }
+
+    private void Clear()
+    {
+        foreach ( var actorPool in pools )
+        {
+            actorPool.Value.Clear();
+        }
+        pools.Clear();
+
+        foreach ( var item in poolParents )
+        {
+            Destroy( item.Value );
+        }
+        poolParents.Clear();
+
+        curPrefab = null;
     }
 
     #region ObjectPool Functions

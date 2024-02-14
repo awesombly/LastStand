@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
+        SceneBase.OnBeforeSceneLoad += Clear;
     }
 
     public void RegistActor( Actor _actor )
@@ -72,5 +73,10 @@ public class GameManager : Singleton<GameManager>
         }
 
         return prefabList[_index];
+    }
+
+    private void Clear()
+    {
+        actors.Clear();
     }
 }
