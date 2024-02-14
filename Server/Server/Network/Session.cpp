@@ -75,7 +75,6 @@ void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 				Packet newPacket;
 				::memcpy( &newPacket, packet, packet->size );
 				newPacket.session = this;
-				newPacket.socket  = socket;
 				
 				PacketSystem::Inst().Push( newPacket );
 				

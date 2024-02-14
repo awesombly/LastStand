@@ -16,7 +16,7 @@ void InGame::SpawnPlayer( const Packet& _packet )
 	data.isLocal = true;
 	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
 	data.isLocal = false;
-	SessionManager::Inst().BroadcastWithoutSelf( _packet.socket, UPacket( SPAWN_PLAYER_ACK, data ) );
+	SessionManager::Inst().BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, data ) );
 }
 
 void InGame::SpawnActor( const Packet& _packet )
@@ -30,11 +30,11 @@ void InGame::AckExitStage( const Packet& _packet )
 {
 	Session* session = _packet.session;
 	SessionManager::Inst().ExitStage( session );
-	_packet.session->Send( UPacket( EXIT_STAGE_ACK, EMPTY() ) );
+	session->Send( UPacket( EXIT_STAGE_ACK, EMPTY() ) );
 }
 
 void InGame::SynkMovement( const Packet& _packet )
 {
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
-	SessionManager::Inst().BroadcastWithoutSelf( _packet.socket, UPacket( SYNK_MOVEMENT_ACK, data ) );
+	SessionManager::Inst().BroadcastWithoutSelf( _packet.session, UPacket( SYNK_MOVEMENT_ACK, data ) );
 }

@@ -69,7 +69,7 @@ void ProtocolSystem::BroadcastWithoutSelf( const Packet& _packet )
 	for ( const std::pair<SOCKET, Session*>& pair : SessionManager::Inst().GetSessions() )
 	{
 		Session* session = pair.second;
-		if ( session->GetSocket() != _packet.socket )
+		if ( session->GetSocket() != _packet.session->GetSocket() )
 	 		 session->Send( _packet );
 	}
 }

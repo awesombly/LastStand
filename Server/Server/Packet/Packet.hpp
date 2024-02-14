@@ -42,7 +42,6 @@ class Session;
 struct Packet : public UPacket
 {
 	Session* session;
-	SOCKET socket;
 };
 
 template<typename Type>
