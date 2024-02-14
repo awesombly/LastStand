@@ -12,17 +12,20 @@ public class StageSystem : MonoBehaviour
     public TMP_InputField title;
     public Transform contents;
     public Stage prefab;
-    
+    private WNS.ObjectPool<Stage> pool;
+
     public List<Outline> personnelOutlines = new List<Outline>();
     private int maxPersonnel;
     private bool canSendCreateStage = true;
 
-    public static STAGE_INFO Info { get; private set; }
+    public static STAGE_INFO? Info { get; set; }
     public List<Stage> stages = new List<Stage>();
 
     private void Awake()
     {
         var net = Network.Inst;
+        pool = new WNS.ObjectPool<Stage>( prefab, 5 );
+
         ProtocolSystem.Inst.Regist( STAGE_INFO_ACK,    AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( INSERT_STAGE_INFO, AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( CREATE_STAGE_ACK,  AckEntryStage );
@@ -97,9 +100,6 @@ public class StageSystem : MonoBehaviour
         var data = Global.FromJson<STAGE_INFO>( _packet );
         foreach ( var stage in stages )
         {
-            if ( stage == null )
-                 Debug.LogError( "Stage is NULL" );
-
             if ( stage.info.serial == data.serial )
             {
                 stage.Initialize( data );
@@ -112,7 +112,7 @@ public class StageSystem : MonoBehaviour
     {
         var data = Global.FromJson<STAGE_INFO>( _packet );
 
-        Stage newStage = Instantiate( prefab, contents );
+        Stage newStage = pool.Spawn( contents );
         newStage.Initialize( data );
 
         stages.Add( newStage );
@@ -123,13 +123,10 @@ public class StageSystem : MonoBehaviour
         var data = Global.FromJson<STAGE_INFO>( _packet );
         foreach ( var stage in stages )
         {
-            if ( stage == null )
-                 Debug.LogError( "Stage is NULL" );
-
             if ( stage.info.serial == data.serial )
             {
                 stages.Remove( stage );
-                Destroy( stage.gameObject );
+                pool.Despawn( stage );
                 return;
             }
         }

@@ -15,6 +15,7 @@ public class Stage : MonoBehaviour
     public void Initialize( STAGE_INFO _info )
     {
         info = _info;
+        transform.localScale = Vector3.one;
 
         title.text        = info.title;
         maxPersonnel.text = $"{info.personnel.maximum}";

@@ -19,6 +19,7 @@ public class Sample : MonoBehaviour
 
     private void AckExitStage( Packet _packet )
     {
+        StageSystem.Info = null;
         SceneBase.ChangeScene( SceneType.Lobby );
     }
 }
