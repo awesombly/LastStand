@@ -2,8 +2,8 @@
 #include "Management/PacketSystem.h"
 
 const int   Session::MaxUnresponse       = 30;
-const float Session::MinResponseWaitTime = 10.0f;
-const float Session::RequestDelay        = 10.0f;
+const float Session::MinResponseWaitTime = 30.0f;
+const float Session::RequestDelay        = 60.0f;
 
 Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 				  : Network( _socket, _address ), packet( new Packet() ), 
@@ -30,7 +30,7 @@ bool Session::CheckAlive()
 		if ( ++unresponse > MaxUnresponse )
  			 return false;
 
-		std::cout << "Verify that the session is alive( " << GetPort() << ", " << GetAddress() << " )" << std::endl;
+		//std::cout << "Verify that the session is alive( " << GetPort() << ", " << GetAddress() << " )" << std::endl;
 		Send( UPacket( PACKET_HEARTBEAT, EMPTY(/* ºó ÇÁ·ÎÅäÄİ */ ) ) );
 	}
 
