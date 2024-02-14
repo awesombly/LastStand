@@ -35,7 +35,7 @@ void SessionManager::ConfirmDisconnect()
 				Session* session = pair.second;
 				if ( !session->CheckAlive() )
 				{
-					std::cout << "Remove unresponsive session ( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
+					std::cout << "# Remove unresponsive session ( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
 					unAckSessions.push( session );
 				}
 			}
@@ -106,12 +106,12 @@ void SessionManager::Broadcast( const UPacket& _packet ) const
 	}
 }
 
-void SessionManager::BroadcastWithoutSelf( const SOCKET& _socket, const UPacket& _packet ) const
+void SessionManager::BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) const
 {
 	for ( const std::pair<SOCKET, Session*>& pair : sessions )
 	{
 		Session* session = pair.second;
-		if ( session->GetSocket() != _socket )
+		if ( session->GetSocket() != _session->GetSocket() )
 			 session->Send( _packet );
 	}
 }

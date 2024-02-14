@@ -14,7 +14,9 @@ public:
 	Stage( Session* _host, const STAGE_INFO& _info );
 	virtual ~Stage() = default;
 
-public:
 	bool Entry( Session* _session );
 	bool Exit( Session* _session );
+
+	void Broadcast( const UPacket& _packet ) const;
+	void BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) const;
 };

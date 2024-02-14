@@ -37,3 +37,18 @@ bool Stage::Exit( Session* _session )
 
 	return sessions.size() > 0;
 }
+
+void Stage::Broadcast( const UPacket& _packet ) const
+{
+	for ( auto iter = sessions.begin(); iter != sessions.end(); iter++ )
+		( *iter )->Send( _packet );
+}
+
+void Stage::BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) const
+{
+	for ( Session* session : sessions )
+	{
+		if ( session->GetSocket() != _session->GetSocket() )
+			 session->Send( _packet );
+	}
+}

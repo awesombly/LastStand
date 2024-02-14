@@ -27,7 +27,7 @@ public:
 	Session* Find( const SOCKET& _socket ) const;
 
 	void Broadcast( const UPacket& _packet ) const;
-	void BroadcastWithoutSelf( const SOCKET& _socket, const UPacket& _packet ) const;
+	void BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) const;
 	void BroadcastWaitingRoom( const UPacket& _packet );
 	std::unordered_map<SOCKET, Session*> GetSessions() const;
 
