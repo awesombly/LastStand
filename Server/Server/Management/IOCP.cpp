@@ -49,12 +49,12 @@ void IOCP::WaitCompletionStatus() const
 		else
 		{
 			Session* session = ( Session* )key;
-			DWORD error = ::GetLastError();
-			std::cout << "Queue LastError : " << ::GetLastError() << std::endl;
-			switch ( error )
+			switch ( ::GetLastError() )
 			{
 				default:
 				{
+					DWORD error = ::GetLastError();
+					std::cout << "Queue LastError : " << error << std::endl;
 					// 작업이 취소되었을 때 발생하는 오류
 					if ( error != ERROR_OPERATION_ABORTED )
 					{
@@ -62,6 +62,12 @@ void IOCP::WaitCompletionStatus() const
 						if ( session != nullptr && transferred == 0 )
 							 SessionManager::Inst().Erase( session );
 					}
+				} break;
+
+				// 서버에서 응답안하는 클라이언트 종료시켰을 때
+				case ERROR_CONNECTION_ABORTED:
+				{
+					continue;
 				} break;
 
 				// 방화벽, 라우터, 랜뽑 등의 제한으로 인한 네트워크 단절이 발생했을 때

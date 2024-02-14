@@ -28,16 +28,15 @@ void SessionManager::ConfirmDisconnect()
 {
 	while ( true )
 	{
+		std::this_thread::sleep_for( std::chrono::milliseconds( 100 ) );
+		std::lock_guard<std::mutex> lock( mtx );
 		for ( const std::pair<SOCKET, Session*>& pair : sessions )
 		{
-			std::lock_guard<std::mutex> lock( mtx );
+			Session* session = pair.second;
+			if ( !session->CheckAlive() )
 			{
-				Session* session = pair.second;
-				if ( !session->CheckAlive() )
-				{
-					std::cout << "# Remove unresponsive session ( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
-					unAckSessions.push( session );
-				}
+				std::cout << "# Remove unresponsive session ( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
+				unAckSessions.push( session );
 			}
 		}
 
@@ -47,13 +46,10 @@ void SessionManager::ConfirmDisconnect()
 			if ( session->stage != nullptr )
 				 ExitStage( session );
 
-			std::lock_guard<std::mutex> lock( mtx );
-			{
-				sessions.erase( session->GetSocket() );
-				session->ClosedSocket();
-				Global::Memory::SafeDelete( session );
-				unAckSessions.pop();
-			}
+			sessions.erase( session->GetSocket() );
+			session->ClosedSocket();
+			Global::Memory::SafeDelete( session );
+			unAckSessions.pop();
 		}
 	}
 }
@@ -66,10 +62,9 @@ void SessionManager::Push( Session* _session )
 		 return;
 
 	std::cout << "# Register a new session ( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+
 	std::lock_guard<std::mutex> lock( mtx );
-	{
-		sessions[_session->GetSocket()] = _session;
-	}
+	sessions[_session->GetSocket()] = _session;
 }
 
 void SessionManager::Erase( Session* _session )
@@ -78,14 +73,9 @@ void SessionManager::Erase( Session* _session )
 		return;
 
 	std::cout << "# The session has left ( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	
 	std::lock_guard<std::mutex> lock( mtx );
-	{
-		unAckSessions.push( _session );
-		// SOCKET socket = _session->GetSocket();
-		// _session->ClosedSocket();
-		// Global::Memory::SafeDelete( _session );
-		// sessions.erase( socket );
-	}
+	unAckSessions.push( _session );
 }
 
 Session* SessionManager::Find( const SOCKET& _socket ) const
@@ -154,20 +144,17 @@ void SessionManager::ExitStage( Session* _session )
 		return;
 	}
 
-	std::lock_guard<std::mutex> lock( mtx );
+	if ( !stage->Exit( _session ) )
 	{
-		if ( !stage->Exit( _session ) )
-		{
-			// 방에 아무도 없을 때
-			std::cout << "# Stage " << serial << " has been removed" << std::endl;
-			BroadcastWaitingRoom( UPacket( DELETE_STAGE_INFO, stage->info ) );
-			Global::Memory::SafeDelete( stage );
-			stages.erase( serial );
-		}
-		else
-		{
-			BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
-		}
+		// 방에 아무도 없을 때
+		std::cout << "# Stage " << serial << " has been removed" << std::endl;
+		BroadcastWaitingRoom( UPacket( DELETE_STAGE_INFO, stage->info ) );
+		Global::Memory::SafeDelete( stage );
+		stages.erase( serial );
+	}
+	else
+	{
+		BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
 	}
 	_session->stage = nullptr;
 }
@@ -180,9 +167,7 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 	if ( !stages.contains( serial ) )
 	{
 		// 방 생성하고 입장
-		
 		std::cout << "# Stage " << serial << " has been created" << std::endl;
-		std::lock_guard<std::mutex> lock( mtx );
 		stage = new Stage( _session, _info );
 		stages[serial]  = stage;
 		_session->stage = stage;
@@ -192,7 +177,6 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 	{
 		// 이미 존재하는 방에 입장( 풀방일 땐 입장하지않음 )
 		stage = stages[serial];
-		std::lock_guard<std::mutex> lock( mtx );
 		if ( stage->Entry( _session ) )
 		{
 			std::cout << "# < " << _session->loginInfo.nickname << " > has entered stage " << serial << std::endl;

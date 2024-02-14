@@ -1,15 +1,15 @@
 #include "Session.h"
 #include "Management/PacketSystem.h"
 
-const int   Session::MaxUnresponse       = 10;
+const int   Session::MaxUnresponse       = 30;
 const float Session::MinResponseWaitTime = 10.0f;
-const float Session::RequestDelay        = 5.0f;
+const float Session::RequestDelay        = 10.0f;
 
 Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 				  : Network( _socket, _address ), packet( new Packet() ), 
 	                buffer{}, startPos( 0 ), writePos( 0 ), readPos( 0 ),
 					lastResponseTime( std::chrono::steady_clock::now() ),
-					unresponse( 0 ), time( 0 ) { }
+					unresponse( 0 ), time( 0 ), stage( nullptr ) { }
 
 Session::~Session()
 {
@@ -27,12 +27,10 @@ bool Session::CheckAlive()
 	time = std::chrono::steady_clock::now() - lastResponseTime;
 	if ( time.count() > MinResponseWaitTime + ( RequestDelay * unresponse ) )
 	{
-		if ( unresponse++ > MaxUnresponse )
-		{
-			return false;
-		}
+		if ( ++unresponse > MaxUnresponse )
+ 			 return false;
 
-		//std::cout << "Verify that the session is alive( " << GetPort() << ", " << GetAddress() << " )" << std::endl;
+		std::cout << "Verify that the session is alive( " << GetPort() << ", " << GetAddress() << " )" << std::endl;
 		Send( UPacket( PACKET_HEARTBEAT, EMPTY(/* ºó ÇÁ·ÎÅäÄİ */ ) ) );
 	}
 
