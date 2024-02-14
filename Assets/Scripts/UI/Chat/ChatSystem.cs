@@ -4,21 +4,24 @@ using UnityEngine;
 using static PacketType;
 public class ChatSystem : MonoBehaviour
 {
-    public TextMeshProUGUI prefab;
+    public ChatMsg prefab;
     public TMP_InputField  input;
     public Transform       contents;
+    public WNS.ObjectPool<ChatMsg> pool;
 
     private void Awake()
     {
         ProtocolSystem.Inst.Regist( PACKET_CHAT_MSG, PrintMessage );
 
+        pool = new WNS.ObjectPool<ChatMsg>( prefab, 5 );
         input.interactable = false;
     }
 
     private void PrintMessage( Packet _packet )
     {
-        var text  = Instantiate( prefab, contents );
-        text.text = System.Text.Encoding.UTF8.GetString( _packet.data );
+        var data  = Global.FromJson<MESSAGE>( _packet );
+        var obj   = pool.Spawn( contents );
+        obj.Initialize( data.message );
     }
 
     private void Update()
@@ -32,8 +35,7 @@ public class ChatSystem : MonoBehaviour
 
                 MESSAGE message;
                 message.message = input.text;
-
-                Network.Inst.Send( new Packet( PACKET_CHAT_MSG, message ) );
+                Network.Inst.Send( PACKET_CHAT_MSG, message );
 
                 input.text = string.Empty;
             }

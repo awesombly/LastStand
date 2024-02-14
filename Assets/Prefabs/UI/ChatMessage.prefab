@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7652751435055325386}
   - component: {fileID: 8061231770437336489}
+  - component: {fileID: 824143105751317292}
   - component: {fileID: 845496352549580030}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ChatMessage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 250, y: -15}
-  m_SizeDelta: {x: 500, y: 30}
+  m_SizeDelta: {x: 700, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8061231770437336489
 CanvasRenderer:
@@ -45,6 +46,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1689985845816337467}
   m_CullTransparentMesh: 1
+--- !u!114 &824143105751317292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1689985845816337467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4c92095f66734f40a650cdbebac6f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 845496352549580030}
 --- !u!114 &845496352549580030
 MonoBehaviour:
   m_ObjectHideFlags: 0
