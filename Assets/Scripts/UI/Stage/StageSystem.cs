@@ -84,6 +84,8 @@ public class StageSystem : MonoBehaviour
         
         Network.Inst.Send( new Packet( CREATE_STAGE_REQ, protocol ) );
     }
+
+    public void ExitGame() => Application.Quit();
     #endregion
 
     #region Protocols

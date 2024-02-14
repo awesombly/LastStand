@@ -849,7 +849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ec738b23ea85c4887ce76fe7636024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 824143105751317292, guid: bf3e66fe5bc262940a15b013c87d0093, type: 3}
+  prefab: {fileID: 0}
   input: {fileID: 486461293}
   contents: {fileID: 1370949109}
 --- !u!1 &873613935

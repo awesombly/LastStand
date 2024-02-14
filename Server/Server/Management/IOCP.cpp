@@ -72,8 +72,8 @@ void IOCP::WaitCompletionStatus() const
 				} break;
 
 				// 상대방이 closesocket, shutdown을 호출하지않고 종료했을 때 0byte read가 발생하지 않는다.
-				// 0byte read가 발생하지 않은 시점에서 IO 작업을 시도했을 때
-				// 상대방은 이미 종료 되었으므로 해당 오류가 발생한다. ( 우아한 종료와 상반되는 개념 )
+				// 0byte read가 발생하지 않은 시점에서 Send/Recieve 작업을 시도했을 때
+				// 상대방은 이미 종료한 상태로 해당 오류가 발생한다. ( 우아한 종료와 상반되는 개념 )
 				case ERROR_NETNAME_DELETED:
 				{
 					if ( session != nullptr )
