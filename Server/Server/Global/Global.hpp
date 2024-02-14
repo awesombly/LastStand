@@ -11,7 +11,7 @@ namespace Global
 	static SerialType GetNewSerial()
 	{
 		static SerialType serial = 0;
-		return serial++;
+		return ++serial;
 	}
 
 	namespace DB

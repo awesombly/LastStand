@@ -19,4 +19,5 @@ public:
 
 	void Broadcast( const UPacket& _packet ) const;
 	void BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) const;
+	void Send( SOCKET _socket, const UPacket& _packet ) const;
 };

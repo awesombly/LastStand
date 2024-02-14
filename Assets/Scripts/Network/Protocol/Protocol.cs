@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,6 +41,8 @@ public enum PacketType : ushort
     SPAWN_PLAYER_ACK,              // Player 스폰 응답
     SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 요청
     SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
+    INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
+    INGAME_LOAD_DATA_ACK,          // InGame 입장시 데이터 응답
 };
 
 public struct VECTOR3
@@ -100,6 +103,7 @@ public struct LOGIN_INFO : IProtocol
 
 public struct ACTOR_INFO : IProtocol
 {
+    public UInt64 socket;
     public int prefab;
     public bool isLocal;
     public uint serial;

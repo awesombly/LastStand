@@ -22,12 +22,14 @@ public class InGameScene : SceneBase
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK, AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK, AckSpawnEnemy );
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK, AckSynkMovement );
+        ProtocolSystem.Inst.Regist( INGAME_LOAD_DATA_ACK, AckInGameLoadData );
     }
 
     protected override void Start()
     {
         base.Start();
         InitLocalPlayer();
+        ReqInGameLoadData();
         ReqSpawnPlayer();
     }
 
@@ -47,13 +49,19 @@ public class InGameScene : SceneBase
     private void ReqSpawnPlayer()
     {
         ACTOR_INFO protocol;
-        protocol.isLocal = false;
+        protocol.socket = 0;
+        protocol.isLocal = true;
         protocol.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
         protocol.serial = 0;
-        protocol.position = new VECTOR3( spawnTransform.position );
+        protocol.position = new VECTOR3( spawnTransform.position + Vector3.one * Random.Range( -5f, 5f ) );
         protocol.rotation = new QUATERNION( spawnTransform.rotation );
         protocol.velocity = new VECTOR3( Vector3.zero );
-        Network.Inst.Send( PacketType.SPAWN_PLAYER_REQ, protocol );
+        Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
+    }
+
+    private void ReqInGameLoadData()
+    {
+        Network.Inst.Send( INGAME_LOAD_DATA_REQ, new EMPTY() );
     }
     #endregion
 
@@ -89,6 +97,29 @@ public class InGameScene : SceneBase
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Actor actor = GameManager.Inst.GetActor( data.serial );
         actor.SetMovement( data.position.To(), data.rotation.To(), data.velocity.To() );
+    }
+
+    private void AckInGameLoadData( Packet _packet )
+    {
+        var data = Global.FromJson<ACTOR_INFO>( _packet );
+
+        foreach ( Actor actor in GameManager.Inst.Actors.Values )
+        {
+            if ( !( actor is Player ) )
+            {
+                continue;
+            }
+
+            ACTOR_INFO protocol;
+            protocol.socket = data.socket;
+            protocol.isLocal = false;
+            protocol.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
+            protocol.serial = actor.Serial;
+            protocol.position = new VECTOR3( actor.transform.position );
+            protocol.rotation = new QUATERNION( actor.transform.rotation );
+            protocol.velocity = new VECTOR3( Vector3.zero );
+            Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
+        }
     }
     #endregion
 }

@@ -52,3 +52,16 @@ void Stage::BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) co
 			 session->Send( _packet );
 	}
 }
+
+/// 테스트용 함수
+void Stage::Send( SOCKET _socket, const UPacket& _packet ) const
+{
+	for ( Session* session : sessions )
+	{
+		if ( _socket == session->GetSocket() )
+		{
+			session->Send( _packet );
+			return;
+		}
+	}
+}

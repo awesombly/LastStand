@@ -14,6 +14,7 @@ private:
 	static void AckSpawnPlayer( const Packet& _packet );
 	static void AckSpawnActor( const Packet& _packet );
 	static void AckSynkMovement( const Packet& _packet );
+	static void AckInGameLoadData( const Packet& _packet );
 
 public:
 	virtual void Bind() override;

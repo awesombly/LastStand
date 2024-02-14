@@ -37,15 +37,13 @@ public class Player : Character
 
     private void FixedUpdate()
     {
-        Rigid2D.velocity = receiver.InputVector * data.moveSpeed;
-
-        Direction = ( Rigid2D.position - prevPosition ).normalized;
-
         if ( IsLocal )
         {
+            Rigid2D.velocity = receiver.InputVector * data.moveSpeed;
             ReqSynkMovement();
         }
 
+        Direction = ( Rigid2D.position - prevPosition ).normalized;
         prevPosition = Rigid2D.position;
         prevVelocity = Rigid2D.velocity;
     }
@@ -69,9 +67,10 @@ public class Player : Character
         if ( velocityInterval >= allowSynkInterval )
         {
             ACTOR_INFO protocol;
+            protocol.socket = 0;
             protocol.isLocal = false;
             protocol.prefab = 0;
-            protocol.serial = 0;
+            protocol.serial = Serial;
             protocol.position = new VECTOR3( Rigid2D.position );
             protocol.rotation = new QUATERNION( transform.rotation );
             protocol.velocity = new VECTOR3( Rigid2D.velocity );
