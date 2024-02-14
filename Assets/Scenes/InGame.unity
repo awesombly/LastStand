@@ -1151,7 +1151,7 @@ GameObject:
   - component: {fileID: 1643772087}
   - component: {fileID: 1643772086}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: Scene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1585,6 +1585,7 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1643772087}
   - {fileID: 88936418}
   - {fileID: 519420032}
   - {fileID: 1266043751251268227}
@@ -1593,5 +1594,4 @@ SceneRoots:
   - {fileID: 2117787605}
   - {fileID: 521903714}
   - {fileID: 1540863373}
-  - {fileID: 1643772087}
   - {fileID: 1384022284}

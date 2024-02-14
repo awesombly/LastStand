@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public enum SceneType
 {
+    None,
     Login,
     Lobby,
     InGame,
@@ -18,6 +19,7 @@ public class SceneBase : MonoBehaviour
     public static event Action OnBeforeSceneLoad;
     public static event Action OnAfterSceneLoad;
 
+    public SceneType SceneType { get; protected set; }
 
     // 게임 시작시 자동 실행
     [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
@@ -30,6 +32,11 @@ public class SceneBase : MonoBehaviour
     {
         OnBeforeSceneLoad?.Invoke();
         SceneManager.LoadScene( _sceneType.ToString() );
+    }
+
+    protected virtual void Awake()
+    {
+        SceneType = SceneType.None;
     }
 
     protected virtual void Start()

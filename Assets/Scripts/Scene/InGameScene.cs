@@ -10,8 +10,10 @@ public class InGameScene : SceneBase
     [SerializeField]
     private GameObject playerPrefab;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+        SceneType = SceneType.InGame;
         if ( spawnTransform == null )
         {
             spawnTransform = transform;
