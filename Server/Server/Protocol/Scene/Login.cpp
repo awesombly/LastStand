@@ -13,21 +13,22 @@ void Login::Bind()
 void Login::ConfirmMatchData( const Packet& _packet )
 {
 	auto data = FromJson<LOGIN_INFO>( _packet );
-
+	Session* session = _packet.session;
 	try
 	{
 		LOGIN_INFO info = Database::Inst().Search( "email", data.email );
-		if ( data.password.compare( info.password ) != 0 )
-			 throw std::exception( "The password does not match" );
+		if ( data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
+			 throw std::exception( "# Login information does not match" );
 
 		std::cout << "# < " << info.nickname << " > entered the lobby" << std::endl;
 		
-		_packet.session->loginInfo = info;
-		_packet.session->Send( UPacket( CONFIRM_LOGIN_ACK, info ) );
+		session->loginInfo = info;
+		session->Send( UPacket( CONFIRM_LOGIN_ACK, info ) );
 	}
 	catch ( const std::exception& _error )
 	{
-		std::cout << "Exception : " << _error.what() << std::endl;
+		std::cout << "# DB Exception " << _error.what() << std::endl;
+		session->Send( UPacket( CONFIRM_LOGIN_ACK, LOGIN_INFO() ) );
 	}
 }
 
