@@ -6,6 +6,8 @@ using UnityEngine;
 
 public static partial class Global
 {
+    public static readonly int RoundDigit = 3;
+
     [Flags]
     public enum LayerValue
     {

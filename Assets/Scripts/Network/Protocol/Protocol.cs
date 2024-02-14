@@ -48,9 +48,9 @@ public struct VECTOR3
 
     public VECTOR3( Vector3 _vector3 )
     {
-        x = _vector3.x;
-        y = _vector3.y;
-        z = _vector3.z;
+        x = System.MathF.Round( _vector3.x, Global.RoundDigit );
+        y = System.MathF.Round( _vector3.y, Global.RoundDigit );
+        z = System.MathF.Round( _vector3.z, Global.RoundDigit );
     }
 
     public Vector3 To()
@@ -65,10 +65,10 @@ public struct QUATERNION
 
     public QUATERNION( Quaternion _quaternion )
     {
-        x = _quaternion.x;
-        y = _quaternion.y;
-        z = _quaternion.z;
-        w = _quaternion.w;
+        x = System.MathF.Round( _quaternion.x, Global.RoundDigit );
+        y = System.MathF.Round( _quaternion.y, Global.RoundDigit );
+        z = System.MathF.Round( _quaternion.z, Global.RoundDigit );
+        w = System.MathF.Round( _quaternion.w, Global.RoundDigit );
     }
 
     public Quaternion To()
