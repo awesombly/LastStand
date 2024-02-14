@@ -14,25 +14,21 @@ void Login::ConfirmMatchData( const Packet& _packet )
 {
 	auto data = FromJson<LOGIN_INFO>( _packet );
 
-	CONFIRM ack;
 	try
 	{
 		LOGIN_INFO info = Database::Inst().Search( "email", data.email );
 		if ( data.password.compare( info.password ) != 0 )
 			 throw std::exception( "The password does not match" );
 
-		std::cout << "\"" << info.nickname << "\" entered the lobby" << std::endl;
+		std::cout << "# < " << info.nickname << " > entered the lobby" << std::endl;
 		
-		ack.isCompleted = true;
 		_packet.session->loginInfo = info;
+		_packet.session->Send( UPacket( CONFIRM_LOGIN_ACK, info ) );
 	}
 	catch ( const std::exception& _error )
 	{
-		ack.isCompleted = false;
 		std::cout << "Exception : " << _error.what() << std::endl;
 	}
-
-	_packet.session->Send( UPacket( CONFIRM_LOGIN_ACK, ack ) );
 }
 
 void Login::ConfirmDuplicateInfo( const Packet& _packet )

@@ -187,3 +187,17 @@ public:
 		ar( CEREAL_NVP( velocity ) );
 	}
 } ACTOR_INFO;
+
+typedef struct ChatMessage
+{
+public:
+	std::string nickname;
+	std::string message;
+	
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( nickname ) );
+		ar( CEREAL_NVP( message ) );
+	}
+} CHAT_MESSAGE;

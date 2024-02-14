@@ -23,6 +23,7 @@ public class LoginSystem : MonoBehaviour
 
     private enum LoginPanelType { Default, Error, SignUp, SignUpComplete }
     private LoginPanelType type = LoginPanelType.Default;
+    public static LOGIN_INFO Info { get; private set; }
 
     private void Awake()
     {
@@ -165,15 +166,16 @@ public class LoginSystem : MonoBehaviour
 
     private void AckConfirmMatchData( Packet _packet )
     {
-        var data = Global.FromJson<CONFIRM>( _packet );
-        if ( data.isCompleted )
-        {
-            SceneBase.ChangeScene( SceneType.Lobby );
-        }
-        else
+        var data = Global.FromJson<LOGIN_INFO>( _packet );
+        if ( data.nickname == string.Empty )
         {
             ActiveErrorPanel( true );
             errorMessage.text = "아이디 또는 비밀번호가 일치하지 않습니다.";
+        }
+        else
+        {
+            Info = data;
+            SceneBase.ChangeScene( SceneType.Lobby );
         }
     }
 }

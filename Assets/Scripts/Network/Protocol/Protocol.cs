@@ -108,8 +108,8 @@ public struct ACTOR_INFO : IProtocol
     public VECTOR3 velocity;
 }
 
-public struct SAMPLE : IProtocol
+public struct CHAT_MESSAGE : IProtocol
 {
-    public System.Numerics.Vector3 v3;
-    public System.Numerics.Vector4 v4;
+    public string nickname;
+    public string message;
 }

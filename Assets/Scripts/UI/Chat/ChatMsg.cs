@@ -12,12 +12,12 @@ public class ChatMsg : MonoBehaviour, WNS.IObjectPool<ChatMsg>
     private bool isPlaying;
     private float time;
 
-    public void Initialize( string _message )
+    public void Initialize( CHAT_MESSAGE _message )
     {
         //transform.SetAsFirstSibling();
         transform.localScale = Vector3.one;
+        text.text = $"<{_message.nickname}>  {_message.message}";
         text.alpha = 1f;
-        text.text = _message;
         isPlaying = true;
         time = 0f;
     }

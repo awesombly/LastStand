@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.Assertions.Must;
 using static PacketType;
 public class ChatSystem : MonoBehaviour
 {
@@ -19,9 +19,9 @@ public class ChatSystem : MonoBehaviour
 
     private void PrintMessage( Packet _packet )
     {
-        var data  = Global.FromJson<MESSAGE>( _packet );
-        var obj   = pool.Spawn( contents );
-        obj.Initialize( data.message );
+        var data = Global.FromJson<CHAT_MESSAGE>( _packet );
+        var obj  = pool.Spawn( contents );
+        obj.Initialize( data );
     }
 
     private void Update()
@@ -33,8 +33,9 @@ public class ChatSystem : MonoBehaviour
                 input.interactable = false;
                 input.DeactivateInputField();
 
-                MESSAGE message;
-                message.message = input.text;
+                CHAT_MESSAGE message;
+                message.nickname = LoginSystem.Info.nickname;
+                message.message  = input.text;
                 Network.Inst.Send( PACKET_CHAT_MSG, message );
 
                 input.text = string.Empty;
