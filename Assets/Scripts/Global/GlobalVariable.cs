@@ -72,10 +72,10 @@ public static partial class Global
         }
         public Action<float/*old*/, float/*new*/> OnChangeCurrent;
 
+        public bool IsMax { get => Current == Max; }
+        public bool IsZero { get => Current == 0f; }
         public void SetMax() => Current = max;
         public void SetZero() => Current = 0f;
-        public bool IsMax() => Current == Max;
-        public bool IsZero() => Current == 0f;
     }
 
     [Serializable]
@@ -121,9 +121,9 @@ public static partial class Global
         }
         public Action<int/*old*/, int/*new*/> OnChangeCurrent;
 
+        public bool IsMax { get => Current == Max; }
+        public bool IsZero { get => Current == 0; }
         public void SetMax() => Current = max;
         public void SetZero() => Current = 0;
-        public bool IsMax() => Current == Max;
-        public bool IsZero() => Current == 0;
     }
 }

@@ -31,17 +31,7 @@ public class Actor : MonoBehaviour
 
     private IObjectPool<Actor> parentPool = null;
 
-    public virtual void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
-    {
-        transform.SetPositionAndRotation( _position, _rotation );
-        var rigid = GetComponent<Rigidbody2D>();
-        if ( rigid != null )
-        {
-            rigid.velocity = _velocity;
-        }
-    }
-
-    public void Release()
+    public virtual void Release()
     {
         if ( parentPool == null )
         {
@@ -53,6 +43,16 @@ public class Actor : MonoBehaviour
         {
             GameManager.Inst.UnregistActor( serial );
             parentPool.Release( this );
+        }
+    }
+
+    public virtual void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
+    {
+        transform.SetPositionAndRotation( _position, _rotation );
+        var rigid = GetComponent<Rigidbody2D>();
+        if ( rigid != null )
+        {
+            rigid.velocity = _velocity;
         }
     }
 

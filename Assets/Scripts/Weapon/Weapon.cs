@@ -54,7 +54,7 @@ public class Weapon : MonoBehaviour
     {
         repeatDelay.Current -= Time.deltaTime;
         reloadDelay.Current -= Time.deltaTime;
-        if ( isAllowKeyHold && receiver.IsAttackHolded && repeatDelay.IsZero() && reloadDelay.IsZero() )
+        if ( isAllowKeyHold && receiver.IsAttackHolded && repeatDelay.IsZero && reloadDelay.IsZero )
         {
             Fire();
         }
@@ -64,7 +64,7 @@ public class Weapon : MonoBehaviour
     private void Fire()
     {
         repeatDelay.SetMax();
-        if ( magazine.IsZero() )
+        if ( magazine.IsZero )
         {
             OnReload();
             return;
@@ -88,7 +88,7 @@ public class Weapon : MonoBehaviour
 
     private void OnAttackPress()
     {
-        if ( !isAllowKeyHold && repeatDelay.IsZero() && reloadDelay.IsZero() )
+        if ( !isAllowKeyHold && repeatDelay.IsZero && reloadDelay.IsZero )
         {
             Fire();
         }
@@ -96,7 +96,7 @@ public class Weapon : MonoBehaviour
 
     private void OnReload()
     {
-        if ( magazine.IsMax() || ammo.IsZero() || reloadDelay.Current > 0f )
+        if ( magazine.IsMax || ammo.IsZero || reloadDelay.Current > 0f )
         {
             return;
         }
