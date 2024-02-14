@@ -17,7 +17,7 @@ void Login::ConfirmMatchData( const Packet& _packet )
 	try
 	{
 		LOGIN_INFO info = Database::Inst().Search( "email", data.email );
-		if ( data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
+		if ( Global::String::Trim( data.email ).empty() || data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
 			 throw std::exception( "# Login information does not match" );
 
 		std::cout << "# < " << info.nickname << " > entered the lobby" << std::endl;
@@ -53,9 +53,21 @@ void Login::ConfirmDuplicateInfo( const Packet& _packet )
 void Login::AddToDatabase( const Packet& _packet )
 {
 	auto data = FromJson<LOGIN_INFO>( _packet );
+	Session* session = _packet.session;
+	
+	CONFIRM confirm;
+	try
+	{
+		if ( Global::String::Trim( data.nickname ).empty() )
+			 throw std::exception( "# The email is empty" );
 
-	CONFIRM protocol;
-	protocol.isCompleted = Database::Inst().Insert( LOGIN_INFO{ data.nickname, data.email, data.password } );
+		confirm.isCompleted = Database::Inst().Insert( LOGIN_INFO{ data.nickname, data.email, data.password } );
+	}
+	catch ( const std::exception& _error )
+	{
+		confirm.isCompleted = false;
+		std::cout << "# DB Exception " << _error.what() << std::endl;
+	}
 
-	_packet.session->Send( UPacket( CONFIRM_ACCOUNT_ACK, protocol ) );
+	session->Send( UPacket( CONFIRM_ACCOUNT_ACK, confirm ) );
 }
