@@ -22,7 +22,6 @@ void ProtocolSystem::Initialize()
 
 void ProtocolSystem::Bind()
 {
-	Regist( PACKET_CHAT_MSG, Broadcast );
 	Regist( PACKET_HEARTBEAT, []( const Packet& ) {} );
 
 	for ( auto iter = scenes.begin(); iter != scenes.end(); iter++ )

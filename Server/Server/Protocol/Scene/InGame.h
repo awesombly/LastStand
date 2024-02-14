@@ -8,8 +8,10 @@ public:
 	virtual ~InGame() = default;
 
 private:
-	static void SpawnPlayer( const Packet& _packet );
+	static void AckChatMessage( const Packet& _packet );
 	static void AckExitStage( const Packet& _packet );
+
+	static void SpawnPlayer( const Packet& _packet );
 	static void SpawnActor( const Packet& _packet );
 	static void SynkMovement( const Packet& _packet );
 
