@@ -30,11 +30,14 @@ void SessionManager::ConfirmDisconnect()
 	{
 		for ( const std::pair<SOCKET, Session*>& pair : sessions )
 		{
-			Session* session = pair.second;
-			if ( !session->CheckAlive() )
+			std::lock_guard<std::mutex> lock( mtx );
 			{
-				std::cout << "Remove unresponsive session( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
-				unAckSessions.push( session );
+				Session* session = pair.second;
+				if ( !session->CheckAlive() )
+				{
+					std::cout << "Remove unresponsive session ( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
+					unAckSessions.push( session );
+				}
 			}
 		}
 
@@ -62,7 +65,7 @@ void SessionManager::Push( Session* _session )
 	if ( _session == nullptr )
 		 return;
 
-	std::cout << "Register a new session( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	std::cout << "# Register a new session ( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
 		sessions[_session->GetSocket()] = _session;
@@ -74,7 +77,7 @@ void SessionManager::Erase( Session* _session )
 	if ( _session == nullptr )
 		return;
 
-	std::cout << "The session has left( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	std::cout << "# The session has left ( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
 	std::lock_guard<std::mutex> lock( mtx );
 	{
 		unAckSessions.push( _session );
@@ -156,6 +159,7 @@ void SessionManager::ExitStage( Session* _session )
 		if ( !stage->Exit( _session ) )
 		{
 			// 방에 아무도 없을 때
+			std::cout << "# Stage " << serial << " has been removed" << std::endl;
 			BroadcastWaitingRoom( UPacket( DELETE_STAGE_INFO, stage->info ) );
 			Global::Memory::SafeDelete( stage );
 			stages.erase( serial );
@@ -176,6 +180,8 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 	if ( !stages.contains( serial ) )
 	{
 		// 방 생성하고 입장
+		
+		std::cout << "# Stage " << serial << " has been created" << std::endl;
 		std::lock_guard<std::mutex> lock( mtx );
 		stage = new Stage( _session, _info );
 		stages[serial]  = stage;
@@ -189,6 +195,7 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 		std::lock_guard<std::mutex> lock( mtx );
 		if ( stage->Entry( _session ) )
 		{
+			std::cout << "# < " << _session->loginInfo.nickname << " > has entered stage " << serial << std::endl;
 			_session->stage = stage;
 			_session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
 			BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );

@@ -21,7 +21,7 @@ bool Network::Connect() const
 void Network::Send( const UPacket& _packet )
 {
 	if ( _packet.type != PACKET_HEARTBEAT )
-		 std::cout << "Send( " << magic_enum::enum_name( _packet.type ) << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
+		 std::cout << "# Send    ( " << magic_enum::enum_name( _packet.type ) << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
 
 	if ( ::send( socket, ( const char* )&_packet, _packet.size, 0 ) == SOCKET_ERROR )
 	{

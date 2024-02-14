@@ -89,7 +89,7 @@ void Acceptor::WaitForClients()  const
 		clientSocket = ::accept( socket, ( sockaddr* )&addr, &size );
 
 		Session* session = new Session( clientSocket, addr );
-		SessionManager::Inst().Push( session );
 		IOCP::Inst().Bind( ( HANDLE )clientSocket, ( ULONG_PTR )session );
+		SessionManager::Inst().Push( session );
 	}
 }

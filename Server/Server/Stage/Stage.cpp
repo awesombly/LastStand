@@ -3,6 +3,7 @@
 
 Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info )
 {
+	std::cout << "# Stage " << _info.serial << " The host has been changed< " << host->loginInfo.nickname << " >" << std::endl;
 	sessions.push_back( host );
 }
 
@@ -16,7 +17,6 @@ bool Stage::Entry( Session* _session )
 
 	sessions.push_back( _session );
 	info.personnel.current = ( int )sessions.size();
-	std::cout << "######### Host is " << host->GetPort() << std::endl;
 
 	return true;
 }
@@ -32,7 +32,7 @@ bool Stage::Exit( Session* _session )
 	if ( sessions.size() > 0 && host->GetSocket() == _session->GetSocket() )
 	{
 		 host = *sessions.begin();
-		 std::cout << "######### Host is " << host->GetPort() << std::endl;
+		 std::cout << "# Stage " << info.serial << " The host has been changed< " << host->loginInfo.nickname << " >" << std::endl;
 	}
 
 	return sessions.size() > 0;
