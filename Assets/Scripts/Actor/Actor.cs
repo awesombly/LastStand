@@ -25,6 +25,7 @@ public class Actor : MonoBehaviour
             }
 
             serial = value;
+            name = name + ":" + serial;
             GameManager.Inst.RegistActor( this );
         }
     }
