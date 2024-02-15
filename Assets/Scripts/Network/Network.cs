@@ -3,6 +3,7 @@ using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 using static PacketType;
@@ -20,6 +21,7 @@ public class Network : Singleton<Network>
 
     // Receive
     private byte[] buffer = new byte[MaxReceiveSize];
+    private byte[] copy   = new byte[Global.HeaderSize + Global.MaxDataSize];
     private int startPos, writePos, readPos;
     private Packet packet;
 
@@ -127,40 +129,39 @@ public class Network : Singleton<Network>
         lastResponseSystemTime = DateTime.Now.TimeOfDay.TotalSeconds;
         if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
         {
-            int size = _args.BytesTransferred;
-            if ( writePos + size > MaxReceiveSize )
+            int recvSize = _args.BytesTransferred;
+            if ( writePos + recvSize > MaxReceiveSize )
             {
                 byte[] remain = new byte[MaxReceiveSize];
-                Array.Copy( buffer, remain, readPos );
+                Buffer.BlockCopy( buffer, startPos, remain, 0, readPos );
 
                 Array.Clear( buffer, 0, MaxReceiveSize );
-                Array.Copy( remain, buffer, readPos );
-
-                packet = Global.Deserialize<Packet>( buffer, 0 );
+                Buffer.BlockCopy( remain, 0, buffer, 0, readPos );
                 startPos = 0;
                 writePos = readPos;
             }
 
-            Array.Copy( _args.Buffer, 0, buffer, writePos, size );
-            packet    = Global.Deserialize<Packet>( buffer, startPos );
-            writePos += size;
-            readPos  += size;
+            Buffer.BlockCopy( _args.Buffer, 0, buffer, writePos, recvSize );
+            writePos += recvSize;
+            readPos  += recvSize;
 
-            if ( readPos >= packet.size )
+            ushort size = BitConverter.ToUInt16( buffer, startPos + 2 );
+            if ( readPos >= size )
             {
                 do
                 {
-                    byte[] data = new byte[packet.size - Global.HeaderSize];
-                    Array.Copy( packet.data, data, packet.size - Global.HeaderSize );
-                    PacketSystem.Inst.Push( new Packet( packet.type, packet.size, data ) );
-                    
-                    readPos  -= packet.size;
-                    startPos += packet.size;
+                    Array.Clear( copy, 0, Global.HeaderSize + Global.MaxDataSize );
+                    Buffer.BlockCopy( buffer, startPos, copy, 0, size );
+                    Packet newPacket = Global.Deserialize<Packet>( copy, 0 );
 
-                    packet = Global.Deserialize<Packet>( buffer, startPos );
-                    if ( packet.size <= 0 ) break;
+                    PacketSystem.Inst.Push( newPacket );
 
-                } while ( readPos >= packet.size );
+                    startPos += size;
+                    readPos  -= size;
+                    if ( readPos <= 0 || readPos < Global.HeaderSize )
+                         break;
+                    size = BitConverter.ToUInt16( buffer, startPos + 2 );
+                } while ( readPos >= size );
             }
 
             _args.BufferList = null;
