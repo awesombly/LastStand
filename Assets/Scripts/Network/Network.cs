@@ -3,7 +3,6 @@ using System.Collections;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
 
 using static PacketType;
@@ -20,11 +19,9 @@ public class Network : Singleton<Network>
     private const ushort MaxReceiveSize = 10000;
 
     // Receive
-    private byte[] buffer = new byte[MaxReceiveSize];
-    private byte[] recvBuf = new byte[Global.MaxDataSize];
-    private byte[] copy   = new byte[Global.HeaderSize + Global.MaxDataSize];
-    private int startPos, writePos, readPos;
-    private Packet packet;
+    private byte[] buffer  = new byte[MaxReceiveSize];     
+    private byte[] recvBuf = new byte[Global.MaxDataSize]; 
+    private int startPos, writePos, readPos;               
 
     // Connect
     public  bool IsConnected => isConnected;
@@ -133,11 +130,10 @@ public class Network : Singleton<Network>
             int recvSize = _args.BytesTransferred;
             if ( writePos + recvSize > MaxReceiveSize )
             {
-                byte[] remain = new byte[MaxReceiveSize];
+                byte[] remain = new byte[readPos];
                 Buffer.BlockCopy( buffer, startPos, remain, 0, readPos );
-
-                Array.Clear( buffer, 0, MaxReceiveSize );
                 Buffer.BlockCopy( remain, 0, buffer, 0, readPos );
+
                 startPos = 0;
                 writePos = readPos;
             }
@@ -151,14 +147,9 @@ public class Network : Singleton<Network>
             {
                 do
                 {
-                    Array.Clear( copy, 0, Global.HeaderSize + Global.MaxDataSize );
-                    Buffer.BlockCopy( buffer, startPos, copy, 0, size );
-                    Packet newPacket = Global.Deserialize<Packet>( copy, 0 );
-
-                    if ( NONE == newPacket.type )
-                        Debug.Log( "?????" );
-
-                    PacketSystem.Inst.Push( newPacket );
+                    byte[] copy = new byte[size - Global.HeaderSize];
+                    Buffer.BlockCopy( buffer, startPos + Global.HeaderSize, copy, 0, size - Global.HeaderSize );
+                    PacketSystem.Inst.Push( new Packet( ( PacketType )BitConverter.ToUInt16( buffer, startPos ), size, copy ) );
 
                     startPos += size;
                     readPos  -= size;
