@@ -22,6 +22,7 @@ private:
 public:
 	LOGIN_INFO loginInfo;
 	Stage* stage;
+	ActorInfo* player;
 
 public:
 	Session() = default;

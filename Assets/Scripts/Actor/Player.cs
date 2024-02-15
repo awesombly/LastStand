@@ -67,7 +67,6 @@ public class Player : Character
         if ( velocityInterval >= allowSynkInterval )
         {
             ACTOR_INFO protocol;
-            protocol.socket = 0;
             protocol.isLocal = false;
             protocol.prefab = 0;
             protocol.serial = Serial;

@@ -12,6 +12,10 @@ void InGame::Bind()
 
 void InGame::AckChatMessage( const Packet& _packet )
 {
+	if ( _packet.session->stage == nullptr )
+	{
+		return;
+	}
 	_packet.session->stage->Broadcast( _packet );
 }
 
@@ -31,7 +35,6 @@ void InGame::AckSpawnActor( const Packet& _packet )
 		return;
 	}
 
-	data.socket = _packet.session->GetSocket();
 	if ( data.serial == 0 )
 	{
 		data.serial = Global::GetNewSerial();
@@ -46,6 +49,11 @@ void InGame::AckSpawnActor( const Packet& _packet )
 void InGame::AckSynkMovement( const Packet& _packet )
 {
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		std::cout << __FUNCTION__ << " : Session is null. serial:" << data.serial << std::endl;
+		return;
+	}
 
 	ActorInfo* actor = _packet.session->stage->GetActor( data.serial );
 	if ( actor == nullptr )
@@ -96,5 +104,6 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 
 	// 기존 데이터 스폰후 등록
 	ActorInfo* player = new ActorInfo( data );
+	_packet.session->player = player;
 	_packet.session->stage->RegistActor( player );
 }

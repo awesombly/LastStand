@@ -35,6 +35,7 @@ enum PacketType : u_short
 	SPAWN_ACTOR_REQ,               // Actor 스폰 요청
 	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
 	SPAWN_PLAYER_ACK,              // Player 스폰 응답
+	REMOVE_PLAYER_ACK,             // Player 제거 응답
 	SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
@@ -169,7 +170,6 @@ public:
 typedef struct ActorInfo
 {
 public:
-	SOCKET socket;
 	int prefab;
 	bool isLocal;
 	SerialType serial;
@@ -180,7 +180,6 @@ public:
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
-		ar( CEREAL_NVP( socket ) );
 		ar( CEREAL_NVP( prefab ) );
 		ar( CEREAL_NVP( isLocal ) );
 		ar( CEREAL_NVP( serial ) );

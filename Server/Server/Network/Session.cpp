@@ -9,7 +9,7 @@ Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 				  : Network( _socket, _address ), packet( new Packet() ), 
 	                buffer{}, startPos( 0 ), writePos( 0 ), readPos( 0 ),
 					lastResponseTime( std::chrono::steady_clock::now() ),
-					unresponse( 0 ), time( 0 ), stage( nullptr ) { }
+					unresponse( 0 ), time( 0 ), stage( nullptr ), player( nullptr ) { }
 
 Session::~Session()
 {

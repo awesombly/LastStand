@@ -19,8 +19,9 @@ public class InGameScene : SceneBase
             spawnTransform = transform;
         }
 
-        ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK, AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK, AckSpawnEnemy );
+        ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK, AckSpawnPlayer );
+        ProtocolSystem.Inst.Regist( REMOVE_PLAYER_ACK, AckRemovePlayer );
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK, AckSynkMovement );
     }
 
@@ -29,7 +30,6 @@ public class InGameScene : SceneBase
         base.Start();
         InitLocalPlayer();
         ReqInGameLoadData();
-        //ReqSpawnPlayer();
     }
 
     private void InitLocalPlayer()
@@ -50,7 +50,6 @@ public class InGameScene : SceneBase
     {
         // 立加矫 积己且 Player 沥焊
         ACTOR_INFO protocol;
-        protocol.socket = 0;
         protocol.isLocal = true;
         protocol.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
         protocol.serial = 0;
@@ -83,6 +82,13 @@ public class InGameScene : SceneBase
         player.transform.SetPositionAndRotation( data.position.To(), data.rotation.To() );
     }
 
+    private void AckRemovePlayer( Packet _packet )
+    {
+        var data = Global.FromJson<ACTOR_INFO>( _packet );
+        Actor actor = GameManager.Inst.GetActor( data.serial );
+        actor.Release();
+    }
+    
     private void AckSpawnEnemy( Packet _packet )
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );

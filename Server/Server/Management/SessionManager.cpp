@@ -144,6 +144,13 @@ void SessionManager::ExitStage( Session* _session )
 		return;
 	}
 
+	if ( _session->player != nullptr )
+	{
+		stage->BroadcastWithoutSelf( _session, UPacket( REMOVE_PLAYER_ACK, *_session->player ) );
+		_session->stage->UnregistActor( _session->player );
+		Global::Memory::SafeDelete( _session->player );
+	}
+
 	if ( !stage->Exit( _session ) )
 	{
 		// 방에 아무도 없을 때
