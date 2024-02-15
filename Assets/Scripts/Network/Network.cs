@@ -21,6 +21,7 @@ public class Network : Singleton<Network>
 
     // Receive
     private byte[] buffer = new byte[MaxReceiveSize];
+    private byte[] recvBuf = new byte[Global.MaxDataSize];
     private byte[] copy   = new byte[Global.HeaderSize + Global.MaxDataSize];
     private int startPos, writePos, readPos;
     private Packet packet;
@@ -111,7 +112,7 @@ public class Network : Singleton<Network>
 
             // Receive
             recvArgs = new SocketAsyncEventArgs();
-            recvArgs.SetBuffer( buffer, 0, MaxReceiveSize );
+            recvArgs.SetBuffer( recvBuf, 0, Global.MaxDataSize );
             recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnReceiveCompleted );
 
             if ( socket.ReceiveAsync( recvArgs ) == false )
@@ -154,12 +155,16 @@ public class Network : Singleton<Network>
                     Buffer.BlockCopy( buffer, startPos, copy, 0, size );
                     Packet newPacket = Global.Deserialize<Packet>( copy, 0 );
 
+                    if ( NONE == newPacket.type )
+                        Debug.Log( "?????" );
+
                     PacketSystem.Inst.Push( newPacket );
 
                     startPos += size;
                     readPos  -= size;
                     if ( readPos <= 0 || readPos < Global.HeaderSize )
                          break;
+
                     size = BitConverter.ToUInt16( buffer, startPos + 2 );
                 } while ( readPos >= size );
             }
