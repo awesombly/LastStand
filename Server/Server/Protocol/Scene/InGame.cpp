@@ -58,7 +58,7 @@ void InGame::AckSynkMovement( const Packet& _packet )
 	actor->rotation = data.rotation;
 	actor->velocity = data.velocity;
 
-	SessionManager::Inst().BroadcastWithoutSelf( _packet.session, UPacket( SYNK_MOVEMENT_ACK, data ) );
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_MOVEMENT_ACK, data ) );
 }
 
 void InGame::AckInGameLoadData( const Packet& _packet )
