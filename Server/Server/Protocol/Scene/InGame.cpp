@@ -5,7 +5,6 @@ void InGame::Bind()
 {
 	ProtocolSystem::Inst().Regist( PACKET_CHAT_MSG,		 AckChatMessage );
 	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,		 AckExitStage );
-	ProtocolSystem::Inst().Regist( SPAWN_PLAYER_REQ,	 AckSpawnPlayer );
 	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,		 AckSpawnActor );
 	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,	 AckSynkMovement );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ, AckInGameLoadData );
@@ -23,39 +22,42 @@ void InGame::AckExitStage( const Packet& _packet )
 	session->Send( UPacket( EXIT_STAGE_ACK, EMPTY() ) );
 }
 
-void InGame::AckSpawnPlayer( const Packet& _packet )
-{
-	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
-	if ( data.serial == 0 )
-	{
-		data.serial = Global::GetNewSerial();
-	}
-
-	if ( data.isLocal == false )
-	{
-		_packet.session->stage->Send( data.socket, UPacket( SPAWN_PLAYER_ACK, data ) );
-		return;
-	}
-
-	data.isLocal = true;
-	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
-	data.isLocal = false;
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, data ) );
-}
-
 void InGame::AckSpawnActor( const Packet& _packet )
 {
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		std::cout << __FUNCTION__ << " : Stage is null. nick:" << _packet.session->loginInfo.nickname << std::endl;
+		return;
+	}
+
+	data.socket = _packet.session->GetSocket();
 	if ( data.serial == 0 )
 	{
 		data.serial = Global::GetNewSerial();
 	}
-	SessionManager::Inst().Broadcast( UPacket( SPAWN_ACTOR_ACK, data ) );
+
+	ActorInfo* actor = new ActorInfo( data );
+	_packet.session->stage->RegistActor( actor );
+
+	_packet.session->stage->Broadcast( UPacket( SPAWN_ACTOR_ACK, data ) );
 }
 
 void InGame::AckSynkMovement( const Packet& _packet )
 {
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+
+	ActorInfo* actor = _packet.session->stage->GetActor( data.serial );
+	if ( actor == nullptr )
+	{
+		std::cout << __FUNCTION__ << " : Actor is null. serial:" << data.serial << std::endl;
+		return;
+	}
+
+	actor->position = data.position;
+	actor->rotation = data.rotation;
+	actor->velocity = data.velocity;
+
 	SessionManager::Inst().BroadcastWithoutSelf( _packet.session, UPacket( SYNK_MOVEMENT_ACK, data ) );
 }
 
@@ -63,23 +65,36 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 {
 	if ( _packet.session->stage == nullptr )
 	{
-		std::cout << "stage is null. nick : " << _packet.session->loginInfo.nickname << std::endl;
+		std::cout << "Stage is null. nick : " << _packet.session->loginInfo.nickname << std::endl;
 		return;
 	}
 
-	if ( _packet.session->stage->host == nullptr )
+	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	if ( data.serial == 0 )
 	{
-		std::cout << "host is null. nick : " << _packet.session->loginInfo.nickname << std::endl;
-		return;
+		data.serial = Global::GetNewSerial();
 	}
 
-	if ( _packet.session == _packet.session->stage->host )
+	// 접속시 플레이어 생성
+	data.isLocal = true;
+	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
+	data.isLocal = false;
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, data ) );
+
+	// 기존에 있던 Player 스폰
+	ActorContainer actors = _packet.session->stage->GetActors();
+	for ( auto pair : actors )
 	{
-		return;
+		if ( pair.second == nullptr )
+		{
+			std::cout << __FUNCTION__ << " : Actor is null." << std::endl;
+			return;
+		}
+
+		_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, *pair.second ) );
 	}
 
-	ACTOR_INFO data;
-	::memset( &data, 0, sizeof( ACTOR_INFO ) );
-	data.socket = _packet.session->GetSocket();
-	_packet.session->stage->host->Send( UPacket( INGAME_LOAD_DATA_ACK, data ) );
+	// 기존 데이터 스폰후 등록
+	ActorInfo* player = new ActorInfo( data );
+	_packet.session->stage->RegistActor( player );
 }

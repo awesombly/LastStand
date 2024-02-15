@@ -34,12 +34,10 @@ enum PacketType : u_short
     // Actor
 	SPAWN_ACTOR_REQ,               // Actor 스폰 요청
 	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
-	SPAWN_PLAYER_REQ,              // Player 스폰 요청
 	SPAWN_PLAYER_ACK,              // Player 스폰 응답
 	SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
-	INGAME_LOAD_DATA_ACK,          // InGame 입장시 데이터 응답
 };
 
 typedef struct Vector2

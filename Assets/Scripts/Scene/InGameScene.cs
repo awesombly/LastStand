@@ -22,7 +22,6 @@ public class InGameScene : SceneBase
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK, AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK, AckSpawnEnemy );
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK, AckSynkMovement );
-        ProtocolSystem.Inst.Regist( INGAME_LOAD_DATA_ACK, AckInGameLoadData );
     }
 
     protected override void Start()
@@ -30,7 +29,7 @@ public class InGameScene : SceneBase
         base.Start();
         InitLocalPlayer();
         ReqInGameLoadData();
-        ReqSpawnPlayer();
+        //ReqSpawnPlayer();
     }
 
     private void InitLocalPlayer()
@@ -46,8 +45,10 @@ public class InGameScene : SceneBase
     }
 
     #region Req Protocols
-    private void ReqSpawnPlayer()
+
+    private void ReqInGameLoadData()
     {
+        // 立加矫 积己且 Player 沥焊
         ACTOR_INFO protocol;
         protocol.socket = 0;
         protocol.isLocal = true;
@@ -56,12 +57,8 @@ public class InGameScene : SceneBase
         protocol.position = new VECTOR3( spawnTransform.position + Vector3.one * Random.Range( -5f, 5f ) );
         protocol.rotation = new QUATERNION( spawnTransform.rotation );
         protocol.velocity = new VECTOR3( Vector3.zero );
-        Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
-    }
 
-    private void ReqInGameLoadData()
-    {
-        Network.Inst.Send( INGAME_LOAD_DATA_REQ, new EMPTY() );
+        Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
     }
     #endregion
 
@@ -70,16 +67,18 @@ public class InGameScene : SceneBase
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Player player = null;
-        if ( data.isLocal && GameManager.Inst.localPlayer != null )
+        if ( GameManager.Inst.localPlayer != null &&
+            ( GameManager.Inst.localPlayer.Serial == data.serial || data.isLocal ) )
         {
             player = GameManager.Inst.localPlayer;
+            player.IsLocal = true;
         }
         else
         {
             player = PoolManager.Inst.Get( data.prefab ) as Player;
+            player.IsLocal = false;
         }
 
-        player.IsLocal = data.isLocal;
         player.Serial = data.serial;
         player.transform.SetPositionAndRotation( data.position.To(), data.rotation.To() );
     }
@@ -97,29 +96,6 @@ public class InGameScene : SceneBase
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Actor actor = GameManager.Inst.GetActor( data.serial );
         actor.SetMovement( data.position.To(), data.rotation.To(), data.velocity.To() );
-    }
-
-    private void AckInGameLoadData( Packet _packet )
-    {
-        var data = Global.FromJson<ACTOR_INFO>( _packet );
-
-        foreach ( Actor actor in GameManager.Inst.Actors.Values )
-        {
-            if ( !( actor is Player ) )
-            {
-                continue;
-            }
-
-            ACTOR_INFO protocol;
-            protocol.socket = data.socket;
-            protocol.isLocal = false;
-            protocol.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
-            protocol.serial = actor.Serial;
-            protocol.position = new VECTOR3( actor.transform.position );
-            protocol.rotation = new QUATERNION( actor.transform.rotation );
-            protocol.velocity = new VECTOR3( Vector3.zero );
-            Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
-        }
     }
     #endregion
 }

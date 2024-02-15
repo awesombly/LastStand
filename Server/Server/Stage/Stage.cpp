@@ -38,6 +38,57 @@ bool Stage::Exit( Session* _session )
 	return sessions.size() > 0;
 }
 
+void Stage::RegistActor( ActorInfo* _actor )
+{
+	if ( _actor == nullptr )
+	{
+		std::cout << __FUNCTION__ << " : Actor is null. " << std::endl;
+		return;
+	}
+
+	if ( actors.contains( _actor->serial ) )
+	{
+		std::cout << __FUNCTION__ << " : Already exist actor. serial:" << _actor->serial << std::endl;
+		return;
+	}
+
+	actors[_actor->serial] = _actor;
+}
+
+void Stage::UnregistActor( const ActorInfo* _actor )
+{
+	if ( _actor == nullptr )
+	{
+		std::cout << __FUNCTION__ << " : Actor is null. " << std::endl;
+		return;
+	}
+
+	if ( !actors.contains( _actor->serial ) )
+	{
+		std::cout << __FUNCTION__ << " : Actor not found. serial:" << _actor->serial << std::endl;
+		return;
+	}
+
+	actors.erase( _actor->serial );
+}
+
+ActorInfo* Stage::GetActor( SerialType _serial ) const
+{
+	auto findItr = actors.find( _serial );
+	if ( findItr == actors.cend() )
+	{
+		std::cout << __FUNCTION__ << " : Actor not found. serial:" << _serial << std::endl;
+		return nullptr;
+	}
+
+	return findItr->second;
+}
+
+ActorContainer& Stage::GetActors()
+{
+	return actors;
+}
+
 void Stage::Broadcast( const UPacket& _packet ) const
 {
 	for ( auto iter = sessions.begin(); iter != sessions.end(); iter++ )
@@ -53,12 +104,11 @@ void Stage::BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) co
 	}
 }
 
-/// 테스트용 함수
 void Stage::Send( SOCKET _socket, const UPacket& _packet ) const
 {
 	for ( Session* session : sessions )
 	{
-		if ( _socket == session->GetSocket() )
+		if ( session->GetSocket() == _socket )
 		{
 			session->Send( _packet );
 			return;
