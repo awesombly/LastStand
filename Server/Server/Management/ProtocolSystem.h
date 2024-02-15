@@ -1,7 +1,7 @@
 #pragma once
 #include "Protocol/Protocol.hpp"
-#include "Global/Singleton.hpp"
 #include "Packet/Packet.hpp"
+#include "Global/LogText.hpp"
 
 class IScene
 {

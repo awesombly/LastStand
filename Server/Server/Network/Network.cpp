@@ -21,12 +21,12 @@ bool Network::Connect() const
 void Network::Send( const UPacket& _packet )
 {
 	if ( _packet.type != PACKET_HEARTBEAT )
-		 std::cout << "# Send    ( " << magic_enum::enum_name( _packet.type ) << ", " << _packet.size << "bytes" << " ) " << _packet.data << std::endl;
+		 Debug.Log( "# Receive ( ", magic_enum::enum_name( _packet.type ).data(), ", ", _packet.size, "bytes ) ", _packet.data );
 
 	if ( ::send( socket, ( const char* )&_packet, _packet.size, 0 ) == SOCKET_ERROR )
 	{
 		if ( ::WSAGetLastError() != WSA_IO_PENDING )
-	 		 std::cout << "Send LastError : " << ::WSAGetLastError() << std::endl;
+			 Debug.LogError( "# < Send LastError > ", ::WSAGetLastError() );
 	}
 }
 
@@ -40,7 +40,7 @@ void Network::Recieve()
 	if ( ::WSARecv( socket, &wsaBuffer, 1, &transferred, &flag, ( LPOVERLAPPED )&ov, NULL ) == SOCKET_ERROR )
 	{
 		if ( ::WSAGetLastError() != WSA_IO_PENDING )
-			 std::cout << "Recv LastError : " << ::WSAGetLastError() << std::endl;
+			 Debug.LogError( "# < Recv LastError > ", ::WSAGetLastError() );
 	}
 }
 

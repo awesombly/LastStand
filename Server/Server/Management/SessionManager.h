@@ -1,6 +1,6 @@
 #pragma once
-#include "Global/Singleton.hpp"
 #include "Network/Session.h"
+#include "Global/LogText.hpp"
 #include "Stage/Stage.h"
 
 class SessionManager : public Singleton<SessionManager>

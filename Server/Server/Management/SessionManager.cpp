@@ -35,7 +35,7 @@ void SessionManager::ConfirmDisconnect()
 			Session* session = pair.second;
 			if ( !session->CheckAlive() )
 			{
-				std::cout << "# Remove unresponsive session ( " << session->GetPort() << ", " << session->GetAddress() << " )" << std::endl;
+				Debug.Log( "# Remove unresponsive session ( ", session->GetPort(), ", ", session->GetAddress(), " )" );
 				unAckSessions.push( session );
 			}
 		}
@@ -61,7 +61,7 @@ void SessionManager::Push( Session* _session )
 	if ( _session == nullptr )
 		 return;
 
-	std::cout << "# Register a new session ( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	Debug.Log( "# Register a new session ( ", _session->GetPort(), ", ", _session->GetAddress(), " )" );
 
 	std::lock_guard<std::mutex> lock( mtx );
 	sessions[_session->GetSocket()] = _session;
@@ -72,7 +72,7 @@ void SessionManager::Erase( Session* _session )
 	if ( _session == nullptr )
 		return;
 
-	std::cout << "# The session has left ( " << _session->GetPort() << ", " << _session->GetAddress() << " )" << std::endl;
+	Debug.Log( "# The session has left ( ", _session->GetPort(), ", ", _session->GetAddress(), " )" );
 	
 	std::lock_guard<std::mutex> lock( mtx );
 	unAckSessions.push( _session );
@@ -132,7 +132,7 @@ void SessionManager::ExitStage( Session* _session )
 {
 	if ( _session == nullptr || _session->stage == nullptr )
 	{
-		std::cout << "The session has not entered the stage yet" << std::endl;
+		Debug.LogError( "# The session has not entered the stage yet" );
 		return;
 	}
 
@@ -140,7 +140,7 @@ void SessionManager::ExitStage( Session* _session )
 	SerialType serial = stage->info.serial;
 	if ( !stages.contains( stage->info.serial ) )
 	{
-		std::cout << "This stage does not exist" << std::endl;
+		Debug.LogError( "# This stage does not exist" );
 		return;
 	}
 
@@ -154,7 +154,7 @@ void SessionManager::ExitStage( Session* _session )
 	if ( !stage->Exit( _session ) )
 	{
 		// 방에 아무도 없을 때
-		std::cout << "# Stage " << serial << " has been removed" << std::endl;
+		Debug.Log( "# Stage ", serial, " has been removed" );
 		BroadcastWaitingRoom( UPacket( DELETE_STAGE_INFO, stage->info ) );
 		Global::Memory::SafeDelete( stage );
 		stages.erase( serial );
@@ -174,7 +174,7 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 	if ( !stages.contains( serial ) )
 	{
 		// 방 생성하고 입장
-		std::cout << "# Stage " << serial << " has been created" << std::endl;
+		Debug.Log( "# Stage ", serial, " has been created" );
 		stage = new Stage( _session, _info );
 		stages[serial]  = stage;
 		_session->stage = stage;
@@ -186,7 +186,7 @@ Stage* SessionManager::EntryStage( Session* _session, const STAGE_INFO& _info )
 		stage = stages[serial];
 		if ( stage->Entry( _session ) )
 		{
-			std::cout << "# < " << _session->loginInfo.nickname << " > has entered stage " << serial << std::endl;
+			Debug.Log( "# < ", _session->loginInfo.nickname, " > has entered stage ", serial );
 			_session->stage = stage;
 			_session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
 			BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );

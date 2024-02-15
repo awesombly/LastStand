@@ -1,8 +1,8 @@
 #pragma once
 #include "Network/Session.h"
 
-using ActorContainer = std::unordered_map<SerialType, ActorInfo*>;
 
+using ActorContainer = std::unordered_map<SerialType, ActorInfo*>;
 class Stage
 {
 public:

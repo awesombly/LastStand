@@ -101,5 +101,6 @@
     <ClInclude Include="Management\ProtocolSystem.h" />
     <ClInclude Include="Management\SessionManager.h" />
     <ClInclude Include="Stage\Stage.h" />
+    <ClInclude Include="Global\LogText.hpp" />
   </ItemGroup>
 </Project>

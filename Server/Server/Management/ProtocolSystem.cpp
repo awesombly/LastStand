@@ -36,7 +36,7 @@ void ProtocolSystem::Process( const Packet& _packet )
 {
 	if ( !protocols.contains( _packet.type ) )
 	{
-		std::cout << "The protocol is not registered" << std::endl;
+		Debug.LogError( "# < ", magic_enum::enum_name( _packet.type ).data(), " > protocol is not registered");
 		return;
 	}
 
@@ -47,7 +47,7 @@ void ProtocolSystem::Regist( const PacketType& _type, void( *_func )( const Pack
 {
 	if ( protocols.contains( _type ) )
 	{
-		std::cout << "The protocol is duplicated" << std::endl;
+		Debug.LogError( "# < ", magic_enum::enum_name( _type ).data(), " > protocol is duplicated" );
 		return;
 	}
 

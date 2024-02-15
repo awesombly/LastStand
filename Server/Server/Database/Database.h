@@ -2,6 +2,7 @@
 #include "Global/Singleton.hpp"
 #include "mysql.h"
 #include "Protocol/Protocol.hpp"
+#include "Global/LogText.hpp"
 
 class Database : public Singleton<Database>
 {

@@ -68,7 +68,7 @@ bool Database::Delete( const LOGIN_INFO& _data )
 
 bool Database::Query( const char* _sentence )
 {
-	std::cout << "# Query : " << sentence << std::endl;
+	Debug.Log( "# Query < ", sentence, " >" );
 	if ( conn == nullptr || ( ::mysql_query( conn, sentence ) != NULL ) )
 	{
 		std::cout << ::mysql_error( conn ) << std::endl;

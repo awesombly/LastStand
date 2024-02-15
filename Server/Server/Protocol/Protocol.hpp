@@ -81,7 +81,7 @@ public:
 		ar( CEREAL_NVP( z ) );
 		ar( CEREAL_NVP( w ) );
 	}
-} Quaternion, QUATERNION, Quaternion;
+} Quaternion, QUATERNION;
 
 typedef struct EmptyProtocol
 {

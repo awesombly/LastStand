@@ -71,5 +71,4 @@
 // Global Variables and Function
 #include "Global.hpp"
 
-
 #pragma comment( lib, "ws2_32.lib" )

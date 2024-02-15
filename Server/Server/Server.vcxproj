@@ -127,7 +127,9 @@
       <AdditionalDependencies>libmysql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(OutputPath)Server.exe" "..\\..\\Server.exe"</Command>
+      <Command>copy "$(OutputPath)Server.exe" "..\\..\\Server.exe"
+
+if not exist "$(SolutionDir)Log" mkdir "$(SolutionDir)Log"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Global\LogText.hpp" />
     <ClInclude Include="Network\Acceptor.h" />
     <ClInclude Include="Network\Session.h" />
     <ClInclude Include="Database\Database.h" />

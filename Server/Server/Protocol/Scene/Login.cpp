@@ -20,14 +20,14 @@ void Login::ConfirmMatchData( const Packet& _packet )
 		if ( Global::String::Trim( data.email ).empty() || data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
 			 throw std::exception( "# Login information does not match" );
 
-		std::cout << "# < " << info.nickname << " > entered the lobby" << std::endl;
+		Debug.Log( "# < ", info.nickname, " > entered the lobby" );
 		
 		session->loginInfo = info;
 		session->Send( UPacket( CONFIRM_LOGIN_ACK, info ) );
 	}
 	catch ( const std::exception& _error )
 	{
-		std::cout << "# DB Exception " << _error.what() << std::endl;
+		Debug.LogError( "# DB Exception < ", _error.what(), " >" );
 		session->Send( UPacket( CONFIRM_LOGIN_ACK, LOGIN_INFO() ) );
 	}
 }
@@ -66,7 +66,7 @@ void Login::AddToDatabase( const Packet& _packet )
 	catch ( const std::exception& _error )
 	{
 		confirm.isCompleted = false;
-		std::cout << "# DB Exception " << _error.what() << std::endl;
+		Debug.LogError( "# DB Exception < ", _error.what(), " >" );
 	}
 
 	session->Send( UPacket( CONFIRM_ACCOUNT_ACK, confirm ) );
