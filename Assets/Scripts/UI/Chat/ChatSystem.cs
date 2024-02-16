@@ -13,14 +13,14 @@ public class ChatSystem : MonoBehaviour
     {
         ProtocolSystem.Inst.Regist( PACKET_CHAT_MSG, PrintMessage );
 
-        pool = new WNS.ObjectPool<ChatMsg>( prefab, 5 );
+        pool = new WNS.ObjectPool<ChatMsg>( prefab, contents );
         input.interactable = false;
     }
 
     private void PrintMessage( Packet _packet )
     {
         var data = Global.FromJson<CHAT_MESSAGE>( _packet );
-        var obj  = pool.Spawn( contents );
+        var obj  = pool.Spawn();
         obj.Initialize( data );
     }
 

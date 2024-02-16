@@ -14,8 +14,7 @@ public class ChatMsg : MonoBehaviour, WNS.IObjectPool<ChatMsg>
 
     public void Initialize( CHAT_MESSAGE _message )
     {
-        //transform.SetAsFirstSibling();
-        transform.localScale = Vector3.one;
+        transform.SetAsLastSibling();
         text.text = $"<{_message.nickname}>  {_message.message}";
         text.alpha = 1f;
         isPlaying = true;

@@ -24,7 +24,7 @@ public class StageSystem : MonoBehaviour
     private void Awake()
     {
         var net = Network.Inst;
-        pool = new WNS.ObjectPool<Stage>( prefab, 5 );
+        pool = new WNS.ObjectPool<Stage>( prefab, contents );
 
         ProtocolSystem.Inst.Regist( STAGE_INFO_ACK,    AckInsertStageInfo );
         ProtocolSystem.Inst.Regist( INSERT_STAGE_INFO, AckInsertStageInfo );
@@ -114,7 +114,7 @@ public class StageSystem : MonoBehaviour
     {
         var data = Global.FromJson<STAGE_INFO>( _packet );
 
-        Stage newStage = pool.Spawn( contents );
+        Stage newStage = pool.Spawn();
         newStage.Initialize( data );
 
         stages.Add( newStage );

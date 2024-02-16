@@ -7,9 +7,8 @@ int main()
 {
 	SetConsoleOutputCP( CP_UTF8 );
 
-	Debug.alignment  = LogAlignment::All;
-	Debug.writeType  = LogWriteType::All;
-	Debug.ignoreData = false;
+	LogText::Inst().alignment  = LogAlignment::All;
+	LogText::Inst().ignoreData = true;
 
 	Server server;
 	server.Start( 10000 );

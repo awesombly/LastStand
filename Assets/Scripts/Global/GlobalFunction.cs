@@ -125,7 +125,19 @@ namespace WNS
         private T prefab;
         private Transform parent;
         private Stack<T>  objects = new Stack<T>();
-        private int allocate;
+        private int allocate = 1;
+
+        public ObjectPool( T _prefab, Transform _parent )
+        {
+            if ( ReferenceEquals( _prefab, null ) )
+            {
+                Debug.LogError( "Prefab is null" );
+                return;
+            }
+            prefab = _prefab;
+            parent = _parent;
+            Allocate( 5 );
+        }
 
         public ObjectPool( T _prefab, int _initialize = 5, int _allocate = 1 )
         {
@@ -177,16 +189,12 @@ namespace WNS
             }
         }
 
-        public T Spawn( Transform _parent = null )
+        public T Spawn()
         {
             if ( objects.Count == 0 )
                  Allocate( allocate );
 
-
             T obj = objects.Pop();
-            if ( _parent != null )
-                 obj.transform.SetParent( _parent );
-            
             obj.gameObject.SetActive( true );
 
             return obj;
@@ -194,7 +202,6 @@ namespace WNS
 
         public void Despawn( T _obj )
         {
-            _obj.transform.SetParent( parent );
             _obj.gameObject.SetActive( false );
             objects.Push( _obj );
         }
