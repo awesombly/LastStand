@@ -23,7 +23,7 @@ public class LoginSystem : MonoBehaviour
 
     private enum LoginPanelType { Default, Error, SignUp, SignUpComplete }
     private LoginPanelType type = LoginPanelType.Default;
-    public static LOGIN_INFO Info { get; private set; }
+    public static LOGIN_INFO? Info { get; private set; }
 
     private void Awake()
     {

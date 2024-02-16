@@ -34,7 +34,7 @@ public class ChatSystem : MonoBehaviour
                 input.DeactivateInputField();
 
                 CHAT_MESSAGE message;
-                message.nickname = LoginSystem.Info.nickname;
+                message.nickname = LoginSystem.Info == null ? string.Empty : LoginSystem.Info.Value.nickname;
                 message.message  = input.text;
                 Network.Inst.Send( PACKET_CHAT_MSG, message );
 
