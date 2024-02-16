@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 0c128d2c50c140742bbde51a827fee73, type: 2}
-  allowSynkInterval: 1
+  allowSynkInterval: 10
 --- !u!95 &5448611838002548329
 Animator:
   serializedVersion: 5
