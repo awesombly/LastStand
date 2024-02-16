@@ -50,13 +50,14 @@ public class InGameScene : SceneBase
     private void ReqInGameLoadData()
     {
         // 立加矫 积己且 Player 沥焊
-        ACTOR_INFO protocol;
-        protocol.isLocal = true;
-        protocol.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
-        protocol.serial = 0;
-        protocol.position = new VECTOR3( spawnTransform.position + Vector3.one * Random.Range( -5f, 5f ) );
-        protocol.rotation = new QUATERNION( spawnTransform.rotation );
-        protocol.velocity = new VECTOR3( Vector3.zero );
+        PLAYER_INFO protocol;
+        protocol.actorInfo.isLocal = true;
+        protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
+        protocol.actorInfo.serial = 0;
+        protocol.actorInfo.position = new VECTOR3( spawnTransform.position + Vector3.one * Random.Range( -5f, 5f ) );
+        protocol.actorInfo.rotation = new QUATERNION( spawnTransform.rotation );
+        protocol.actorInfo.velocity = new VECTOR3( Vector3.zero );
+        protocol.nickname = string.Empty;
 
         Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
     }
@@ -65,22 +66,23 @@ public class InGameScene : SceneBase
     #region Ack Protocols
     private void AckSpawnPlayer( Packet _packet )
     {
-        var data = Global.FromJson<ACTOR_INFO>( _packet );
+        var data = Global.FromJson<PLAYER_INFO>( _packet );
         Player player = null;
         if ( GameManager.Inst.localPlayer != null &&
-            ( GameManager.Inst.localPlayer.Serial == data.serial || data.isLocal ) )
+            ( GameManager.Inst.localPlayer.Serial == data.actorInfo.serial || data.actorInfo.isLocal ) )
         {
             player = GameManager.Inst.localPlayer;
             player.IsLocal = true;
         }
         else
         {
-            player = PoolManager.Inst.Get( data.prefab ) as Player;
+            player = PoolManager.Inst.Get( data.actorInfo.prefab ) as Player;
             player.IsLocal = false;
         }
 
-        player.Serial = data.serial;
-        player.transform.SetPositionAndRotation( data.position.To(), data.rotation.To() );
+        player.Serial = data.actorInfo.serial;
+        player.transform.SetPositionAndRotation( data.actorInfo.position.To(), data.actorInfo.rotation.To() );
+        player.Nickname = data.nickname;
     }
 
     private void AckSpawnBullet( Packet _packet )

@@ -1,18 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public class Player : Character
 {
+    private string nickname;
+    public string Nickname 
+    {
+        get => nickname;
+        set
+        {
+            nickname = value;
+            nicknameUI?.SetText( nickname );
+        }
+    }
+
     public Vector2 Direction { get; private set; }
     private Vector2 prevPosition;
     private Vector3 prevVelocity;
     [SerializeField]
     private float allowSynkInterval;
 
+    [SerializeField]
+    private TextMeshProUGUI nicknameUI;
     public Rigidbody2D Rigid2D { get; private set; }
     private SpriteRenderer spriter;
     private Animator animator;

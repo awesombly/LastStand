@@ -90,6 +90,11 @@ ActorContainer& Stage::GetActors()
 	return actors;
 }
 
+std::list<Session*>& Stage::GetSessions()
+{
+	return sessions;
+}
+
 void Stage::Broadcast( const UPacket& _packet ) const
 {
 	for ( auto iter = sessions.begin(); iter != sessions.end(); iter++ )

@@ -191,6 +191,20 @@ public:
 	}
 } ACTOR_INFO;
 
+typedef struct PlayerInfo
+{
+public:
+	ACTOR_INFO actorInfo;
+	std::string nickname;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( actorInfo ) );
+		ar( CEREAL_NVP( nickname ) );
+	}
+} PLAYER_INFO;
+
 typedef struct ChatMessage
 {
 public:

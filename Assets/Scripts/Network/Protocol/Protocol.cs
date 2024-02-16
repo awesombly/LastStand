@@ -112,6 +112,12 @@ public struct ACTOR_INFO : IProtocol
     public VECTOR3 velocity;
 }
 
+public struct PLAYER_INFO : IProtocol
+{
+    public ACTOR_INFO actorInfo;
+    public string nickname;
+}
+
 public struct CHAT_MESSAGE : IProtocol
 {
     public string nickname;

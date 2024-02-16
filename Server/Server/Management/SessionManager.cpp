@@ -147,7 +147,7 @@ void SessionManager::ExitStage( Session* _session )
 	if ( _session->player != nullptr )
 	{
 		stage->BroadcastWithoutSelf( _session, UPacket( REMOVE_PLAYER_ACK, *_session->player ) );
-		_session->stage->UnregistActor( _session->player );
+		_session->stage->UnregistActor( &_session->player->actorInfo );
 		Global::Memory::SafeDelete( _session->player );
 	}
 
