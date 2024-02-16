@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class Character : Actor
 {
-    public float Hp { get; set; }
+    public Global.StatusFloat Hp;
     [SerializeField]
     protected CharacterData data;
 
@@ -18,7 +18,8 @@ public class Character : Actor
     protected virtual void Awake()
     {
         Rigid2D = GetComponent<Rigidbody2D>();
-        Hp = data.maxHp;
+        Hp.Max = data.maxHp;
+        Hp.SetMax();
     }
 
     public virtual void OnHit( Character _attacker, float _damage, Vector2 _force )
@@ -28,8 +29,8 @@ public class Character : Actor
             Rigid2D.AddForce( _force );
         }
 
-        Hp -= _damage;
-        if ( Hp <= 0 )
+        Hp.Current -= _damage;
+        if ( Hp.Current <= 0 )
         {
             OnDeadEvent?.Invoke( this, _attacker );
         }

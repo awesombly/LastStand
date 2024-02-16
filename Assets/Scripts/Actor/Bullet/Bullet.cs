@@ -6,9 +6,16 @@ using UnityEngine;
 
 public class Bullet : Actor
 {
-    public Global.LayerValue targetLayer;
+    [Serializable]
+    public struct EffectInfo
+    {
+        public GameObject fireEffect;
+        public GameObject hitEffect;
+        public GameObject shellEffect;
+    }
+
     [SerializeField]
-    private float moveSpeed;
+    private EffectInfo effect;
 
     [Serializable]
     public struct StatInfo
@@ -45,7 +52,7 @@ public class Bullet : Actor
         lifeTime -= Time.deltaTime;
         if ( lifeTime <= 0)
         {
-            /// +ì œê±° ë™ê¸°í™”
+            /// +Á¦°Å µ¿±âÈ­
             Release();
         }
     }
@@ -69,9 +76,9 @@ public class Bullet : Actor
         --stat.penetratePower.Current;
         if ( stat.penetratePower.IsZero )
         {
-            /// + ì œê±° ë™ê¸°í™”
-        Release();
-    }
+            /// + Á¦°Å µ¿±âÈ­
+            Release();
+        }
     }
 
     public void Init( uint _owner, Vector3 _position, Quaternion _rotation )

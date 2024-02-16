@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour
 {
@@ -24,6 +26,15 @@ public class Weapon : MonoBehaviour
     private Character owner;
     private ActionReceiver receiver;
 
+    #region UI
+    [SerializeField]
+    private TextMeshProUGUI magazineUI;
+    [SerializeField]
+    private TextMeshProUGUI ammoUI;
+    [SerializeField]
+    private Slider reloadBar;
+    #endregion
+
     #region Unity Callback
     private void Start()
     {
@@ -42,12 +53,20 @@ public class Weapon : MonoBehaviour
         receiver = GetComponentInParent<ActionReceiver>();
         receiver.OnAttackPressEvent += OnAttackPress;
         receiver.OnReloadEvent += OnReload;
+
+        ammo.OnChangeCurrent += OnChangeAmmo;
+        magazine.OnChangeCurrent += OnChangeMagazine;
+        reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
     }
 
     private void OnDisable()
     {
         receiver.OnAttackPressEvent -= OnAttackPress;
         receiver.OnReloadEvent -= OnReload;
+
+        ammo.OnChangeCurrent -= OnChangeAmmo;
+        magazine.OnChangeCurrent -= OnChangeMagazine;
+        reloadDelay.OnChangeCurrent -= OnChangeReloadDelay;
     }
 
     private void Update()
@@ -120,5 +139,20 @@ public class Weapon : MonoBehaviour
         ammo.Current -= ( magazine.Current - oldMag );
 
         Debug.Log( $"Reload, mag:{magazine.Current}, ammo:{ammo.Current}" );
+    }
+
+    private void OnChangeAmmo( int _old, int _new )
+    {
+        ammoUI?.SetText( _new.ToString() );
+    }
+
+    private void OnChangeMagazine( int _old, int _new )
+    {
+        magazineUI?.SetText( _new.ToString() );
+    }
+
+    private void OnChangeReloadDelay( float _old, float _new )
+    {
+        reloadBar.value = ( reloadDelay.Max - reloadDelay.Current ) / reloadDelay.Max;
     }
 }

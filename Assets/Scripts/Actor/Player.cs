@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 
 public class Player : Character
@@ -26,8 +27,12 @@ public class Player : Character
     [SerializeField]
     private float allowSynkInterval;
 
+    #region UI
     [SerializeField]
     private TextMeshProUGUI nicknameUI;
+    [SerializeField]
+    private Slider healthBar;
+    #endregion
     private SpriteRenderer spriter;
     private Animator animator;
     private ActionReceiver receiver;
@@ -41,6 +46,8 @@ public class Player : Character
         animator = GetComponent<Animator>();
         receiver = GetComponent<ActionReceiver>();
         playerInput = GetComponent<PlayerInput>();
+
+        Hp.OnChangeCurrent += OnChangeHp;
     }
 
     private void Start()
@@ -100,7 +107,7 @@ public class Player : Character
     private void OnDead( Character _dead, Character _attacker )
     {
         Debug.Log( "Player dead." );
-        Hp = data.maxHp;
+        Hp.SetMax();
     }
 
     protected override void OnChangeLocal( bool _isLocal )
@@ -108,4 +115,10 @@ public class Player : Character
         base.OnChangeLocal( _isLocal );
         playerInput.enabled = _isLocal;
     }
+
+    private void OnChangeHp( float _old, float _new )
+    {
+        healthBar.value = Hp.Current / Hp.Max;
+    }
+    
 }

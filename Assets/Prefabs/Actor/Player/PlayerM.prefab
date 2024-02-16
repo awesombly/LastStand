@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 297697983247527471}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 3794053233054074122}
   - component: {fileID: 7899371065201368017}
   - component: {fileID: 2270935044880779659}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 6028178042745362873}
   - component: {fileID: 129311633852250380}
   - component: {fileID: 7039578495037849222}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Nickname
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3863955276742425999}
   - component: {fileID: 1657714690436139336}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Reload
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -363,7 +363,7 @@ GameObject:
   - component: {fileID: 6110269959465744116}
   - component: {fileID: 3620298325579709613}
   - component: {fileID: 7581555006091597407}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,7 +466,7 @@ GameObject:
   - component: {fileID: 7933902928073099671}
   - component: {fileID: 3966570256519250446}
   - component: {fileID: 6143853991841171369}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 1247220762143590505}
   - component: {fileID: 8162538227713968338}
   - component: {fileID: 140468194595280771}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +615,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9149505485783220756}
   - component: {fileID: 2624294410744986534}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Health Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -803,6 +803,9 @@ MonoBehaviour:
   reloadDelay:
     max: 1.2
   isAllowKeyHold: 1
+  magazineUI: {fileID: 0}
+  ammoUI: {fileID: 0}
+  reloadBar: {fileID: 1657714690436139336}
 --- !u!1 &6843205158952007625
 GameObject:
   m_ObjectHideFlags: 0
@@ -812,7 +815,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5813283421213827959}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -848,7 +851,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1206451277689522960}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1042,9 +1045,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400916ac03e5d7449a47cba6870bb3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hp:
+    max: 0
   data: {fileID: 11400000, guid: 0c128d2c50c140742bbde51a827fee73, type: 2}
   allowSynkInterval: 10
   nicknameUI: {fileID: 7039578495037849222}
+  healthBar: {fileID: 2624294410744986534}
 --- !u!95 &5448611838002548329
 Animator:
   serializedVersion: 5
@@ -1289,7 +1295,7 @@ GameObject:
   - component: {fileID: 8784212373813237307}
   - component: {fileID: 601527760166691334}
   - component: {fileID: 6102704981990864443}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1395,7 +1401,7 @@ GameObject:
   - component: {fileID: 2182353240591088785}
   - component: {fileID: 4839453484329631512}
   - component: {fileID: 7266271353157909875}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}

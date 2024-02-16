@@ -105,11 +105,11 @@ MonoBehaviour:
     shellEffect: {fileID: 0}
   stat:
     moveSpeed: 12
-    damage: 50
+    damage: 4
     range: 15
-    pushingPower: 200
+    pushingPower: 300
     penetratePower:
-      max: 2
+      max: 1
   ownerSerial: 0
 --- !u!50 &-5355977176211696922
 Rigidbody2D:
