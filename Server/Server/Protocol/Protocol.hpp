@@ -9,7 +9,7 @@ enum PacketType : u_short
 	NONE = 0,
 	PACKET_HEARTBEAT,              // 주기적인 통신을 위한 패킷
 	PACKET_CHAT_MSG,               // 채팅 메세지
-	
+
 	// Login
 	CONFIRM_LOGIN_REQ,             // 로그인 요청
 	CONFIRM_LOGIN_ACK,             // 로그인 응답
@@ -17,7 +17,7 @@ enum PacketType : u_short
 	CONFIRM_ACCOUNT_ACK,           // 계정 생성 응답
 	DUPLICATE_EMAIL_REQ,           // 이메일 중복확인 요청
 	DUPLICATE_EMAIL_ACK,           // 이메일 중복확인 응답
-		
+
 	// Stage
 	STAGE_INFO_REQ,                // 방 정보 요청
 	STAGE_INFO_ACK,                // 방 정보 응답
@@ -31,7 +31,7 @@ enum PacketType : u_short
 	EXIT_STAGE_REQ,                // 방 퇴장 요청
 	EXIT_STAGE_ACK,                // 방 퇴장 응답
 
-    // Actor
+	// Actor
 	SPAWN_ACTOR_REQ,               // Actor 스폰 요청
 	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
 	SPAWN_PLAYER_ACK,              // Player 스폰 응답
@@ -40,6 +40,8 @@ enum PacketType : u_short
 	SPAWN_BULLET_ACK,              // Bullet 스폰 응답
 	SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
+	HIT_ACTOR_REQ,                 // 피격 동기화 요청
+	HIT_ACTOR_ACK,                 // 피격 동기화 응답
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
 };
 
@@ -136,7 +138,7 @@ struct Personnel
 {
 public:
 	int current, maximum;
-	
+
 	Personnel() : current( 0 ), maximum( 0 ) { }
 	Personnel( int _cur, int _max ) : current( _cur ), maximum( _max ) { }
 
@@ -219,12 +221,30 @@ public:
 	}
 } BULLET_INFO;
 
+typedef struct HitInfo
+{
+public:
+	bool needRelease;
+	SerialType bullet;
+	SerialType attacker;
+	SerialType defender;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( needRelease ) );
+		ar( CEREAL_NVP( bullet ) );
+		ar( CEREAL_NVP( attacker ) );
+		ar( CEREAL_NVP( defender ) );
+	}
+} HIT_INFO;
+
 typedef struct ChatMessage
 {
 public:
 	std::string nickname;
 	std::string message;
-	
+
 	template <class Archive>
 	void serialize( Archive& ar )
 	{

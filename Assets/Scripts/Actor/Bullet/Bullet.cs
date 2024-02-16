@@ -28,8 +28,7 @@ public class Bullet : Actor
         public float pushingPower;
         public Global.StatusInt penetratePower;
     }
-    [SerializeField]
-    private StatInfo stat;
+    public StatInfo stat;
     private float lifeTime;
 
     [HideInInspector]
@@ -44,15 +43,15 @@ public class Bullet : Actor
 
     private void Update()
     {
-        if( !IsLocal )
-        {
-            return;
-        }
+        /// TODO: Release 동기화 하도록
+        //if( !IsLocal )
+        //{
+        //    return;
+        //}
 
         lifeTime -= Time.deltaTime;
         if ( lifeTime <= 0)
         {
-            /// +제거 동기화
             Release();
         }
     }
@@ -69,14 +68,26 @@ public class Bullet : Actor
             return;
         }
 
-        Character attacker = GameManager.Inst.GetActor( ownerSerial ) as Character;
-        Character otherCharacter = _other.GetComponent<Character>();
-        otherCharacter?.OnHit( attacker, stat.damage, stat.pushingPower * transform.up );
+        Character defender = _other.GetComponent<Character>();
+        if ( defender == null )
+        {
+            Debug.LogWarning( "defender is null. name:" + _other.name );
+            return;
+        }
 
         --stat.penetratePower.Current;
+        HIT_INFO protocol;
+        protocol.needRelease = stat.penetratePower.IsZero;
+        protocol.bullet = Serial;
+        protocol.attacker = ownerSerial;
+        protocol.defender = defender.Serial;
+        Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
+
+        Character attacker = GameManager.Inst.GetActor( ownerSerial ) as Character;
+        defender?.OnHit( attacker, stat.damage, stat.pushingPower * transform.up );
+        
         if ( stat.penetratePower.IsZero )
         {
-            /// + 제거 동기화
             Release();
         }
     }

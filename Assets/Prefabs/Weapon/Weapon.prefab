@@ -134,7 +134,7 @@ MonoBehaviour:
   ammo:
     max: 18000
   magazine:
-    max: 20
+    max: 24
   repeatDelay:
     max: 0.06
   reloadDelay:

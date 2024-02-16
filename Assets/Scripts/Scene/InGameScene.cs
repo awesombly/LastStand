@@ -19,11 +19,12 @@ public class InGameScene : SceneBase
             spawnTransform = transform;
         }
 
-        ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK, AckSpawnEnemy );
-        ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK, AckSpawnPlayer );
-        ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK, AckSpawnBullet );
-        ProtocolSystem.Inst.Regist( REMOVE_PLAYER_ACK, AckRemovePlayer );
-        ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK, AckSynkMovement );
+        ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,    AckSpawnEnemy );
+        ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,   AckSpawnPlayer );
+        ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,   AckSpawnBullet );
+        ProtocolSystem.Inst.Regist( REMOVE_PLAYER_ACK,  AckRemovePlayer );
+        ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK,  AckSynkMovement );
+        ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,      AckHitActor );
     }
 
     protected override void Start()
@@ -116,6 +117,26 @@ public class InGameScene : SceneBase
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Actor actor = GameManager.Inst.GetActor( data.serial );
         actor.SetMovement( data.position.To(), data.rotation.To(), data.velocity.To() );
+    }
+
+    private void AckHitActor( Packet _packet )
+    {
+        var data = Global.FromJson<HIT_INFO>( _packet );
+        Bullet bullet = GameManager.Inst.GetActor( data.bullet ) as Bullet;
+        Character attacker = GameManager.Inst.GetActor( data.attacker ) as Character;
+        Character defender = GameManager.Inst.GetActor( data.defender ) as Character;
+        if ( bullet == null || attacker == null || defender == null )
+        {
+            Debug.LogWarning( $"Actor is null. {bullet}, {attacker}, {defender}" );
+            return;
+        }
+
+        defender?.OnHit( attacker, bullet.stat.damage, bullet.stat.pushingPower * bullet.transform.up );
+
+        if ( data.needRelease )
+        {
+            bullet.Release();
+        }
     }
     #endregion
 }

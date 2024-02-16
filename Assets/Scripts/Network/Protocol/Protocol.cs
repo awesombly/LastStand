@@ -43,6 +43,8 @@ public enum PacketType : ushort
     SPAWN_BULLET_ACK,              // Bullet 스폰 응답
     SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 요청
     SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
+    HIT_ACTOR_REQ,                 // 피격 동기화 요청
+    HIT_ACTOR_ACK,                 // 피격 동기화 응답
     INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
 };
 
@@ -122,6 +124,14 @@ public struct BULLET_INFO : IProtocol
 {
     public ACTOR_INFO actorInfo;
     public uint owner;
+}
+
+public struct HIT_INFO : IProtocol
+{
+    public bool needRelease;
+    public uint bullet;
+    public uint attacker;
+    public uint defender;
 }
 
 public struct CHAT_MESSAGE : IProtocol
