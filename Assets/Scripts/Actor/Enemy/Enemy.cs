@@ -92,11 +92,9 @@ public class Enemy : Character
 
             Vector3 dir = ( target.position - rigid.position ).normalized;
             float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
-            bullet.transform.rotation = Quaternion.Euler( 0, 0, angle - 90 );
 
-            bullet.targetLayer = Global.LayerValue.Player | Global.LayerValue.Misc;
-            bullet.transform.position = transform.position;
-            bullet?.Fire();
+            bullet?.Init( Serial, transform.position, Quaternion.Euler( 0, 0, angle - 90 ) );
+            //bullet.targetLayer = Global.LayerFlag.Player | Global.LayerFlag.Misc;
 
             yield return YieldCache.WaitForSeconds( EnemyAttackDelay );
         }

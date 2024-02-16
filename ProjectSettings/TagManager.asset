@@ -14,7 +14,7 @@ TagManager:
   - UI
   - Player
   - Enemy
-  - EnemyArea
+  - Temp2
   - PlayerAttack
   - EnemyAttack
   - Misc

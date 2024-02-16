@@ -49,18 +49,21 @@ void InGame::AckSpawnActor( const Packet& _packet )
 
 void InGame::AckSpawnBullet( const Packet& _packet )
 {
-	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	BULLET_INFO data = FromJson<BULLET_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
-	data.serial = Global::GetNewSerial();
-	ActorInfo* actor = new ActorInfo( data );
+	data.actorInfo.serial = Global::GetNewSerial();
+	ActorInfo* actor = new ActorInfo( data.actorInfo );
 	_packet.session->stage->RegistActor( actor );
 
-	_packet.session->stage->Broadcast( UPacket( SPAWN_BULLET_ACK, data ) );
+	data.actorInfo.isLocal = true;
+	_packet.session->Send( UPacket( SPAWN_BULLET_ACK, data ) );
+	data.actorInfo.isLocal = false;
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_BULLET_ACK, data ) );
 }
 
 void InGame::AckSynkMovement( const Packet& _packet )

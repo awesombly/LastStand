@@ -20,14 +20,14 @@ public class Player : Character
     }
 
     public Vector2 Direction { get; private set; }
+    private Vector2 moveVector;
+    private Vector3 prevMoveVector;
     private Vector2 prevPosition;
-    private Vector3 prevVelocity;
     [SerializeField]
     private float allowSynkInterval;
 
     [SerializeField]
     private TextMeshProUGUI nicknameUI;
-    public Rigidbody2D Rigid2D { get; private set; }
     private SpriteRenderer spriter;
     private Animator animator;
     private ActionReceiver receiver;
@@ -37,7 +37,6 @@ public class Player : Character
     protected override void Awake()
     {
         base.Awake();
-        Rigid2D = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         receiver = GetComponent<ActionReceiver>();
@@ -53,31 +52,31 @@ public class Player : Character
     {
         if ( IsLocal )
         {
-            Rigid2D.velocity = receiver.InputVector * data.moveSpeed;
+            moveVector = receiver.InputVector * data.moveSpeed;
             ReqSynkMovement();
         }
 
+        Rigid2D.MovePosition( Rigid2D.position + moveVector * Time.fixedDeltaTime );
+
         Direction = ( Rigid2D.position - prevPosition ).normalized;
         prevPosition = Rigid2D.position;
-        prevVelocity = Rigid2D.velocity;
+        prevMoveVector = moveVector;
     }
 
     private void LateUpdate()
     {
-        Vector2 inputVector = receiver.InputVector;
+        animator.SetFloat( "MoveSpeed", moveVector.sqrMagnitude );
 
-        animator.SetFloat( "MoveSpeed", inputVector.sqrMagnitude );
-
-        if ( inputVector.x != 0f )
+        if ( moveVector.x != 0f )
         {
-            spriter.flipX = inputVector.x < 0f;
+            spriter.flipX = moveVector.x < 0f;
         }
     }
     #endregion
 
     private void ReqSynkMovement()
     {
-        float velocityInterval = Vector2.Distance( Rigid2D.velocity, prevVelocity );
+        float velocityInterval = Vector2.Distance( moveVector, prevMoveVector );
         if ( velocityInterval >= allowSynkInterval )
         {
             ACTOR_INFO protocol;
@@ -86,16 +85,16 @@ public class Player : Character
             protocol.serial = Serial;
             protocol.position = new VECTOR3( Rigid2D.position );
             protocol.rotation = new QUATERNION( transform.rotation );
-            protocol.velocity = new VECTOR3( Rigid2D.velocity );
+            protocol.velocity = new VECTOR3( moveVector );
             Network.Inst.Send( PacketType.SYNK_MOVEMENT_REQ, protocol );
         }
     }
 
-    public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
+    public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _moveVector )
     {
         Rigid2D.MovePosition( _position );
         transform.rotation = _rotation;
-        Rigid2D.velocity = _velocity;
+        moveVector = _moveVector;
     }
 
     private void OnDead( Character _dead, Character _attacker )

@@ -13,13 +13,21 @@ public class Character : Actor
 
     public Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
 
+    public Rigidbody2D Rigid2D { get; private set; }
+
     protected virtual void Awake()
     {
+        Rigid2D = GetComponent<Rigidbody2D>();
         Hp = data.maxHp;
     }
 
-    public virtual void HitAttack( Character _attacker, float _damage )
+    public virtual void OnHit( Character _attacker, float _damage, Vector2 _force )
     {
+        if ( _force != Vector2.zero )
+        {
+            Rigid2D.AddForce( _force );
+        }
+
         Hp -= _damage;
         if ( Hp <= 0 )
         {

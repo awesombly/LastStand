@@ -205,6 +205,20 @@ public:
 	}
 } PLAYER_INFO;
 
+typedef struct BulletInfo
+{
+public:
+	ACTOR_INFO actorInfo;
+	SerialType owner;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( actorInfo ) );
+		ar( CEREAL_NVP( owner ) );
+	}
+} BULLET_INFO;
+
 typedef struct ChatMessage
 {
 public:

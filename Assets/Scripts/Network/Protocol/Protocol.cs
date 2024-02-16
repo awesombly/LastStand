@@ -118,6 +118,12 @@ public struct PLAYER_INFO : IProtocol
     public string nickname;
 }
 
+public struct BULLET_INFO : IProtocol
+{
+    public ACTOR_INFO actorInfo;
+    public uint owner;
+}
+
 public struct CHAT_MESSAGE : IProtocol
 {
     public string nickname;

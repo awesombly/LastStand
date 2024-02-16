@@ -73,11 +73,13 @@ public class InGameScene : SceneBase
         {
             player = GameManager.Inst.localPlayer;
             player.IsLocal = true;
+            player.gameObject.layer = Global.Layer.Player;
         }
         else
         {
             player = PoolManager.Inst.Get( data.actorInfo.prefab ) as Player;
             player.IsLocal = false;
+            player.gameObject.layer = Global.Layer.Enemy;
         }
 
         player.Serial = data.actorInfo.serial;
@@ -87,13 +89,11 @@ public class InGameScene : SceneBase
 
     private void AckSpawnBullet( Packet _packet )
     {
-        var data = Global.FromJson<ACTOR_INFO>( _packet );
-        Bullet bullet = PoolManager.Inst.Get( data.prefab ) as Bullet;
-        bullet.IsLocal = false;
-        bullet.targetLayer = Global.LayerValue.Enemy | Global.LayerValue.Misc;
-        bullet.Serial = data.serial;
-        bullet.transform.SetPositionAndRotation( data.position.To(), data.rotation.To() );
-        bullet.Fire();
+        var data = Global.FromJson<BULLET_INFO>( _packet );
+        Bullet bullet = PoolManager.Inst.Get( data.actorInfo.prefab ) as Bullet;
+        bullet.IsLocal = data.actorInfo.isLocal;
+        bullet.Serial = data.actorInfo.serial;
+        bullet.Init( data.owner, data.actorInfo.position.To(), data.actorInfo.rotation.To() );
     }
 
     private void AckRemovePlayer( Packet _packet )

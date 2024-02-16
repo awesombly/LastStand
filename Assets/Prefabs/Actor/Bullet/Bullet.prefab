@@ -99,10 +99,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e929d7c633f168c49b8beaf5b331eeaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLayer: 0
-  moveSpeed: 10
-  damage: 60
-  owner: {fileID: 0}
+  effect:
+    fireEffect: {fileID: 0}
+    hitEffect: {fileID: 0}
+    shellEffect: {fileID: 0}
+  stat:
+    moveSpeed: 12
+    damage: 50
+    range: 15
+    pushingPower: 200
+    penetratePower:
+      max: 2
+  ownerSerial: 0
 --- !u!50 &-5355977176211696922
 Rigidbody2D:
   serializedVersion: 4
@@ -117,7 +125,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -125,10 +133,10 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
+    m_Bits: 319
+  m_Interpolate: 2
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &2711111308682818306
 CircleCollider2D:

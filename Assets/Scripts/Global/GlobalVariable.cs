@@ -8,24 +8,40 @@ public static partial class Global
 {
     public static readonly int RoundDigit = 3;
 
-    [Flags]
-    public enum LayerValue
+    public struct Layer
     {
-        Default         = 1 << 0,
-        TransparentFX   = 1 << 1,
-        IgnoreRaycast   = 1 << 2,
-        Temp            = 1 << 3,
-        Water           = 1 << 4,
-        UI              = 1 << 5,
-        Player          = 1 << 6,
-        Enemy           = 1 << 7,
-        EnemyArea       = 1 << 8,
-        PlayerAttack    = 1 << 9,
-        EnemyAttack     = 1 << 10,
-        Misc            = 1 << 11,
+        public const int Default       = 0;
+        public const int TransparentFX = 1;
+        public const int IgnoreRaycast = 2;
+        public const int Temp          = 3;
+        public const int Water         = 4;
+        public const int UI            = 5;
+        public const int Player        = 6;
+        public const int Enemy         = 7;
+        public const int EnemyArea     = 8;
+        public const int PlayerAttack  = 9;
+        public const int EnemyAttack   = 10;
+        public const int Misc          = 11;
     }
 
-    public static bool CompareLayer( LayerValue _flagLayer, int _intLayer )
+    [Flags]
+    public enum LayerFlag
+    {
+        Default         = 1 << Layer.Default,
+        TransparentFX   = 1 << Layer.TransparentFX,
+        IgnoreRaycast   = 1 << Layer.IgnoreRaycast,
+        Temp            = 1 << Layer.Temp,
+        Water           = 1 << Layer.Water,
+        UI              = 1 << Layer.UI,
+        Player          = 1 << Layer.Player,
+        Enemy           = 1 << Layer.Enemy,
+        EnemyArea       = 1 << Layer.EnemyArea,
+        PlayerAttack    = 1 << Layer.PlayerAttack,
+        EnemyAttack     = 1 << Layer.EnemyAttack,
+        Misc            = 1 << Layer.Misc,
+    }
+
+    public static bool CompareLayer( LayerFlag _flagLayer, int _intLayer )
     {
         int result = ( int )_flagLayer & ( 1 << _intLayer );
         return result != 0;
