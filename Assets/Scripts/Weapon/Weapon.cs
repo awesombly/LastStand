@@ -21,7 +21,7 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private bool isAllowKeyHold;
 
-    private Character owner;
+    private uint ownerSerial = 0;
     private ActionReceiver receiver;
 
     #region Unity Callback
@@ -38,7 +38,6 @@ public class Weapon : MonoBehaviour
 
     private void OnEnable()
     {
-        owner = GetComponentInParent<Character>();
         receiver = GetComponentInParent<ActionReceiver>();
         receiver.OnAttackPressEvent += OnAttackPress;
         receiver.OnReloadEvent += OnReload;
@@ -74,16 +73,18 @@ public class Weapon : MonoBehaviour
         Debug.Log( $"mag:{magazine.Current}, ammo:{ammo.Current}" );
         Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 
-        Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
-        bullet.owner = owner;
-        bullet.targetLayer = Global.LayerValue.Enemy | Global.LayerValue.Misc;
-        bullet.transform.position = shotPoint.position;
-
         Vector3 dir = ( mousePos - shotPoint.position ).normalized;
         float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
-        bullet.transform.rotation = Quaternion.Euler( 0, 0, angle - 90 );
+        Quaternion rotation = Quaternion.Euler( 0, 0, angle - 90 );
 
-        bullet.Fire();
+        ACTOR_INFO protocol;
+        protocol.isLocal = false;
+        protocol.prefab = GameManager.Inst.GetPrefabIndex( bulletPrefab );
+        protocol.serial = ownerSerial;
+        protocol.position = new VECTOR3( shotPoint.position );
+        protocol.rotation = new QUATERNION( rotation );
+        protocol.velocity = new VECTOR3( Vector3.zero );
+        Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
     }
 
     private void OnAttackPress()

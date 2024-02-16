@@ -12,7 +12,7 @@ public class Bullet : Actor
     private float damage;
 
     [HideInInspector]
-    public Character owner;
+    public uint ownerSerial;
     private Rigidbody2D rigid2D;
 
     private void Awake()
@@ -32,8 +32,9 @@ public class Bullet : Actor
             return;
         }
 
-        Character character = _other.GetComponent<Character>();
-        character?.HitAttack( owner, damage );
+        Character attacker = GameManager.Inst.GetActor( ownerSerial ) as Character;
+        Character otherCharacter = _other.GetComponent<Character>();
+        otherCharacter?.HitAttack( attacker, damage );
         Release();
     }
 

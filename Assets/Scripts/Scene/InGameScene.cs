@@ -21,6 +21,7 @@ public class InGameScene : SceneBase
 
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK, AckSpawnEnemy );
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK, AckSpawnPlayer );
+        ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK, AckSpawnBullet );
         ProtocolSystem.Inst.Regist( REMOVE_PLAYER_ACK, AckRemovePlayer );
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK, AckSynkMovement );
     }
@@ -80,6 +81,17 @@ public class InGameScene : SceneBase
 
         player.Serial = data.serial;
         player.transform.SetPositionAndRotation( data.position.To(), data.rotation.To() );
+    }
+
+    private void AckSpawnBullet( Packet _packet )
+    {
+        var data = Global.FromJson<ACTOR_INFO>( _packet );
+        Bullet bullet = PoolManager.Inst.Get( data.prefab ) as Bullet;
+        bullet.IsLocal = false;
+        bullet.targetLayer = Global.LayerValue.Enemy | Global.LayerValue.Misc;
+        bullet.Serial = data.serial;
+        bullet.transform.SetPositionAndRotation( data.position.To(), data.rotation.To() );
+        bullet.Fire();
     }
 
     private void AckRemovePlayer( Packet _packet )

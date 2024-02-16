@@ -6,6 +6,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( PACKET_CHAT_MSG,		 AckChatMessage );
 	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,		 AckExitStage );
 	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,		 AckSpawnActor );
+	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,	 AckSpawnBullet );
 	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,	 AckSynkMovement );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ, AckInGameLoadData );
 }
@@ -44,6 +45,22 @@ void InGame::AckSpawnActor( const Packet& _packet )
 	_packet.session->stage->RegistActor( actor );
 
 	_packet.session->stage->Broadcast( UPacket( SPAWN_ACTOR_ACK, data ) );
+}
+
+void InGame::AckSpawnBullet( const Packet& _packet )
+{
+	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.Log( "Stage is null. nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	data.serial = Global::GetNewSerial();
+	ActorInfo* actor = new ActorInfo( data );
+	_packet.session->stage->RegistActor( actor );
+
+	_packet.session->stage->Broadcast( UPacket( SPAWN_BULLET_ACK, data ) );
 }
 
 void InGame::AckSynkMovement( const Packet& _packet )

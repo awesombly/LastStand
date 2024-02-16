@@ -88,7 +88,7 @@ public class Enemy : Character
             }
 
             Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
-            bullet.owner = this;
+            bullet.ownerSerial = Serial;
 
             Vector3 dir = ( target.position - rigid.position ).normalized;
             float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
