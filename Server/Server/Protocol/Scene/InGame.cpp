@@ -32,7 +32,7 @@ void InGame::AckSpawnActor( const Packet& _packet )
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
-		std::cout << __FUNCTION__ << " : Stage is null. nick:" << _packet.session->loginInfo.nickname << std::endl;
+		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
@@ -52,7 +52,7 @@ void InGame::AckSpawnBullet( const Packet& _packet )
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
-		Debug.Log( "Stage is null. nick:", _packet.session->loginInfo.nickname );
+		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
@@ -68,14 +68,14 @@ void InGame::AckSynkMovement( const Packet& _packet )
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
-		std::cout << __FUNCTION__ << " : Session is null. serial:" << data.serial << std::endl;
+		Debug.LogError( "Session is null. serial:", data.serial );
 		return;
 	}
 
 	ActorInfo* actor = _packet.session->stage->GetActor( data.serial );
 	if ( actor == nullptr )
 	{
-		std::cout << __FUNCTION__ << " : Actor is null. serial:" << data.serial << std::endl;
+		Debug.LogError( "Actor is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
@@ -90,7 +90,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 {
 	if ( _packet.session->stage == nullptr )
 	{
-		std::cout << "Stage is null. nick : " << _packet.session->loginInfo.nickname << std::endl;
+		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
@@ -113,7 +113,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 	{
 		if ( session == nullptr )
 		{
-			Debug.Log( "Session is null. " );
+			Debug.LogError( "Session is null. " );
 			return;
 		}
 
