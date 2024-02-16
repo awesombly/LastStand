@@ -2,11 +2,18 @@
 #include "Singleton.hpp"
 
 #define Debug ( LogText::Inst() << __FUNCTION__ << "( " << std::to_string( __LINE__ ) << " )" )
+enum class LogAlignment { All, IgnoreLog, OnlyError, };
+enum class LogWriteType { All, Console,   File, };
 class LogText : public Singleton<LogText>
 {
+public:
+
+	LogAlignment alignment = LogAlignment::All;
+	LogWriteType writeType = LogWriteType::All;
+	bool ignoreData        = false;
+
 private:
 	enum LogType : short { _Log, _Warning, _Error, };
-
 	static const u_short MaxLogSize = 1024;
 	std::ofstream os;
 
@@ -38,43 +45,7 @@ public:
 		os.close();
 	}
 
-	void Log()        { }
-	void LogWarning() { }
-	void LogError()   { }
-
-	template<typename T, typename... Args>
-	void Log( T type, Args... _args )
-	{
-		BeginWrite( LogType::_Log );
-
-		Copy( type );
-		Log( _args... );
-
-		Write();
-	}
-
-	template<typename T, typename... Args>
-	void LogWarning( T type, Args... _args )
-	{
-		BeginWrite( LogType::_Warning );
-
-		Copy( type );
-		LogWarning( _args... );
-
-		Write();
-	}
-
-	template<typename T, typename... Args>
-	void LogError( T type, Args... _args )
-	{
-		BeginWrite( LogType::_Error );
-
-		Copy( type );
-		LogError( _args... );
-
-		Write();
-	}
-
+private:
 	void Clear()
 	{
 		::memset( data, 0, MaxLogSize );
@@ -121,8 +92,8 @@ public:
 			return;
 		}
 
-		os        << data << std::endl << std::endl;
-		std::cout << data << std::endl;
+		if ( writeType != LogWriteType::Console ) os        << data << std::endl << std::endl;
+		if ( writeType != LogWriteType::File    )std::cout  << data << std::endl;
 		Clear();
 	}
 
@@ -131,8 +102,8 @@ public:
 		size_t size = _str.size();
 		if ( pos + size >= MaxLogSize )
 		{
-			os        << data;
-			std::cout << data;
+			if ( writeType != LogWriteType::Console ) os        << data;
+			if ( writeType != LogWriteType::File )    std::cout << data;
 			Clear();
 
 			size_t startPos = 0;
@@ -144,8 +115,8 @@ public:
 				std::copy( &_str[startPos], &_str[endPos], &data[0] );
 				
 				data[MaxLogSize - 1] = '\0';
-				os        << data;
-				std::cout << data;
+				if ( writeType != LogWriteType::Console ) os        << data;
+				if ( writeType != LogWriteType::File )    std::cout << data;
 				Clear();
 
 				amount   -= ( endPos - startPos );
@@ -161,6 +132,50 @@ public:
 			std::copy( &_str[0], &_str[size], &data[pos] );
 			pos += size;
 		}
+	}
+
+public:
+	void Log()        { }
+	void LogWarning() { }
+	void LogError()   { }
+
+	template<typename T, typename... Args>
+	void Log( T type, Args... _args )
+	{
+		if ( alignment != LogAlignment::All )
+			 return;
+
+		BeginWrite( LogType::_Log );
+
+		Copy( type );
+		Log( _args... );
+
+		Write();
+	}
+
+	template<typename T, typename... Args>
+	void LogWarning( T type, Args... _args )
+	{
+		if ( alignment == LogAlignment::OnlyError )
+			 return;
+
+		BeginWrite( LogType::_Warning );
+
+		Copy( type );
+		LogWarning( _args... );
+
+		Write();
+	}
+
+	template<typename T, typename... Args>
+	void LogError( T type, Args... _args )
+	{
+		BeginWrite( LogType::_Error );
+
+		Copy( type );
+		LogError( _args... );
+
+		Write();
 	}
 
 	std::string ToString( float _value, int _maxDecimalPoint = 3 )
