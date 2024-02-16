@@ -54,7 +54,8 @@ public class Weapon : MonoBehaviour
         receiver.OnAttackPressEvent += OnAttackPress;
         receiver.OnReloadEvent += OnReload;
 
-        ammo.OnChangeCurrent += OnChangeAmmo;
+        //ammo.OnChangeCurrent += OnChangeAmmo;
+        ammoUI?.SetText( magazine.Max.ToString() );
         magazine.OnChangeCurrent += OnChangeMagazine;
         reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
     }
@@ -64,7 +65,7 @@ public class Weapon : MonoBehaviour
         receiver.OnAttackPressEvent -= OnAttackPress;
         receiver.OnReloadEvent -= OnReload;
 
-        ammo.OnChangeCurrent -= OnChangeAmmo;
+        //ammo.OnChangeCurrent -= OnChangeAmmo;
         magazine.OnChangeCurrent -= OnChangeMagazine;
         reloadDelay.OnChangeCurrent -= OnChangeReloadDelay;
     }

@@ -104,7 +104,7 @@ MonoBehaviour:
     hitEffect: {fileID: 0}
     shellEffect: {fileID: 0}
   stat:
-    moveSpeed: 12
+    moveSpeed: 24
     damage: 4
     range: 15
     pushingPower: 300

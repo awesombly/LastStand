@@ -47,6 +47,7 @@ public class Player : Character
         receiver = GetComponent<ActionReceiver>();
         playerInput = GetComponent<PlayerInput>();
 
+        healthBar.value = Hp.Current / Hp.Max;
         Hp.OnChangeCurrent += OnChangeHp;
     }
 
@@ -76,7 +77,9 @@ public class Player : Character
 
         if ( moveVector.x != 0f )
         {
-            spriter.flipX = moveVector.x < 0f;
+            IsFlipX = moveVector.x < 0f;
+            Vector3 flipScale = new Vector3( IsFlipX ? -1f : 1f, 1f, 1f );
+            gameObject.transform.localScale = flipScale;
         }
     }
     #endregion
@@ -97,11 +100,11 @@ public class Player : Character
         }
     }
 
-    public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _moveVector )
+    public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
     {
         Rigid2D.MovePosition( _position );
         transform.rotation = _rotation;
-        moveVector = _moveVector;
+        moveVector = _velocity;
     }
 
     private void OnDead( Character _dead, Character _attacker )
@@ -120,5 +123,4 @@ public class Player : Character
     {
         healthBar.value = Hp.Current / Hp.Max;
     }
-    
 }
