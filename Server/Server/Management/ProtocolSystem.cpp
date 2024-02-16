@@ -36,7 +36,7 @@ void ProtocolSystem::Process( const Packet& _packet )
 {
 	if ( !protocols.contains( _packet.type ) )
 	{
-		Debug.LogError( "# < ", magic_enum::enum_name( _packet.type ).data(), " > protocol is not registered");
+		Debug.LogError( "# < ", magic_enum::enum_name( _packet.type ).data(), " > protocol is not registered" );
 		return;
 	}
 

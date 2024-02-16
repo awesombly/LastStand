@@ -3,7 +3,7 @@
 
 Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info )
 {
-	Debug.Log( "# Stage ", info.serial, "The host has been changed< ", host->loginInfo.nickname, " >" );
+	Debug.Log( "# Stage ", info.serial, " The host has been changed< ", host->loginInfo.nickname, " >" );
 	sessions.push_back( host );
 }
 
@@ -32,7 +32,7 @@ bool Stage::Exit( Session* _session )
 	if ( sessions.size() > 0 && host->GetSocket() == _session->GetSocket() )
 	{
 		 host = *sessions.begin();
-		 Debug.Log( "# Stage ", info.serial, "The host has been changed< ", host->loginInfo.nickname, " >" );
+		 Debug.Log( "# Stage ", info.serial, " The host has been changed< ", host->loginInfo.nickname, " >" );
 
 	}
 
