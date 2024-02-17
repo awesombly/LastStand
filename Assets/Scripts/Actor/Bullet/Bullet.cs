@@ -34,11 +34,10 @@ public class Bullet : Actor
     [HideInInspector]
     public uint ownerSerial;
     private Global.LayerFlag targetLayer;
-    private Rigidbody2D rigid2D;
 
-    private void Awake()
+    protected override void Awake()
     {
-        rigid2D = GetComponent<Rigidbody2D>();
+        base.Awake();
     }
 
     private void Update()
@@ -100,6 +99,6 @@ public class Bullet : Actor
 
         lifeTime = stat.range / stat.moveSpeed;
         stat.penetratePower.SetMax();
-        rigid2D.velocity = transform.up * stat.moveSpeed;
+        Rigid2D.velocity = transform.up * stat.moveSpeed;
     }
 }

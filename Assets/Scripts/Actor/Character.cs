@@ -40,11 +40,9 @@ public class Character : Actor
         }
     }
 
-    public Rigidbody2D Rigid2D { get; private set; }
-
-    protected virtual void Awake()
+    protected override void Awake()
     {
-        Rigid2D = GetComponent<Rigidbody2D>();
+        base.Awake();
         Hp.Max = data.maxHp;
         Hp.SetMax();
     }
