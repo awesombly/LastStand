@@ -11,7 +11,10 @@ public class Weapon : MonoBehaviour
     private GameObject bulletPrefab;
     [SerializeField]
     private Transform shotPoint;
+    [SerializeField]
+    private float rotateCorrection;
 
+    #region Weapon Stat
     [SerializeField]
     private Global.StatusInt ammo;
     [SerializeField]
@@ -21,9 +24,7 @@ public class Weapon : MonoBehaviour
     public Global.StatusFloat reloadDelay;
     [SerializeField]
     private bool isAllowKeyHold;
-
-    private Character owner;
-    private ActionReceiver receiver;
+    #endregion
 
     #region UI
     [SerializeField]
@@ -33,6 +34,9 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private Slider reloadBar;
     #endregion
+
+    private Character owner;
+    private ActionReceiver receiver;
 
     #region Unity Callback
     private void Start()
@@ -81,6 +85,11 @@ public class Weapon : MonoBehaviour
     }
     #endregion
 
+    public void LookAngle( float _angle )
+    {
+        transform.rotation = Quaternion.Euler( 0, 0, _angle - 90 + rotateCorrection );
+    }
+
     private void Fire()
     {
         repeatDelay.SetMax();
@@ -91,9 +100,8 @@ public class Weapon : MonoBehaviour
         }
 
         --magazine.Current;
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 
-        Vector3 dir = ( mousePos - shotPoint.position ).normalized;
+        Vector3 dir = ( GameManager.MouseWorldPos - shotPoint.position ).normalized;
         float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
         Quaternion rotation = Quaternion.Euler( 0, 0, angle - 90 );
 

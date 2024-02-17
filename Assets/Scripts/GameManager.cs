@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
+    public static Vector3 MouseWorldPos { get; private set; }
     [HideInInspector]
     public Player localPlayer;
 
@@ -16,6 +17,11 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         SceneBase.OnBeforeSceneLoad += Clear;
+    }
+
+    private void Update()
+    {
+        MouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
     }
 
     public void RegistActor( Actor _actor )

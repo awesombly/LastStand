@@ -25,6 +25,7 @@ public class InGameScene : SceneBase
         ProtocolSystem.Inst.Regist( REMOVE_ACTOR_ACK,   AckRemoveActor );
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK,  AckSynkMovement );
         ProtocolSystem.Inst.Regist( SYNK_RELOAD_ACK,    AckSynkReload );
+        ProtocolSystem.Inst.Regist( SYNK_LOOK_ACK,      AckSynkLook );
         ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,      AckHitActor );
     }
 
@@ -56,7 +57,7 @@ public class InGameScene : SceneBase
         protocol.actorInfo.isLocal = true;
         protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
         protocol.actorInfo.serial = 0;
-        protocol.actorInfo.position = new VECTOR3( spawnTransform.position + Vector3.one * Random.Range( -5f, 5f ) );
+        protocol.actorInfo.position = new VECTOR3( spawnTransform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0f ) );
         protocol.actorInfo.rotation = new QUATERNION( spawnTransform.rotation );
         protocol.actorInfo.velocity = new VECTOR3( Vector3.zero );
         protocol.nickname = string.Empty;
@@ -129,9 +130,21 @@ public class InGameScene : SceneBase
             Debug.LogWarning( "Player is null. serial:" + data.serial );
             return;
         }
-        player.Weapon.reloadDelay.SetMax();
+        player.EquipWeapon.reloadDelay.SetMax();
     }
-    
+
+    private void AckSynkLook( Packet _packet )
+    {
+        var data = Global.FromJson<LOOK_INFO>( _packet );
+        Player player = GameManager.Inst.GetActor( data.serial ) as Player;
+        if ( player == null )
+        {
+            Debug.LogWarning( "Player is null. serial:" + data.serial );
+            return;
+        }
+        player.LookAngle( data.angle );
+    }
+
     private void AckHitActor( Packet _packet )
     {
         var data = Global.FromJson<HIT_INFO>( _packet );

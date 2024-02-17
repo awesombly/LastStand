@@ -30,21 +30,34 @@ public class Character : Actor
                 // 快急 措面 贸府..
                 if ( isFlipX )
                 {
+                    transform.localScale = new Vector3( -1f, 1f, 1f );
                     playerCanvas.transform.localScale = new Vector3( -Mathf.Abs( playerCanvas.transform.localScale.x ), playerCanvas.transform.localScale.y, playerCanvas.transform.localScale.z );
+                    EquipWeapon.transform.localScale = new Vector3( -1f, -1f, 1f );
                 }
                 else
                 {
+                    transform.localScale = Vector3.one;
                     playerCanvas.transform.localScale = new Vector3( Mathf.Abs( playerCanvas.transform.localScale.x ), playerCanvas.transform.localScale.y, playerCanvas.transform.localScale.z );
+                    EquipWeapon.transform.localScale = Vector3.one;
                 }
             }
         }
     }
 
+    public Weapon EquipWeapon { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
+        EquipWeapon = GetComponentInChildren<Weapon>();
         Hp.Max = data.maxHp;
         Hp.SetMax();
+    }
+
+    public virtual void LookAngle( float _angle )
+    {
+        IsFlipX = ( _angle < -90f || _angle > 90f );
+        EquipWeapon.LookAngle( _angle );
     }
 
     public virtual void OnHit( Character _attacker, Bullet _bullet )

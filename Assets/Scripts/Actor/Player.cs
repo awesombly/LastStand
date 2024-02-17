@@ -25,18 +25,22 @@ public class Player : Character
     private Vector2 moveVector;
     private Vector3 prevMoveVector;
     private Vector2 prevPosition;
+    private float prevAngle;
     [SerializeField]
-    private float allowSynkInterval;
+    private float allowSynkDistance;
+    [SerializeField]
+    private float allowSynkAngle;
+    [SerializeField]
+    private Global.StatusFloat allowSynkInterval;
     #endregion
 
     #region UI
     [SerializeField]
     private TextMeshProUGUI nicknameUI;
     [SerializeField]
-    private Slider healthBar;
+    private UnityEngine.UI.Slider healthBar;
     #endregion
     #region Components
-    public Weapon Weapon { get; private set; }
     private SpriteRenderer spriter;
     private Animator animator;
     private ActionReceiver receiver;
@@ -47,7 +51,6 @@ public class Player : Character
     protected override void Awake()
     {
         base.Awake();
-        Weapon = GetComponentInChildren<Weapon>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         receiver = GetComponent<ActionReceiver>();
@@ -60,6 +63,17 @@ public class Player : Character
     private void Start()
     {
         OnDeadEvent += OnDead;
+    }
+
+    private void Update()
+    {
+        if ( !IsLocal )
+        {
+            return;
+        }
+
+        allowSynkInterval.Current -= Time.deltaTime;
+        UpdateLookAngle();
     }
 
     private void FixedUpdate()
@@ -80,20 +94,13 @@ public class Player : Character
     private void LateUpdate()
     {
         animator.SetFloat( "MoveSpeed", moveVector.sqrMagnitude );
-
-        if ( moveVector.x != 0f )
-        {
-            IsFlipX = moveVector.x < 0f;
-            Vector3 flipScale = new Vector3( IsFlipX ? -1f : 1f, 1f, 1f );
-            gameObject.transform.localScale = flipScale;
-        }
     }
     #endregion
 
     private void ReqSynkMovement()
     {
         float velocityInterval = Vector2.Distance( moveVector, prevMoveVector );
-        if ( velocityInterval >= allowSynkInterval )
+        if ( velocityInterval >= allowSynkDistance )
         {
             ACTOR_INFO protocol;
             protocol.isLocal = false;
@@ -104,6 +111,30 @@ public class Player : Character
             protocol.velocity = new VECTOR3( moveVector );
             Network.Inst.Send( PacketType.SYNK_MOVEMENT_REQ, protocol );
         }
+    }
+
+    private void UpdateLookAngle()
+    {
+        Vector3 dir = ( GameManager.MouseWorldPos - transform.position ).normalized;
+        float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
+
+        bool prevFlipX = IsFlipX;
+        LookAngle( angle );
+
+        #region ReqProtocol
+        if ( allowSynkInterval.IsZero &&
+            ( IsFlipX != prevFlipX || Mathf.Abs( angle - prevAngle ) >= allowSynkAngle ) )
+        {
+            allowSynkInterval.SetMax();
+
+            LOOK_INFO protocol;
+            protocol.serial = Serial;
+            protocol.angle = angle;
+            Network.Inst.Send( PacketType.SYNK_LOOK_REQ, protocol );
+        }
+        #endregion
+
+        prevAngle = angle;
     }
 
     public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )

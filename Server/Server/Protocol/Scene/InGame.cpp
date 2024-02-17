@@ -10,6 +10,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( REMOVE_ACTOR_REQ,	 AckRemoveActor );
 	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,	 AckSynkMovement );
 	ProtocolSystem::Inst().Regist( SYNK_RELOAD_REQ,		 AckSynkReload );
+	ProtocolSystem::Inst().Regist( SYNK_LOOK_REQ,		 AckSynkLook );
 	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,		 AckHitActor );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ, AckInGameLoadData );
 }
@@ -118,6 +119,18 @@ void InGame::AckSynkReload( const Packet& _packet )
 	}
 
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_RELOAD_ACK, data ) );
+}
+
+void InGame::AckSynkLook( const Packet& _packet )
+{
+	LookInfo data = FromJson<LOOK_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_LOOK_ACK, data ) );
 }
 
 void InGame::AckHitActor( const Packet& _packet )

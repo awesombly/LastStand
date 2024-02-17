@@ -46,6 +46,8 @@ public enum PacketType : ushort
     SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
     SYNK_RELOAD_REQ,               // 재장전 동기화 요청
     SYNK_RELOAD_ACK,               // 재장전 동기화 응답
+    SYNK_LOOK_REQ,                 // Player 시선 동기화 요청
+    SYNK_LOOK_ACK,                 // Player 시선 동기화 응답
     HIT_ACTOR_REQ,                 // 피격 동기화 요청
     HIT_ACTOR_ACK,                 // 피격 동기화 응답
     INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
@@ -136,6 +138,12 @@ public struct HIT_INFO : IProtocol
     public uint bullet;
     public uint attacker;
     public uint defender;
+}
+
+public struct LOOK_INFO : IProtocol
+{
+    public uint serial;
+    public float angle;
 }
 
 public struct CHAT_MESSAGE : IProtocol

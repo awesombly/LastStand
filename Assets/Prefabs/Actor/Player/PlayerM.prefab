@@ -339,7 +339,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1247220762143590505}
   m_HandleRect: {fileID: 1206451277689522960}
@@ -682,7 +682,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 7933902928073099671}
   m_HandleRect: {fileID: 0}
@@ -892,7 +892,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.4, y: 0.6}
+  m_Size: {x: 0.8, y: 1}
   m_Direction: 0
 --- !u!50 &9091439361979057380
 Rigidbody2D:
@@ -937,7 +937,10 @@ MonoBehaviour:
     max: 0
   data: {fileID: 11400000, guid: 0c128d2c50c140742bbde51a827fee73, type: 2}
   playerCanvas: {fileID: 4485147776266488649}
-  allowSynkInterval: 1
+  allowSynkDistance: 1
+  allowSynkAngle: 2
+  allowSynkInterval:
+    max: 0.05
   nicknameUI: {fileID: 7039578495037849222}
   healthBar: {fileID: 2624294410744986534}
 --- !u!95 &5448611838002548329
