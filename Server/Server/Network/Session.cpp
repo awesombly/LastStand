@@ -30,7 +30,7 @@ bool Session::CheckAlive()
 		if ( ++unresponse > MaxUnresponse )
  			 return false;
 
-		std::cout << "Verify that the session is alive( " << GetPort() << "  " << GetAddress() << " )" << std::endl;
+		std::cout << "Verify that the session is alive( " << GetPort() << " " << GetAddress() << " )" << std::endl;
 		Send( UPacket( PACKET_HEARTBEAT, EMPTY(/* ºó ÇÁ·ÎÅäÄİ */ ) ) );
 	}
 

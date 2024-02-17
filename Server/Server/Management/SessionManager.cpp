@@ -35,7 +35,7 @@ void SessionManager::ConfirmDisconnect()
 			Session* session = pair.second;
 			if ( !session->CheckAlive() )
 			{
-				Debug.Log( "# Remove unresponsive session ( ", session->GetPort(), ", ", session->GetAddress(), " )" );
+				Debug.Log( "# Remove unresponsive session ( ", session->GetPort(), " ", session->GetAddress(), " )" );
 				unAckSessions.push( session );
 			}
 		}
@@ -61,7 +61,7 @@ void SessionManager::Push( Session* _session )
 	if ( _session == nullptr )
 		 return;
 
-	Debug.Log( "# Register a new session ( ", _session->GetPort(), ", ", _session->GetAddress(), " )" );
+	Debug.Log( "# Register a new session ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
 
 	std::lock_guard<std::mutex> lock( mtx );
 	sessions[_session->GetSocket()] = _session;
@@ -72,7 +72,7 @@ void SessionManager::Erase( Session* _session )
 	if ( _session == nullptr )
 		return;
 
-	Debug.Log( "# The session has left ( ", _session->GetPort(), ", ", _session->GetAddress(), " )" );
+	Debug.Log( "# The session has left ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
 	
 	std::lock_guard<std::mutex> lock( mtx );
 	unAckSessions.push( _session );

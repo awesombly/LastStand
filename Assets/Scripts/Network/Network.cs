@@ -33,7 +33,6 @@ public class Network : Singleton<Network>
 
     private SocketAsyncEventArgs connectArgs;
     private SocketAsyncEventArgs recvArgs;
-    private SocketAsyncEventArgs sendArgs;
 
     private double LastResponseTime => ( DateTime.Now.TimeOfDay.TotalSeconds - lastResponseSystemTime );
     private double lastResponseSystemTime;
@@ -70,7 +69,6 @@ public class Network : Singleton<Network>
     {
         connectArgs?.Dispose();
         recvArgs?.Dispose();
-        sendArgs?.Dispose();
 
         socket?.Close();
     }
@@ -102,12 +100,7 @@ public class Network : Singleton<Network>
             lastResponseSystemTime = DateTime.Now.TimeOfDay.TotalSeconds;
             shouldReconnect = false;
             isConnected     = true;
-
-            // Send
-            sendArgs = new SocketAsyncEventArgs();
-            sendArgs.Completed += OnSendCompleted;
-
-            // Receive
+            
             recvArgs = new SocketAsyncEventArgs();
             recvArgs.SetBuffer( recvBuf, 0, Global.MaxDataSize );
             recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnReceiveCompleted );
@@ -178,10 +171,7 @@ public class Network : Singleton<Network>
         if ( _packet.type != PACKET_HEARTBEAT )
              Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
 
-        byte[] data = Global.Serialize( _packet );
-        sendArgs.SetBuffer( data, 0, data.Length );
-        
-        socket.SendAsync( sendArgs );
+        socket.Send( Global.Serialize( _packet ) );
     }
 
     public void Send( PacketType _type, in IProtocol _protocol )

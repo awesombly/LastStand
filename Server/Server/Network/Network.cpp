@@ -54,7 +54,14 @@ const SOCKET& Network::GetSocket()
 
 std::string Network::GetAddress() const
 {
-	return ::inet_ntoa( address.sin_addr );
+	std::string addr = ::inet_ntoa( address.sin_addr );
+	size_t pos = addr.find_first_of( '.' );
+	for ( size_t i = pos; i < addr.size(); i++ )
+	{
+		if ( addr[i] != '.' )
+			 addr[i]  = '*';
+	}
+	return addr;
 }
 
 std::string Network::GetPort() const
