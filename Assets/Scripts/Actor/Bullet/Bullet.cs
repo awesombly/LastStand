@@ -85,6 +85,9 @@ public class Bullet : Actor
         protocol.defender = defender.Serial;
         Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
 
+        Character attacker = GameManager.Inst.GetActor( ownerSerial ) as Character;
+        defender?.OnHit( attacker, this );
+
         if ( stat.penetratePower.IsZero )
         {
             Release();

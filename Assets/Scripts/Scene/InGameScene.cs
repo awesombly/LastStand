@@ -131,7 +131,7 @@ public class InGameScene : SceneBase
             return;
         }
 
-        defender?.OnHit( attacker, bullet.stat.damage * attacker.data.attackRate, bullet.stat.pushingPower * bullet.transform.up );
+        defender.OnHit( attacker, bullet );
 
         if ( !bullet.IsLocal && data.needRelease )
         {
