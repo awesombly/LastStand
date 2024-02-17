@@ -43,15 +43,18 @@ public class Bullet : Actor
 
     private void Update()
     {
-        /// TODO: Release 동기화 하도록
-        //if( !IsLocal )
-        //{
-        //    return;
-        //}
+        if( !IsLocal )
+        {
+            return;
+        }
 
         lifeTime -= Time.deltaTime;
         if ( lifeTime <= 0)
         {
+            SERIAL_INFO protocol;
+            protocol.serial = Serial;
+            Network.Inst.Send( PacketType.REMOVE_ACTOR_REQ, protocol );
+
             Release();
         }
     }
@@ -83,9 +86,6 @@ public class Bullet : Actor
         protocol.defender = defender.Serial;
         Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
 
-        Character attacker = GameManager.Inst.GetActor( ownerSerial ) as Character;
-        defender?.OnHit( attacker, stat.damage, stat.pushingPower * transform.up );
-        
         if ( stat.penetratePower.IsZero )
         {
             Release();

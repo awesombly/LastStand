@@ -8,5 +8,5 @@ public class CharacterData : ScriptableObject
 {
     public float maxHp;
     public float moveSpeed;
-    public float damage;
+    public float attackRate;
 }

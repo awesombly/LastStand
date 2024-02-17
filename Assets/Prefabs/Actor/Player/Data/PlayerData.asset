@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   maxHp: 100
-  moveSpeed: 20
-  damage: 1
+  moveSpeed: 14
+  attackRate: 1

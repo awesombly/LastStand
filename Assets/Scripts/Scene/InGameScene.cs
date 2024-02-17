@@ -22,7 +22,7 @@ public class InGameScene : SceneBase
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,    AckSpawnEnemy );
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,   AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,   AckSpawnBullet );
-        ProtocolSystem.Inst.Regist( REMOVE_PLAYER_ACK,  AckRemovePlayer );
+        ProtocolSystem.Inst.Regist( REMOVE_ACTOR_ACK,   AckRemoveActor );
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK,  AckSynkMovement );
         ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,      AckHitActor );
     }
@@ -97,13 +97,6 @@ public class InGameScene : SceneBase
         bullet.Init( data.owner, data.actorInfo.position.To(), data.actorInfo.rotation.To() );
     }
 
-    private void AckRemovePlayer( Packet _packet )
-    {
-        var data = Global.FromJson<ACTOR_INFO>( _packet );
-        Actor actor = GameManager.Inst.GetActor( data.serial );
-        actor.Release();
-    }
-    
     private void AckSpawnEnemy( Packet _packet )
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );
@@ -112,11 +105,18 @@ public class InGameScene : SceneBase
         enemy.Initialize( new Vector3( data.position.x, data.position.y, data.position.z ) );
     }
 
+    private void AckRemoveActor( Packet _packet )
+    {
+        var data = Global.FromJson<SERIAL_INFO>( _packet );
+        Actor actor = GameManager.Inst.GetActor( data.serial );
+        actor?.Release();
+    }
+
     private void AckSynkMovement( Packet _packet )
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Actor actor = GameManager.Inst.GetActor( data.serial );
-        actor.SetMovement( data.position.To(), data.rotation.To(), data.velocity.To() );
+        actor?.SetMovement( data.position.To(), data.rotation.To(), data.velocity.To() );
     }
 
     private void AckHitActor( Packet _packet )
@@ -131,9 +131,9 @@ public class InGameScene : SceneBase
             return;
         }
 
-        defender?.OnHit( attacker, bullet.stat.damage, bullet.stat.pushingPower * bullet.transform.up );
+        defender?.OnHit( attacker, bullet.stat.damage * attacker.data.attackRate, bullet.stat.pushingPower * bullet.transform.up );
 
-        if ( data.needRelease )
+        if ( !bullet.IsLocal && data.needRelease )
         {
             bullet.Release();
         }

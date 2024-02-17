@@ -8,8 +8,7 @@ using UnityEngine;
 public class Character : Actor
 {
     public Global.StatusFloat Hp;
-    [SerializeField]
-    protected CharacterData data;
+    public CharacterData data;
     [SerializeField]
     private GameObject playerCanvas;
     public Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
