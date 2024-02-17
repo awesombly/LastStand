@@ -8,7 +8,7 @@ namespace Global
 
 	static const u_short MaxStagePersonnel = 4;
 
-	static SerialType GetNewSerial()
+	inline SerialType GetNewSerial()
 	{
 		static SerialType serial = 0;
 		return ++serial;

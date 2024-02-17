@@ -39,56 +39,57 @@ bool Session::CheckAlive()
 
 void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 {
-	Alive();
+	Alive(); // 패킷을 보낸 세션이 살아있음을 알림
 	OVERLAPPEDEX* overalapped = ( OVERLAPPEDEX* )_ov;
 	if ( overalapped->flag == OVERLAPPEDEX::MODE_RECV )
 	{
-		// 패킷을 저장할 버퍼( temp )에 여분이 없을 경우 초기화
+		// 버퍼에 여분이 없는 경우
+		// 버퍼를 초기화하고 읽지않은 잔여 데이터를 가장 앞으로 이동
 		if ( writePos + _size > MaxReceiveSize )
 		{
-			// 잔여 패킷 복사
-			char remain[MaxReceiveSize] = { 0, };
+			byte remain[MaxReceiveSize] = { 0, };
 			::memcpy( remain, &buffer[startPos], readPos );
 
-			// 잔여 패킷은 처음부터 시작하고 뒷 메모리 초기화
-			ZeroMemory( buffer, sizeof( char ) * MaxReceiveSize );
+			ZeroMemory( buffer, MaxReceiveSize * sizeof( byte ) );
 			::memcpy( buffer, remain, readPos );
 
-			packet   = ( UPacket* )buffer;
 			startPos = 0;
 			writePos = readPos;
 		}
 
-		// wsaBuffer로 받은 만큼 큰 버퍼에 옮긴다. ( 한번에 하나의 패킷이 오지 않을 수도 있음 )
-		::memcpy( &buffer[writePos], wsaBuffer.buf, sizeof( char ) * _size );
-		packet    = ( UPacket* )&buffer[startPos];
-		writePos += _size; // 사용된 버퍼의 양( 위치 )
-		readPos  += _size;
+		// 받은 데이터를 버퍼에 추가한다.
+		::memcpy( &buffer[writePos], wsaBuffer.buf, _size * sizeof( byte ) );
+		writePos += _size; // 현재까지 버퍼에 쓰인 지점
+		readPos  += _size; // 현재 읽지않은 데이터의 양
 
-		// 패킷이 완성되었을 때
-		if ( readPos >= packet->size )
+		// 읽어야하는 데이터가 최소 헤더( 4바이트 ) 이상은 되어야한다.
+		if ( readPos < Global::HeaderSize )
 		{
-			do
-			{
-				Packet newPacket;
-				::memcpy( &newPacket, packet, packet->size );
-				newPacket.session = this;
-				
-				PacketSystem::Inst().Push( newPacket );
-				
-				readPos  -= packet->size;
-				startPos += packet->size;
-
-				// 일단 하나의 패킷은 완성되었다는 것을 알고
-				// 이 후 패킷이 완성된 상태로 들어왔을 수도 있기에 do-while문으로 한번에 처리한다.
-				packet = ( UPacket* )&buffer[startPos];
-				if ( packet->size <= 0 ) break;
-
-			} while ( readPos >= packet->size );
+			ZeroMemory( &wsaBuffer, sizeof( WSABUF ) );
+			Recieve();
+			return;
 		}
 
-		ZeroMemory( &wsaBuffer,  sizeof( WSABUF ) );
-	}
+		packet = ( UPacket* )&buffer[startPos];
+		while ( readPos >= packet->size ) // 하나 이상의 패킷이 완성되었을 때
+		{
+			Packet newPacket;
+			::memcpy( &newPacket, packet, packet->size );
+			newPacket.session = this;
 
-	Recieve();
+			PacketSystem::Inst().Push( newPacket );
+
+			readPos  -= packet->size;
+			startPos += packet->size; // 읽어야하는 시작 지점
+
+			// 완성된 패킷이 더 있는지 확인
+			if ( readPos < Global::HeaderSize ) break;
+			packet = ( UPacket* )&buffer[startPos];
+
+			if ( packet->size <= 0 ) break;
+		}
+
+		ZeroMemory( &wsaBuffer, sizeof( WSABUF ) );
+		Recieve();
+	}
 }
