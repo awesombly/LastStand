@@ -43,13 +43,13 @@ void Stage::RegistActor( ActorInfo* _actor )
 {
 	if ( _actor == nullptr )
 	{
-		std::cout << __FUNCTION__ << " : Actor is null. " << std::endl;
+		Debug.LogWarning( "Actor is null." );
 		return;
 	}
 
 	if ( actors.contains( _actor->serial ) )
 	{
-		std::cout << __FUNCTION__ << " : Already exist actor. serial:" << _actor->serial << std::endl;
+		Debug.LogWarning( "Already exist actor. serial:", _actor->serial );
 		return;
 	}
 
@@ -60,13 +60,13 @@ void Stage::UnregistActor( const ActorInfo* _actor )
 {
 	if ( _actor == nullptr )
 	{
-		std::cout << __FUNCTION__ << " : Actor is null. " << std::endl;
+		Debug.LogWarning( "Actor is null." );
 		return;
 	}
 
 	if ( !actors.contains( _actor->serial ) )
 	{
-		std::cout << __FUNCTION__ << " : Actor not found. serial:" << _actor->serial << std::endl;
+		Debug.LogWarning( "Actor not found. serial:", _actor->serial );
 		return;
 	}
 
@@ -78,7 +78,7 @@ ActorInfo* Stage::GetActor( SerialType _serial ) const
 	auto findItr = actors.find( _serial );
 	if ( findItr == actors.cend() )
 	{
-		std::cout << __FUNCTION__ << " : Actor not found. serial:" << _serial << std::endl;
+		Debug.LogWarning( "Actor not found. serial:", _serial );
 		return nullptr;
 	}
 

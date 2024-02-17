@@ -7,6 +7,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,		 AckExitStage );
 	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,		 AckSpawnActor );
 	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,	 AckSpawnBullet );
+	ProtocolSystem::Inst().Regist( REMOVE_ACTOR_REQ,	 AckRemoveActor );
 	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,	 AckSynkMovement );
 	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,		 AckHitActor );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ, AckInGameLoadData );
@@ -53,18 +54,34 @@ void InGame::AckSpawnBullet( const Packet& _packet )
 	BULLET_INFO data = FromJson<BULLET_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
-		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
+		Debug.LogError( "Stage is null. owner:", data.owner, ",nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
 	data.actorInfo.serial = Global::GetNewSerial();
-	ActorInfo* actor = new ActorInfo( data.actorInfo );
-	_packet.session->stage->RegistActor( actor );
-
 	data.actorInfo.isLocal = true;
 	_packet.session->Send( UPacket( SPAWN_BULLET_ACK, data ) );
 	data.actorInfo.isLocal = false;
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_BULLET_ACK, data ) );
+
+	ActorInfo* actor = new ActorInfo( data.actorInfo );
+	_packet.session->stage->RegistActor( actor );
+}
+
+void InGame::AckRemoveActor( const Packet& _packet )
+{
+	SERIAL_INFO data = FromJson<SERIAL_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( REMOVE_ACTOR_ACK, data ) );
+
+	ActorInfo* actor = _packet.session->stage->GetActor( data.serial );
+	_packet.session->stage->UnregistActor( actor );
+	Global::Memory::SafeDelete( actor );
 }
 
 void InGame::AckSynkMovement( const Packet& _packet )
@@ -99,7 +116,7 @@ void InGame::AckHitActor( const Packet& _packet )
 		return;
 	}
 
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTOR_ACK, data ) );
+	_packet.session->stage->Broadcast( UPacket( HIT_ACTOR_ACK, data ) );
 
 	if ( data.needRelease )
 	{

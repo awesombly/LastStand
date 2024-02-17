@@ -102,7 +102,7 @@ public class Player : Character
 
     public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
     {
-        Rigid2D.MovePosition( _position );
+        transform.position = _position;
         transform.rotation = _rotation;
         moveVector = _velocity;
     }

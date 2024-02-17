@@ -34,24 +34,26 @@ public class Bullet : Actor
     [HideInInspector]
     public uint ownerSerial;
     private Global.LayerFlag targetLayer;
-    private Rigidbody2D rigid2D;
 
-    private void Awake()
+    protected override void Awake()
     {
-        rigid2D = GetComponent<Rigidbody2D>();
+        base.Awake();
     }
 
     private void Update()
     {
-        /// TODO: Release 동기화 하도록
-        //if( !IsLocal )
-        //{
-        //    return;
-        //}
+        if( !IsLocal )
+        {
+            return;
+        }
 
         lifeTime -= Time.deltaTime;
         if ( lifeTime <= 0)
         {
+            SERIAL_INFO protocol;
+            protocol.serial = Serial;
+            Network.Inst.Send( PacketType.REMOVE_ACTOR_REQ, protocol );
+
             Release();
         }
     }
@@ -84,8 +86,8 @@ public class Bullet : Actor
         Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
 
         Character attacker = GameManager.Inst.GetActor( ownerSerial ) as Character;
-        defender?.OnHit( attacker, stat.damage, stat.pushingPower * transform.up );
-        
+        defender?.OnHit( attacker, this );
+
         if ( stat.penetratePower.IsZero )
         {
             Release();
@@ -100,6 +102,6 @@ public class Bullet : Actor
 
         lifeTime = stat.range / stat.moveSpeed;
         stat.penetratePower.SetMax();
-        rigid2D.velocity = transform.up * stat.moveSpeed;
+        Rigid2D.velocity = transform.up * stat.moveSpeed;
     }
 }

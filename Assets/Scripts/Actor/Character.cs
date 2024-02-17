@@ -8,8 +8,7 @@ using UnityEngine;
 public class Character : Actor
 {
     public Global.StatusFloat Hp;
-    [SerializeField]
-    protected CharacterData data;
+    public CharacterData data;
     [SerializeField]
     private GameObject playerCanvas;
     public Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
@@ -41,26 +40,27 @@ public class Character : Actor
         }
     }
 
-    public Rigidbody2D Rigid2D { get; private set; }
-
-    protected virtual void Awake()
+    protected override void Awake()
     {
-        Rigid2D = GetComponent<Rigidbody2D>();
+        base.Awake();
         Hp.Max = data.maxHp;
         Hp.SetMax();
     }
 
-    public virtual void OnHit( Character _attacker, float _damage, Vector2 _force )
+    public virtual void OnHit( Character _attacker, Bullet _bullet )
     {
-        if ( _force != Vector2.zero )
+        if ( _attacker == null || _bullet == null )
         {
-            Rigid2D.AddForce( _force );
+            Debug.LogWarning( $"Actor is null. attacker:{_attacker}, bullet:{_bullet}" );
         }
 
-        Hp.Current -= _damage;
+        Vector2 force = _bullet.stat.pushingPower * _bullet.transform.up;
+        Rigid2D.AddForce( force );
+
+        Hp.Current -= ( _bullet.stat.damage * _attacker.data.attackRate );
         if ( Hp.Current <= 0 )
         {
-            OnDeadEvent?.Invoke( this, _attacker );
+            OnDeadEvent?.Invoke( this, _attacker  );
         }
     }
 }

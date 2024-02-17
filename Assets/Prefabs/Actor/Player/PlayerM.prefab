@@ -937,7 +937,7 @@ MonoBehaviour:
     max: 0
   data: {fileID: 11400000, guid: 0c128d2c50c140742bbde51a827fee73, type: 2}
   playerCanvas: {fileID: 4485147776266488649}
-  allowSynkInterval: 10
+  allowSynkInterval: 1
   nicknameUI: {fileID: 7039578495037849222}
   healthBar: {fileID: 2624294410744986534}
 --- !u!95 &5448611838002548329

@@ -30,7 +30,13 @@ public class Actor : MonoBehaviour
         }
     }
 
+    public Rigidbody2D Rigid2D { get; private set; }
     private IObjectPool<Actor> parentPool = null;
+
+    protected virtual void Awake()
+    {
+        Rigid2D = GetComponent<Rigidbody2D>();
+    }
 
     public virtual void Release()
     {
@@ -50,10 +56,9 @@ public class Actor : MonoBehaviour
     public virtual void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
     {
         transform.SetPositionAndRotation( _position, _rotation );
-        var rigid = GetComponent<Rigidbody2D>();
-        if ( rigid != null )
+        if ( Rigid2D != null )
         {
-            rigid.velocity = _velocity;
+            Rigid2D.velocity = _velocity;
         }
     }
 
