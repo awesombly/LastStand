@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.hpp"
+#include "Synchronize/CriticalSection.h"
 
 #define Debug ( LogText::Inst() << __FUNCTION__ << "( " << std::to_string( __LINE__ ) << " )" )
 enum class LogAlignment { All, IgnoreLog, OnlyError, };
@@ -7,7 +8,7 @@ enum class LogWriteType { All, Console,   File, };
 class LogText : public Singleton<LogText>
 {
 public:
-
+	CriticalSection cs;
 	LogAlignment alignment = LogAlignment::All;
 	LogWriteType writeType = LogWriteType::All;
 	bool ignoreData        = false;
@@ -142,6 +143,7 @@ public:
 	template<typename T, typename... Args>
 	void Log( T type, Args... _args )
 	{
+		cs.Lock();
 		if ( alignment != LogAlignment::All )
 			 return;
 
@@ -151,11 +153,13 @@ public:
 		Log( _args... );
 
 		Write();
+		cs.UnLock();
 	}
 
 	template<typename T, typename... Args>
 	void LogWarning( T type, Args... _args )
 	{
+		cs.Lock();
 		if ( alignment == LogAlignment::OnlyError )
 			 return;
 
@@ -165,17 +169,20 @@ public:
 		LogWarning( _args... );
 
 		Write();
+		cs.UnLock();
 	}
 
 	template<typename T, typename... Args>
 	void LogError( T type, Args... _args )
 	{
+		cs.Lock();
 		BeginWrite( LogType::_Error );
 
 		Copy( type );
 		LogError( _args... );
 
 		Write();
+		cs.UnLock();
 	}
 
 	std::string ToString( float _value, int _maxDecimalPoint = 3 )

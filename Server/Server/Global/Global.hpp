@@ -1,4 +1,5 @@
 #pragma once
+#include "Synchronize/CriticalSection.h"
 
 using SerialType = u_int;
 namespace Global 
@@ -10,7 +11,9 @@ namespace Global
 
 	inline SerialType GetNewSerial()
 	{
+		static std::mutex mtx;
 		static SerialType serial = 0;
+		std::lock_guard<std::mutex> lock( mtx );
 		return ++serial;
 	}
 
