@@ -15,6 +15,7 @@ private:
 	static void AckSpawnBullet( const Packet& _packet );
 	static void AckRemoveActor( const Packet& _packet );
 	static void AckSynkMovement( const Packet& _packet );
+	static void AckSynkReload( const Packet& _packet );
 	static void AckHitActor( const Packet& _packet );
 	static void AckInGameLoadData( const Packet& _packet );
 

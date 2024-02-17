@@ -9,6 +9,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,	 AckSpawnBullet );
 	ProtocolSystem::Inst().Regist( REMOVE_ACTOR_REQ,	 AckRemoveActor );
 	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,	 AckSynkMovement );
+	ProtocolSystem::Inst().Regist( SYNK_RELOAD_REQ,		 AckSynkReload );
 	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,		 AckHitActor );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ, AckInGameLoadData );
 }
@@ -89,7 +90,7 @@ void InGame::AckSynkMovement( const Packet& _packet )
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
-		Debug.LogError( "Session is null. serial:", data.serial );
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
@@ -107,6 +108,18 @@ void InGame::AckSynkMovement( const Packet& _packet )
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_MOVEMENT_ACK, data ) );
 }
 
+void InGame::AckSynkReload( const Packet& _packet )
+{
+	SERIAL_INFO data = FromJson<SERIAL_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_RELOAD_ACK, data ) );
+}
+
 void InGame::AckHitActor( const Packet& _packet )
 {
 	HIT_INFO data = FromJson<HIT_INFO>( _packet );
@@ -116,7 +129,7 @@ void InGame::AckHitActor( const Packet& _packet )
 		return;
 	}
 
-	_packet.session->stage->Broadcast( UPacket( HIT_ACTOR_ACK, data ) );
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTOR_ACK, data ) );
 
 	if ( data.needRelease )
 	{

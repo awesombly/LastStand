@@ -20,12 +20,14 @@ public class Player : Character
         }
     }
 
+    #region Movement
     public Vector2 Direction { get; private set; }
     private Vector2 moveVector;
     private Vector3 prevMoveVector;
     private Vector2 prevPosition;
     [SerializeField]
     private float allowSynkInterval;
+    #endregion
 
     #region UI
     [SerializeField]
@@ -33,15 +35,19 @@ public class Player : Character
     [SerializeField]
     private Slider healthBar;
     #endregion
+    #region Components
+    public Weapon Weapon { get; private set; }
     private SpriteRenderer spriter;
     private Animator animator;
     private ActionReceiver receiver;
     private PlayerInput playerInput;
+    #endregion
 
     #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
+        Weapon = GetComponentInChildren<Weapon>();
         spriter = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         receiver = GetComponent<ActionReceiver>();

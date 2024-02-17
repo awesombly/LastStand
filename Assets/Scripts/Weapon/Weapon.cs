@@ -18,8 +18,7 @@ public class Weapon : MonoBehaviour
     private Global.StatusInt magazine;
     [SerializeField]
     private Global.StatusFloat repeatDelay;
-    [SerializeField]
-    private Global.StatusFloat reloadDelay;
+    public Global.StatusFloat reloadDelay;
     [SerializeField]
     private bool isAllowKeyHold;
 
@@ -56,6 +55,7 @@ public class Weapon : MonoBehaviour
 
         //ammo.OnChangeCurrent += OnChangeAmmo;
         ammoUI?.SetText( magazine.Max.ToString() );
+        reloadBar.gameObject.SetActive( false );
         magazine.OnChangeCurrent += OnChangeMagazine;
         reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
     }
@@ -91,7 +91,6 @@ public class Weapon : MonoBehaviour
         }
 
         --magazine.Current;
-        Debug.Log( $"mag:{magazine.Current}, ammo:{ammo.Current}" );
         Vector3 mousePos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
 
         Vector3 dir = ( mousePos - shotPoint.position ).normalized;
@@ -134,12 +133,13 @@ public class Weapon : MonoBehaviour
         }
 
         reloadDelay.SetMax();
+        SERIAL_INFO protocol;
+        protocol.serial = owner.Serial;
+        Network.Inst.Send( PacketType.SYNK_RELOAD_REQ, protocol );
 
         int oldMag = magazine.Current;
         magazine.Current = Mathf.Clamp( magazine.Current + ammo.Current, 0, magazine.Max );
         ammo.Current -= ( magazine.Current - oldMag );
-
-        Debug.Log( $"Reload, mag:{magazine.Current}, ammo:{ammo.Current}" );
     }
 
     private void OnChangeAmmo( int _old, int _new )
@@ -154,6 +154,7 @@ public class Weapon : MonoBehaviour
 
     private void OnChangeReloadDelay( float _old, float _new )
     {
+        reloadBar.gameObject.SetActive( !reloadDelay.IsZero );
         reloadBar.value = ( reloadDelay.Max - reloadDelay.Current ) / reloadDelay.Max;
     }
 }

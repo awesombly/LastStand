@@ -24,6 +24,7 @@ public class InGameScene : SceneBase
         ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,   AckSpawnBullet );
         ProtocolSystem.Inst.Regist( REMOVE_ACTOR_ACK,   AckRemoveActor );
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK,  AckSynkMovement );
+        ProtocolSystem.Inst.Regist( SYNK_RELOAD_ACK,    AckSynkReload );
         ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,      AckHitActor );
     }
 
@@ -119,6 +120,18 @@ public class InGameScene : SceneBase
         actor?.SetMovement( data.position.To(), data.rotation.To(), data.velocity.To() );
     }
 
+    private void AckSynkReload( Packet _packet )
+    {
+        var data = Global.FromJson<SERIAL_INFO>( _packet );
+        Player player = GameManager.Inst.GetActor( data.serial ) as Player;
+        if ( player == null )
+        {
+            Debug.LogWarning( "Player is null. serial:" + data.serial );
+            return;
+        }
+        player.Weapon.reloadDelay.SetMax();
+    }
+    
     private void AckHitActor( Packet _packet )
     {
         var data = Global.FromJson<HIT_INFO>( _packet );
@@ -133,7 +146,7 @@ public class InGameScene : SceneBase
 
         defender.OnHit( attacker, bullet );
 
-        if ( !bullet.IsLocal && data.needRelease )
+        if ( data.needRelease )
         {
             bullet.Release();
         }
