@@ -26,6 +26,13 @@ public class Weapon : MonoBehaviour
     private bool isAllowKeyHold;
     #endregion
 
+    #region Use Not Local
+    private float curLookAngle;
+    private float targetLookAngle;
+    [SerializeField]
+    private float lookAngleLerpSpeed;
+    #endregion
+
     #region UI
     [SerializeField]
     private TextMeshProUGUI magazineUI;
@@ -62,6 +69,8 @@ public class Weapon : MonoBehaviour
         reloadBar.gameObject.SetActive( false );
         magazine.OnChangeCurrent += OnChangeMagazine;
         reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
+
+        curLookAngle = targetLookAngle = transform.rotation.eulerAngles.z;
     }
 
     private void OnDisable()
@@ -76,6 +85,12 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
+        if ( !owner.IsLocal )
+        {
+            curLookAngle = Mathf.LerpAngle( curLookAngle, targetLookAngle, lookAngleLerpSpeed * Time.deltaTime );
+            transform.rotation = Quaternion.Euler( 0, 0, curLookAngle - 90 + rotateCorrection );
+        }
+
         repeatDelay.Current -= Time.deltaTime;
         reloadDelay.Current -= Time.deltaTime;
         if ( isAllowKeyHold && receiver.IsAttackHolded && repeatDelay.IsZero && reloadDelay.IsZero )
@@ -85,9 +100,14 @@ public class Weapon : MonoBehaviour
     }
     #endregion
 
-    public void LookAngle( float _angle )
+    public void LookAngle( bool _isChangedFlipX, float _angle )
     {
-        transform.rotation = Quaternion.Euler( 0, 0, _angle - 90 + rotateCorrection );
+        if ( owner.IsLocal || _isChangedFlipX )
+        {
+            transform.rotation = Quaternion.Euler( 0, 0, _angle - 90 + rotateCorrection );
+        }
+        targetLookAngle = _angle;
+        curLookAngle = transform.rotation.eulerAngles.z;
     }
 
     private void Fire()

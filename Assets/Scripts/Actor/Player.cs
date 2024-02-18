@@ -137,10 +137,9 @@ public class Player : Character
             protocol.serial = Serial;
             protocol.angle = angle;
             Network.Inst.Send( PacketType.SYNK_LOOK_REQ, protocol );
+            prevAngle = angle;
         }
         #endregion
-
-        prevAngle = angle;
     }
 
     public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )

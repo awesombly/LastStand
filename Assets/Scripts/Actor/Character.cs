@@ -56,8 +56,9 @@ public class Character : Actor
 
     public virtual void LookAngle( float _angle )
     {
+        bool prevFlipX = IsFlipX;
         IsFlipX = ( _angle < -90f || _angle > 90f );
-        EquipWeapon.LookAngle( _angle );
+        EquipWeapon.LookAngle( prevFlipX != IsFlipX, _angle );
     }
 
     public virtual void OnHit( Character _attacker, Bullet _bullet )

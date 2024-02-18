@@ -141,6 +141,7 @@ MonoBehaviour:
   reloadDelay:
     max: 0.9
   isAllowKeyHold: 1
+  lookAngleLerpSpeed: 30
   magazineUI: {fileID: 0}
   ammoUI: {fileID: 0}
   reloadBar: {fileID: 0}
