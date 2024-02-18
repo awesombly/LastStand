@@ -93,10 +93,10 @@ public class InGameScene : SceneBase
     private void AckSpawnBullet( Packet _packet )
     {
         var data = Global.FromJson<BULLET_INFO>( _packet );
-        Bullet bullet = PoolManager.Inst.Get( data.actorInfo.prefab ) as Bullet;
-        bullet.IsLocal = data.actorInfo.isLocal;
-        bullet.Serial = data.actorInfo.serial;
-        bullet.Init( data.owner, data.actorInfo.position.To(), data.actorInfo.rotation.To() );
+        Bullet bullet = PoolManager.Inst.Get( data.prefab ) as Bullet;
+        bullet.IsLocal = data.isLocal;
+        bullet.Serial = data.serial;
+        bullet.Init( data.owner, data.pos.To(), data.angle );
     }
 
     private void AckSpawnEnemy( Packet _packet )

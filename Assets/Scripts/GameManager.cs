@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : Singleton<GameManager>
 {
     public static Vector3 MouseWorldPos { get; private set; }
+    public static float LookAngle { get; private set; }
     [HideInInspector]
     public Player localPlayer;
 
@@ -22,6 +23,10 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         MouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
+        if ( !ReferenceEquals( localPlayer, null ) )
+        {
+            LookAngle = Global.GetAngle( localPlayer.transform.position, MouseWorldPos );
+        }
     }
 
     public void RegistActor( Actor _actor )

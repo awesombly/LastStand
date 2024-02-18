@@ -70,6 +70,22 @@ public struct VECTOR3
     }
 }
 
+public struct VECTOR2
+{
+    public float x, y;
+
+    public VECTOR2( Vector2 _vector2 )
+    {
+        x = System.MathF.Round( _vector2.x, Global.RoundDigit );
+        y = System.MathF.Round( _vector2.y, Global.RoundDigit );
+    }
+
+    public Vector2 To()
+    {
+        return new Vector2( x, y );
+    }
+}
+
 public struct QUATERNION
 {
     public float x, y, z, w;
@@ -128,7 +144,11 @@ public struct PLAYER_INFO : IProtocol
 
 public struct BULLET_INFO : IProtocol
 {
-    public ACTOR_INFO actorInfo;
+    public int prefab;
+    public bool isLocal;
+    public uint serial;
+    public VECTOR2 pos;
+    public float angle;
     public uint owner;
 }
 

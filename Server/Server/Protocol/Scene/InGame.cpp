@@ -60,13 +60,16 @@ void InGame::AckSpawnBullet( const Packet& _packet )
 		return;
 	}
 
-	data.actorInfo.serial = Global::GetNewSerial();
-	data.actorInfo.isLocal = true;
+	data.serial = Global::GetNewSerial();
+	data.isLocal = true;
 	_packet.session->Send( UPacket( SPAWN_BULLET_ACK, data ) );
-	data.actorInfo.isLocal = false;
+	data.isLocal = false;
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_BULLET_ACK, data ) );
 
-	ActorInfo* actor = new ActorInfo( data.actorInfo );
+	ActorInfo* actor = new ActorInfo();
+	actor->prefab = data.prefab;
+	actor->isLocal = data.isLocal;
+	actor->serial = data.serial;
 	_packet.session->stage->RegistActor( actor );
 }
 

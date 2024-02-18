@@ -130,24 +130,22 @@ public class Weapon : MonoBehaviour
 
         float angle = Global.GetAngle( shotPoint.position, GameManager.MouseWorldPos );
         angle += Random.Range( -shakeShotAngle * 0.5f, shakeShotAngle * 0.5f );
-        Quaternion rotation = Quaternion.Euler( 0, 0, angle - 90 );
         
         // 로컬 테스트용
         if ( !Network.Inst.IsConnected )
         {
             Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
             bullet.IsLocal = true;
-            bullet.Init( owner.Serial, shotPoint.position, rotation );
+            bullet.Init( owner.Serial, shotPoint.position, angle );
             return;
         }
 
         BULLET_INFO protocol;
-        protocol.actorInfo.isLocal = false;
-        protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( bulletPrefab );
-        protocol.actorInfo.serial = 0;
-        protocol.actorInfo.position = new VECTOR3( shotPoint.position );
-        protocol.actorInfo.rotation = new QUATERNION( rotation );
-        protocol.actorInfo.velocity = new VECTOR3( Vector3.zero );
+        protocol.isLocal = false;
+        protocol.prefab = GameManager.Inst.GetPrefabIndex( bulletPrefab );
+        protocol.serial = 0;
+        protocol.pos = new VECTOR2( shotPoint.position );
+        protocol.angle = angle;
         protocol.owner = owner.Serial;
         Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
     }

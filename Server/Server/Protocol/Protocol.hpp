@@ -213,13 +213,21 @@ public:
 typedef struct BulletInfo
 {
 public:
-	ACTOR_INFO actorInfo;
+	int prefab;
+	bool isLocal;
+	SerialType serial;
+	VECTOR2 pos;
+	float angle;
 	SerialType owner;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
-		ar( CEREAL_NVP( actorInfo ) );
+		ar( CEREAL_NVP( prefab ) );
+		ar( CEREAL_NVP( isLocal ) );
+		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( pos ) );
+		ar( CEREAL_NVP( angle ) );
 		ar( CEREAL_NVP( owner ) );
 	}
 } BULLET_INFO;

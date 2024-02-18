@@ -94,11 +94,11 @@ public class Bullet : Actor
     }
     #endregion
 
-    public void Init( uint _owner, Vector3 _position, Quaternion _rotation )
+    public void Init( uint _owner, Vector2 _position, float _angle )
     {
         ownerSerial = _owner;
         targetLayer = IsLocal ? ( Global.LayerFlag.Enemy | Global.LayerFlag.Misc ) : 0;
-        transform.SetPositionAndRotation( _position, _rotation );
+        transform.SetPositionAndRotation( _position, Quaternion.Euler( 0, 0, _angle - 90 ) );
 
         lifeTime = stat.range / stat.moveSpeed;
         stat.penetratePower.SetMax();

@@ -121,22 +121,20 @@ public class Player : Character
 
     private void UpdateLookAngle()
     {
-        float angle = Global.GetAngle( transform.position, GameManager.MouseWorldPos );
-
         bool prevFlipX = IsFlipX;
-        LookAngle( angle );
+        LookAngle( GameManager.LookAngle );
 
         #region ReqProtocol
         if ( allowSynkInterval.IsZero &&
-            ( IsFlipX != prevFlipX || Mathf.Abs( angle - prevAngle ) >= allowSynkAngle ) )
+            ( IsFlipX != prevFlipX || Mathf.Abs( GameManager.LookAngle - prevAngle ) >= allowSynkAngle ) )
         {
             allowSynkInterval.SetMax();
 
             LOOK_INFO protocol;
             protocol.serial = Serial;
-            protocol.angle = angle;
+            protocol.angle = GameManager.LookAngle;
             Network.Inst.Send( PacketType.SYNK_LOOK_REQ, protocol );
-            prevAngle = angle;
+            prevAngle = GameManager.LookAngle;
         }
         #endregion
     }

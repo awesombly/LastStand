@@ -92,7 +92,7 @@ public class Enemy : Character
 
             float angle = Global.GetAngle( rigid.position, target.position );
 
-            bullet?.Init( Serial, transform.position, Quaternion.Euler( 0, 0, angle - 90 ) );
+            bullet?.Init( Serial, transform.position, angle );
             //bullet.targetLayer = Global.LayerFlag.Player | Global.LayerFlag.Misc;
 
             yield return YieldCache.WaitForSeconds( EnemyAttackDelay );
