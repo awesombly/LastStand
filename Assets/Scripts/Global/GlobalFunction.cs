@@ -79,6 +79,12 @@ public static partial class Global
                    ( _value >= 10u ) ? 1 : 0;
         }
     }
+
+    public static float GetAngle( Vector3 _from, Vector3 _to )
+    {
+        Vector3 dir = ( _to - _from ).normalized;
+        return Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
+    }
 }
 
 public class YieldCache

@@ -7,14 +7,18 @@ using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour
 {
+    #region Base
+    [Header( "─ Base" )]
     [SerializeField]
     private GameObject bulletPrefab;
     [SerializeField]
     private Transform shotPoint;
     [SerializeField]
     private float rotateCorrection;
+    #endregion
 
     #region Weapon Stat
+    [Header( "─ Weapon Stat" )]
     [SerializeField]
     private Global.StatusInt ammo;
     [SerializeField]
@@ -24,6 +28,8 @@ public class Weapon : MonoBehaviour
     public Global.StatusFloat reloadDelay;
     [SerializeField]
     private bool isAllowKeyHold;
+    [SerializeField]
+    private float shakeShotAngle;
     #endregion
 
     #region Use Not Local
@@ -34,6 +40,7 @@ public class Weapon : MonoBehaviour
     #endregion
 
     #region UI
+    [Header( "─ UI" )]
     [SerializeField]
     private TextMeshProUGUI magazineUI;
     [SerializeField]
@@ -121,10 +128,10 @@ public class Weapon : MonoBehaviour
 
         --magazine.Current;
 
-        Vector3 dir = ( GameManager.MouseWorldPos - shotPoint.position ).normalized;
-        float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
+        float angle = Global.GetAngle( shotPoint.position, GameManager.MouseWorldPos );
+        angle += Random.Range( -shakeShotAngle * 0.5f, shakeShotAngle * 0.5f );
         Quaternion rotation = Quaternion.Euler( 0, 0, angle - 90 );
-
+        
         // 로컬 테스트용
         if ( !Network.Inst.IsConnected )
         {

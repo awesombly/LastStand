@@ -121,8 +121,7 @@ public class Player : Character
 
     private void UpdateLookAngle()
     {
-        Vector3 dir = ( GameManager.MouseWorldPos - transform.position ).normalized;
-        float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
+        float angle = Global.GetAngle( transform.position, GameManager.MouseWorldPos );
 
         bool prevFlipX = IsFlipX;
         LookAngle( angle );

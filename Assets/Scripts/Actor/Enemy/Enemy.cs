@@ -90,8 +90,7 @@ public class Enemy : Character
             Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
             bullet.ownerSerial = Serial;
 
-            Vector3 dir = ( target.position - rigid.position ).normalized;
-            float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
+            float angle = Global.GetAngle( rigid.position, target.position );
 
             bullet?.Init( Serial, transform.position, Quaternion.Euler( 0, 0, angle - 90 ) );
             //bullet.targetLayer = Global.LayerFlag.Player | Global.LayerFlag.Misc;

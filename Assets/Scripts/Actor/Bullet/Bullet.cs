@@ -23,8 +23,6 @@ public class Bullet : Actor
         public float moveSpeed;
         public float damage;
         public float range;
-        //[Range( 0f, 1f )]
-        //public readonly float stability;
         public float pushingPower;
         public Global.StatusInt penetratePower;
     }
@@ -35,6 +33,7 @@ public class Bullet : Actor
     public uint ownerSerial;
     private Global.LayerFlag targetLayer;
 
+    #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
@@ -93,6 +92,7 @@ public class Bullet : Actor
             Release();
         }
     }
+    #endregion
 
     public void Init( uint _owner, Vector3 _position, Quaternion _rotation )
     {
