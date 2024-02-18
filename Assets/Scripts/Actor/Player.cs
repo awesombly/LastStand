@@ -39,6 +39,8 @@ public class Player : Character
     private TextMeshProUGUI nicknameUI;
     [SerializeField]
     private UnityEngine.UI.Slider healthBar;
+    [SerializeField]
+    private UnityEngine.UI.Slider healthLerpBar;
     #endregion
     #region Components
     private SpriteRenderer spriter;
@@ -57,6 +59,7 @@ public class Player : Character
         playerInput = GetComponent<PlayerInput>();
 
         healthBar.value = Hp.Current / Hp.Max;
+        healthLerpBar.value = healthBar.value;
         Hp.OnChangeCurrent += OnChangeHp;
     }
 
@@ -67,6 +70,9 @@ public class Player : Character
 
     private void Update()
     {
+        healthLerpBar.value = Mathf.Max( healthLerpBar.value - 0.1f * Time.deltaTime, healthBar.value );
+        healthLerpBar.value = Global.Mathematics.Lerp( healthLerpBar.value, healthBar.value, 2f * Time.deltaTime );
+
         if ( !IsLocal )
         {
             return;
@@ -159,5 +165,9 @@ public class Player : Character
     private void OnChangeHp( float _old, float _new )
     {
         healthBar.value = Hp.Current / Hp.Max;
+        if ( _old < _new )
+        {
+            healthLerpBar.value = healthBar.value;
+        }
     }
 }
