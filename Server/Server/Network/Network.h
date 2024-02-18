@@ -8,23 +8,20 @@ class Network
 protected:
 	struct OVERLAPPEDEX : OVERLAPPED
 	{
-		u_int flag;
+		enum : u_short { MODE_RECV = 0, MODE_SEND, };
+		u_short flag;
 
-		OVERLAPPEDEX() : flag( MODE_RECV ) {} 
-		
-		enum : char
-		{
-			MODE_RECV = 0,
-			MODE_SEND = 1,
-		};
+		OVERLAPPEDEX() : flag( MODE_RECV ) { ZeroMemory( this, sizeof( OVERLAPPED ) ); }
+		OVERLAPPEDEX( u_short _flag ) : flag( _flag ) { ZeroMemory( this, sizeof( OVERLAPPED ) ); }
 	};
 
 	SOCKET socket;
 	SOCKADDR_IN address;
-	WSABUF wsaBuffer;
+	WSABUF wsaRecvBuffer;
+	WSABUF wsaSendBuffer;
 
 private:
-	OVERLAPPEDEX ov;
+	//OVERLAPPEDEX ov;
 	char buffer[Global::HeaderSize + Global::MaxDataSize];
 
 public:

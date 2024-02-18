@@ -4,11 +4,10 @@
 class IOCP : public Singleton<IOCP>
 {
 private:
-	const static int WorkerThreadCount = 3;
 	HANDLE handle;
 
 public:
-	IOCP()          = default;
+	IOCP();
 	virtual ~IOCP() = default;
 
 public:

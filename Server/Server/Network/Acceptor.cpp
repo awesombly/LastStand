@@ -79,7 +79,7 @@ bool Acceptor::Listen()
 	return true;
 }
 
-void Acceptor::WaitForClients()  const
+void Acceptor::WaitForClients() const
 {
 	SOCKET clientSocket;
 	SOCKADDR_IN addr {};

@@ -5,10 +5,13 @@ bool PacketSystem::Initialize()
 {
 	ProtocolSystem::Inst().Initialize();
 
-	std::cout << "Create thread for packet processing" << std::endl;
+	std::cout << "Create threads for packet processing" << std::endl;
 	std::cout << "Waiting for received data to be converted into packets" << std::endl;
-	std::thread th( [&]() { PacketSystem::Process(); } );
-	th.detach();
+	for ( int i = 0; i < Global::WorkerThreadCount; i++ )
+	{
+		std::thread th( [&]() { PacketSystem::Process(); } );
+		th.detach();
+	}
 
 	return true;
 }
@@ -32,9 +35,9 @@ void PacketSystem::Process()
 	{
 		std::unique_lock<std::mutex> lock( mtx );
 		cv.wait( lock, [&]() { return !packets.empty(); } );
-
+		
 		Packet packet = packets.front();
-		ProtocolSystem::Inst().Process( packet );
 		packets.pop();
+		ProtocolSystem::Inst().Process( packet );
 	}
 }

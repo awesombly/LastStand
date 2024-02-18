@@ -8,6 +8,7 @@ namespace Global
 	static const u_short MaxDataSize = 2048;
 
 	static const u_short MaxStagePersonnel = 4;
+	const static int     WorkerThreadCount = 5;
 
 	inline SerialType GetNewSerial()
 	{

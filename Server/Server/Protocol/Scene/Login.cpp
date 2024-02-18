@@ -4,7 +4,6 @@
 
 void Login::Bind()
 {
-	// Login, SignUp
 	ProtocolSystem::Inst().Regist( CONFIRM_LOGIN_REQ,   ConfirmMatchData );
 	ProtocolSystem::Inst().Regist( DUPLICATE_EMAIL_REQ, ConfirmDuplicateInfo );
 	ProtocolSystem::Inst().Regist( CONFIRM_ACCOUNT_REQ, AddToDatabase );
@@ -16,11 +15,14 @@ void Login::ConfirmMatchData( const Packet& _packet )
 	Session* session = _packet.session;
 	try
 	{
+		if ( Global::String::Trim( data.email ).empty() )
+			 throw std::exception( "# The email is empty" );
+
 		LOGIN_INFO info = Database::Inst().Search( "email", data.email );
-		if ( Global::String::Trim( data.email ).empty() || data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
+		if ( data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
 			 throw std::exception( "# Login information does not match" );
 
-		Debug.Log( "# < ", info.nickname, " > entered the lobby" );
+		Debug.Log( "# < ", info.nickname, " > login completed" );
 		
 		session->loginInfo = info;
 		session->Send( UPacket( CONFIRM_LOGIN_ACK, info ) );
@@ -28,7 +30,7 @@ void Login::ConfirmMatchData( const Packet& _packet )
 	catch ( const std::exception& _error )
 	{
 		Debug.LogWarning( "# DB Exception < ", _error.what(), " >" );
-		session->Send( UPacket( CONFIRM_LOGIN_ACK, LOGIN_INFO() ) );
+		session->Send( UPacket( CONFIRM_LOGIN_ACK, EMPTY() ) );
 	}
 }
 

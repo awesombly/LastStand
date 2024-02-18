@@ -39,7 +39,7 @@ bool Session::CheckAlive()
 
 void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 {
-	Alive(); // 패킷을 보낸 세션이 살아있음을 알림
+	Alive();
 	OVERLAPPEDEX* overalapped = ( OVERLAPPEDEX* )_ov;
 	if ( overalapped->flag == OVERLAPPEDEX::MODE_RECV )
 	{
@@ -58,14 +58,14 @@ void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 		}
 
 		// 받은 데이터를 버퍼에 추가한다.
-		::memcpy( &buffer[writePos], wsaBuffer.buf, _size * sizeof( byte ) );
+		::memcpy( &buffer[writePos], wsaRecvBuffer.buf, _size * sizeof( byte ) );
 		writePos += _size; // 현재까지 버퍼에 쓰인 지점
 		readPos  += _size; // 현재 읽지않은 데이터의 양
 
 		// 읽어야하는 데이터가 최소 헤더( 4바이트 ) 이상은 되어야한다.
 		if ( readPos < Global::HeaderSize )
 		{
-			ZeroMemory( &wsaBuffer, sizeof( WSABUF ) );
+			ZeroMemory( &wsaRecvBuffer, sizeof( WSABUF ) );
 			Recieve();
 			return;
 		}
@@ -89,7 +89,13 @@ void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 			if ( packet->size <= 0 ) break;
 		}
 
-		ZeroMemory( &wsaBuffer, sizeof( WSABUF ) );
+		ZeroMemory( &wsaRecvBuffer, sizeof( WSABUF ) );
 		Recieve();
 	}
+	else if ( overalapped->flag == OVERLAPPEDEX::MODE_SEND )
+	{
+		
+	}
+
+	Global::Memory::SafeDelete( overalapped );
 }

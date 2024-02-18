@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -33,10 +34,16 @@ public class Network : Singleton<Network>
 
     private SocketAsyncEventArgs connectArgs;
     private SocketAsyncEventArgs recvArgs;
+    private SocketAsyncEventArgs sendArgs;
+
+    private Queue<byte[]> sendQueue = new Queue<byte[]>();
+    private List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
 
     private double LastResponseTime => ( DateTime.Now.TimeOfDay.TotalSeconds - lastResponseSystemTime );
     private double lastResponseSystemTime;
     private static readonly float ResponseTimeout = 60f;
+
+    private object _lock = new object();
 
     protected override void Awake()
     {
@@ -69,6 +76,7 @@ public class Network : Singleton<Network>
     {
         connectArgs?.Dispose();
         recvArgs?.Dispose();
+        sendArgs?.Dispose();
 
         socket?.Close();
     }
@@ -100,7 +108,10 @@ public class Network : Singleton<Network>
             lastResponseSystemTime = DateTime.Now.TimeOfDay.TotalSeconds;
             shouldReconnect = false;
             isConnected     = true;
-            
+
+            sendArgs = new SocketAsyncEventArgs();
+            sendArgs.Completed += OnSendCompleted;
+
             recvArgs = new SocketAsyncEventArgs();
             recvArgs.SetBuffer( recvBuf, 0, Global.MaxDataSize );
             recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnReceiveCompleted );
@@ -163,15 +174,36 @@ public class Network : Singleton<Network>
     private void OnSendCompleted( object _sender, SocketAsyncEventArgs _args )
     {
         if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
-             _args.BufferList = null;
+        {
+            _args.BufferList = null;
+            pendingList.Clear();
+
+            if ( sendQueue.Count > 0 )
+                 PostSend();
+        }
     }
 
     public void Send( Packet _packet )
     {
         if ( _packet.type != PACKET_HEARTBEAT )
              Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
+        
+        sendQueue.Enqueue( Global.Serialize( _packet ) );
+        if ( pendingList.Count == 0 )
+             PostSend();
+    }
 
-        socket.Send( Global.Serialize( _packet ) );
+    private void PostSend()
+    {
+        while ( sendQueue.Count > 0 )
+        {
+            byte[] buf = sendQueue.Dequeue();
+            pendingList.Add( new ArraySegment<byte>( buf, 0, buf.Length ) );
+        }
+
+        sendArgs.BufferList = pendingList;
+        if ( socket.SendAsync( sendArgs ) == false )
+             OnSendCompleted( null, sendArgs );
     }
 
     public void Send( PacketType _type, in IProtocol _protocol )

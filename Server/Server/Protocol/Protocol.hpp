@@ -4,6 +4,7 @@
 
 // 서버에서 패킷타입을 문자열로 출력하기위해
 // 타입은 0부터 순서대로 지정되도록 합니다.
+
 enum PacketType : u_short
 {
 	NONE = 0,
@@ -50,6 +51,46 @@ enum PacketType : u_short
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
 };
 
+typedef struct Empty
+{
+public:
+	template <class Archive>
+	void serialize( Archive& ar ) {	}
+} EMPTY;
+typedef struct SingleString
+{
+public:
+	std::string message = "";
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( message ) );
+	}
+} MESSAGE;
+typedef struct SingleBoolean
+{
+public:
+	bool isCompleted;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( isCompleted ) );
+	}
+} CONFIRM, CHECK;
+typedef struct SingleSerialType
+{
+public:
+	SerialType serial;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( serial ) );
+	}
+} SERIAL_INFO;
+
 typedef struct Vector2
 {
 public:
@@ -62,7 +103,6 @@ public:
 		ar( CEREAL_NVP( y ) );
 	}
 } VECTOR2;
-
 typedef struct Vector3
 {
 public:
@@ -76,7 +116,6 @@ public:
 		ar( CEREAL_NVP( z ) );
 	}
 } VECTOR3;
-
 typedef struct Vector4
 {
 public:
@@ -91,50 +130,6 @@ public:
 		ar( CEREAL_NVP( w ) );
 	}
 } Quaternion, QUATERNION;
-
-typedef struct EmptyProtocol
-{
-public:
-	template <class Archive>
-	void serialize( Archive& ar ) {	}
-} EMPTY;
-
-typedef struct SingleString
-{
-public:
-	std::string message = "";
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( message ) );
-	}
-} MESSAGE;
-
-typedef struct SingleBoolean
-{
-public:
-	bool isCompleted;
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( isCompleted ) );
-	}
-} CONFIRM, CHECK;
-
-typedef struct SingleSerialType
-{
-public:
-	SerialType serial;
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( serial ) );
-	}
-} SERIAL_INFO;
-
 typedef struct LoginInfo
 {
 public:
@@ -150,7 +145,6 @@ public:
 		ar( CEREAL_NVP( password ) );
 	}
 } LOGIN_INFO;
-
 struct Personnel
 {
 public:
@@ -174,11 +168,6 @@ public:
 	Personnel personnel;
 
 public:
-	StageInfo() = default;
-	StageInfo( u_short _serial, const std::string& _title, Personnel _personnel ) :
-		serial( _serial ), title( _title ), personnel( _personnel ) { }
-
-public:
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
@@ -187,7 +176,6 @@ public:
 		ar( CEREAL_NVP( personnel ) );
 	}
 } STAGE_INFO;
-
 typedef struct ActorInfo
 {
 public:
@@ -209,7 +197,6 @@ public:
 		ar( CEREAL_NVP( velocity ) );
 	}
 } ACTOR_INFO;
-
 typedef struct PlayerInfo
 {
 public:
@@ -223,7 +210,6 @@ public:
 		ar( CEREAL_NVP( nickname ) );
 	}
 } PLAYER_INFO;
-
 typedef struct BulletInfo
 {
 public:
@@ -237,7 +223,6 @@ public:
 		ar( CEREAL_NVP( owner ) );
 	}
 } BULLET_INFO;
-
 typedef struct HitInfo
 {
 public:
@@ -255,7 +240,6 @@ public:
 		ar( CEREAL_NVP( defender ) );
 	}
 } HIT_INFO;
-
 typedef struct LookInfo
 {
 public:
@@ -269,7 +253,6 @@ public:
 		ar( CEREAL_NVP( angle ) );
 	}
 } LOOK_INFO;
-
 typedef struct ChatMessage
 {
 public:
