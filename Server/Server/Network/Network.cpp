@@ -1,7 +1,7 @@
 #include "Network.h"
 
 Network::Network( const SOCKET& _socket, const SOCKADDR_IN& _address ) 
-	: socket( _socket ), address( _address ), wsaRecvBuffer{}, buffer{} { }
+	: socket( _socket ), address( _address ), wsaRecvBuffer{}, wsaSendBuffer{}, buffer{} { }
 
 Network::~Network()
 {

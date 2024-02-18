@@ -23,7 +23,8 @@ public class PacketSystem : Singleton<PacketSystem>
         {
             yield return waitReceivePackets;
 
-            ProtocolSystem.Inst.Process( packets.Dequeue() );
+            while( packets.Count > 0 )
+                   ProtocolSystem.Inst.Process( packets.Dequeue() );
         }
     }
 
