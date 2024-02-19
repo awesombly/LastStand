@@ -168,6 +168,7 @@ public class Weapon : MonoBehaviour
             return;
         }
 
+        reloadDelay.Max = Mathf.Max( reloadDelay.Max, 0.001f );
         reloadDelay.SetMax();
         SERIAL_INFO protocol;
         protocol.serial = owner.Serial;

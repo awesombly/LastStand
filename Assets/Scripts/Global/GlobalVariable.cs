@@ -50,7 +50,7 @@ public static partial class Global
     [Serializable]
     public struct StatusFloat
     {
-        [SerializeField]
+        [SerializeField, Min( 0f )]
         private float max;
         public float Max
         {
@@ -99,7 +99,7 @@ public static partial class Global
     [Serializable]
     public struct StatusInt
     {
-        [SerializeField]
+        [SerializeField, Min( 0 )]
         private int max;
         public int Max
         {
