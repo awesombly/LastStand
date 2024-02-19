@@ -77,14 +77,14 @@ public static partial class Global
             get => current;
             set
             {
+                value = Mathf.Clamp( value, 0f, Max );
                 if ( current == value )
                 {
                     return;
                 }
 
                 float old = current;
-                current = Mathf.Clamp( value, 0f, Max );
-
+                current = value;
                 OnChangeCurrent?.Invoke( old, current );
             }
         }
@@ -126,14 +126,14 @@ public static partial class Global
             get => current;
             set
             {
+                value = Mathf.Clamp( value, 0, Max );
                 if ( current == value )
                 {
                     return;
                 }
 
                 int old = current;
-                current = Mathf.Clamp( value, 0, Max );
-
+                current = value;
                 OnChangeCurrent?.Invoke( old, current );
             }
         }

@@ -62,6 +62,8 @@ public class Weapon : MonoBehaviour
 
         ammo.SetMax();
         magazine.SetMax();
+        repeatDelay.SetZero();
+        reloadDelay.SetZero();
     }
 
     private void OnEnable()
@@ -170,10 +172,6 @@ public class Weapon : MonoBehaviour
         SERIAL_INFO protocol;
         protocol.serial = owner.Serial;
         Network.Inst.Send( PacketType.SYNK_RELOAD_REQ, protocol );
-
-        int oldMag = magazine.Current;
-        magazine.Current = Mathf.Clamp( magazine.Current + ammo.Current, 0, magazine.Max );
-        ammo.Current -= ( magazine.Current - oldMag );
     }
 
     private void OnChangeAmmo( int _old, int _new )
@@ -188,6 +186,14 @@ public class Weapon : MonoBehaviour
 
     private void OnChangeReloadDelay( float _old, float _new )
     {
+        // 재장전 완료
+        if ( reloadDelay.IsZero )
+        {
+            int oldMag = magazine.Current;
+            magazine.Current = Mathf.Clamp( magazine.Current + ammo.Current, 0, magazine.Max );
+            ammo.Current -= ( magazine.Current - oldMag );
+        }
+
         reloadBar.gameObject.SetActive( !reloadDelay.IsZero );
         reloadBar.value = ( reloadDelay.Max - reloadDelay.Current ) / reloadDelay.Max;
     }
