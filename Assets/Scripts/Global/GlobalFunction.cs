@@ -10,19 +10,21 @@ public static partial class Global
     public const int MaxDataSize = 2048;
     public const int PacketSize  = HeaderSize + MaxDataSize;
 
-    public static byte[] Serialize( object _obj )
+    public static byte[] Serialize( in Packet _obj )
     {
-        int copySize = ( ( Packet )_obj ).size;
+        int copySize = _obj.size;
         int bufSize = Marshal.SizeOf( _obj );
 
         System.IntPtr buffer = Marshal.AllocHGlobal( bufSize + 1 );
         if ( buffer == System.IntPtr.Zero )
-            return null;
+             return null;
 
         Marshal.StructureToPtr( _obj, buffer, false );
-
+        
         byte[] data = new byte[copySize];
         Marshal.Copy( buffer, data, 0, copySize );
+
+        Marshal.DestroyStructure<Packet>( buffer );
         Marshal.FreeHGlobal( buffer );
 
         return data;

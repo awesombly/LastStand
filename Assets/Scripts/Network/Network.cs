@@ -173,24 +173,30 @@ public class Network : Singleton<Network>
 
     private void OnSendCompleted( object _sender, SocketAsyncEventArgs _args )
     {
-        if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
+        lock ( _lock )
         {
-            _args.BufferList = null;
-            pendingList.Clear();
+            if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
+            {
+                _args.BufferList = null;
+                pendingList.Clear();
 
-            if ( sendQueue.Count > 0 )
-                 PostSend();
+                if ( sendQueue.Count > 0 )
+                     PostSend();
+            }
         }
     }
 
-    public void Send( Packet _packet )
+    public void Send( in Packet _packet )
     {
-        if ( _packet.type != PACKET_HEARTBEAT )
-             Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
-        
-        sendQueue.Enqueue( Global.Serialize( _packet ) );
-        if ( pendingList.Count == 0 )
-             PostSend();
+        //if ( _packet.type != PACKET_HEARTBEAT )
+        //Debug.Log( $"Send ( {_packet.type}, {_packet.size} bytes ) {System.Text.Encoding.UTF8.GetString( _packet.data )}" );
+
+        lock ( _lock )
+        {
+            sendQueue.Enqueue( _packet.data );
+            if ( pendingList.Count == 0 )
+                 PostSend();
+        }
     }
 
     private void PostSend()

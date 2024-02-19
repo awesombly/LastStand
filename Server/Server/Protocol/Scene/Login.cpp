@@ -30,7 +30,7 @@ void Login::ConfirmMatchData( const Packet& _packet )
 	catch ( const std::exception& _error )
 	{
 		Debug.LogWarning( "# DB Exception < ", _error.what(), " >" );
-		session->Send( UPacket( CONFIRM_LOGIN_ACK, EMPTY() ) );
+		session->Send( UPacket( CONFIRM_LOGIN_ACK, LOGIN_INFO() ) );
 	}
 }
 
