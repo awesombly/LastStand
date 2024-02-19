@@ -100,7 +100,7 @@ public class Enemy : Character
     }
     #endregion
 
-    public void Initialize( Vector3 _pos )
+    public void Initialize( Vector2 _pos )
     {
         transform.position = _pos;
 

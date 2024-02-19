@@ -10,7 +10,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( REMOVE_ACTOR_REQ,	 AckRemoveActor );
 	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,	 AckSynkMovement );
 	ProtocolSystem::Inst().Regist( SYNK_RELOAD_REQ,		 AckSynkReload );
-	ProtocolSystem::Inst().Regist( SYNK_LOOK_REQ,		 AckSynkLook );
+	ProtocolSystem::Inst().Regist( SYNK_LOOK_ANGLE_REQ,	 AckSynkLook );
 	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,		 AckHitActor );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ, AckInGameLoadData );
 }
@@ -105,9 +105,8 @@ void InGame::AckSynkMovement( const Packet& _packet )
 		return;
 	}
 
-	actor->position = data.position;
-	actor->rotation = data.rotation;
-	actor->velocity = data.velocity;
+	actor->pos = data.pos;
+	actor->vel = data.vel;
 
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_MOVEMENT_ACK, data ) );
 }
@@ -133,7 +132,7 @@ void InGame::AckSynkLook( const Packet& _packet )
 		return;
 	}
 
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_LOOK_ACK, data ) );
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_LOOK_ANGLE_ACK, data ) );
 }
 
 void InGame::AckHitActor( const Packet& _packet )

@@ -19,14 +19,14 @@ public class InGameScene : SceneBase
             spawnTransform = transform;
         }
 
-        ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,    AckSpawnEnemy );
-        ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,   AckSpawnPlayer );
-        ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,   AckSpawnBullet );
-        ProtocolSystem.Inst.Regist( REMOVE_ACTOR_ACK,   AckRemoveActor );
-        ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK,  AckSynkMovement );
-        ProtocolSystem.Inst.Regist( SYNK_RELOAD_ACK,    AckSynkReload );
-        ProtocolSystem.Inst.Regist( SYNK_LOOK_ACK,      AckSynkLook );
-        ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,      AckHitActor );
+        ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,        AckSpawnEnemy );
+        ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,       AckSpawnPlayer );
+        ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,       AckSpawnBullet );
+        ProtocolSystem.Inst.Regist( REMOVE_ACTOR_ACK,       AckRemoveActor );
+        ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK,      AckSynkMovement );
+        ProtocolSystem.Inst.Regist( SYNK_RELOAD_ACK,        AckSynkReload );
+        ProtocolSystem.Inst.Regist( SYNK_LOOK_ANGLE_ACK,    AckSynkLookAngle );
+        ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,          AckHitActor );
     }
 
     protected override void Start()
@@ -57,9 +57,8 @@ public class InGameScene : SceneBase
         protocol.actorInfo.isLocal = true;
         protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
         protocol.actorInfo.serial = 0;
-        protocol.actorInfo.position = new VECTOR3( spawnTransform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0f ) );
-        protocol.actorInfo.rotation = new QUATERNION( spawnTransform.rotation );
-        protocol.actorInfo.velocity = new VECTOR3( Vector3.zero );
+        protocol.actorInfo.pos = new VECTOR2( spawnTransform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0f ) );
+        protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.nickname = string.Empty;
 
         Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
@@ -86,7 +85,7 @@ public class InGameScene : SceneBase
         }
 
         player.Serial = data.actorInfo.serial;
-        player.transform.SetPositionAndRotation( data.actorInfo.position.To(), data.actorInfo.rotation.To() );
+        player.transform.position = data.actorInfo.pos.To();
         player.Nickname = data.nickname;
     }
 
@@ -97,6 +96,13 @@ public class InGameScene : SceneBase
         bullet.IsLocal = data.isLocal;
         bullet.Serial = data.serial;
         bullet.Init( data.owner, data.pos.To(), data.angle );
+
+        Character owner = GameManager.Inst.GetActor( data.owner ) as Character;
+        if ( !ReferenceEquals( owner, null ) && !owner.IsLocal
+            && !ReferenceEquals( owner.EquipWeapon, null ) )
+        {
+            owner.EquipWeapon.LookAngle( true, data.look );
+        }
     }
 
     private void AckSpawnEnemy( Packet _packet )
@@ -104,7 +110,7 @@ public class InGameScene : SceneBase
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Enemy enemy = PoolManager.Inst.Get( data.prefab ) as Enemy;
         enemy.Serial = data.serial;
-        enemy.Initialize( new Vector3( data.position.x, data.position.y, data.position.z ) );
+        enemy.Initialize( new Vector2( data.pos.x, data.pos.y ) );
     }
 
     private void AckRemoveActor( Packet _packet )
@@ -118,7 +124,7 @@ public class InGameScene : SceneBase
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Actor actor = GameManager.Inst.GetActor( data.serial );
-        actor?.SetMovement( data.position.To(), data.rotation.To(), data.velocity.To() );
+        actor?.SetMovement( data.pos.To(), data.vel.To() );
     }
 
     private void AckSynkReload( Packet _packet )
@@ -133,7 +139,7 @@ public class InGameScene : SceneBase
         player.EquipWeapon.reloadDelay.SetMax();
     }
 
-    private void AckSynkLook( Packet _packet )
+    private void AckSynkLookAngle( Packet _packet )
     {
         var data = Global.FromJson<LOOK_INFO>( _packet );
         Player player = GameManager.Inst.GetActor( data.serial ) as Player;

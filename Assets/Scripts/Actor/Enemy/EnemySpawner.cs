@@ -41,9 +41,8 @@ public class EnemySpawner : MonoBehaviour
         protocol.isLocal = false;
         protocol.prefab = GameManager.Inst.GetPrefabIndex( prefab );
         protocol.serial = 0;
-        protocol.position = new VECTOR3( player.Rigid2D.position + delta * 25f );
-        protocol.rotation = new QUATERNION( Quaternion.identity );
-        protocol.velocity = new VECTOR3( Vector3.zero );
+        protocol.pos = new VECTOR2( player.Rigid2D.position + delta * 25f );
+        protocol.vel = new VECTOR2( Vector2.zero );
         Network.Inst.Send( PacketType.SPAWN_ACTOR_REQ, protocol );
     }
 }

@@ -42,12 +42,13 @@ public enum PacketType : ushort
     SPAWN_BULLET_ACK,              // Bullet 스폰 응답
     REMOVE_ACTOR_REQ,              // Actor 제거 요청
     REMOVE_ACTOR_ACK,              // Actor 제거 응답
+
     SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 요청
     SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
     SYNK_RELOAD_REQ,               // 재장전 동기화 요청
     SYNK_RELOAD_ACK,               // 재장전 동기화 응답
-    SYNK_LOOK_REQ,                 // Player 시선 동기화 요청
-    SYNK_LOOK_ACK,                 // Player 시선 동기화 응답
+    SYNK_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
+    SYNK_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
     HIT_ACTOR_REQ,                 // 피격 동기화 요청
     HIT_ACTOR_ACK,                 // 피격 동기화 응답
     INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
@@ -131,9 +132,8 @@ public struct ACTOR_INFO : IProtocol
     public int prefab;
     public bool isLocal;
     public uint serial;
-    public VECTOR3 position;
-    public QUATERNION rotation;
-    public VECTOR3 velocity;
+    public VECTOR2 pos;
+    public VECTOR2 vel;
 }
 
 public struct PLAYER_INFO : IProtocol
@@ -147,9 +147,10 @@ public struct BULLET_INFO : IProtocol
     public int prefab;
     public bool isLocal;
     public uint serial;
+    public uint owner;
     public VECTOR2 pos;
     public float angle;
-    public uint owner;
+    public float look;
 }
 
 public struct HIT_INFO : IProtocol

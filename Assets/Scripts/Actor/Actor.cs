@@ -53,9 +53,9 @@ public class Actor : MonoBehaviour
         }
     }
 
-    public virtual void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
+    public virtual void SetMovement( Vector3 _position, Vector3 _velocity )
     {
-        transform.SetPositionAndRotation( _position, _rotation );
+        transform.position = _position;
         if ( Rigid2D != null )
         {
             Rigid2D.velocity = _velocity;

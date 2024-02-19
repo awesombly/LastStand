@@ -107,9 +107,9 @@ public class Weapon : MonoBehaviour
     }
     #endregion
 
-    public void LookAngle( bool _isChangedFlipX, float _angle )
+    public void LookAngle( bool _isImmediateChange, float _angle )
     {
-        if ( owner.IsLocal || _isChangedFlipX )
+        if ( owner.IsLocal || _isImmediateChange )
         {
             transform.rotation = Quaternion.Euler( 0, 0, _angle - 90 + rotateCorrection );
         }
@@ -146,6 +146,7 @@ public class Weapon : MonoBehaviour
         protocol.serial = 0;
         protocol.pos = new VECTOR2( shotPoint.position );
         protocol.angle = angle;
+        protocol.look = GameManager.LookAngle;
         protocol.owner = owner.Serial;
         Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
     }

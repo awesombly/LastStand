@@ -112,9 +112,8 @@ public class Player : Character
             protocol.isLocal = false;
             protocol.prefab = 0;
             protocol.serial = Serial;
-            protocol.position = new VECTOR3( Rigid2D.position );
-            protocol.rotation = new QUATERNION( transform.rotation );
-            protocol.velocity = new VECTOR3( moveVector );
+            protocol.pos = new VECTOR2( Rigid2D.position );
+            protocol.vel = new VECTOR2( moveVector );
             Network.Inst.Send( PacketType.SYNK_MOVEMENT_REQ, protocol );
         }
     }
@@ -125,24 +124,23 @@ public class Player : Character
         LookAngle( GameManager.LookAngle );
 
         #region ReqProtocol
-        if ( allowSynkInterval.IsZero &&
-            ( IsFlipX != prevFlipX || Mathf.Abs( GameManager.LookAngle - prevAngle ) >= allowSynkAngle ) )
+        if ( allowSynkInterval.IsZero && Serial != uint.MaxValue
+            && ( IsFlipX != prevFlipX || Mathf.Abs( GameManager.LookAngle - prevAngle ) >= allowSynkAngle ) )
         {
             allowSynkInterval.SetMax();
 
             LOOK_INFO protocol;
             protocol.serial = Serial;
             protocol.angle = GameManager.LookAngle;
-            Network.Inst.Send( PacketType.SYNK_LOOK_REQ, protocol );
+            Network.Inst.Send( PacketType.SYNK_LOOK_ANGLE_REQ, protocol );
             prevAngle = GameManager.LookAngle;
         }
         #endregion
     }
 
-    public override void SetMovement( Vector3 _position, Quaternion _rotation, Vector3 _velocity )
+    public override void SetMovement( Vector3 _position, Vector3 _velocity )
     {
         transform.position = _position;
-        transform.rotation = _rotation;
         moveVector = _velocity;
     }
 

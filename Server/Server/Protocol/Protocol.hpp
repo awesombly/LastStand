@@ -40,12 +40,13 @@ enum PacketType : u_short
 	SPAWN_BULLET_ACK,              // Bullet 스폰 응답
 	REMOVE_ACTOR_REQ,              // Actor 제거 요청
 	REMOVE_ACTOR_ACK,              // Actor 제거 응답
+
 	SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
 	SYNK_RELOAD_REQ,               // 재장전 동기화 요청
 	SYNK_RELOAD_ACK,               // 재장전 동기화 응답
-	SYNK_LOOK_REQ,                 // Player 시선 동기화 요청
-	SYNK_LOOK_ACK,                 // Player 시선 동기화 응답
+	SYNK_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
+	SYNK_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
 	HIT_ACTOR_REQ,                 // 피격 동기화 요청
 	HIT_ACTOR_ACK,                 // 피격 동기화 응답
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
@@ -182,9 +183,8 @@ public:
 	int prefab;
 	bool isLocal;
 	SerialType serial;
-	Vector3 position;
-	Vector4 rotation;
-	Vector3 velocity;
+	Vector2 pos;
+	Vector2 vel;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -192,9 +192,8 @@ public:
 		ar( CEREAL_NVP( prefab ) );
 		ar( CEREAL_NVP( isLocal ) );
 		ar( CEREAL_NVP( serial ) );
-		ar( CEREAL_NVP( position ) );
-		ar( CEREAL_NVP( rotation ) );
-		ar( CEREAL_NVP( velocity ) );
+		ar( CEREAL_NVP( pos ) );
+		ar( CEREAL_NVP( vel ) );
 	}
 } ACTOR_INFO;
 typedef struct PlayerInfo
@@ -216,9 +215,10 @@ public:
 	int prefab;
 	bool isLocal;
 	SerialType serial;
+	SerialType owner;
 	VECTOR2 pos;
 	float angle;
-	SerialType owner;
+	float look;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -226,9 +226,10 @@ public:
 		ar( CEREAL_NVP( prefab ) );
 		ar( CEREAL_NVP( isLocal ) );
 		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( owner ) );
 		ar( CEREAL_NVP( pos ) );
 		ar( CEREAL_NVP( angle ) );
-		ar( CEREAL_NVP( owner ) );
+		ar( CEREAL_NVP( look ) );
 	}
 } BULLET_INFO;
 typedef struct HitInfo

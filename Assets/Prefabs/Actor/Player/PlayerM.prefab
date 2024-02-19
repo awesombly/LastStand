@@ -1050,7 +1050,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 0c128d2c50c140742bbde51a827fee73, type: 2}
   playerCanvas: {fileID: 4485147776266488649}
   allowSynkDistance: 1
-  allowSynkAngle: 8
+  allowSynkAngle: 10
   allowSynkInterval:
     max: 0.1
   nicknameUI: {fileID: 7039578495037849222}
