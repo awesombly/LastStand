@@ -255,6 +255,21 @@ public:
 		ar( CEREAL_NVP( hp ) );
 	}
 } HIT_INFO;
+typedef struct MovementInfo
+{
+public:
+	SerialType serial;
+	Vector2 pos;
+	Vector2 vel;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( pos ) );
+		ar( CEREAL_NVP( vel ) );
+	}
+} MOVEMENT_INFO;
 typedef struct LookInfo
 {
 public:

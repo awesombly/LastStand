@@ -91,7 +91,7 @@ void InGame::AckRemoveActor( const Packet& _packet )
 
 void InGame::AckSynkMovement( const Packet& _packet )
 {
-	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	MOVEMENT_INFO data = FromJson<MOVEMENT_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );

@@ -109,13 +109,10 @@ public class Player : Character
         float velocityInterval = Vector2.Distance( moveVector, prevMoveVector );
         if ( velocityInterval >= allowSynkDistance )
         {
-            ACTOR_INFO protocol;
-            protocol.isLocal = false;
-            protocol.prefab = 0;
+            MOVEMENT_INFO protocol;
             protocol.serial = Serial;
             protocol.pos = new VECTOR2( Rigid2D.position );
             protocol.vel = new VECTOR2( moveVector );
-            protocol.hp = Hp.Current;
             Network.Inst.Send( PacketType.SYNK_MOVEMENT_REQ, protocol );
         }
     }

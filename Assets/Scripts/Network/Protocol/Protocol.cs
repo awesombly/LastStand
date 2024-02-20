@@ -164,6 +164,13 @@ public struct HIT_INFO : IProtocol
     public float hp;
 }
 
+public struct MOVEMENT_INFO : IProtocol
+{
+    public uint serial;
+    public VECTOR2 pos;
+    public VECTOR2 vel;
+}
+
 public struct LOOK_INFO : IProtocol
 {
     public uint serial;
