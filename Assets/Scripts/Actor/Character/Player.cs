@@ -42,6 +42,7 @@ public class Player : Character
     [SerializeField]
     private UnityEngine.UI.Slider healthLerpBar;
     #endregion
+
     #region Components
     private SpriteRenderer spriter;
     private Animator animator;

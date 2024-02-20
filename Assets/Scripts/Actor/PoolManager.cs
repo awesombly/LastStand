@@ -6,7 +6,7 @@ using UnityEngine.Pool;
 
 public class PoolManager : Singleton<PoolManager>
 {
-    private Dictionary<GameObject/*Prefab*/, IObjectPool<Actor>> pools = new Dictionary<GameObject, IObjectPool<Actor>>();
+    private Dictionary<GameObject/*Prefab*/, IObjectPool<Poolable>> pools = new Dictionary<GameObject, IObjectPool<Poolable>>();
     private Dictionary<GameObject/*Prefab*/, GameObject/*Parent*/> poolParents = new Dictionary<GameObject, GameObject>();
     private GameObject curPrefab = null;    // GameObject 생성시 프리팹 구별이 안되서 추가
 
@@ -16,23 +16,23 @@ public class PoolManager : Singleton<PoolManager>
         SceneBase.OnBeforeSceneLoad += Clear;
     }
 
-    public Actor Get( GameObject _prefab )
+    public Poolable Get( GameObject _prefab )
     {
         if ( !pools.ContainsKey( _prefab ) )
         {
-            RegisterObject( _prefab );
+            RegisteObject( _prefab );
         }
 
         curPrefab = _prefab;
         return pools[_prefab].Get();
     }
 
-    public Actor Get( int _prefabIndex )
+    public Poolable Get( int _prefabIndex )
     {
         return Get( GameManager.Inst.GetPrefab( _prefabIndex ) );
     }
 
-    private void RegisterObject( GameObject _prefab )
+    private void RegisteObject( GameObject _prefab )
     {
         if ( pools.ContainsKey( _prefab ) )
         {
@@ -46,7 +46,7 @@ public class PoolManager : Singleton<PoolManager>
 
         int initCapacity = 10;
         curPrefab = _prefab;
-        pools.Add( curPrefab, new ObjectPool<Actor>( CreateActor, OnGetAction, OnReleaseAction, OnDestroyAction, true/*checkError*/, initCapacity ) );
+        pools.Add( curPrefab, new ObjectPool<Poolable>( OnCreate, OnGetAction, OnReleaseAction, OnDestroyAction, true/*checkError*/, initCapacity ) );
     }
 
     private void Clear()
@@ -67,14 +67,14 @@ public class PoolManager : Singleton<PoolManager>
     }
 
     #region ObjectPool Functions
-    private Actor CreateActor()
+    private Poolable OnCreate()
     {
         GameObject go = Instantiate( curPrefab, poolParents[curPrefab].transform );
 
-        var actor = go.GetComponent<Actor>();
-        if ( actor == null )
+        var poolable = go.GetComponent<Poolable>();
+        if ( poolable == null )
         {
-            Debug.LogError( "Not found Actor : " + go.name );
+            Debug.LogError( "Not have Poolable : " + go.name );
             return null;
         }
 
@@ -84,22 +84,22 @@ public class PoolManager : Singleton<PoolManager>
             return null;
         }
 
-        actor.SetPool( pools[curPrefab] );
+        poolable.SetPool( pools[curPrefab] );
 
-        return actor;
+        return poolable;
     }
 
-    private void OnGetAction( Actor _actor )
+    private void OnGetAction( Poolable _actor )
     {
         _actor.gameObject.SetActive( true );
     }
 
-    private void OnReleaseAction( Actor _actor )
+    private void OnReleaseAction( Poolable _actor )
     {
         _actor.gameObject.SetActive( false );
     }
 
-    private void OnDestroyAction( Actor _actor )
+    private void OnDestroyAction( Poolable _actor )
     {
         Destroy( _actor.gameObject );
     }
