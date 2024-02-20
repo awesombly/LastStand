@@ -56,19 +56,15 @@ void ProtocolSystem::Regist( const PacketType& _type, void( *_func )( const Pack
 
 void ProtocolSystem::Broadcast( const Packet& _packet )
 {
-	for ( const std::pair<SOCKET, Session*>& pair : SessionManager::Inst().GetSessions() )
-	{
-		Session* session = pair.second;
-		session->Send( _packet );
-	}
+	for ( const auto& session : SessionManager::Inst().GetSessions() )
+		  session->Send( _packet );
 }
 
 void ProtocolSystem::BroadcastWithoutSelf( const Packet& _packet )
 {
-	for ( const std::pair<SOCKET, Session*>& pair : SessionManager::Inst().GetSessions() )
+	for ( const auto& session : SessionManager::Inst().GetSessions() )
 	{
-		Session* session = pair.second;
 		if ( session->GetSocket() != _packet.session->GetSocket() )
-	 		 session->Send( _packet );
+			 session->Send( _packet );
 	}
 }

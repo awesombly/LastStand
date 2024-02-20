@@ -4,10 +4,10 @@
 
 SessionManager::~SessionManager()
 {
-	auto pair( std::begin( sessions ) );
-	while ( pair++ != std::end( sessions ) )
+	auto iter( std::begin( sessions ) );
+	while ( iter++ != std::end( sessions ) )
 	{
-		Global::Memory::SafeDelete( pair->second );
+		Global::Memory::SafeDelete( ( *iter ) );
 	}
 
 	sessions.clear();
@@ -28,28 +28,14 @@ void SessionManager::ConfirmDisconnect()
 {
 	while ( true )
 	{
-		std::this_thread::sleep_for( std::chrono::milliseconds( 100 ) );
-		std::lock_guard<std::mutex> lock( mtx );
-		for ( const std::pair<SOCKET, Session*>& pair : sessions )
+		for ( const auto& session : sessions )
 		{
-			Session* session = pair.second;
 			if ( !session->CheckAlive() )
 			{
 				Debug.Log( "# Remove unresponsive session ( ", session->GetPort(), " ", session->GetAddress(), " )" );
-				unAckSessions.push( session );
+				Erase( session );
+				break;
 			}
-		}
-
-		while ( !unAckSessions.empty() )
-		{
-			Session* session = unAckSessions.front();
-			if ( session->stage != nullptr )
-				 ExitStage( session );
-
-			sessions.erase( session->GetSocket() );
-			session->ClosedSocket();
-			Global::Memory::SafeDelete( session );
-			unAckSessions.pop();
 		}
 	}
 }
@@ -64,7 +50,7 @@ void SessionManager::Push( Session* _session )
 	Debug.Log( "# Register a new session ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
 
 	std::lock_guard<std::mutex> lock( mtx );
-	sessions[_session->GetSocket()] = _session;
+	sessions.push_back( _session );
 }
 
 void SessionManager::Erase( Session* _session )
@@ -75,32 +61,32 @@ void SessionManager::Erase( Session* _session )
 	Debug.Log( "# The session has left ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
 	
 	std::lock_guard<std::mutex> lock( mtx );
-	unAckSessions.push( _session );
-}
+	if ( _session->stage != nullptr )
+		 ExitStage( _session );
 
-Session* SessionManager::Find( const SOCKET& _socket ) const
-{
-	const auto& iter = sessions.find( _socket );
-	if ( iter == std::cend( sessions ) )
-		 return nullptr;
+	for ( auto iter = sessions.begin(); iter != sessions.end(); iter++ )
+	{
+		if ( ( *iter )->GetSocket() == _session->GetSocket() )
+		{
+			sessions.erase( iter );
+			break;
+		}
+	}
 
-	return iter->second;
+	_session->ClosedSocket();
+	Global::Memory::SafeDelete( _session );
 }
 
 void SessionManager::Broadcast( const UPacket& _packet ) const
 {
-	for ( const std::pair<SOCKET, Session*>& pair : sessions )
-	{
-		Session* session = pair.second;
-		session->Send( _packet );
-	}
+	for ( const auto& session : sessions )
+		  session->Send( _packet );
 }
 
 void SessionManager::BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) const
 {
-	for ( const std::pair<SOCKET, Session*>& pair : sessions )
+	for ( const auto& session : sessions )
 	{
-		Session* session = pair.second;
 		if ( session->GetSocket() != _session->GetSocket() )
 			 session->Send( _packet );
 	}
@@ -108,15 +94,14 @@ void SessionManager::BroadcastWithoutSelf( Session* _session, const UPacket& _pa
 
 void SessionManager::BroadcastWaitingRoom( const UPacket& _packet )
 {
-	for ( const std::pair<SOCKET, Session*>& pair : sessions )
+	for ( const auto& session : sessions )
 	{
-		Session* session = pair.second;
 		if ( session->stage == nullptr )
 			 session->Send( _packet );
 	}
 }
 
-std::unordered_map<SOCKET, Session*> SessionManager::GetSessions() const
+std::list<Session*> SessionManager::GetSessions() const
 {
 	return sessions;
 }

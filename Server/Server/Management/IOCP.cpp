@@ -44,18 +44,20 @@ void IOCP::WaitCompletionStatus() const
 			}
 			else
 			{
-				if ( session != nullptr && ov != NULL )
-					 session->Dispatch( ov, transferred );
+				if ( session != nullptr )
+				{
+					if ( ov != NULL )
+						 session->Dispatch( ov, transferred );
+				}
 			}
 		}
 		else
 		{
 			Session* session = ( Session* )key;
-			switch ( ::GetLastError() )
+			switch ( DWORD error = ::GetLastError() )
 			{
 				default:
 				{
-					DWORD error = ::GetLastError();
 					std::cout << "Queue LastError : " << error << std::endl;
 					// 작업이 취소되었을 때 발생하는 오류
 					if ( error != ERROR_OPERATION_ABORTED )
