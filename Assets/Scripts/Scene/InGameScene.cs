@@ -7,8 +7,6 @@ public class InGameScene : SceneBase
 {
     [SerializeField]
     private Transform spawnTransform;
-    [SerializeField]
-    private Poolable playerPrefab;
 
     protected override void Awake()
     {
@@ -45,7 +43,7 @@ public class InGameScene : SceneBase
         }
 
         player.IsLocal = true;
-        GameManager.Inst.localPlayer = player;
+        GameManager.LocalPlayer = player;
     }
 
     #region Req Protocols
@@ -55,7 +53,7 @@ public class InGameScene : SceneBase
         // 立加矫 积己且 Player 沥焊
         PLAYER_INFO protocol;
         protocol.actorInfo.isLocal = true;
-        protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
+        protocol.actorInfo.prefab = GameManager.Inst.GetPlayerPrefabIndex();
         protocol.actorInfo.serial = 0;
         protocol.actorInfo.pos = new VECTOR2( spawnTransform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0f ) );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
@@ -70,10 +68,10 @@ public class InGameScene : SceneBase
     {
         var data = Global.FromJson<PLAYER_INFO>( _packet );
         Player player = null;
-        if ( GameManager.Inst.localPlayer != null &&
-            ( GameManager.Inst.localPlayer.Serial == data.actorInfo.serial || data.actorInfo.isLocal ) )
+        if ( GameManager.LocalPlayer != null &&
+            ( GameManager.LocalPlayer.Serial == data.actorInfo.serial || data.actorInfo.isLocal ) )
         {
-            player = GameManager.Inst.localPlayer;
+            player = GameManager.LocalPlayer;
             player.IsLocal = true;
             player.gameObject.layer = Global.Layer.Player;
         }

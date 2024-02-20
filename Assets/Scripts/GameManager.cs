@@ -6,8 +6,7 @@ public class GameManager : Singleton<GameManager>
 {
     public static Vector3 MouseWorldPos { get; private set; }
     public static float LookAngle { get; private set; }
-    [HideInInspector]
-    public Player localPlayer;
+    public static Player LocalPlayer { get; set; }
 
     [SerializeField]
     private GameMangerSO data;
@@ -23,9 +22,9 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         MouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-        if ( !ReferenceEquals( localPlayer, null ) )
+        if ( !ReferenceEquals( LocalPlayer, null ) )
         {
-            LookAngle = Global.GetAngle( localPlayer.transform.position, MouseWorldPos );
+            LookAngle = Global.GetAngle( LocalPlayer.transform.position, MouseWorldPos );
         }
     }
 
@@ -86,9 +85,14 @@ public class GameManager : Singleton<GameManager>
         return data.prefabList[_index];
     }
 
+    public int GetPlayerPrefabIndex()
+    {
+        return GetPrefabIndex( data.playerPrefab );
+    }
+
     private void Clear()
     {
-        localPlayer = null;
+        LocalPlayer = null;
         actors.Clear();
     }
 }

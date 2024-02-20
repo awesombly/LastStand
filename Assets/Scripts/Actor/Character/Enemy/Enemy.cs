@@ -25,7 +25,7 @@ public class Enemy : Character
         base.Awake();
         rdr    = GetComponent<SpriteRenderer>();
         rigid  = GetComponent<Rigidbody2D>();
-        target = GameManager.Inst.localPlayer.GetComponent<Rigidbody2D>();
+        target = GameManager.LocalPlayer.GetComponent<Rigidbody2D>();
     }
 
     private void Start()

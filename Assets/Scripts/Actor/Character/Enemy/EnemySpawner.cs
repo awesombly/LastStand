@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Awake()
     {
-        player = GameManager.Inst.localPlayer;
+        player = GameManager.LocalPlayer;
     }
 
     private void Start()
