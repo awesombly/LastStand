@@ -1,5 +1,6 @@
 #include "InGame.h"
 #include "Management/SessionManager.h"
+#include "Management/StageManager.h"
 
 void InGame::Bind()
 {
@@ -18,16 +19,40 @@ void InGame::Bind()
 void InGame::AckChatMessage( const Packet& _packet )
 {
 	if ( _packet.session->stage == nullptr )
-	{
-		return;
-	}
+		 return;
+
 	_packet.session->stage->Broadcast( _packet );
 }
 
 void InGame::AckExitStage( const Packet& _packet )
 {
 	Session* session = _packet.session;
-	SessionManager::Inst().ExitStage( session );
+	STAGE_INFO data  = FromJson<STAGE_INFO>( _packet );
+
+	Stage* stage = StageManager::Inst().Find( data.serial );
+	if ( stage == nullptr )
+		 throw std::exception( "# This stage does not exist" );
+
+	if ( session->player != nullptr )
+	{
+		SERIAL_INFO protocol;
+		protocol.serial = session->player->actorInfo.serial;
+		stage->BroadcastWithoutSelf( session, UPacket( REMOVE_ACTOR_ACK, protocol ) );
+		session->stage->UnregistActor( &session->player->actorInfo );
+		Global::Memory::SafeDelete( session->player );
+	}
+
+	if ( !stage->Exit( session ) )
+	{
+		// 방에 아무도 없을 때
+		SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( DELETE_STAGE_INFO, stage->info ) );
+		StageManager::Inst().Erase( stage );
+	}
+	else
+	{
+		SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
+	}
+
 	session->Send( UPacket( EXIT_STAGE_ACK, EMPTY() ) );
 }
 

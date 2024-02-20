@@ -25,11 +25,11 @@ public class Sample : MonoBehaviour
 
     public void ExitStageReq()
     {
-        if ( isProgress )
+        if ( isProgress || StageSystem.Info == null )
              return;
 
         isProgress = true;
-        Network.Inst.Send( EXIT_STAGE_REQ, new EMPTY() );
+        Network.Inst.Send( EXIT_STAGE_REQ, StageSystem.Info.Value );
     }
 
 

@@ -1174,7 +1174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758d9a52b4a9a77438c44202660a55ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayer: {fileID: 253016587}
   data: {fileID: 11400000, guid: d3e9a048aa92c4445a9b3f73a8ebba20, type: 2}
 --- !u!4 &730634671
 Transform:
@@ -2711,7 +2710,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnTransform: {fileID: 0}
-  playerPrefab: {fileID: 2518964481862004779, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
 --- !u!4 &1643772087
 Transform:
   m_ObjectHideFlags: 0

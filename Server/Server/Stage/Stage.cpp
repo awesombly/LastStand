@@ -5,6 +5,7 @@ Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _
 {
 	Debug.Log( "# Stage ", info.serial, " The host has been changed< ", host->loginInfo.nickname, " >" );
 	sessions.push_back( host );
+	_host->stage = this;
 }
 
 bool Stage::Entry( Session* _session )
@@ -15,6 +16,7 @@ bool Stage::Entry( Session* _session )
 		return false;
 	}
 
+	_session->stage = this;
 	sessions.push_back( _session );
 	info.personnel.current = ( int )sessions.size();
 
@@ -33,8 +35,9 @@ bool Stage::Exit( Session* _session )
 	{
 		 host = *sessions.begin();
 		 Debug.Log( "# Stage ", info.serial, " The host has been changed< ", host->loginInfo.nickname, " >" );
-
 	}
+
+	_session->stage = nullptr;
 
 	return sessions.size() > 0;
 }

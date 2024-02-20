@@ -166,6 +166,7 @@ if not exist "$(SolutionDir)Log" mkdir "$(SolutionDir)Log"</Command>
     <ClInclude Include="Packet\Packet.hpp" />
     <ClInclude Include="Protocol\Protocol.hpp" />
     <ClInclude Include="Protocol\Scene\Login.h" />
+    <ClInclude Include="Management\StageManager.h" />
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Run\Server.h" />
     <ClInclude Include="Synchronize\CriticalSection.h" />
@@ -182,6 +183,7 @@ if not exist "$(SolutionDir)Log" mkdir "$(SolutionDir)Log"</Command>
     <ClCompile Include="Management\SessionManager.cpp" />
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="Protocol\Scene\Login.cpp" />
+    <ClCompile Include="Management\StageManager.cpp" />
     <ClCompile Include="Stage\Stage.cpp" />
     <ClCompile Include="Run\Main.cpp" />
     <ClCompile Include="Run\Server.cpp" />
