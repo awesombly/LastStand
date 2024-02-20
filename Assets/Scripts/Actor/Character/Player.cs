@@ -115,6 +115,7 @@ public class Player : Character
             protocol.serial = Serial;
             protocol.pos = new VECTOR2( Rigid2D.position );
             protocol.vel = new VECTOR2( moveVector );
+            protocol.hp = Hp.Current;
             Network.Inst.Send( PacketType.SYNK_MOVEMENT_REQ, protocol );
         }
     }

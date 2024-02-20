@@ -50,13 +50,16 @@ public class InGameScene : SceneBase
 
     private void ReqInGameLoadData()
     {
+        Player playerPrefab = GameManager.Inst.GetPlayerPrefab();
+
         // 立加矫 积己且 Player 沥焊
         PLAYER_INFO protocol;
         protocol.actorInfo.isLocal = true;
-        protocol.actorInfo.prefab = GameManager.Inst.GetPlayerPrefabIndex();
+        protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
         protocol.actorInfo.serial = 0;
         protocol.actorInfo.pos = new VECTOR2( spawnTransform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0f ) );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
+        protocol.actorInfo.hp = playerPrefab.data.maxHp;
         protocol.nickname = string.Empty;
 
         Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
@@ -84,6 +87,8 @@ public class InGameScene : SceneBase
 
         player.Serial = data.actorInfo.serial;
         player.transform.position = data.actorInfo.pos.To();
+        player.Rigid2D.velocity = data.actorInfo.vel.To();
+        player.Hp.Max = player.Hp.Current = data.actorInfo.hp;
         player.Nickname = data.nickname;
     }
 
@@ -91,9 +96,7 @@ public class InGameScene : SceneBase
     {
         var data = Global.FromJson<BULLET_INFO>( _packet );
         Bullet bullet = PoolManager.Inst.Get( data.prefab ) as Bullet;
-        bullet.IsLocal = data.isLocal;
-        bullet.Serial = data.serial;
-        bullet.Init( data.owner, data.pos.To(), data.angle );
+        bullet?.Init( data );
 
         Character owner = GameManager.Inst.GetActor( data.owner ) as Character;
         if ( !ReferenceEquals( owner, null ) && !owner.IsLocal

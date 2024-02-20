@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public List<Poolable> prefabs = new List<Poolable>();
+    public List<Enemy> prefabs = new List<Enemy>();
 
     private Player player;
     private float startTime, timer;
@@ -43,6 +43,7 @@ public class EnemySpawner : MonoBehaviour
         protocol.serial = 0;
         protocol.pos = new VECTOR2( player.Rigid2D.position + delta * 25f );
         protocol.vel = new VECTOR2( Vector2.zero );
+        protocol.hp = prefab.data.maxHp;
         Network.Inst.Send( PacketType.SPAWN_ACTOR_REQ, protocol );
     }
 }

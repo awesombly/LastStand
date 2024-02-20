@@ -185,6 +185,7 @@ public:
 	SerialType serial;
 	Vector2 pos;
 	Vector2 vel;
+	float hp;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -194,6 +195,7 @@ public:
 		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( pos ) );
 		ar( CEREAL_NVP( vel ) );
+		ar( CEREAL_NVP( hp ) );
 	}
 } ACTOR_INFO;
 typedef struct PlayerInfo
@@ -219,6 +221,7 @@ public:
 	VECTOR2 pos;
 	float angle;
 	float look;
+	float damage;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -230,6 +233,7 @@ public:
 		ar( CEREAL_NVP( pos ) );
 		ar( CEREAL_NVP( angle ) );
 		ar( CEREAL_NVP( look ) );
+		ar( CEREAL_NVP( damage ) );
 	}
 } BULLET_INFO;
 typedef struct HitInfo
@@ -239,6 +243,7 @@ public:
 	SerialType bullet;
 	SerialType attacker;
 	SerialType defender;
+	float hp;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -247,6 +252,7 @@ public:
 		ar( CEREAL_NVP( bullet ) );
 		ar( CEREAL_NVP( attacker ) );
 		ar( CEREAL_NVP( defender ) );
+		ar( CEREAL_NVP( hp ) );
 	}
 } HIT_INFO;
 typedef struct LookInfo

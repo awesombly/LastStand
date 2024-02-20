@@ -144,6 +144,14 @@ void InGame::AckHitActor( const Packet& _packet )
 		return;
 	}
 
+	ActorInfo* defender = _packet.session->stage->GetActor( data.defender );
+	if ( defender == nullptr )
+	{
+		Debug.LogError( "defender is null. serial:", data.defender, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+	defender->hp = data.hp;
+
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTOR_ACK, data ) );
 
 	if ( data.needRelease )

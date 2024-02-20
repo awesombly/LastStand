@@ -85,9 +85,9 @@ public class GameManager : Singleton<GameManager>
         return data.prefabList[_index];
     }
 
-    public int GetPlayerPrefabIndex()
+    public Player GetPlayerPrefab()
     {
-        return GetPrefabIndex( data.playerPrefab );
+        return data.playerPrefab;
     }
 
     private void Clear()

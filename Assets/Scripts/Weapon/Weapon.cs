@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     #region Base
     [Header( "─ Base" )]
     [SerializeField]
-    private Poolable bulletPrefab;
+    private Bullet bulletPrefab;
     [SerializeField]
     private Transform shotPoint;
     [SerializeField]
@@ -133,15 +133,6 @@ public class Weapon : MonoBehaviour
         float angle = Global.GetAngle( shotPoint.position, GameManager.MouseWorldPos );
         angle += Random.Range( -shakeShotAngle * 0.5f, shakeShotAngle * 0.5f );
         
-        // 로컬 테스트용
-        if ( !Network.Inst.IsConnected )
-        {
-            Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
-            bullet.IsLocal = true;
-            bullet.Init( owner.Serial, shotPoint.position, angle );
-            return;
-        }
-
         BULLET_INFO protocol;
         protocol.isLocal = false;
         protocol.prefab = GameManager.Inst.GetPrefabIndex( bulletPrefab );
@@ -150,7 +141,17 @@ public class Weapon : MonoBehaviour
         protocol.angle = angle;
         protocol.look = GameManager.LookAngle;
         protocol.owner = owner.Serial;
+        protocol.damage = owner.data.attackRate * bulletPrefab.stat.damage;
         Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
+
+        // 로컬 테스트용
+        if ( !Network.Inst.IsConnected )
+        {
+            Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
+            bullet.IsLocal = true;
+            bullet.Init( protocol );
+            return;
+        }
     }
 
     private void OnAttackPress()

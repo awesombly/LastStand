@@ -134,6 +134,7 @@ public struct ACTOR_INFO : IProtocol
     public uint serial;
     public VECTOR2 pos;
     public VECTOR2 vel;
+    public float hp;
 }
 
 public struct PLAYER_INFO : IProtocol
@@ -151,6 +152,7 @@ public struct BULLET_INFO : IProtocol
     public VECTOR2 pos;
     public float angle;
     public float look;
+    public float damage;
 }
 
 public struct HIT_INFO : IProtocol
@@ -159,6 +161,7 @@ public struct HIT_INFO : IProtocol
     public uint bullet;
     public uint attacker;
     public uint defender;
+    public float hp;
 }
 
 public struct LOOK_INFO : IProtocol

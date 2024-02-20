@@ -71,7 +71,7 @@ public class Character : Actor
         Vector2 force = _bullet.stat.pushingPower * _bullet.transform.up;
         Rigid2D.AddForce( force );
 
-        Hp.Current -= ( _bullet.stat.damage * _attacker.data.attackRate );
+        Hp.Current -= _bullet.GetDamage();
         if ( Hp.Current <= 0 )
         {
             OnDeadEvent?.Invoke( this, _attacker  );
