@@ -161,7 +161,7 @@ public class InGameScene : SceneBase
             return;
         }
 
-        defender.OnHit( attacker, bullet );
+        bullet.HitTarget( attacker, defender );
 
         if ( data.needRelease )
         {

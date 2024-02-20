@@ -7,6 +7,11 @@ public class Poolable : MonoBehaviour
 {
     private IObjectPool<Poolable> parentPool = null;
 
+    private void OnParticleSystemStopped()
+    {
+        Release();
+    }
+
     public virtual void Release()
     {
         if ( parentPool == null )

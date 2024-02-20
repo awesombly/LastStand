@@ -7,17 +7,6 @@ using UnityEngine;
 public class Bullet : Actor
 {
     [Serializable]
-    public struct EffectInfo
-    {
-        public GameObject fireEffect;
-        public GameObject hitEffect;
-        public GameObject shellEffect;
-    }
-
-    [SerializeField]
-    private EffectInfo effect;
-
-    [Serializable]
     public struct StatInfo
     {
         public float moveSpeed;
@@ -32,6 +21,9 @@ public class Bullet : Actor
     [HideInInspector]
     public uint ownerSerial;
     private Global.LayerFlag targetLayer;
+
+    public event Action<Bullet> OnFire;
+    public event Action<Character/*attacker*/, Character/*defender*/, Bullet> OnHit;
 
     #region Unity Callback
     protected override void Awake()
@@ -85,7 +77,7 @@ public class Bullet : Actor
         Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
 
         Character attacker = GameManager.Inst.GetActor( ownerSerial ) as Character;
-        defender?.OnHit( attacker, this );
+        HitTarget( attacker, defender );
 
         if ( stat.penetratePower.IsZero )
         {
@@ -103,5 +95,13 @@ public class Bullet : Actor
         lifeTime = stat.range / stat.moveSpeed;
         stat.penetratePower.SetMax();
         Rigid2D.velocity = transform.up * stat.moveSpeed;
+
+        OnFire?.Invoke( this );
+    }
+
+    public void HitTarget( Character _attacker, Character _defender )
+    {
+        _defender?.OnHit( _attacker, this );
+        OnHit?.Invoke( _attacker, _defender, this );
     }
 }
