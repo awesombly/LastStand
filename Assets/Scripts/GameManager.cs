@@ -93,6 +93,5 @@ public class GameManager : Singleton<GameManager>
     private void Clear()
     {
         LocalPlayer = null;
-        actors.Clear();
     }
 }
