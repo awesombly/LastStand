@@ -25,6 +25,7 @@ public class Player : Character
     private Vector2 moveVector;
     private Vector3 prevMoveVector;
     private Vector2 prevPosition;
+    private bool prevIsSleep;
     private float prevAngle;
     [SerializeField]
     private float allowSynkDistance;
@@ -96,6 +97,7 @@ public class Player : Character
         Direction = ( Rigid2D.position - prevPosition ).normalized;
         prevPosition = Rigid2D.position;
         prevMoveVector = moveVector;
+        prevIsSleep = Rigid2D.IsSleeping();
     }
 
     private void LateUpdate()
@@ -106,8 +108,9 @@ public class Player : Character
 
     private void ReqSynkMovement()
     {
+        bool isStopped = !prevIsSleep && Rigid2D.IsSleeping();
         float velocityInterval = Vector2.Distance( moveVector, prevMoveVector );
-        if ( velocityInterval >= allowSynkDistance )
+        if ( isStopped || velocityInterval >= allowSynkDistance )
         {
             MOVEMENT_INFO protocol;
             protocol.serial = Serial;
