@@ -6,9 +6,9 @@ using UnityEngine.Pool;
 
 public class PoolManager : Singleton<PoolManager>
 {
-    private Dictionary<GameObject/*Prefab*/, IObjectPool<Poolable>> pools = new Dictionary<GameObject, IObjectPool<Poolable>>();
-    private Dictionary<GameObject/*Prefab*/, GameObject/*Parent*/> poolParents = new Dictionary<GameObject, GameObject>();
-    private GameObject curPrefab = null;    // GameObject 생성시 프리팹 구별이 안되서 추가
+    private Dictionary<Poolable/*Prefab*/, IObjectPool<Poolable>> pools = new Dictionary<Poolable, IObjectPool<Poolable>>();
+    private Dictionary<Poolable/*Prefab*/, GameObject/*Parent*/> poolParents = new Dictionary<Poolable, GameObject>();
+    private Poolable curPrefab = null;    // GameObject 생성시 프리팹 구별이 안되서 추가
 
     protected override void Awake()
     {
@@ -16,7 +16,7 @@ public class PoolManager : Singleton<PoolManager>
         SceneBase.OnBeforeSceneLoad += Clear;
     }
 
-    public Poolable Get( GameObject _prefab )
+    public Poolable Get( Poolable _prefab )
     {
         if ( !pools.ContainsKey( _prefab ) )
         {
@@ -32,7 +32,7 @@ public class PoolManager : Singleton<PoolManager>
         return Get( GameManager.Inst.GetPrefab( _prefabIndex ) );
     }
 
-    private void RegisteObject( GameObject _prefab )
+    private void RegisteObject( Poolable _prefab )
     {
         if ( pools.ContainsKey( _prefab ) )
         {
@@ -69,12 +69,10 @@ public class PoolManager : Singleton<PoolManager>
     #region ObjectPool Functions
     private Poolable OnCreate()
     {
-        GameObject go = Instantiate( curPrefab, poolParents[curPrefab].transform );
-
-        var poolable = go.GetComponent<Poolable>();
+        Poolable poolable = Instantiate( curPrefab, poolParents[curPrefab].transform );
         if ( poolable == null )
         {
-            Debug.LogError( "Not have Poolable : " + go.name );
+            Debug.LogError( "Not found Prefab : " + curPrefab );
             return null;
         }
 

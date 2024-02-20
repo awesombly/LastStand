@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public List<GameObject> prefabs = new List<GameObject>();
+    public List<Poolable> prefabs = new List<Poolable>();
 
     private Player player;
     private float startTime, timer;

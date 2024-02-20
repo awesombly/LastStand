@@ -8,7 +8,7 @@ public class InGameScene : SceneBase
     [SerializeField]
     private Transform spawnTransform;
     [SerializeField]
-    private GameObject playerPrefab;
+    private Poolable playerPrefab;
 
     protected override void Awake()
     {

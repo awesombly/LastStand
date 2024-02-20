@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Enemy : Character
 {
-    public GameObject bulletPrefab;
+    public Poolable bulletPrefab;
 
     private Rigidbody2D rigid;
     private Rigidbody2D target;

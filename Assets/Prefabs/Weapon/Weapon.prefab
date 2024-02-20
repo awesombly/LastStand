@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039b49cf111fe9d489f270acfcdf8f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3777912928162346754, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
+  bulletPrefab: {fileID: -2796159070604671697, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
   shotPoint: {fileID: 9035912363181180166}
   rotateCorrection: 90
   ammo:

@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     #region Base
     [Header( "¦¡ Base" )]
     [SerializeField]
-    private GameObject bulletPrefab;
+    private Poolable bulletPrefab;
     [SerializeField]
     private Transform shotPoint;
     [SerializeField]
