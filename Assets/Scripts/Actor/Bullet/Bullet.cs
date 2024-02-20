@@ -7,17 +7,6 @@ using UnityEngine;
 public class Bullet : Actor
 {
     [Serializable]
-    public struct EffectInfo
-    {
-        public GameObject fireEffect;
-        public GameObject hitEffect;
-        public GameObject shellEffect;
-    }
-
-    [SerializeField]
-    private EffectInfo effect;
-
-    [Serializable]
     public struct StatInfo
     {
         public float moveSpeed;
@@ -28,10 +17,13 @@ public class Bullet : Actor
     }
     public StatInfo stat;
     private float lifeTime;
+    private float totalDamage;
 
-    [HideInInspector]
-    public uint ownerSerial;
+    private Character owner;
     private Global.LayerFlag targetLayer;
+
+    public event Action<Bullet> OnFire;
+    public event Action<Character/*attacker*/, Character/*defender*/, Bullet> OnHit;
 
     #region Unity Callback
     protected override void Awake()
@@ -70,22 +62,22 @@ public class Bullet : Actor
         }
 
         Character defender = _other.GetComponent<Character>();
-        if ( defender == null )
+        if ( defender == null || owner == null )
         {
-            Debug.LogWarning( "defender is null. name:" + _other.name );
+            Debug.LogWarning( $"Character is null. other:{_other.name}, owner:{owner}" );
             return;
         }
 
         --stat.penetratePower.Current;
+        HitTarget( owner, defender );
+
         HIT_INFO protocol;
         protocol.needRelease = stat.penetratePower.IsZero;
         protocol.bullet = Serial;
-        protocol.attacker = ownerSerial;
+        protocol.attacker = owner.Serial;
         protocol.defender = defender.Serial;
+        protocol.hp = defender.Hp.Current;
         Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
-
-        Character attacker = GameManager.Inst.GetActor( ownerSerial ) as Character;
-        defender?.OnHit( attacker, this );
 
         if ( stat.penetratePower.IsZero )
         {
@@ -94,14 +86,30 @@ public class Bullet : Actor
     }
     #endregion
 
-    public void Init( uint _owner, Vector2 _position, float _angle )
+    public void Init( BULLET_INFO _info )
     {
-        ownerSerial = _owner;
+        IsLocal = _info.isLocal;
+        Serial = _info.serial;
+        owner = GameManager.Inst.GetActor( _info.owner ) as Character;
         targetLayer = IsLocal ? ( Global.LayerFlag.Enemy | Global.LayerFlag.Misc ) : 0;
-        transform.SetPositionAndRotation( _position, Quaternion.Euler( 0, 0, _angle - 90 ) );
+        transform.SetPositionAndRotation( _info.pos.To(), Quaternion.Euler( 0, 0, _info.angle - 90 ) );
 
+        totalDamage = _info.damage;
         lifeTime = stat.range / stat.moveSpeed;
         stat.penetratePower.SetMax();
         Rigid2D.velocity = transform.up * stat.moveSpeed;
+
+        OnFire?.Invoke( this );
+    }
+
+    public void HitTarget( Character _attacker, Character _defender )
+    {
+        _defender?.OnHit( _attacker, this );
+        OnHit?.Invoke( _attacker, _defender, this );
+    }
+
+    public float GetDamage()
+    {
+        return totalDamage;
     }
 }

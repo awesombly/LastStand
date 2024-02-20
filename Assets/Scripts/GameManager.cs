@@ -6,13 +6,12 @@ public class GameManager : Singleton<GameManager>
 {
     public static Vector3 MouseWorldPos { get; private set; }
     public static float LookAngle { get; private set; }
-    [HideInInspector]
-    public Player localPlayer;
+    public static Player LocalPlayer { get; set; }
 
-    [SerializeField]    // PoolManager를 사용할 모든 프리팹들
-    private List<GameObject/*Prefab*/> prefabList;
+    [SerializeField]
+    private GameMangerSO data;
 
-    public Dictionary<uint/*Serial*/, Actor> Actors { get; private set; } = new Dictionary<uint, Actor>();
+    private Dictionary<uint/*Serial*/, Actor> actors = new Dictionary<uint, Actor>();
 
     protected override void Awake()
     {
@@ -23,21 +22,21 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         MouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-        if ( !ReferenceEquals( localPlayer, null ) )
+        if ( !ReferenceEquals( LocalPlayer, null ) )
         {
-            LookAngle = Global.GetAngle( localPlayer.transform.position, MouseWorldPos );
+            LookAngle = Global.GetAngle( LocalPlayer.transform.position, MouseWorldPos );
         }
     }
 
     public void RegistActor( Actor _actor )
     {
         if ( _actor == null
-            || Actors.ContainsKey( _actor.Serial ) )
+            || actors.ContainsKey( _actor.Serial ) )
         {
             Debug.LogWarning( "Invalid Actor : " + _actor );
         }
 
-        Actors[_actor.Serial] = _actor;
+        actors[_actor.Serial] = _actor;
     }
 
     public void UnregistActor( uint _serial )
@@ -47,7 +46,7 @@ public class GameManager : Singleton<GameManager>
             return;
         }
 
-        if ( !Actors.Remove( _serial ) )
+        if ( !actors.Remove( _serial ) )
         {
             Debug.LogWarning( "Invalid Serial : " + _serial );
         }
@@ -55,18 +54,18 @@ public class GameManager : Singleton<GameManager>
 
     public Actor GetActor( uint _serial )
     {
-        if ( !Actors.ContainsKey( _serial ) )
+        if ( !actors.ContainsKey( _serial ) )
         {
             Debug.LogWarning( "Invalid Serial : " + _serial );
             return null;
         }
 
-        return Actors[_serial];
+        return actors[_serial];
     }
 
-    public int GetPrefabIndex( GameObject _prefab )
+    public int GetPrefabIndex( Poolable _prefab )
     {
-        int index = prefabList.FindIndex( ( _item ) => _item == _prefab );
+        int index = data.prefabList.FindIndex( ( _item ) => _item == _prefab );
         if ( index == -1 )
         {
             Debug.LogError( "Prefab not found : " + _prefab );
@@ -75,20 +74,25 @@ public class GameManager : Singleton<GameManager>
         return index;
     }
 
-    public GameObject GetPrefab( int _index )
+    public Poolable GetPrefab( int _index )
     {
-        if ( prefabList.Count <= _index || _index < 0 )
+        if ( data.prefabList.Count <= _index || _index < 0 )
         {
-            Debug.LogError( $"Invalid index : {_index}, prefabCount : {prefabList.Count}" );
+            Debug.LogError( $"Invalid index : {_index}, prefabCount : {data.prefabList.Count}" );
             return null;
         }
 
-        return prefabList[_index];
+        return data.prefabList[_index];
+    }
+
+    public Player GetPlayerPrefab()
+    {
+        return data.playerPrefab;
     }
 
     private void Clear()
     {
-        localPlayer = null;
-        Actors.Clear();
+        LocalPlayer = null;
+        actors.Clear();
     }
 }

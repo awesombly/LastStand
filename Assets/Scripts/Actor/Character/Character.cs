@@ -10,7 +10,7 @@ public class Character : Actor
     public Global.StatusFloat Hp;
     public CharacterData data;
     [SerializeField]
-    private GameObject playerCanvas;
+    private GameObject uiCanvas;
     public Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
 
     private bool isFlipX;
@@ -25,19 +25,19 @@ public class Character : Actor
             }
 
             isFlipX = value;
-            if ( playerCanvas != null )
+            if ( uiCanvas != null )
             {
                 // 快急 措面 贸府..
                 if ( isFlipX )
                 {
                     transform.localScale = new Vector3( -1f, 1f, 1f );
-                    playerCanvas.transform.localScale = new Vector3( -Mathf.Abs( playerCanvas.transform.localScale.x ), playerCanvas.transform.localScale.y, playerCanvas.transform.localScale.z );
+                    uiCanvas.transform.localScale = new Vector3( -Mathf.Abs( uiCanvas.transform.localScale.x ), uiCanvas.transform.localScale.y, uiCanvas.transform.localScale.z );
                     EquipWeapon.transform.localScale = new Vector3( -1f, -1f, 1f );
                 }
                 else
                 {
                     transform.localScale = Vector3.one;
-                    playerCanvas.transform.localScale = new Vector3( Mathf.Abs( playerCanvas.transform.localScale.x ), playerCanvas.transform.localScale.y, playerCanvas.transform.localScale.z );
+                    uiCanvas.transform.localScale = new Vector3( Mathf.Abs( uiCanvas.transform.localScale.x ), uiCanvas.transform.localScale.y, uiCanvas.transform.localScale.z );
                     EquipWeapon.transform.localScale = Vector3.one;
                 }
             }
@@ -71,7 +71,7 @@ public class Character : Actor
         Vector2 force = _bullet.stat.pushingPower * _bullet.transform.up;
         Rigid2D.AddForce( force );
 
-        Hp.Current -= ( _bullet.stat.damage * _attacker.data.attackRate );
+        Hp.Current -= _bullet.GetDamage();
         if ( Hp.Current <= 0 )
         {
             OnDeadEvent?.Invoke( this, _attacker  );

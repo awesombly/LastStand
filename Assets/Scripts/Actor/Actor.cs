@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 
-public class Actor : MonoBehaviour
+
+public class Actor : Poolable
 {
     private bool isLocal = true;
     public bool IsLocal
@@ -26,32 +26,24 @@ public class Actor : MonoBehaviour
 
             serial = value;
             name = name + ":" + serial;
+            // Serial을 부여받아야 등록가능
             GameManager.Inst.RegistActor( this );
         }
     }
 
     public Rigidbody2D Rigid2D { get; private set; }
-    private IObjectPool<Actor> parentPool = null;
 
+    #region Unity Callback
     protected virtual void Awake()
     {
         Rigid2D = GetComponent<Rigidbody2D>();
     }
 
-    public virtual void Release()
+    protected virtual void OnDisable()
     {
-        if ( parentPool == null )
-        {
-            Destroy( gameObject );
-            return;
-        }
-
-        if ( gameObject.activeSelf )
-        {
-            GameManager.Inst.UnregistActor( serial );
-            parentPool.Release( this );
-        }
+        GameManager.Inst.UnregistActor( serial );
     }
+    #endregion
 
     public virtual void SetMovement( Vector3 _position, Vector3 _velocity )
     {
@@ -60,11 +52,6 @@ public class Actor : MonoBehaviour
         {
             Rigid2D.velocity = _velocity;
         }
-    }
-
-    public void SetPool( IObjectPool<Actor> _pool )
-    {
-        parentPool = _pool;
     }
 
     protected virtual void OnChangeLocal( bool _isLocal )

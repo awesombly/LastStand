@@ -91,7 +91,7 @@ void InGame::AckRemoveActor( const Packet& _packet )
 
 void InGame::AckSynkMovement( const Packet& _packet )
 {
-	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	MOVEMENT_INFO data = FromJson<MOVEMENT_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
@@ -143,6 +143,14 @@ void InGame::AckHitActor( const Packet& _packet )
 		Debug.LogError( "Session is null. nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
+
+	ActorInfo* defender = _packet.session->stage->GetActor( data.defender );
+	if ( defender == nullptr )
+	{
+		Debug.LogError( "defender is null. serial:", data.defender, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+	defender->hp = data.hp;
 
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTOR_ACK, data ) );
 

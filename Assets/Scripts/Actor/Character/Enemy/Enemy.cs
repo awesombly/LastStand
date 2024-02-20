@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Enemy : Character
 {
-    public GameObject bulletPrefab;
+    public Bullet bulletPrefab;
 
     private Rigidbody2D rigid;
     private Rigidbody2D target;
@@ -25,7 +25,7 @@ public class Enemy : Character
         base.Awake();
         rdr    = GetComponent<SpriteRenderer>();
         rigid  = GetComponent<Rigidbody2D>();
-        target = GameManager.Inst.localPlayer.GetComponent<Rigidbody2D>();
+        target = GameManager.LocalPlayer.GetComponent<Rigidbody2D>();
     }
 
     private void Start()
@@ -88,11 +88,11 @@ public class Enemy : Character
             }
 
             Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
-            bullet.ownerSerial = Serial;
+            //bullet.ownerSerial = Serial;
 
             float angle = Global.GetAngle( rigid.position, target.position );
 
-            bullet?.Init( Serial, transform.position, angle );
+            //bullet?.Init( Serial, transform.position, angle );
             //bullet.targetLayer = Global.LayerFlag.Player | Global.LayerFlag.Misc;
 
             yield return YieldCache.WaitForSeconds( EnemyAttackDelay );
