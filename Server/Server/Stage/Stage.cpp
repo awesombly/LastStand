@@ -28,6 +28,15 @@ bool Stage::Exit( Session* _session )
 	if ( sessions.size() <= 0 )
 		 throw std::exception( "There's no one in the stage" );
 
+	if ( _session->player != nullptr )
+	{
+		SERIAL_INFO protocol;
+		protocol.serial = _session->player->actorInfo.serial;
+		_session->stage->BroadcastWithoutSelf( _session, UPacket( REMOVE_ACTOR_ACK, protocol ) );
+		_session->stage->UnregistActor( &_session->player->actorInfo );
+		Global::Memory::SafeDelete( _session->player );
+	}
+
 	sessions.erase( std::find( sessions.begin(), sessions.end(), _session ) );
 	info.personnel.current = ( int )sessions.size();
 

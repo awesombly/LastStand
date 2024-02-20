@@ -33,15 +33,6 @@ void InGame::AckExitStage( const Packet& _packet )
 	if ( stage == nullptr )
 		 throw std::exception( "# This stage does not exist" );
 
-	if ( session->player != nullptr )
-	{
-		SERIAL_INFO protocol;
-		protocol.serial = session->player->actorInfo.serial;
-		stage->BroadcastWithoutSelf( session, UPacket( REMOVE_ACTOR_ACK, protocol ) );
-		session->stage->UnregistActor( &session->player->actorInfo );
-		Global::Memory::SafeDelete( session->player );
-	}
-
 	if ( !stage->Exit( session ) )
 	{
 		// 방에 아무도 없을 때
