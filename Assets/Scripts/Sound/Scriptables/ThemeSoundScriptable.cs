@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static SoundManager;
 
 [CreateAssetMenu( fileName = "ThemeSound", menuName = "Scriptable Objects/ThemeSound" )]
 public class ThemeSoundScriptable : ScriptableObject
@@ -9,8 +8,8 @@ public class ThemeSoundScriptable : ScriptableObject
     public enum ThemeType : byte
     {
         Default,
-        Interface_1,
-        Interface_2,
+        Theme_1,
+        Theme_2,
     }
 
     public enum ThemeSound : byte

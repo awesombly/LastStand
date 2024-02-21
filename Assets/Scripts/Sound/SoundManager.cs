@@ -44,7 +44,7 @@ public class SoundManager : Singleton<SoundManager>
                  channels = new WNS.ObjectPool<SoundChannel>( channel, transform );
         } );
 
-        LoadAssetsAsync<ThemeSoundScriptable>( "Sound_Interface", ( ThemeSoundScriptable _data ) => 
+        LoadAssetsAsync<ThemeSoundScriptable>( "Sound_Theme", ( ThemeSoundScriptable _data ) => 
         {
             if ( !themeSounds.ContainsKey( _data.type ) )
                  themeSounds.Add( _data.type, new SoundInfo<ThemeSound>() );
@@ -73,7 +73,9 @@ public class SoundManager : Singleton<SoundManager>
     {
         if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
         {
-            Play( ThemeSound.Login );
+            SoundChannel channel = Play( ThemeSound.Lobby );
+            channel.Fade( 0f, 1f, 5f );
+
         }
         //else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
         //{
@@ -87,23 +89,25 @@ public class SoundManager : Singleton<SoundManager>
     #endregion
 
     #region Play
-    public void Play( ThemeSound _sound, ThemeType _type = ThemeType.Default )
+    public SoundChannel Play( ThemeSound _sound, ThemeType _type = ThemeType.Default )
     {
         if ( !themeSounds.ContainsKey( _type ) || themeSounds[_type] == null )
         {
             Debug.LogWarning( $"{_type} is not registered" );
-            return;
+            return null;
         }
 
         AudioClip clip = themeSounds[_type][_sound];
         if ( clip == null )
         {
             Debug.LogWarning( $"{_sound} is not registered" );
-            return;
+            return null;
         }
 
         SoundChannel channel = channels.Spawn();
         channel.Play( clip );
+
+        return channel;
     }
 
     public void Play( PlayerSound _sound, PlayerType _type = PlayerType.Default )
