@@ -138,7 +138,9 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
+        ++player.UnattackableCount;
         dodgeInfo.cooldown.SetMax();
+
         dodgeInfo.duration.Max = dodgeInfo.range / dodgeInfo.moveSpeed;
         dodgeInfo.duration.SetMax();
 
@@ -161,6 +163,7 @@ public class PlayerMovement : MonoBehaviour
 
         if ( dodgeInfo.duration.IsZero )
         {
+            --player.UnattackableCount;
             rigid2D.isKinematic = false;
         }
     }

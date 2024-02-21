@@ -82,9 +82,9 @@ public class Weapon : MonoBehaviour
 
         stat.repeatDelay.Current -= Time.deltaTime;
         stat.reloadDelay.Current -= Time.deltaTime;
-        if ( stat.isAllowKeyHold && receiver.IsAttackHolded && stat.repeatDelay.IsZero && stat.reloadDelay.IsZero )
+        if ( stat.isAllowKeyHold && receiver.IsAttackHolded )
         {
-            Fire();
+            TryFire();
         }
     }
     #endregion
@@ -99,8 +99,13 @@ public class Weapon : MonoBehaviour
         lookInfo.curAngle = transform.rotation.eulerAngles.z;
     }
 
-    private void Fire()
+    private void TryFire()
     {
+        if ( !stat.repeatDelay.IsZero || !stat.reloadDelay.IsZero || owner.UnattackableCount > 0 )
+        {
+            return;
+        }
+
         stat.repeatDelay.SetMax();
         if ( stat.magazine.IsZero )
         {
@@ -136,9 +141,9 @@ public class Weapon : MonoBehaviour
 
     private void OnAttackPress()
     {
-        if ( !stat.isAllowKeyHold && stat.repeatDelay.IsZero && stat.reloadDelay.IsZero )
+        if ( !stat.isAllowKeyHold )
         {
-            Fire();
+            TryFire();
         }
     }
 

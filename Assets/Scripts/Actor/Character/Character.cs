@@ -12,7 +12,6 @@ public class Character : Actor
     public CharacterData data;
     [SerializeField]
     private GameObject uiCanvas;
-    public Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
 
     private bool isFlipX;
     public bool IsFlipX
@@ -46,6 +45,9 @@ public class Character : Actor
     }
 
     public Weapon EquipWeapon { get; private set; }
+    public int UnattackableCount { get; set; }    // 0일때만 공격가능
+
+    public Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
 
     protected override void Awake()
     {
