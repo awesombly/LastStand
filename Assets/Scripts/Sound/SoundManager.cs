@@ -110,23 +110,25 @@ public class SoundManager : Singleton<SoundManager>
         return channel;
     }
 
-    public void Play( PlayerSound _sound, PlayerType _type = PlayerType.Default )
+    public SoundChannel Play( PlayerSound _sound, PlayerType _type = PlayerType.Default )
     {
         if ( !playerSounds.ContainsKey( _type ) || playerSounds[_type] == null )
         {
             Debug.LogWarning( $"{_type} is not registered" );
-            return;
+            return null;
         }
 
         AudioClip clip = playerSounds[_type][_sound];
         if ( clip == null )
         {
             Debug.LogWarning( $"{_sound} is not registered" );
-            return;
+            return null;
         }
 
         SoundChannel channel = channels.Spawn();
         channel.Play( clip );
+
+        return channel;
     }
     #endregion
 
