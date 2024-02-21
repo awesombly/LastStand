@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 1e02bdefcfd3cd7449008d57ac7f98b9
   m_currentHash:
     serializedVersion: 2
-    Hash: 004c118ccf1c8a025edd993c5f2eb0fe
+    Hash: 5bc7a6efa31ae131093f1dc53beb1d6e
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -89,7 +89,7 @@ MonoBehaviour:
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
-    - Sound_Interface
+    - Sound_Theme
     - Sound_Player
     - Sound_Prefab
   m_SchemaTemplates: []

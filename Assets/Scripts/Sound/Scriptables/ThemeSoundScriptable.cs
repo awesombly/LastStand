@@ -4,7 +4,7 @@ using UnityEngine;
 using static SoundManager;
 
 [CreateAssetMenu( fileName = "ThemeSound", menuName = "Scriptable Objects/ThemeSound" )]
-public class InterfaceSoundScriptable : ScriptableObject
+public class ThemeSoundScriptable : ScriptableObject
 {
     public enum ThemeType : byte
     {

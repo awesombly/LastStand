@@ -6,7 +6,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
-using static InterfaceSoundScriptable;
+using static ThemeSoundScriptable;
 using static PlayerSoundScriptable;
 
 public class SoundManager : Singleton<SoundManager>
@@ -44,7 +44,7 @@ public class SoundManager : Singleton<SoundManager>
                  channels = new WNS.ObjectPool<SoundChannel>( channel, transform );
         } );
 
-        LoadAssetsAsync<InterfaceSoundScriptable>( "Sound_Interface", ( InterfaceSoundScriptable _data ) => 
+        LoadAssetsAsync<ThemeSoundScriptable>( "Sound_Interface", ( ThemeSoundScriptable _data ) => 
         {
             if ( !themeSounds.ContainsKey( _data.type ) )
                  themeSounds.Add( _data.type, new SoundInfo<ThemeSound>() );
