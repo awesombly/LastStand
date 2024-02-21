@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Interface Sounds
+  m_Name: Theme Sounds
   m_EditorClassIdentifier: 
   m_GroupName: Interface Sounds
   m_Data:
@@ -18,19 +18,19 @@ MonoBehaviour:
   m_GUID: 4913e4a046dec99499a46f9e013bb652
   m_SerializeEntries:
   - m_GUID: 4e94f1be8a353394f9382cb4b64b7c6a
-    m_Address: Assets/Prefabs/Sound/BGM/InterfaceSound.asset
+    m_Address: InterfaceSound
     m_ReadOnly: 0
     m_SerializedLabels:
     - Sound_Interface
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6af02ce6030b30f4fac80f2ee1ba081b
-    m_Address: Assets/Prefabs/Sound/BGM/InterfaceSound 1.asset
+    m_Address: InterfaceSound 1
     m_ReadOnly: 0
     m_SerializedLabels:
     - Sound_Interface
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 13d80dfbad1434c42910e0d24216a6e2
-    m_Address: Assets/Prefabs/Sound/BGM/InterfaceSound 2.asset
+    m_Address: InterfaceSound 2
     m_ReadOnly: 0
     m_SerializedLabels:
     - Sound_Interface

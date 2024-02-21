@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using static SoundManager;
 
-[CreateAssetMenu( fileName = "InterfaceSound", menuName = "Scriptable Objects/InterfaceSound" )]
+[CreateAssetMenu( fileName = "ThemeSound", menuName = "Scriptable Objects/ThemeSound" )]
 public class InterfaceSoundScriptable : ScriptableObject
 {
-    public enum InterfaceType : byte
+    public enum ThemeType : byte
     {
         Default,
         Interface_1,
         Interface_2,
     }
 
-    public enum InterfaceSound : byte
+    public enum ThemeSound : byte
     {
         Login,
         Lobby,
@@ -27,13 +27,13 @@ public class InterfaceSoundScriptable : ScriptableObject
     }
 
     [System.Serializable]
-    public struct InterfaceData
+    public struct ThemeData
     {
-        public InterfaceSound soundType;
+        public ThemeSound soundType;
         public AudioClip clip;
     }
 
-    public InterfaceType type;
+    public ThemeType type;
     [SerializeField]
-    public List<InterfaceData> datas = new List<InterfaceData>();
+    public List<ThemeData> datas = new List<ThemeData>();
 }

@@ -18,19 +18,19 @@ MonoBehaviour:
   m_GUID: b974dc6a73b9b1047a9c97f5e6ac4d06
   m_SerializeEntries:
   - m_GUID: e02bdf778c0117040972c63316ec58ea
-    m_Address: Assets/Prefabs/Sound/Player/Default.asset
+    m_Address: Default
     m_ReadOnly: 0
     m_SerializedLabels:
     - Sound_Player
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 63db4dc7147350c428777007f60f92f6
-    m_Address: Assets/Prefabs/Sound/Player/Player 1.asset
+    m_Address: Player 1
     m_ReadOnly: 0
     m_SerializedLabels:
     - Sound_Player
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0913806a23b8a47448769623fcf0d113
-    m_Address: Assets/Prefabs/Sound/Player/Player 2.asset
+    m_Address: Player 2
     m_ReadOnly: 0
     m_SerializedLabels:
     - Sound_Player

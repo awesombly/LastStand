@@ -9,7 +9,6 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 using static InterfaceSoundScriptable;
 using static PlayerSoundScriptable;
 
-[RequireComponent( typeof( AudioSource ) )]
 public class SoundManager : Singleton<SoundManager>
 {
     private class SoundInfo<T> where T : System.Enum
@@ -24,9 +23,9 @@ public class SoundManager : Singleton<SoundManager>
         }
     }
 
-    private AudioSource channel;
-    private Dictionary<InterfaceType, SoundInfo<InterfaceSound>> interfaceSounds = new Dictionary<InterfaceType, SoundInfo<InterfaceSound>>();
-    private Dictionary<PlayerType,    SoundInfo<PlayerSound>>    playerSounds    = new Dictionary<PlayerType,    SoundInfo<PlayerSound>>();
+    private WNS.ObjectPool<SoundChannel> channels;
+    private Dictionary<ThemeType,  SoundInfo<ThemeSound>>  themeSounds  = new Dictionary<ThemeType,  SoundInfo<ThemeSound>>();
+    private Dictionary<PlayerType, SoundInfo<PlayerSound>> playerSounds = new Dictionary<PlayerType, SoundInfo<PlayerSound>>();
     // sfx.. misc.. 
 
     [Header( "Addressables" )]
@@ -39,17 +38,20 @@ public class SoundManager : Singleton<SoundManager>
     {
         base.Awake();
 
-        if ( !TryGetComponent( out channel ) )
-             Debug.LogError( "AudioSource is not found" );
+        LoadAssetsAsync<GameObject>( "Sound_Prefab", ( GameObject _data ) => 
+        {
+            if ( _data.TryGetComponent<SoundChannel>( out SoundChannel channel ) )
+                 channels = new WNS.ObjectPool<SoundChannel>( channel, transform );
+        } );
 
         LoadAssetsAsync<InterfaceSoundScriptable>( "Sound_Interface", ( InterfaceSoundScriptable _data ) => 
         {
-            if ( !interfaceSounds.ContainsKey( _data.type ) )
-                 interfaceSounds.Add( _data.type, new SoundInfo<InterfaceSound>() );
+            if ( !themeSounds.ContainsKey( _data.type ) )
+                 themeSounds.Add( _data.type, new SoundInfo<ThemeSound>() );
 
             foreach ( var data in _data.datas )
             {
-                interfaceSounds[_data.type].Add( data.soundType, data.clip );
+                themeSounds[_data.type].Add( data.soundType, data.clip );
             }
         } );
 
@@ -69,10 +71,10 @@ public class SoundManager : Singleton<SoundManager>
 
     public void Update()
     {
-        //if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
-        //{
-        //    Play( PlayerSound.Attack );
-        //}
+        if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
+        {
+            Play( ThemeSound.Login );
+        }
         //else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
         //{
         //    Play( PlayerSound.Dead );
@@ -85,22 +87,23 @@ public class SoundManager : Singleton<SoundManager>
     #endregion
 
     #region Play
-    public void Play( InterfaceSound _sound, InterfaceType _type = InterfaceType.Default )
+    public void Play( ThemeSound _sound, ThemeType _type = ThemeType.Default )
     {
-        if ( !interfaceSounds.ContainsKey( _type ) || interfaceSounds[_type] == null )
+        if ( !themeSounds.ContainsKey( _type ) || themeSounds[_type] == null )
         {
             Debug.LogWarning( $"{_type} is not registered" );
             return;
         }
 
-        AudioClip clip = interfaceSounds[_type][_sound];
+        AudioClip clip = themeSounds[_type][_sound];
         if ( clip == null )
         {
             Debug.LogWarning( $"{_sound} is not registered" );
             return;
         }
 
-        channel.PlayOneShot( clip );
+        SoundChannel channel = channels.Spawn();
+        channel.Play( clip );
     }
 
     public void Play( PlayerSound _sound, PlayerType _type = PlayerType.Default )
@@ -118,7 +121,8 @@ public class SoundManager : Singleton<SoundManager>
             return;
         }
 
-        channel.PlayOneShot( clip );
+        SoundChannel channel = channels.Spawn();
+        channel.Play( clip );
     }
     #endregion
 
@@ -154,6 +158,7 @@ public class SoundManager : Singleton<SoundManager>
                 return;
             }
 
+            totalCount += locationHandle.Result.Count;
             foreach ( IResourceLocation location in _handle.Result )
             {
                 AsyncOperationHandle<T> assetHandle = Addressables.LoadAssetAsync<T>( location );
@@ -172,8 +177,6 @@ public class SoundManager : Singleton<SoundManager>
                 };
             }
         };
-
-        totalCount += locationHandle.Result.Count;
     }
     #endregion
 }
