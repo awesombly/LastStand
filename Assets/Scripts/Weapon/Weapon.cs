@@ -141,7 +141,7 @@ public class Weapon : MonoBehaviour
         protocol.angle = angle;
         protocol.look = GameManager.LookAngle;
         protocol.owner = owner.Serial;
-        protocol.damage = owner.data.attackRate * bulletPrefab.stat.damage;
+        protocol.damage = owner.data.attackRate * bulletPrefab.data.damage;
         Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
 
         // 로컬 테스트용

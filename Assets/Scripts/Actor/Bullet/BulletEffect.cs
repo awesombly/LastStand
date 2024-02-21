@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class BulletEffect : MonoBehaviour
 {
-    [SerializeField]
-    private Poolable fireEffect;
-    [SerializeField]
-    private Poolable hitEffect;
-
     private void Awake()
     {
         Bullet bullet = GetComponent<Bullet>();
@@ -37,11 +32,11 @@ public class BulletEffect : MonoBehaviour
 
     private void OnFire( Bullet _bullet )
     {
-        SpawnEffect( fireEffect, _bullet.transform );
+        SpawnEffect( _bullet.data.fireEffect, _bullet.transform );
     }
 
     private void OnHit( Character _attacker, Character _defender, Bullet _bullet )
     {
-        SpawnEffect( hitEffect, _bullet.transform );
+        SpawnEffect( _bullet.data.hitEffect, _bullet.transform );
     }
 }

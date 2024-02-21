@@ -5,11 +5,6 @@ using UnityEngine;
 
 public class BulletSound : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerSoundScriptable.PlayerType playerType;
-    [SerializeField]
-    private float volume;
-
     private void Awake()
     {
         Bullet bullet = GetComponent<Bullet>();
@@ -19,13 +14,13 @@ public class BulletSound : MonoBehaviour
 
     private void OnFire( Bullet _bullet )
     {
-        SoundChannel channel = SoundManager.Inst.Play( PlayerSoundScriptable.PlayerSound.Attack, playerType );
-        channel.Volume = volume;
+        SoundChannel channel = SoundManager.Inst.Play( PlayerSoundScriptable.PlayerSound.Attack, _bullet.data.playerType );
+        channel.Volume = _bullet.data.volume;
     }
 
     private void OnHit( Character _attacker, Character _defender, Bullet _bullet )
     {
-        SoundChannel channel = SoundManager.Inst.Play( PlayerSoundScriptable.PlayerSound.Hit, playerType );
-        channel.Volume = volume;
+        SoundChannel channel = SoundManager.Inst.Play( PlayerSoundScriptable.PlayerSound.Hit, _bullet.data.playerType );
+        channel.Volume = _bullet.data.volume;
     }
 }

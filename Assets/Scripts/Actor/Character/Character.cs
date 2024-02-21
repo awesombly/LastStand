@@ -68,7 +68,7 @@ public class Character : Actor
             Debug.LogWarning( $"Actor is null. attacker:{_attacker}, bullet:{_bullet}" );
         }
 
-        Vector2 force = _bullet.stat.pushingPower * _bullet.transform.up;
+        Vector2 force = _bullet.data.pushingPower * _bullet.transform.up;
         Rigid2D.AddForce( force );
 
         Hp.Current -= _bullet.GetDamage();

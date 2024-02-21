@@ -6,16 +6,7 @@ using UnityEngine;
 
 public class Bullet : Actor
 {
-    [Serializable]
-    public struct StatInfo
-    {
-        public float moveSpeed;
-        public float damage;
-        public float range;
-        public float pushingPower;
-        public Global.StatusInt penetratePower;
-    }
-    public StatInfo stat;
+    public BulletSO data;
     private float lifeTime;
     private float totalDamage;
 
@@ -68,18 +59,18 @@ public class Bullet : Actor
             return;
         }
 
-        --stat.penetratePower.Current;
+        --data.penetratePower.Current;
         HitTarget( owner, defender );
 
         HIT_INFO protocol;
-        protocol.needRelease = stat.penetratePower.IsZero;
+        protocol.needRelease = data.penetratePower.IsZero;
         protocol.bullet = Serial;
         protocol.attacker = owner.Serial;
         protocol.defender = defender.Serial;
         protocol.hp = defender.Hp.Current;
         Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
 
-        if ( stat.penetratePower.IsZero )
+        if ( data.penetratePower.IsZero )
         {
             Release();
         }
@@ -95,9 +86,9 @@ public class Bullet : Actor
         transform.SetPositionAndRotation( _info.pos.To(), Quaternion.Euler( 0, 0, _info.angle - 90 ) );
 
         totalDamage = _info.damage;
-        lifeTime = stat.range / stat.moveSpeed;
-        stat.penetratePower.SetMax();
-        Rigid2D.velocity = transform.up * stat.moveSpeed;
+        lifeTime = data.range / data.moveSpeed;
+        data.penetratePower.SetMax();
+        Rigid2D.velocity = transform.up * data.moveSpeed;
 
         OnFire?.Invoke( this );
     }
