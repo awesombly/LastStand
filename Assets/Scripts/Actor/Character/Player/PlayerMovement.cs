@@ -26,6 +26,21 @@ public class PlayerMovement : MonoBehaviour
     }
     public MovementInfo moveInfo;
 
+    [Serializable]
+    public struct DodgeInfo
+    {
+        public bool useCollision;
+        public float moveSpeed;
+        public float range;
+        public Global.StatusFloat cooldown;
+        [HideInInspector]
+        public Global.StatusFloat duration;
+        [HideInInspector]
+        public Vector2 direction;
+    }
+    [SerializeField]
+    private DodgeInfo dodgeInfo;
+
     private Player player;
     private ActionReceiver receiver;
     private Rigidbody2D rigid2D;
@@ -38,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
         receiver = GetComponent<ActionReceiver>();
         rigid2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+
+        receiver.OnDodgeEvent += OnDodge;
+        dodgeInfo.duration.OnChangeCurrent += OnChangeDodgeDuration;
     }
 
     private void Update()
@@ -53,6 +71,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        dodgeInfo.duration.Current -= Time.deltaTime;
+        if ( dodgeInfo.duration.Current > 0f )
+        {
+            return;
+        }
+        dodgeInfo.cooldown.Current -= Time.deltaTime;
+
         if ( player.IsLocal )
         {
             moveInfo.moveVector = receiver.InputVector * player.data.moveSpeed;
@@ -105,5 +130,38 @@ public class PlayerMovement : MonoBehaviour
             moveInfo.prevAngle = GameManager.LookAngle;
         }
         #endregion
+    }
+
+    private void OnDodge()
+    {
+        if ( !dodgeInfo.cooldown.IsZero )
+        {
+            return;
+        }
+        dodgeInfo.cooldown.SetMax();
+        dodgeInfo.duration.Max = dodgeInfo.range / dodgeInfo.moveSpeed;
+        dodgeInfo.duration.SetMax();
+
+        bool isAFK = ( receiver.InputVector.sqrMagnitude == 0f );
+        dodgeInfo.direction = isAFK ? GameManager.MouseDirection : receiver.InputVector;
+
+        rigid2D.isKinematic = !dodgeInfo.useCollision;
+    }
+
+    private void OnChangeDodgeDuration( float _old, float _new )
+    {
+        float deltaTime = ( _old - _new );
+        if ( deltaTime <= 0f )
+        {
+            return;
+        }
+
+        Vector2 delta = dodgeInfo.direction * dodgeInfo.moveSpeed * deltaTime;
+        rigid2D.MovePosition( rigid2D.position + delta );
+
+        if ( dodgeInfo.duration.IsZero )
+        {
+            rigid2D.isKinematic = false;
+        }
     }
 }

@@ -13,6 +13,7 @@ public class ActionReceiver : MonoBehaviour
     public Action OnAttackPressEvent;
     public Action OnAttackReleaseEvent;
     public Action OnReloadEvent;
+    public Action OnDodgeEvent;
 
     #region InputSystem Callback
     private void OnMove( InputValue _value )
@@ -37,6 +38,11 @@ public class ActionReceiver : MonoBehaviour
     private void OnReload()
     {
         OnReloadEvent?.Invoke();
+    }
+
+    private void OnDodge()
+    {
+        OnDodgeEvent?.Invoke();
     }
     #endregion
 }

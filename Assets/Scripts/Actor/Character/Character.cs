@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Character : Actor
 {
+    [HideInInspector]
     public Global.StatusFloat Hp;
     public CharacterData data;
     [SerializeField]

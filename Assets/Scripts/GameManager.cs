@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public static Vector3 MouseWorldPos { get; private set; }
+    public static Vector2 MouseWorldPos { get; private set; }
+    public static Vector2 MouseDirection { get; private set; }
     public static float LookAngle { get; private set; }
 
     private static Player localPlayer;
@@ -44,6 +45,7 @@ public class GameManager : Singleton<GameManager>
         if ( !ReferenceEquals( LocalPlayer, null ) )
         {
             LookAngle = Global.GetAngle( LocalPlayer.transform.position, MouseWorldPos );
+            MouseDirection = ( MouseWorldPos - ( Vector2 )LocalPlayer.transform.position ).normalized;
         }
     }
 
