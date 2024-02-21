@@ -894,6 +894,7 @@ GameObject:
   - component: {fileID: 5448611838002548329}
   - component: {fileID: 1545854110191528812}
   - component: {fileID: 2563474753250107594}
+  - component: {fileID: 7511455465289832573}
   m_Layer: 6
   m_Name: PlayerM
   m_TagString: Untagged
@@ -1049,10 +1050,6 @@ MonoBehaviour:
     max: 0
   data: {fileID: 11400000, guid: 0c128d2c50c140742bbde51a827fee73, type: 2}
   uiCanvas: {fileID: 4485147776266488649}
-  allowSynkDistance: 1
-  allowSynkAngle: 10
-  allowSynkInterval:
-    max: 0.1
   nicknameUI: {fileID: 7039578495037849222}
   healthBar: {fileID: 2624294410744986534}
   healthLerpBar: {fileID: 3799612106825202292}
@@ -1205,6 +1202,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e99457fe9f61e40bfbc57f9af6e5fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7511455465289832573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487538481690052668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e120f9dc20f4194f8fafcf7aadb6953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncInfo:
+    distance: 1
+    angle: 10
+    interval:
+      max: 0.1
 --- !u!1 &7976187742649946540
 GameObject:
   m_ObjectHideFlags: 0

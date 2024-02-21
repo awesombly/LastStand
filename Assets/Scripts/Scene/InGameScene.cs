@@ -149,7 +149,7 @@ public class InGameScene : SceneBase
             Debug.LogWarning( "Player is null. serial:" + data.serial );
             return;
         }
-        player.LookAngle( data.angle );
+        player.ApplyLookAngle( data.angle );
     }
 
     private void AckHitActor( Packet _packet )

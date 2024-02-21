@@ -54,7 +54,7 @@ public class Character : Actor
         Hp.SetMax();
     }
 
-    public virtual void LookAngle( float _angle )
+    public virtual void ApplyLookAngle( float _angle )
     {
         bool prevFlipX = IsFlipX;
         IsFlipX = ( _angle < -90f || _angle > 90f );
