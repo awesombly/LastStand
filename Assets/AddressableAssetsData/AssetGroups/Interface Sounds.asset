@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Interface Sounds
+  m_EditorClassIdentifier: 
+  m_GroupName: Interface Sounds
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 4913e4a046dec99499a46f9e013bb652
+  m_SerializeEntries:
+  - m_GUID: 4e94f1be8a353394f9382cb4b64b7c6a
+    m_Address: Assets/Prefabs/Sound/BGM/InterfaceSound.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound_Interface
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6af02ce6030b30f4fac80f2ee1ba081b
+    m_Address: Assets/Prefabs/Sound/BGM/InterfaceSound 1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound_Interface
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13d80dfbad1434c42910e0d24216a6e2
+    m_Address: Assets/Prefabs/Sound/BGM/InterfaceSound 2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Sound_Interface
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: a299492f31ddeed45b114ccd93e27a83, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 856d3d9b56cc3b84ea3a6b296ad5c6b9, type: 2}
+    - {fileID: 11400000, guid: 1f5a9ba3cabc3f74fa429dfb92179d7b, type: 2}

@@ -9,17 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ddad8fc9121194db5449e9b2aabc59, type: 3}
-  m_Name: SoundData_
+  m_Script: {fileID: 11500000, guid: 4e265e8fc06d44243a6d6a39ae26950d, type: 3}
+  m_Name: Player 1
   m_EditorClassIdentifier: 
-  sounds:
-  - type: 0
-    clip: {fileID: 0}
-  - type: 1
-    clip: {fileID: 0}
-  - type: 6
-    clip: {fileID: 8300000, guid: 64795b87003c2324fa0814fbc336066c, type: 3}
-  - type: 7
+  type: 1
+  datas:
+  - soundType: 0
+    clip: {fileID: 8300000, guid: 14f24de2a9a70154e96297de25e2184c, type: 3}
+  - soundType: 1
     clip: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
-  - type: 8
+  - soundType: 2
     clip: {fileID: 8300000, guid: 291608b8d286e2a4580ff36324455ce2, type: 3}
