@@ -30,8 +30,6 @@ public class SoundManager : Singleton<SoundManager>
 
     [Header( "Addressables" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
-    private int totalCount = 0;
-    private int loadCount  = 0;
 
     #region Unity Callback
     protected override void Awake()
@@ -65,8 +63,6 @@ public class SoundManager : Singleton<SoundManager>
                 playerSounds[_data.type].Add( data.soundType, data.clip );
             }
         } );
-
-        StartCoroutine( ClearHandle() );
     }
 
     public void Update()
@@ -85,6 +81,19 @@ public class SoundManager : Singleton<SoundManager>
         //{
         //    Play( InterfaceSound.Login );
         //}
+    }
+
+    private void OnDestroy()
+    {
+        foreach ( var handle in handles )
+        {
+            if ( !handle.IsDone )
+                 Debug.LogWarning( $"The {handle.DebugName} operation is in progress" );
+
+            Addressables.Release( handle );
+        }
+
+        handles.Clear();
     }
     #endregion
 
@@ -133,20 +142,6 @@ public class SoundManager : Singleton<SoundManager>
     #endregion
 
     #region Addressable
-    private IEnumerator ClearHandle()
-    {
-        yield return YieldCache.WaitForSeconds( 5f );
-        yield return new WaitUntil( () => totalCount == loadCount );
-        foreach ( var handle in handles )
-        {
-            if ( !handle.IsDone )
-                 Debug.LogWarning( $"The {handle.DebugName} operation is in progress" );
-
-            Addressables.Release( handle );
-        }
-
-        handles.Clear();
-    }
 
     //private void LoadAssetsAsync<T>( string _lable, System.Action<T> _OnCompleted ) where T : Object
     //             => StartCoroutine( LoadAssetsAsyncCoroutine<T>( _lable, _OnCompleted ) );
@@ -164,7 +159,6 @@ public class SoundManager : Singleton<SoundManager>
                 return;
             }
 
-            totalCount += locationHandle.Result.Count;
             foreach ( IResourceLocation location in _handle.Result )
             {
                 AsyncOperationHandle<T> assetHandle = Addressables.LoadAssetAsync<T>( location );
@@ -172,7 +166,6 @@ public class SoundManager : Singleton<SoundManager>
 
                 assetHandle.Completed += ( AsyncOperationHandle<T> _handle ) =>
                 {
-                    loadCount++;
                     if ( _handle.Status != AsyncOperationStatus.Succeeded )
                     {
                         Debug.LogError( "Load Asset Async Failed" );

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ddad8fc9121194db5449e9b2aabc59, type: 3}
   m_Name: Theme 2
   m_EditorClassIdentifier: 
-  type: 0
+  type: 2
   datas:
   - soundType: 0
     clip: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
