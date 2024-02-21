@@ -96,7 +96,7 @@ public class InGameScene : SceneBase
     {
         var data = Global.FromJson<BULLET_INFO>( _packet );
         Bullet bullet = PoolManager.Inst.Get( data.prefab ) as Bullet;
-        bullet?.Init( data );
+        bullet?.Fire( data );
 
         Character owner = GameManager.Inst.GetActor( data.owner ) as Character;
         if ( !ReferenceEquals( owner, null ) && !owner.IsLocal
@@ -137,7 +137,7 @@ public class InGameScene : SceneBase
             Debug.LogWarning( "Player is null. serial:" + data.serial );
             return;
         }
-        player.EquipWeapon.reloadDelay.SetMax();
+        player.EquipWeapon.stat.reloadDelay.SetMax();
     }
 
     private void AckSynkLookAngle( Packet _packet )

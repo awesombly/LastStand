@@ -132,17 +132,18 @@ MonoBehaviour:
   bulletPrefab: {fileID: -2796159070604671697, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
   shotPoint: {fileID: 9035912363181180166}
   rotateCorrection: 90
-  ammo:
-    max: 18000
-  magazine:
-    max: 24
-  repeatDelay:
-    max: 0.06
-  reloadDelay:
-    max: 0.9
-  isAllowKeyHold: 1
-  shakeShotAngle: 18
-  lookAngleLerpSpeed: 30
-  magazineUI: {fileID: 0}
-  ammoUI: {fileID: 0}
-  reloadBar: {fileID: 0}
+  stat:
+    ammo:
+      max: 999
+    magazine:
+      max: 30
+    repeatDelay:
+      max: 0.06
+    reloadDelay:
+      max: 0.8
+    isAllowKeyHold: 1
+    shakeShotAngle: 18
+  lookInfo:
+    curAngle: 0
+    targetAngle: 0
+    lerpSpeed: 30

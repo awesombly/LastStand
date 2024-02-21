@@ -1,53 +1,41 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class Weapon : MonoBehaviour
 {
-    #region Base
-    [Header( "─ Base" )]
     [SerializeField]
     private Bullet bulletPrefab;
     [SerializeField]
     private Transform shotPoint;
     [SerializeField]
     private float rotateCorrection;
-    #endregion
 
-    #region Weapon Stat
-    [Header( "─ Weapon Stat" )]
-    [SerializeField]
-    private Global.StatusInt ammo;
-    [SerializeField]
-    private Global.StatusInt magazine;
-    [SerializeField]
-    private Global.StatusFloat repeatDelay;
-    public Global.StatusFloat reloadDelay;
-    [SerializeField]
-    private bool isAllowKeyHold;
-    [SerializeField]
-    private float shakeShotAngle;
-    #endregion
+    [Serializable]
+    public struct StatInfo
+    {
+        public Global.StatusInt ammo;
+        public Global.StatusInt magazine;
+        public Global.StatusFloat repeatDelay;
+        public Global.StatusFloat reloadDelay;
+        public bool isAllowKeyHold;
+        public float shakeShotAngle;
+    }
+    public StatInfo stat;
 
-    #region Use Not Local
-    private float curLookAngle;
-    private float targetLookAngle;
+    [Serializable]
+    public struct LookInfo
+    {
+        [HideInInspector]
+        public float curAngle;
+        [HideInInspector]
+        public float targetAngle;
+        public float lerpSpeed;
+    }
     [SerializeField]
-    private float lookAngleLerpSpeed;
-    #endregion
-
-    #region UI
-    [Header( "─ UI" )]
-    [SerializeField]
-    private TextMeshProUGUI magazineUI;
-    [SerializeField]
-    private TextMeshProUGUI ammoUI;
-    [SerializeField]
-    private Slider reloadBar;
-    #endregion
+    private LookInfo lookInfo;
 
     private Character owner;
     private ActionReceiver receiver;
@@ -60,10 +48,10 @@ public class Weapon : MonoBehaviour
             shotPoint = transform;
         }
 
-        ammo.SetMax();
-        magazine.SetMax();
-        repeatDelay.SetZero();
-        reloadDelay.SetZero();
+        stat.ammo.SetMax();
+        stat.magazine.SetMax();
+        stat.repeatDelay.SetZero();
+        stat.reloadDelay.SetZero();
     }
 
     private void OnEnable()
@@ -72,37 +60,29 @@ public class Weapon : MonoBehaviour
         receiver = GetComponentInParent<ActionReceiver>();
         receiver.OnAttackPressEvent += OnAttackPress;
         receiver.OnReloadEvent += OnReload;
+        stat.reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
 
-        //ammo.OnChangeCurrent += OnChangeAmmo;
-        ammoUI?.SetText( magazine.Max.ToString() );
-        reloadBar.gameObject.SetActive( false );
-        magazine.OnChangeCurrent += OnChangeMagazine;
-        reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
-
-        curLookAngle = targetLookAngle = transform.rotation.eulerAngles.z;
+        lookInfo.curAngle = lookInfo.targetAngle = transform.rotation.eulerAngles.z;
     }
 
     private void OnDisable()
     {
         receiver.OnAttackPressEvent -= OnAttackPress;
         receiver.OnReloadEvent -= OnReload;
-
-        //ammo.OnChangeCurrent -= OnChangeAmmo;
-        magazine.OnChangeCurrent -= OnChangeMagazine;
-        reloadDelay.OnChangeCurrent -= OnChangeReloadDelay;
+        stat.reloadDelay.OnChangeCurrent -= OnChangeReloadDelay;
     }
 
     private void Update()
     {
         if ( !owner.IsLocal )
         {
-            curLookAngle = Mathf.LerpAngle( curLookAngle, targetLookAngle, lookAngleLerpSpeed * Time.deltaTime );
-            transform.rotation = Quaternion.Euler( 0, 0, curLookAngle - 90 + rotateCorrection );
+            lookInfo.curAngle = Mathf.LerpAngle( lookInfo.curAngle, lookInfo.targetAngle, lookInfo.lerpSpeed * Time.deltaTime );
+            transform.rotation = Quaternion.Euler( 0, 0, lookInfo.curAngle - 90 + rotateCorrection );
         }
 
-        repeatDelay.Current -= Time.deltaTime;
-        reloadDelay.Current -= Time.deltaTime;
-        if ( isAllowKeyHold && receiver.IsAttackHolded && repeatDelay.IsZero && reloadDelay.IsZero )
+        stat.repeatDelay.Current -= Time.deltaTime;
+        stat.reloadDelay.Current -= Time.deltaTime;
+        if ( stat.isAllowKeyHold && receiver.IsAttackHolded && stat.repeatDelay.IsZero && stat.reloadDelay.IsZero )
         {
             Fire();
         }
@@ -115,23 +95,23 @@ public class Weapon : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler( 0, 0, _angle - 90 + rotateCorrection );
         }
-        targetLookAngle = _angle;
-        curLookAngle = transform.rotation.eulerAngles.z;
+        lookInfo.targetAngle = _angle;
+        lookInfo.curAngle = transform.rotation.eulerAngles.z;
     }
 
     private void Fire()
     {
-        repeatDelay.SetMax();
-        if ( magazine.IsZero )
+        stat.repeatDelay.SetMax();
+        if ( stat.magazine.IsZero )
         {
             OnReload();
             return;
         }
 
-        --magazine.Current;
+        --stat.magazine.Current;
 
         float angle = Global.GetAngle( shotPoint.position, GameManager.MouseWorldPos );
-        angle += Random.Range( -shakeShotAngle * 0.5f, shakeShotAngle * 0.5f );
+        angle += UnityEngine.Random.Range( -stat.shakeShotAngle * 0.5f, stat.shakeShotAngle * 0.5f );
         
         BULLET_INFO protocol;
         protocol.isLocal = false;
@@ -149,14 +129,14 @@ public class Weapon : MonoBehaviour
         {
             Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
             bullet.IsLocal = true;
-            bullet.Init( protocol );
+            bullet.Fire( protocol );
             return;
         }
     }
 
     private void OnAttackPress()
     {
-        if ( !isAllowKeyHold && repeatDelay.IsZero && reloadDelay.IsZero )
+        if ( !stat.isAllowKeyHold && stat.repeatDelay.IsZero && stat.reloadDelay.IsZero )
         {
             Fire();
         }
@@ -164,39 +144,26 @@ public class Weapon : MonoBehaviour
 
     private void OnReload()
     {
-        if ( magazine.IsMax || ammo.IsZero || reloadDelay.Current > 0f )
+        if ( stat.magazine.IsMax || stat.ammo.IsZero || stat.reloadDelay.Current > 0f )
         {
             return;
         }
 
-        reloadDelay.Max = Mathf.Max( reloadDelay.Max, 0.001f );
-        reloadDelay.SetMax();
+        stat.reloadDelay.Max = Mathf.Max( stat.reloadDelay.Max, 0.001f );
+        stat.reloadDelay.SetMax();
         SERIAL_INFO protocol;
         protocol.serial = owner.Serial;
         Network.Inst.Send( PacketType.SYNK_RELOAD_REQ, protocol );
     }
 
-    private void OnChangeAmmo( int _old, int _new )
-    {
-        ammoUI?.SetText( _new.ToString() );
-    }
-
-    private void OnChangeMagazine( int _old, int _new )
-    {
-        magazineUI?.SetText( _new.ToString() );
-    }
-
     private void OnChangeReloadDelay( float _old, float _new )
     {
         // 재장전 완료
-        if ( reloadDelay.IsZero )
+        if ( stat.reloadDelay.IsZero )
         {
-            int oldMag = magazine.Current;
-            magazine.Current = Mathf.Clamp( magazine.Current + ammo.Current, 0, magazine.Max );
-            ammo.Current -= ( magazine.Current - oldMag );
+            int oldMag = stat.magazine.Current;
+            stat.magazine.Current = Mathf.Clamp( stat.magazine.Current + stat.ammo.Current, 0, stat.magazine.Max );
+            stat.ammo.Current -= ( stat.magazine.Current - oldMag );
         }
-
-        reloadBar.gameObject.SetActive( !reloadDelay.IsZero );
-        reloadBar.value = ( reloadDelay.Max - reloadDelay.Current ) / reloadDelay.Max;
     }
 }

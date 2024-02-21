@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,30 @@ public class GameManager : Singleton<GameManager>
 {
     public static Vector3 MouseWorldPos { get; private set; }
     public static float LookAngle { get; private set; }
-    public static Player LocalPlayer { get; set; }
+
+    private static Player localPlayer;
+    public static Player LocalPlayer
+    {
+        get => localPlayer;
+        set
+        {
+            if ( localPlayer == value )
+            {
+                return;
+            }
+
+            Player oldPlayer = localPlayer;
+            localPlayer = value;
+            OnChangeLocalPlayer?.Invoke( oldPlayer, localPlayer );
+        }
+    }
 
     [SerializeField]
     private GameMangerSO data;
 
     private Dictionary<uint/*Serial*/, Actor> actors = new Dictionary<uint, Actor>();
+
+    public static event Action<Player/*old*/, Player/*new*/> OnChangeLocalPlayer;
 
     protected override void Awake()
     {

@@ -77,7 +77,7 @@ public class Bullet : Actor
     }
     #endregion
 
-    public void Init( BULLET_INFO _info )
+    public void Fire( BULLET_INFO _info )
     {
         IsLocal = _info.isLocal;
         Serial = _info.serial;
