@@ -49,6 +49,8 @@ public enum PacketType : ushort
     SYNK_RELOAD_ACK,               // 재장전 동기화 응답
     SYNK_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
     SYNK_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
+    SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
+    SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
     HIT_ACTOR_REQ,                 // 피격 동기화 요청
     HIT_ACTOR_ACK,                 // 피격 동기화 응답
     INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
@@ -175,6 +177,15 @@ public struct LOOK_INFO : IProtocol
 {
     public uint serial;
     public float angle;
+}
+
+public struct DODGE_INFO : IProtocol
+{
+    public uint serial;
+    public bool useCollision;
+    public VECTOR2 pos;
+    public VECTOR2 dir;
+    public float dur;
 }
 
 public struct CHAT_MESSAGE : IProtocol

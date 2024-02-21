@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     private ActionReceiver receiver;
     private Rigidbody2D rigid2D;
     private Animator animator;
+    private CapsuleCollider2D capsuleCollider;
 
     #region Unity Callback
     private void Awake()
@@ -53,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         receiver = GetComponent<ActionReceiver>();
         rigid2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
 
         receiver.OnDodgeEvent += OnDodge;
         dodgeInfo.duration.OnChangeCurrent += OnChangeDodgeDuration;
@@ -132,22 +134,39 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+    public void DodgeAction( bool _useCollision, Vector2 _direction, float _duration )
+    {
+        ++player.UnattackableCount;
+        dodgeInfo.cooldown.SetMax();
+
+        dodgeInfo.duration.Max = _duration;
+        dodgeInfo.duration.SetMax();
+
+        dodgeInfo.direction = _direction;
+
+        capsuleCollider.isTrigger = !_useCollision;
+    }
+
     private void OnDodge()
     {
         if ( !dodgeInfo.cooldown.IsZero )
         {
             return;
         }
-        ++player.UnattackableCount;
-        dodgeInfo.cooldown.SetMax();
-
-        dodgeInfo.duration.Max = dodgeInfo.range / dodgeInfo.moveSpeed;
-        dodgeInfo.duration.SetMax();
 
         bool isAFK = ( receiver.InputVector.sqrMagnitude == 0f );
-        dodgeInfo.direction = isAFK ? GameManager.MouseDirection : receiver.InputVector;
+        Vector2 direction = isAFK ? GameManager.MouseDirection : receiver.InputVector;
+        float duration = dodgeInfo.range / dodgeInfo.moveSpeed;
 
-        rigid2D.isKinematic = !dodgeInfo.useCollision;
+        DodgeAction( dodgeInfo.useCollision, direction, duration );
+
+        DODGE_INFO protocol;
+        protocol.serial = player.Serial;
+        protocol.useCollision = dodgeInfo.useCollision;
+        protocol.pos = new VECTOR2( rigid2D.position );
+        protocol.dir = new VECTOR2( direction );
+        protocol.dur = duration;
+        Network.Inst.Send( PacketType.SYNC_DODGE_ACTION_REQ, protocol );
     }
 
     private void OnChangeDodgeDuration( float _old, float _new )
@@ -164,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
         if ( dodgeInfo.duration.IsZero )
         {
             --player.UnattackableCount;
-            rigid2D.isKinematic = false;
+            capsuleCollider.isTrigger = false;
         }
     }
 }

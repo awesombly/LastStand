@@ -4,16 +4,17 @@
 
 void InGame::Bind()
 {
-	ProtocolSystem::Inst().Regist( PACKET_CHAT_MSG,		 AckChatMessage );
-	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,		 AckExitStage );
-	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,		 AckSpawnActor );
-	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,	 AckSpawnBullet );
-	ProtocolSystem::Inst().Regist( REMOVE_ACTOR_REQ,	 AckRemoveActor );
-	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,	 AckSynkMovement );
-	ProtocolSystem::Inst().Regist( SYNK_RELOAD_REQ,		 AckSynkReload );
-	ProtocolSystem::Inst().Regist( SYNK_LOOK_ANGLE_REQ,	 AckSynkLook );
-	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,		 AckHitActor );
-	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ, AckInGameLoadData );
+	ProtocolSystem::Inst().Regist( PACKET_CHAT_MSG,			AckChatMessage );
+	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,			AckExitStage );
+	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,			AckSpawnActor );
+	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,		AckSpawnBullet );
+	ProtocolSystem::Inst().Regist( REMOVE_ACTOR_REQ,		AckRemoveActor );
+	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,		AckSynkMovement );
+	ProtocolSystem::Inst().Regist( SYNK_RELOAD_REQ,			AckSynkReload );
+	ProtocolSystem::Inst().Regist( SYNK_LOOK_ANGLE_REQ,		AckSynkLook );
+	ProtocolSystem::Inst().Regist( SYNC_DODGE_ACTION_REQ,	AckSyncDodgeAction );
+	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,			AckHitActor );
+	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ,	AckInGameLoadData );
 }
 
 void InGame::AckChatMessage( const Packet& _packet )
@@ -149,6 +150,18 @@ void InGame::AckSynkLook( const Packet& _packet )
 	}
 
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_LOOK_ANGLE_ACK, data ) );
+}
+
+void InGame::AckSyncDodgeAction( const Packet& _packet )
+{
+	DODGE_INFO data = FromJson<DODGE_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_DODGE_ACTION_ACK, data ) );
 }
 
 void InGame::AckHitActor( const Packet& _packet )

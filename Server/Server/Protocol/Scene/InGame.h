@@ -17,6 +17,7 @@ private:
 	static void AckSynkMovement( const Packet& _packet );
 	static void AckSynkReload( const Packet& _packet );
 	static void AckSynkLook( const Packet& _packet );
+	static void AckSyncDodgeAction( const Packet& _packet );
 	static void AckHitActor( const Packet& _packet );
 	static void AckInGameLoadData( const Packet& _packet );
 

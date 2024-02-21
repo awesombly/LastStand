@@ -69,6 +69,11 @@ public class Player : Character
         movement.moveInfo.moveVector = _velocity;
     }
 
+    public void AckDodgeAction( bool _useCollision, Vector2 _direction, float _duration )
+    {
+        movement.DodgeAction( _useCollision, _direction, _duration );
+    }
+
     private void OnDead( Character _dead, Character _attacker )
     {
         Debug.Log( "Player dead." );

@@ -24,6 +24,7 @@ public class InGameScene : SceneBase
         ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK,      AckSynkMovement );
         ProtocolSystem.Inst.Regist( SYNK_RELOAD_ACK,        AckSynkReload );
         ProtocolSystem.Inst.Regist( SYNK_LOOK_ANGLE_ACK,    AckSynkLookAngle );
+        ProtocolSystem.Inst.Regist( SYNC_DODGE_ACTION_ACK,  AckSyncDodgeAction );
         ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,          AckHitActor );
     }
 
@@ -150,6 +151,19 @@ public class InGameScene : SceneBase
             return;
         }
         player.ApplyLookAngle( data.angle );
+    }
+
+    private void AckSyncDodgeAction( Packet _packet )
+    {
+        var data = Global.FromJson<DODGE_INFO>( _packet );
+        Player player = GameManager.Inst.GetActor( data.serial ) as Player;
+        if ( player == null )
+        {
+            Debug.LogWarning( "Player is null. serial:" + data.serial );
+            return;
+        }
+        player.transform.position = data.pos.To();
+        player.AckDodgeAction( data.useCollision, data.dir.To(), data.dur );
     }
 
     private void AckHitActor( Packet _packet )
