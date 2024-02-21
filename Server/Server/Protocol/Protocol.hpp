@@ -41,12 +41,12 @@ enum PacketType : u_short
 	REMOVE_ACTOR_REQ,              // Actor 제거 요청
 	REMOVE_ACTOR_ACK,              // Actor 제거 응답
 
-	SYNK_MOVEMENT_REQ,             // Actor 이동 동기화 요청
-	SYNK_MOVEMENT_ACK,             // Actor 이동 동기화 응답
-	SYNK_RELOAD_REQ,               // 재장전 동기화 요청
-	SYNK_RELOAD_ACK,               // 재장전 동기화 응답
-	SYNK_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
-	SYNK_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
+	SYNC_MOVEMENT_REQ,             // Actor 이동 동기화 요청
+	SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
+	SYNC_RELOAD_REQ,               // 재장전 동기화 요청
+	SYNC_RELOAD_ACK,               // 재장전 동기화 응답
+	SYNC_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
+	SYNC_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
 	SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
 	SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
 	HIT_ACTOR_REQ,                 // 피격 동기화 요청

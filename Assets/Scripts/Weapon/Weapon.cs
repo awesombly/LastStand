@@ -158,7 +158,7 @@ public class Weapon : MonoBehaviour
         stat.reloadDelay.SetMax();
         SERIAL_INFO protocol;
         protocol.serial = owner.Serial;
-        Network.Inst.Send( PacketType.SYNK_RELOAD_REQ, protocol );
+        Network.Inst.Send( PacketType.SYNC_RELOAD_REQ, protocol );
     }
 
     private void OnChangeReloadDelay( float _old, float _new )

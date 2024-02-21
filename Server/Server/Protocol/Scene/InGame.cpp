@@ -9,9 +9,9 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,			AckSpawnActor );
 	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,		AckSpawnBullet );
 	ProtocolSystem::Inst().Regist( REMOVE_ACTOR_REQ,		AckRemoveActor );
-	ProtocolSystem::Inst().Regist( SYNK_MOVEMENT_REQ,		AckSynkMovement );
-	ProtocolSystem::Inst().Regist( SYNK_RELOAD_REQ,			AckSynkReload );
-	ProtocolSystem::Inst().Regist( SYNK_LOOK_ANGLE_REQ,		AckSynkLook );
+	ProtocolSystem::Inst().Regist( SYNC_MOVEMENT_REQ,		AckSyncMovement );
+	ProtocolSystem::Inst().Regist( SYNC_RELOAD_REQ,			AckSyncReload );
+	ProtocolSystem::Inst().Regist( SYNC_LOOK_ANGLE_REQ,		AckSyncLook );
 	ProtocolSystem::Inst().Regist( SYNC_DODGE_ACTION_REQ,	AckSyncDodgeAction );
 	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,			AckHitActor );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ,	AckInGameLoadData );
@@ -106,7 +106,7 @@ void InGame::AckRemoveActor( const Packet& _packet )
 	Global::Memory::SafeDelete( actor );
 }
 
-void InGame::AckSynkMovement( const Packet& _packet )
+void InGame::AckSyncMovement( const Packet& _packet )
 {
 	MOVEMENT_INFO data = FromJson<MOVEMENT_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
@@ -125,10 +125,10 @@ void InGame::AckSynkMovement( const Packet& _packet )
 	actor->pos = data.pos;
 	actor->vel = data.vel;
 
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_MOVEMENT_ACK, data ) );
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_MOVEMENT_ACK, data ) );
 }
 
-void InGame::AckSynkReload( const Packet& _packet )
+void InGame::AckSyncReload( const Packet& _packet )
 {
 	SERIAL_INFO data = FromJson<SERIAL_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
@@ -137,10 +137,10 @@ void InGame::AckSynkReload( const Packet& _packet )
 		return;
 	}
 
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_RELOAD_ACK, data ) );
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_RELOAD_ACK, data ) );
 }
 
-void InGame::AckSynkLook( const Packet& _packet )
+void InGame::AckSyncLook( const Packet& _packet )
 {
 	LookInfo data = FromJson<LOOK_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
@@ -149,7 +149,7 @@ void InGame::AckSynkLook( const Packet& _packet )
 		return;
 	}
 
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNK_LOOK_ANGLE_ACK, data ) );
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_LOOK_ANGLE_ACK, data ) );
 }
 
 void InGame::AckSyncDodgeAction( const Packet& _packet )

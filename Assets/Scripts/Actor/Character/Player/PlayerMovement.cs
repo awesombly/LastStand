@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         if ( player.IsLocal )
         {
             moveInfo.moveVector = receiver.InputVector * player.data.moveSpeed;
-            ReqSynkMovement();
+            ReqSyncMovement();
         }
 
         rigid2D.MovePosition( rigid2D.position + moveInfo.moveVector * Time.fixedDeltaTime );
@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
     }
 #endregion
 
-    private void ReqSynkMovement()
+    private void ReqSyncMovement()
     {
         bool isStopped = !moveInfo.prevIsSleep && rigid2D.IsSleeping();
         float velocityInterval = Vector2.Distance( moveInfo.moveVector, moveInfo.prevMoveVector );
@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
             protocol.serial = player.Serial;
             protocol.pos = new VECTOR2( rigid2D.position );
             protocol.vel = new VECTOR2( moveInfo.moveVector );
-            Network.Inst.Send( PacketType.SYNK_MOVEMENT_REQ, protocol );
+            Network.Inst.Send( PacketType.SYNC_MOVEMENT_REQ, protocol );
         }
     }
 
@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
             LOOK_INFO protocol;
             protocol.serial = player.Serial;
             protocol.angle = GameManager.LookAngle;
-            Network.Inst.Send( PacketType.SYNK_LOOK_ANGLE_REQ, protocol );
+            Network.Inst.Send( PacketType.SYNC_LOOK_ANGLE_REQ, protocol );
             moveInfo.prevAngle = GameManager.LookAngle;
         }
         #endregion

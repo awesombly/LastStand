@@ -21,9 +21,9 @@ public class InGameScene : SceneBase
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,       AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,       AckSpawnBullet );
         ProtocolSystem.Inst.Regist( REMOVE_ACTOR_ACK,       AckRemoveActor );
-        ProtocolSystem.Inst.Regist( SYNK_MOVEMENT_ACK,      AckSynkMovement );
-        ProtocolSystem.Inst.Regist( SYNK_RELOAD_ACK,        AckSynkReload );
-        ProtocolSystem.Inst.Regist( SYNK_LOOK_ANGLE_ACK,    AckSynkLookAngle );
+        ProtocolSystem.Inst.Regist( SYNC_MOVEMENT_ACK,      AckSyncMovement );
+        ProtocolSystem.Inst.Regist( SYNC_RELOAD_ACK,        AckSyncReload );
+        ProtocolSystem.Inst.Regist( SYNC_LOOK_ANGLE_ACK,    AckSyncLookAngle );
         ProtocolSystem.Inst.Regist( SYNC_DODGE_ACTION_ACK,  AckSyncDodgeAction );
         ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,          AckHitActor );
     }
@@ -122,14 +122,14 @@ public class InGameScene : SceneBase
         actor?.Release();
     }
 
-    private void AckSynkMovement( Packet _packet )
+    private void AckSyncMovement( Packet _packet )
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );
         Actor actor = GameManager.Inst.GetActor( data.serial );
         actor?.SetMovement( data.pos.To(), data.vel.To() );
     }
 
-    private void AckSynkReload( Packet _packet )
+    private void AckSyncReload( Packet _packet )
     {
         var data = Global.FromJson<SERIAL_INFO>( _packet );
         Player player = GameManager.Inst.GetActor( data.serial ) as Player;
@@ -141,7 +141,7 @@ public class InGameScene : SceneBase
         player.EquipWeapon.stat.reloadDelay.SetMax();
     }
 
-    private void AckSynkLookAngle( Packet _packet )
+    private void AckSyncLookAngle( Packet _packet )
     {
         var data = Global.FromJson<LOOK_INFO>( _packet );
         Player player = GameManager.Inst.GetActor( data.serial ) as Player;
