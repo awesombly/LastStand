@@ -1,25 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [RequireComponent( typeof( AudioSource ) )]
 public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
 {
     #region Variables
     public WNS.ObjectPool<AudioChannel> pool { get; set; }
-    public AudioSource channel;
+    public AudioSource audioSource;
     private bool isPlaying;
 
     #region Properties
     public AudioClip Clip
     {
-        get => channel.clip;
-        set => channel.clip = value;
+        get => audioSource.clip;
+        set => audioSource.clip = value;
     }
 
     public float Volume
     {
-        get => channel.volume;
+        get => audioSource.volume;
         set
         {
             if ( value < 0f || value > 1f )
@@ -27,8 +28,14 @@ public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
                 Debug.LogWarning( "The volume must have a value between 0 and 1" );
                 return;
             }
-            channel.volume = value;
+            audioSource.volume = value;
         }
+    }
+
+    public AudioMixerGroup MixerGroup
+    {
+        get => audioSource.outputAudioMixerGroup;
+        set => audioSource.outputAudioMixerGroup = value;
     }
     #endregion
     #endregion
@@ -36,7 +43,7 @@ public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
     #region Unity Callback
     private void Awake()
     {
-        if ( !TryGetComponent( out channel ) )
+        if ( !TryGetComponent( out audioSource ) )
              Debug.LogError( "No AudioSource Component were found for the AudioChannel" );
     }
 
@@ -45,20 +52,21 @@ public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
         if ( !isPlaying )
              return;
 
-        if ( !channel.isPlaying )
+        if ( !audioSource.isPlaying )
              pool.Despawn( this );
     }
 
     private void OnEnable()
     {
-        channel.Stop();
-        channel.outputAudioMixerGroup = null;
-        channel.volume = 1f;
-        channel.clip = null;
-        isPlaying    = false;
+        audioSource.Stop();
+        audioSource.outputAudioMixerGroup = null;
+        audioSource.volume = 1f;
+        audioSource.clip = null;
+
+        transform.position = Vector3.zero;
+        isPlaying = false;
     }
     #endregion
-
 
     public void Play()
     {
@@ -68,13 +76,13 @@ public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
             return;
         }
 
-        if ( channel.clip == null )
+        if ( audioSource.clip == null )
         {
             Debug.LogWarning( $"The SoundClip is not registered to the AudioSource" );
             return;
         }
 
-        channel.Play();
+        audioSource.Play();
         isPlaying = true;
     }
 }

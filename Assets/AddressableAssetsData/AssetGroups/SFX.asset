@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Audio Prefab
+  m_Name: SFX
   m_EditorClassIdentifier: 
-  m_GroupName: Audio Prefab
+  m_GroupName: SFX
   m_Data:
     m_SerializedData: []
-  m_GUID: e9f58b7ae8830aa4b9d96c51bce4f54d
+  m_GUID: 4913e4a046dec99499a46f9e013bb652
   m_SerializeEntries:
-  - m_GUID: 72c602f1e0d397746bb557006016cfef
-    m_Address: Audio Channel
+  - m_GUID: d07b70a5d37988e45abe734fc3cbc964
+    m_Address: SFX_Default_Audio
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Audio Prefab
+    - SFX_Default
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a299492f31ddeed45b114ccd93e27a83, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: db96b4d50da0cef41b4182403ef30358, type: 2}
-    - {fileID: 11400000, guid: 54bfe15025831354abf515ce0c5c339c, type: 2}
+    - {fileID: 11400000, guid: 856d3d9b56cc3b84ea3a6b296ad5c6b9, type: 2}
+    - {fileID: 11400000, guid: 1f5a9ba3cabc3f74fa429dfb92179d7b, type: 2}

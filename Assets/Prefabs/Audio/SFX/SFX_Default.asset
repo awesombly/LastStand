@@ -10,12 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1ddad8fc9121194db5449e9b2aabc59, type: 3}
-  m_Name: Theme_Default
+  m_Name: SFX_Default
   m_EditorClassIdentifier: 
-  Login: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
-  Lobby: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
-  InGame: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
-  MouseClick: {fileID: 0}
-  MouseHover: {fileID: 0}
-  MenuEntry: {fileID: 0}
-  MenuExit: {fileID: 0}
+  MouseClick: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}
+  MouseHover: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}
+  MenuEntry: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}
+  MenuExit: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}

@@ -10,6 +10,7 @@ using UnityEngine.Audio;
 
 public class AudioManager : Singleton<AudioManager>
 {
+    private enum MixerType : int { Master = 0, BGM, SFX, }
     private class AudioClipGroup<T, U> where T : System.Enum where U : System.Enum
     {
         public class ClipGroup
@@ -56,8 +57,9 @@ public class AudioManager : Singleton<AudioManager>
     }
 
     private AudioMixer mixer;
+    private AudioMixerGroup[] mixerGroup;
     private WNS.ObjectPool<AudioChannel> channels;
-    private AudioClipGroup<ThemeType,  ThemeSound>  themeClips  = new AudioClipGroup<ThemeType,  ThemeSound>();
+    private AudioClipGroup<SFXType,  SFXSound>      sfxClips    = new AudioClipGroup<SFXType,  SFXSound>();
     private AudioClipGroup<PlayerType, PlayerSound> playerClips = new AudioClipGroup<PlayerType, PlayerSound>();
     // sfx.. misc.. 
 
@@ -69,23 +71,25 @@ public class AudioManager : Singleton<AudioManager>
     {
         base.Awake();
 
-        LoadAssetsAsync( "Audio Mixer",  ( AudioMixer _data ) => mixer = _data );
-        LoadAssetsAsync( "Audio Prefab", ( GameObject _data ) => 
+        LoadAssetsAsync( "Audio_Mixer",  ( AudioMixer _data ) => 
         {
-            if ( _data.TryGetComponent( out AudioChannel channel ) )
-                 channels = new WNS.ObjectPool<AudioChannel>( channel, transform );
+            mixer = _data;
+            mixerGroup = mixer.FindMatchingGroups( "Master" );
+        } );
+        
+
+        LoadAssetsAsync( "Audio_Prefab", ( GameObject _data ) => 
+        {
+            if ( _data.TryGetComponent( out AudioChannel _channel ) )
+                 channels = new WNS.ObjectPool<AudioChannel>( _channel, transform );
         } );
 
-        LoadAssetsAsync( "Theme_Default", ( AudioDataTheme _data ) => 
+        LoadAssetsAsync( "SFX_Default", ( AudioDataSFX _data ) => 
         {
-            themeClips.Add( ThemeType.Default, ThemeSound.Login,  _data.Login  );
-            themeClips.Add( ThemeType.Default, ThemeSound.Lobby,  _data.Lobby  );
-            themeClips.Add( ThemeType.Default, ThemeSound.InGame, _data.InGame );
-            
-            themeClips.Add( ThemeType.Default, ThemeSound.MouseClick, _data.MouseClick );
-            themeClips.Add( ThemeType.Default, ThemeSound.MouseHover, _data.MouseHover );
-            themeClips.Add( ThemeType.Default, ThemeSound.MenuEntry,  _data.MenuEntry  );
-            themeClips.Add( ThemeType.Default, ThemeSound.MenuExit,   _data.MenuExit   );
+            sfxClips.Add( SFXType.Default, SFXSound.MouseClick, _data.MouseClick );
+            sfxClips.Add( SFXType.Default, SFXSound.MouseHover, _data.MouseHover );
+            sfxClips.Add( SFXType.Default, SFXSound.MenuEntry,  _data.MenuEntry  );
+            sfxClips.Add( SFXType.Default, SFXSound.MenuExit,   _data.MenuExit   );
         } );
 
         LoadAssetsAsync( "Player_Default", ( AudioDataPlayer _data ) =>
@@ -100,7 +104,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
         {
-            Play( ThemeType.Default, ThemeSound.Login );
+            Play( SFXType.Default, SFXSound.MenuEntry );
         }
     }
 
@@ -132,32 +136,39 @@ public class AudioManager : Singleton<AudioManager>
         return channel;
     }
 
-    /// <summary> Play with no effect </summary>
-    public void Play( ThemeType _type, ThemeSound _sound, float _volume = 1f )
+    /// <summary> Play with fade effect </summary>
+    public void Play( SFXType _type, SFXSound _sound, float _start, float _end, float _t )
     {
-        AudioChannel channel = GetChannel( themeClips, _type, _sound, _volume );
-        channel.Play();
+        AudioChannel channel = GetChannel( sfxClips, _type, _sound, 0f );
+        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
+        StartCoroutine( Fade( channel, _start, _end, _t ) );
     }
 
-    /// <summary> Play with fade effect </summary>
-    public void Play( ThemeType _type, ThemeSound _sound, float _start, float _end, float _t )
+    /// <summary> Play with no effect </summary>
+    public void Play( SFXType _type, SFXSound _sound, float _volume = 1f )
     {
-        AudioChannel channel = GetChannel( themeClips, _type, _sound, 0f );
-        StartCoroutine( Fade( channel, _start, _end, _t ) );
+        AudioChannel channel = GetChannel( sfxClips, _type, _sound, _volume );
+        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
+        channel.Play();
     }
 
     /// <summary> Play with no effect </summary>
     public void Play( PlayerType _type, PlayerSound _sound, float _volume = 1f )
     {
         AudioChannel channel = GetChannel( playerClips, _type, _sound, _volume );
+        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
         channel.Play();
     }
 
     /// <summary> Play the sound at the _point </summary>
     public void Play( PlayerType _type, PlayerSound _sound, Vector3 _point, float _volume = 1f )
     {
-        if ( playerClips.TryGetClip( out AudioClip clip, _type, _sound ) )
-             AudioSource.PlayClipAtPoint( clip, _point, _volume );
+        AudioChannel channel = GetChannel( playerClips, _type, _sound, _volume );
+        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
+        channel.transform.position = _point;
+        channel.Play();
+        // if ( playerClips.TryGetClip( out AudioClip clip, _type, _sound ) )
+        //      AudioSource.PlayClipAtPoint( clip, _point, _volume );
     }
     #endregion
 

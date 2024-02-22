@@ -90,10 +90,10 @@ MonoBehaviour:
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
-    - Audio Mixer
-    - Audio Prefab
+    - Audio_Mixer
+    - Audio_Prefab
     - Player_Default
-    - Theme_Default
+    - SFX_Default
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: f8eee6873ea57f94897630835dfd5668, type: 2}

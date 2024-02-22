@@ -21,7 +21,7 @@ MonoBehaviour:
     m_Address: Audio Mixer
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Audio Mixer
+    - Audio_Mixer
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a299492f31ddeed45b114ccd93e27a83, type: 2}

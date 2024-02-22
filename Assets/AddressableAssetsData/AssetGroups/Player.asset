@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  m_GroupName: Audio Player
+  m_GroupName: Player
   m_Data:
     m_SerializedData: []
   m_GUID: b974dc6a73b9b1047a9c97f5e6ac4d06
   m_SerializeEntries:
   - m_GUID: 54763bc2314af264baaa3d840d5db80f
-    m_Address: Player_Default_Sound
+    m_Address: Player_Default_Audio
     m_ReadOnly: 0
     m_SerializedLabels:
     - Player_Default
