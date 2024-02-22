@@ -6,12 +6,11 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
-using System.Runtime.Remoting.Channels;
 
 
+public enum MixerType : int { Master = 0, BGM, SFX, }
 public class AudioManager : Singleton<AudioManager>
 {
-    private enum MixerType : int { Master = 0, BGM, SFX, }
     private class AudioClipGroup<T, U> where T : System.Enum where U : System.Enum
     {
         public class ClipGroup
@@ -81,11 +80,20 @@ public class AudioManager : Singleton<AudioManager>
         enabledChannels.Clear();
     }
 
+    public void MixerDecibelControl( MixerType _type, float _volume )
+    {
+        string groupName = _type == MixerType.BGM ? "BGM" :
+                           _type == MixerType.SFX ? "SFX" : "Master";
+
+        float volume = ( 60f * _volume ) - 60f;
+        mixer.SetFloat( groupName, volume < -60f ? -80f : volume );
+    }
+
     #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
-
+        
         LoadAssetsAsync( "Audio_Mixer",  ( AudioMixer _data ) => 
         {
             mixer = _data;
@@ -121,24 +129,25 @@ public class AudioManager : Singleton<AudioManager>
         } );
     }
 
-    //public void Update()
-    //{
-    //    if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
-    //    {
-    //        Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
-    //    }
-    //    else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
-    //    {
-    //        Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
-    //    }
-    //    else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
-    //    {
-    //        AllStop();
-    //    }
-    //}
+    public void Update()
+    {
+        if ( Input.GetKeyDown( KeyCode.Alpha5 ) )
+        {
+            Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
+        }
+        else if ( Input.GetKeyDown( KeyCode.Alpha6 ) )
+        {
+            Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
+        }
+        else if ( Input.GetKeyDown( KeyCode.Alpha7 ) )
+        {
+            AllStop();
+        }
+    }
 
     private void OnDestroy()
     {
+        AllStop();
         foreach ( var handle in handles )
         {
             if ( !handle.IsDone )
@@ -152,7 +161,7 @@ public class AudioManager : Singleton<AudioManager>
     #endregion
 
     #region Play
-    private AudioChannel GetChannel<T, U>( in AudioClipGroup<T, U> _clips, T _type, U _sound, float _volume ) where T : System.Enum where U : System.Enum
+    private AudioChannel GetChannel<T, U>( AudioClipGroup<T, U> _clips, T _type, U _sound, float _volume ) where T : System.Enum where U : System.Enum
     {
         AudioChannel channel = null;
         if ( _clips.TryGetClip( out AudioClip clip, _type, _sound ) )
