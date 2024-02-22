@@ -4,10 +4,9 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 [RequireComponent( typeof( AudioSource ) )]
-public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
+public class AudioChannel : MonoBehaviour
 {
     #region Variables
-    public WNS.ObjectPool<AudioChannel> pool { get; set; }
     public AudioSource audioSource;
     private bool isPlaying;
 
@@ -16,6 +15,12 @@ public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
     {
         get => audioSource.clip;
         set => audioSource.clip = value;
+    }
+
+    public bool Loop
+    {
+        get => audioSource.loop;
+        set => audioSource.loop = value;
     }
 
     public float Volume
@@ -46,7 +51,7 @@ public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
              return;
 
         if ( !audioSource.isPlaying )
-             pool.Despawn( this );
+             AudioManager.Inst.Despawn( this );
     }
 
     private void OnEnable()

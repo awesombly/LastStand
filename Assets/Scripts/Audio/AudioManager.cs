@@ -6,6 +6,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
+using System.Runtime.Remoting.Channels;
 
 
 public class AudioManager : Singleton<AudioManager>
@@ -55,18 +56,30 @@ public class AudioManager : Singleton<AudioManager>
             sounds[_type].Add( _soundType, _clip );
         }
     }
-
-    [SerializeField]
     private AudioMixer mixer;
-    [SerializeField]
     private AudioMixerGroup[] mixerGroup;
     private WNS.ObjectPool<AudioChannel> channels;
-    private AudioClipGroup<BGMType,  BGMSound>      bgmClips    = new AudioClipGroup<BGMType,  BGMSound>();
-    private AudioClipGroup<SFXType,  SFXSound>      sfxClips    = new AudioClipGroup<SFXType,  SFXSound>();
+    private LinkedList<AudioChannel> enabledChannels = new LinkedList<AudioChannel>();
+    private AudioClipGroup<BGMType,    BGMSound>    bgmClips    = new AudioClipGroup<BGMType,    BGMSound>();
+    private AudioClipGroup<SFXType,    SFXSound>    sfxClips    = new AudioClipGroup<SFXType,    SFXSound>();
     private AudioClipGroup<PlayerType, PlayerSound> playerClips = new AudioClipGroup<PlayerType, PlayerSound>();
 
     [Header( "Addressable" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
+
+    public void Despawn( AudioChannel _channel )
+    {
+        enabledChannels.Remove( _channel );
+        channels.Despawn( _channel );
+    }
+
+    public void AllStop()
+    {
+        foreach ( var channel in enabledChannels )
+            channels.Despawn( channel );
+
+        enabledChannels.Clear();
+    }
 
     #region Unity Callback
     protected override void Awake()
@@ -114,6 +127,14 @@ public class AudioManager : Singleton<AudioManager>
         {
             Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
         }
+        else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
+        {
+            Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
+        }
+        else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
+        {
+            AllStop();
+        }
     }
 
     private void OnDestroy()
@@ -139,6 +160,8 @@ public class AudioManager : Singleton<AudioManager>
             channel = channels.Spawn();
             channel.Clip   = clip;
             channel.Volume = _volume;
+
+            enabledChannels.AddLast( channel );
         }
 
         return channel;
@@ -146,18 +169,20 @@ public class AudioManager : Singleton<AudioManager>
 
     #region BGM
     /// <summary> Play with no effect </summary>
-    public void Play( BGMType _type, BGMSound _sound, float _volume = 1f )
+    public void Play( BGMType _type, BGMSound _sound, float _volume = 1f, bool _loop = true )
     {
         AudioChannel channel = GetChannel( bgmClips, _type, _sound, _volume );
         channel.MixerGroup = mixerGroup[( int )MixerType.BGM];
+        channel.Loop = _loop;
         channel.Play();
     }
 
     /// <summary> Play with fade effect </summary>
-    public void Play( BGMType _type, BGMSound _sound, float _start, float _end, float _t )
+    public void Play( BGMType _type, BGMSound _sound, float _start, float _end, float _t, bool _loop = true )
     {
         AudioChannel channel = GetChannel( bgmClips, _type, _sound, 0f );
         channel.MixerGroup = mixerGroup[( int )MixerType.BGM];
+        channel.Loop = _loop;
         StartCoroutine( Fade( channel, _start, _end, _t ) );
     }
     #endregion
