@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Prefab Sound
+  m_Name: Audio Prefab
   m_EditorClassIdentifier: 
-  m_GroupName: Prefab Sound
+  m_GroupName: Audio Prefab
   m_Data:
     m_SerializedData: []
   m_GUID: e9f58b7ae8830aa4b9d96c51bce4f54d
   m_SerializeEntries:
   - m_GUID: 72c602f1e0d397746bb557006016cfef
-    m_Address: SoundChannel
+    m_Address: Audio Channel
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Sound_Prefab
+    - Audio Prefab
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a299492f31ddeed45b114ccd93e27a83, type: 2}

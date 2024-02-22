@@ -14,7 +14,7 @@ public class BulletSound : MonoBehaviour
 
     private void OnFire( Bullet _bullet )
     {
-        SoundManager.Inst.Play( _bullet.data.playerType, PlayerSound.Attack );
+        //SoundManager.Inst.Play( _bullet.data.playerType, PlayerSound.Attack );
 
         //SoundChannel channel = SoundManager.Inst.Play( PlayerSoundScriptable.PlayerSound.Attack, _bullet.data.playerType );
         //channel.Volume = _bullet.data.volume;
@@ -22,7 +22,7 @@ public class BulletSound : MonoBehaviour
 
     private void OnHit( Character _attacker, Character _defender, Bullet _bullet )
     {
-        SoundManager.Inst.Play( _bullet.data.playerType, PlayerSound.Hit );
+        //SoundManager.Inst.Play( _bullet.data.playerType, PlayerSound.Hit );
 
         //SoundChannel channel = SoundManager.Inst.Play( PlayerSoundScriptable.PlayerSound.Hit, _bullet.data.playerType );
         //channel.Volume = _bullet.data.volume;

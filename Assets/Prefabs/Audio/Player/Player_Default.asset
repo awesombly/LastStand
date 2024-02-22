@@ -10,13 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e265e8fc06d44243a6d6a39ae26950d, type: 3}
-  m_Name: Player 1
+  m_Name: Player_Default
   m_EditorClassIdentifier: 
-  type: 1
-  datas:
-  - soundType: 0
-    clip: {fileID: 8300000, guid: 14f24de2a9a70154e96297de25e2184c, type: 3}
-  - soundType: 1
-    clip: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
-  - soundType: 2
-    clip: {fileID: 8300000, guid: 291608b8d286e2a4580ff36324455ce2, type: 3}
+  Attack: {fileID: 8300000, guid: 14f24de2a9a70154e96297de25e2184c, type: 3}
+  Hit: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
+  Dead: {fileID: 8300000, guid: 291608b8d286e2a4580ff36324455ce2, type: 3}

@@ -10,30 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Player Sounds
+  m_Name: Player
   m_EditorClassIdentifier: 
-  m_GroupName: Player Sounds
+  m_GroupName: Audio Player
   m_Data:
     m_SerializedData: []
   m_GUID: b974dc6a73b9b1047a9c97f5e6ac4d06
   m_SerializeEntries:
-  - m_GUID: e02bdf778c0117040972c63316ec58ea
-    m_Address: Default
+  - m_GUID: 54763bc2314af264baaa3d840d5db80f
+    m_Address: Player_Default_Sound
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Sound_Player
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 63db4dc7147350c428777007f60f92f6
-    m_Address: Player 1
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Sound_Player
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0913806a23b8a47448769623fcf0d113
-    m_Address: Player 2
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Sound_Player
+    - Player_Default
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a299492f31ddeed45b114ccd93e27a83, type: 2}

@@ -10,30 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Theme Sounds
+  m_Name: Theme
   m_EditorClassIdentifier: 
-  m_GroupName: Theme Sounds
+  m_GroupName: Audio Theme
   m_Data:
     m_SerializedData: []
   m_GUID: 4913e4a046dec99499a46f9e013bb652
   m_SerializeEntries:
-  - m_GUID: 4e94f1be8a353394f9382cb4b64b7c6a
-    m_Address: Default
+  - m_GUID: 8a617cf70d8d7284e80de89863e70f3e
+    m_Address: Theme_Default_Sound
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Sound_Theme
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6af02ce6030b30f4fac80f2ee1ba081b
-    m_Address: ThemeSound 1
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Sound_Theme
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 13d80dfbad1434c42910e0d24216a6e2
-    m_Address: ThemeSound 2
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Sound_Theme
+    - Theme_Default
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a299492f31ddeed45b114ccd93e27a83, type: 2}

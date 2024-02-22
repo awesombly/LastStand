@@ -5,49 +5,95 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
+using UnityEngine.Audio;
+
 
 public class SoundManager : Singleton<SoundManager>
 {
-    private SoundGroup<ThemeType,  ThemeSound>  themeGroup;
-    private SoundGroup<PlayerType, PlayerSound> playerGroup;
+    public class AudioClipGroup<T, U> where T : System.Enum where U : System.Enum
+    {
+        public class ClipGroup
+        {
+            private Dictionary<U, AudioClip> datas = new Dictionary<U, AudioClip>();
+
+            public AudioClip this[U type] => datas.ContainsKey( type ) ? datas[type] : null;
+
+            public void Add( U _sound, AudioClip _clip )
+            {
+                datas.Add( _sound, _clip );
+            }
+        }
+
+        private Dictionary<T, ClipGroup> sounds = new Dictionary<T, ClipGroup>();
+        private ClipGroup this[T type] => sounds.ContainsKey( type ) ? sounds[type] : null;
+
+        public bool TryGetClip( out AudioClip _clip, T _type, U _soundType )
+        {
+            _clip = null;
+            if ( !sounds.ContainsKey( _type ) || sounds[_type] == null )
+            {
+                Debug.LogWarning( $"{_type} is not registered" );
+                return false;
+            }
+
+            AudioClip clip = sounds[_type][_soundType];
+            if ( clip == null )
+            {
+                Debug.LogWarning( $"{_soundType} is not registered" );
+                return false;
+            }
+
+            _clip = clip;
+            return true;
+        }
+
+        public void Add( T _type, U _soundType, AudioClip _clip )
+        {
+            if ( !sounds.ContainsKey( _type ) )
+                sounds.Add( _type, new ClipGroup() );
+
+            sounds[_type].Add( _soundType, _clip );
+        }
+    }
+
+    private AudioMixer mixer;
+    private WNS.ObjectPool<AudioChannel> channels;
+    private AudioClipGroup<ThemeType,  ThemeSound>  themeClips  = new AudioClipGroup<ThemeType,  ThemeSound>();
+    private AudioClipGroup<PlayerType, PlayerSound> playerClips = new AudioClipGroup<PlayerType, PlayerSound>();
     // sfx.. misc.. 
 
-    [Header( "Addressables" )]
+    [Header( "Addressable" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
-
-    private void CreateChannelGroup<T, U>( out SoundGroup<T, U> _group, string _ObjName ) where T : System.Enum where U : System.Enum
-    {
-        GameObject obj = new GameObject();
-        obj.transform.parent = transform;
-        obj.transform.localPosition = Vector3.zero;
-        obj.transform.localRotation = Quaternion.identity;
-        obj.transform.localScale    = Vector3.one;
-        obj.name = _ObjName;
-
-        // 기본 설정
-        AudioSource source = obj.AddComponent<AudioSource>();
-        source.playOnAwake = false;
-
-        _group = new SoundGroup<T, U>( source );
-    }
 
     #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
 
-        CreateChannelGroup( out themeGroup, "Theme Group" );
-        LoadAssetsAsync<ThemeSoundScriptable>( "Sound_Theme", ( ThemeSoundScriptable _data ) => 
+        LoadAssetsAsync( "Audio Mixer",  ( AudioMixer _data ) => mixer = _data );
+        LoadAssetsAsync( "Audio Prefab", ( GameObject _data ) => 
         {
-            foreach ( var data in _data.datas )
-                themeGroup.Add( _data.type, data.soundType, data.clip );
+            if ( _data.TryGetComponent( out AudioChannel channel ) )
+                 channels = new WNS.ObjectPool<AudioChannel>( channel, transform );
         } );
 
-        CreateChannelGroup( out playerGroup, "Player Group" );
-        LoadAssetsAsync<PlayerSoundScriptable>( "Sound_Player", ( PlayerSoundScriptable _data ) => 
+        LoadAssetsAsync( "Theme_Default", ( AudioDataTheme _data ) => 
         {
-            foreach ( var data in _data.datas )
-                playerGroup.Add( _data.type, data.soundType, data.clip );
+            themeClips.Add( ThemeType.Default, ThemeSound.Login,  _data.Login  );
+            themeClips.Add( ThemeType.Default, ThemeSound.Lobby,  _data.Lobby  );
+            themeClips.Add( ThemeType.Default, ThemeSound.InGame, _data.InGame );
+            
+            themeClips.Add( ThemeType.Default, ThemeSound.MouseClick, _data.MouseClick );
+            themeClips.Add( ThemeType.Default, ThemeSound.MouseHover, _data.MouseHover );
+            themeClips.Add( ThemeType.Default, ThemeSound.MenuEntry,  _data.MenuEntry  );
+            themeClips.Add( ThemeType.Default, ThemeSound.MenuExit,   _data.MenuExit   );
+        } );
+
+        LoadAssetsAsync( "Player_Default", ( AudioDataPlayer _data ) =>
+        {
+            playerClips.Add( PlayerType.Default, PlayerSound.Attack, _data.Attack );
+            playerClips.Add( PlayerType.Default, PlayerSound.Dead,   _data.Dead   );
+            playerClips.Add( PlayerType.Default, PlayerSound.Hit,    _data.Hit    );
         } );
     }
 
@@ -56,10 +102,6 @@ public class SoundManager : Singleton<SoundManager>
         if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
         {
             Play( ThemeType.Default, ThemeSound.Login );
-        }
-        else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
-        {
-            PlayOneShot( ThemeType.Default, ThemeSound.Lobby );
         }
     }
 
@@ -80,23 +122,29 @@ public class SoundManager : Singleton<SoundManager>
     #region Play
     public void Play( ThemeType _type, ThemeSound _sound )
     {
-        themeGroup.Play( _type, _sound );
+        Debug.Log( mixer.outputAudioMixerGroup.name );
+        // if ( themeClips.TryGetClip( out AudioClip clip, _type, _sound ) )
+        // {
+        //     var channel = channels.Spawn();
+        // 
+        // 
+        // }
     }
 
-    public void PlayOneShot( ThemeType _type, ThemeSound _sound )
-    {
-        themeGroup.PlayOneShot( _type, _sound );
-    }
+    //public void PlayOneShot( ThemeType _type, ThemeSound _sound )
+    //{
+    //    themeGroup.PlayOneShot( _type, _sound );
+    //}
 
-    public void Play( PlayerType _type, PlayerSound _sound )
-    {
-        playerGroup.Play( _type, _sound );
-    }
+    //public void Play( PlayerType _type, PlayerSound _sound )
+    //{
+    //    playerGroup.Play( _type, _sound );
+    //}
 
-    public void PlayOneShot( PlayerType _type, PlayerSound _sound )
-    {
-        playerGroup.Play( _type, _sound );
-    }
+    //public void PlayOneShot( PlayerType _type, PlayerSound _sound )
+    //{
+    //    playerGroup.Play( _type, _sound );
+    //}
     #endregion
 
     #region Addressable
