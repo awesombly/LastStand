@@ -139,22 +139,6 @@ public class AudioManager : Singleton<AudioManager>
         IsLoading = false;
     }
 
-    public void Update()
-    {
-        if ( Input.GetKeyDown( KeyCode.Alpha5 ) )
-        {
-            Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
-        }
-        else if ( Input.GetKeyDown( KeyCode.Alpha6 ) )
-        {
-            Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
-        }
-        else if ( Input.GetKeyDown( KeyCode.Alpha7 ) )
-        {
-            AllStop();
-        }
-    }
-
     private void OnDestroy()
     {
         AllStop();
