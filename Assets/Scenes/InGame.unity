@@ -3679,7 +3679,6 @@ GameObject:
   - component: {fileID: 1643772087}
   - component: {fileID: 1643772086}
   - component: {fileID: 1643772088}
-  - component: {fileID: 1643772089}
   m_Layer: 0
   m_Name: Scene
   m_TagString: Untagged
@@ -3729,21 +3728,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pause: {fileID: 546839803}
---- !u!114 &1643772089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1643772085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b84ef8187e05ea54186feb570a9d219d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  magazineText: {fileID: 792683594}
-  ammoText: {fileID: 1329154387}
-  reloadBar: {fileID: 1266043751251268228}
 --- !u!1 &1649144237
 GameObject:
   m_ObjectHideFlags: 0
@@ -4605,14 +4589,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1039667069601666744, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
-      propertyPath: ammoUI
-      value: 
-      objectReference: {fileID: 1329154387}
-    - target: {fileID: 1039667069601666744, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
-      propertyPath: magazineUI
-      value: 
-      objectReference: {fileID: 792683594}
     - target: {fileID: 1206451277689522960, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4641,22 +4617,19 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9185096530725094759, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
+      propertyPath: ammoText
+      value: 
+      objectReference: {fileID: 1329154387}
+    - target: {fileID: 9185096530725094759, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
+      propertyPath: magazineText
+      value: 
+      objectReference: {fileID: 792683594}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
---- !u!114 &1266043751251268228 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1657714690436139336, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
-  m_PrefabInstance: {fileID: 1266043751251268227}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
