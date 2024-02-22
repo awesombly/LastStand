@@ -56,12 +56,14 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
+    [SerializeField]
     private AudioMixer mixer;
+    [SerializeField]
     private AudioMixerGroup[] mixerGroup;
     private WNS.ObjectPool<AudioChannel> channels;
+    private AudioClipGroup<BGMType,  BGMSound>      bgmClips    = new AudioClipGroup<BGMType,  BGMSound>();
     private AudioClipGroup<SFXType,  SFXSound>      sfxClips    = new AudioClipGroup<SFXType,  SFXSound>();
     private AudioClipGroup<PlayerType, PlayerSound> playerClips = new AudioClipGroup<PlayerType, PlayerSound>();
-    // sfx.. misc.. 
 
     [Header( "Addressable" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
@@ -76,7 +78,6 @@ public class AudioManager : Singleton<AudioManager>
             mixer = _data;
             mixerGroup = mixer.FindMatchingGroups( "Master" );
         } );
-        
 
         LoadAssetsAsync( "Audio_Prefab", ( GameObject _data ) => 
         {
@@ -84,7 +85,14 @@ public class AudioManager : Singleton<AudioManager>
                  channels = new WNS.ObjectPool<AudioChannel>( _channel, transform );
         } );
 
-        LoadAssetsAsync( "SFX_Default", ( AudioDataSFX _data ) => 
+        LoadAssetsAsync( "Theme_Default", ( AudioDataBGM _data ) =>
+        {
+            bgmClips.Add( BGMType.Default, BGMSound.Login,  _data.Login );
+            bgmClips.Add( BGMType.Default, BGMSound.Lobby,  _data.Lobby );
+            bgmClips.Add( BGMType.Default, BGMSound.InGame, _data.InGame );
+        } );
+
+        LoadAssetsAsync( "Theme_Default", ( AudioDataSFX _data ) => 
         {
             sfxClips.Add( SFXType.Default, SFXSound.MouseClick, _data.MouseClick );
             sfxClips.Add( SFXType.Default, SFXSound.MouseHover, _data.MouseHover );
@@ -104,7 +112,7 @@ public class AudioManager : Singleton<AudioManager>
     {
         if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
         {
-            Play( SFXType.Default, SFXSound.MenuEntry );
+            Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
         }
     }
 
@@ -136,14 +144,25 @@ public class AudioManager : Singleton<AudioManager>
         return channel;
     }
 
-    /// <summary> Play with fade effect </summary>
-    public void Play( SFXType _type, SFXSound _sound, float _start, float _end, float _t )
+    #region BGM
+    /// <summary> Play with no effect </summary>
+    public void Play( BGMType _type, BGMSound _sound, float _volume = 1f )
     {
-        AudioChannel channel = GetChannel( sfxClips, _type, _sound, 0f );
-        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
-        StartCoroutine( Fade( channel, _start, _end, _t ) );
+        AudioChannel channel = GetChannel( bgmClips, _type, _sound, _volume );
+        channel.MixerGroup = mixerGroup[( int )MixerType.BGM];
+        channel.Play();
     }
 
+    /// <summary> Play with fade effect </summary>
+    public void Play( BGMType _type, BGMSound _sound, float _start, float _end, float _t )
+    {
+        AudioChannel channel = GetChannel( bgmClips, _type, _sound, 0f );
+        channel.MixerGroup = mixerGroup[( int )MixerType.BGM];
+        StartCoroutine( Fade( channel, _start, _end, _t ) );
+    }
+    #endregion
+
+    #region SFX
     /// <summary> Play with no effect </summary>
     public void Play( SFXType _type, SFXSound _sound, float _volume = 1f )
     {
@@ -151,7 +170,9 @@ public class AudioManager : Singleton<AudioManager>
         channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
         channel.Play();
     }
+    #endregion
 
+    #region Character
     /// <summary> Play with no effect </summary>
     public void Play( PlayerType _type, PlayerSound _sound, float _volume = 1f )
     {
@@ -170,6 +191,7 @@ public class AudioManager : Singleton<AudioManager>
         // if ( playerClips.TryGetClip( out AudioClip clip, _type, _sound ) )
         //      AudioSource.PlayClipAtPoint( clip, _point, _volume );
     }
+    #endregion
     #endregion
 
     #region Effect

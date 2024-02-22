@@ -21,15 +21,8 @@ public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
     public float Volume
     {
         get => audioSource.volume;
-        set
-        {
-            if ( value < 0f || value > 1f )
-            {
-                Debug.LogWarning( "The volume must have a value between 0 and 1" );
-                return;
-            }
-            audioSource.volume = value;
-        }
+        set => audioSource.volume = value < 0f ? 0f :
+                                    value > 1f ? 1f : value;
     }
 
     public AudioMixerGroup MixerGroup
