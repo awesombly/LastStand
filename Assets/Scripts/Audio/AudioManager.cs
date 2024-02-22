@@ -8,9 +8,9 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
 
 
+public enum MixerType : int { Master = 0, BGM, SFX, }
 public class AudioManager : Singleton<AudioManager>
 {
-    private enum MixerType : int { Master = 0, BGM, SFX, }
     private class AudioClipGroup<T, U> where T : System.Enum where U : System.Enum
     {
         public class ClipGroup
@@ -80,6 +80,15 @@ public class AudioManager : Singleton<AudioManager>
         enabledChannels.Clear();
     }
 
+    public void MixerDecibelControl( MixerType _type, float _volume )
+    {
+        string groupName = _type == MixerType.BGM ? "BGM" :
+                           _type == MixerType.SFX ? "SFX" : "Master";
+
+        float volume = ( 60f * _volume ) - 60f;
+        mixer.SetFloat( groupName, volume < -60f ? -80f : volume );
+    }
+
     #region Unity Callback
     protected override void Awake()
     {
@@ -120,24 +129,25 @@ public class AudioManager : Singleton<AudioManager>
         } );
     }
 
-    //public void Update()
-    //{
-    //    if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
-    //    {
-    //        Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
-    //    }
-    //    else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
-    //    {
-    //        Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
-    //    }
-    //    else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
-    //    {
-    //        AllStop();
-    //    }
-    //}
+    public void Update()
+    {
+        if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
+        {
+            Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
+        }
+        else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
+        {
+            Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
+        }
+        else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
+        {
+            AllStop();
+        }
+    }
 
     private void OnDestroy()
     {
+        AllStop();
         foreach ( var handle in handles )
         {
             if ( !handle.IsDone )
