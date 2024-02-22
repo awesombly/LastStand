@@ -131,15 +131,15 @@ public class AudioManager : Singleton<AudioManager>
 
     public void Update()
     {
-        if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
+        if ( Input.GetKeyDown( KeyCode.Alpha5 ) )
         {
             Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
         }
-        else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
+        else if ( Input.GetKeyDown( KeyCode.Alpha6 ) )
         {
             Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
         }
-        else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
+        else if ( Input.GetKeyDown( KeyCode.Alpha7 ) )
         {
             AllStop();
         }
