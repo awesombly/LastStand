@@ -62,6 +62,11 @@ public class PlayerMovement : MonoBehaviour
         dodgeInfo.duration.OnChangeCurrent += OnChangeDodgeDuration;
     }
 
+    private void OnEnable()
+    {
+        moveInfo.moveVector = Vector2.zero;
+    }
+
     private void Update()
     {
         if ( !player.IsLocal )

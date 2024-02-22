@@ -143,6 +143,7 @@ public struct PLAYER_INFO : IProtocol
 {
     public ACTOR_INFO actorInfo;
     public string nickname;
+    public float angle;
 }
 
 public struct BULLET_INFO : IProtocol

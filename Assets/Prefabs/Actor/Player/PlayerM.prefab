@@ -1224,7 +1224,7 @@ MonoBehaviour:
     interval:
       max: 0.1
   dodgeInfo:
-    useCollision: 1
+    useCollision: 0
     moveSpeed: 25
     range: 5.5
     cooldown:
