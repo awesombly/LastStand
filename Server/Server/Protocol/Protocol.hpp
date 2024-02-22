@@ -207,12 +207,14 @@ typedef struct PlayerInfo
 public:
 	ACTOR_INFO actorInfo;
 	std::string nickname;
+	float angle;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
 		ar( CEREAL_NVP( actorInfo ) );
 		ar( CEREAL_NVP( nickname ) );
+		ar( CEREAL_NVP( angle ) );
 	}
 } PLAYER_INFO;
 typedef struct BulletInfo

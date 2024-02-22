@@ -156,6 +156,13 @@ void InGame::AckSyncLook( const Packet& _packet )
 		return;
 	}
 
+	if ( _packet.session->player == nullptr )
+	{
+		Debug.LogError( "Player is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	_packet.session->player->angle = data.angle;
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_LOOK_ANGLE_ACK, data ) );
 }
 
@@ -242,6 +249,11 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 		}
 
 		_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, *session->player ) );
+
+		LOOK_INFO protocol;
+		protocol.serial = session->player->actorInfo.serial;
+		protocol.angle = session->player->angle;
+		_packet.session->Send( UPacket( SYNC_LOOK_ANGLE_ACK, protocol ) );
 	}
 
 	// 기존 데이터 스폰후 등록

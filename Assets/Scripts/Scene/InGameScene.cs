@@ -79,6 +79,7 @@ public class InGameScene : SceneBase
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.actorInfo.hp = playerPrefab.data.maxHp;
         protocol.nickname = string.Empty;
+        protocol.angle = 0f;
 
         Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
     }
