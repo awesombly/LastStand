@@ -55,6 +55,7 @@ public class Network : Singleton<Network>
 
         var protocolSystem = ProtocolSystem.Inst;
         var packetSystem   = PacketSystem.Inst;
+        var audioManager   = AudioManager.Inst;
 
         StartCoroutine( ConfirmDisconnect() );
         StartCoroutine( ReconnectProcess() );
