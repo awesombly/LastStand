@@ -22,6 +22,8 @@ public class Player : Character
 
     public Vector2 Direction { get; set; }
 
+    private List<Weapon> Weapons { get; set; } = null;
+
     #region UI
     [SerializeField]
     private TextMeshProUGUI nicknameUI;
@@ -33,18 +35,22 @@ public class Player : Character
 
     #region Components
     private PlayerInput playerInput;
+    private ActionReceiver receiver;
     private PlayerMovement movement;
     #endregion
-
-    public event Action<Weapon/*old*/, Weapon/*new*/> OnChangeEquipWeapon;
 
     #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
         playerInput = GetComponent<PlayerInput>();
+        receiver = GetComponent<ActionReceiver>();
         movement = GetComponent<PlayerMovement>();
-        
+        Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
+        SwapWeapon( 1 );
+
+        receiver.OnSwapWeaponEvent += SwapWeapon;
+
         healthBar.value = Hp.Current / Hp.Max;
         healthLerpBar.value = healthBar.value;
         Hp.OnChangeCurrent += OnChangeHp;
@@ -53,7 +59,6 @@ public class Player : Character
     private void Start()
     {
         OnDeadEvent += OnDead;
-        OnChangeEquipWeapon?.Invoke( null, EquipWeapon );
     }
 
     private void Update()
@@ -62,6 +67,16 @@ public class Player : Character
         healthLerpBar.value = Global.Mathematics.Lerp( healthLerpBar.value, healthBar.value, 2f * Time.deltaTime );
     }
     #endregion
+
+    private void SwapWeapon( int _index )
+    {
+        if ( _index <= 0 || _index >= Weapons.Count )
+        {
+            return;
+        }
+
+        EquipWeapon = Weapons[_index];
+    }
 
     public override void SetMovement( Vector3 _position, Vector3 _velocity )
     {

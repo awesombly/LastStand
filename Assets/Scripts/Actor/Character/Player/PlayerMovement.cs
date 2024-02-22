@@ -41,11 +41,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private DodgeInfo dodgeInfo;
 
+    #region Components
     private Player player;
     private ActionReceiver receiver;
     private Rigidbody2D rigid2D;
     private Animator animator;
     private CapsuleCollider2D capsuleCollider;
+    #endregion
 
     #region Unity Callback
     private void Awake()

@@ -32,22 +32,54 @@ public class Character : Actor
                 {
                     transform.localScale = new Vector3( -1f, 1f, 1f );
                     uiCanvas.transform.localScale = new Vector3( -Mathf.Abs( uiCanvas.transform.localScale.x ), uiCanvas.transform.localScale.y, uiCanvas.transform.localScale.z );
-                    EquipWeapon.transform.localScale = new Vector3( -1f, -1f, 1f );
+                    if ( !ReferenceEquals( EquipWeapon, null ) )
+                    {
+                        EquipWeapon.transform.localScale = new Vector3( -1f, -1f, 1f );
+                    }
                 }
                 else
                 {
                     transform.localScale = Vector3.one;
                     uiCanvas.transform.localScale = new Vector3( Mathf.Abs( uiCanvas.transform.localScale.x ), uiCanvas.transform.localScale.y, uiCanvas.transform.localScale.z );
-                    EquipWeapon.transform.localScale = Vector3.one;
+                    if ( !ReferenceEquals( EquipWeapon, null ) )
+                    {
+                        EquipWeapon.transform.localScale = Vector3.one;
+                    }
                 }
             }
         }
     }
 
-    public Weapon EquipWeapon { get; private set; }
+    private Weapon equipWeapon;
+    public Weapon EquipWeapon 
+    {
+        get => equipWeapon;
+        protected set
+        {
+            if ( ReferenceEquals( equipWeapon, value ) )
+            {
+                return;
+            }
+
+            Weapon oldWeapon = equipWeapon;
+            if ( !ReferenceEquals( oldWeapon, null ) )
+            {
+                oldWeapon.gameObject.SetActive( false );
+            }
+
+            equipWeapon = value;
+            if ( !ReferenceEquals( equipWeapon, null ) )
+            {
+                equipWeapon.gameObject.SetActive( true );
+            }
+
+            OnChangeEquipWeapon?.Invoke( oldWeapon, equipWeapon );
+        }
+    }
     public int UnattackableCount { get; set; }    // 0일때만 공격가능
 
-    public Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
+    public event Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
+    public event Action<Weapon/*old*/, Weapon/*new*/> OnChangeEquipWeapon;
 
     protected override void Awake()
     {
@@ -61,7 +93,7 @@ public class Character : Actor
     {
         bool prevFlipX = IsFlipX;
         IsFlipX = ( _angle < -90f || _angle > 90f );
-        EquipWeapon.LookAngle( prevFlipX != IsFlipX, _angle );
+        EquipWeapon?.LookAngle( prevFlipX != IsFlipX, _angle );
     }
 
     public virtual void OnHit( Character _attacker, Bullet _bullet )

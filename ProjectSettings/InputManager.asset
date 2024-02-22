@@ -71,6 +71,14 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
+    - m_Name: SwapWeapon
+      m_Type: 0
+      m_ExpectedControlType: Digital
+      m_Id: 263f2616-5cb3-40d1-98dd-edc2fbf0d29c
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
     m_Bindings:
     - m_Name: 
       m_Id: 978bfe49-cc26-4a3d-ab7b-7d7a29327403
@@ -255,6 +263,46 @@ MonoBehaviour:
       m_Processors: 
       m_Groups: ;Keyboard&Mouse
       m_Action: Dodge
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 63a41be3-b83b-484c-b993-bda6790f48db
+      m_Path: <Keyboard>/1
+      m_Interactions: 
+      m_Processors: Scale
+      m_Groups: ;Keyboard&Mouse
+      m_Action: SwapWeapon
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 8fb3c6c3-5b47-4bcd-94a9-297e0c901b70
+      m_Path: <Keyboard>/2
+      m_Interactions: 
+      m_Processors: Scale(factor=2)
+      m_Groups: ;Keyboard&Mouse
+      m_Action: SwapWeapon
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 08c642a1-7baa-48b1-819c-0b8267aa1d85
+      m_Path: <Keyboard>/3
+      m_Interactions: 
+      m_Processors: Scale(factor=3)
+      m_Groups: ;Keyboard&Mouse
+      m_Action: SwapWeapon
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 10a8c6b5-13f6-436d-b940-084dc462424b
+      m_Path: <Keyboard>/4
+      m_Interactions: 
+      m_Processors: Scale(factor=4)
+      m_Groups: ;Keyboard&Mouse
+      m_Action: SwapWeapon
+      m_Flags: 0
+    - m_Name: 
+      m_Id: ec69c78c-69fe-4eea-bc19-0595b643167d
+      m_Path: <Keyboard>/5
+      m_Interactions: 
+      m_Processors: Scale(factor=5)
+      m_Groups: ;Keyboard&Mouse
+      m_Action: SwapWeapon
       m_Flags: 0
   - m_Name: UI
     m_Id: 272f6d14-89ba-496f-b7ff-215263d3219f

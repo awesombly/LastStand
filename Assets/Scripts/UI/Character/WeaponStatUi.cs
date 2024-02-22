@@ -80,7 +80,7 @@ public class WeaponStatUi : MonoBehaviour
         if ( _new != null )
         {
             newWeapon = _new.EquipWeapon;
-            _new.OnChangeEquipWeapon -= OnChangeEquipWeapon;
+            _new.OnChangeEquipWeapon += OnChangeEquipWeapon;
         }
 
         OnChangeEquipWeapon( oldWeapon, newWeapon );

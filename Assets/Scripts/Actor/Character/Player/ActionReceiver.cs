@@ -9,11 +9,12 @@ public class ActionReceiver : MonoBehaviour
     public bool IsAttackHolded { get; private set; }
     public Vector2 InputVector { get; private set; }
 
-    public Action<InputValue> OnMoveEvent;
-    public Action OnAttackPressEvent;
-    public Action OnAttackReleaseEvent;
-    public Action OnReloadEvent;
-    public Action OnDodgeEvent;
+    public event Action<InputValue> OnMoveEvent;
+    public event Action OnAttackPressEvent;
+    public event Action OnAttackReleaseEvent;
+    public event Action OnReloadEvent;
+    public event Action OnDodgeEvent;
+    public event Action<int/*index*/> OnSwapWeaponEvent;
 
     #region InputSystem Callback
     private void OnMove( InputValue _value )
@@ -43,6 +44,12 @@ public class ActionReceiver : MonoBehaviour
     private void OnDodge()
     {
         OnDodgeEvent?.Invoke();
+    }
+
+    private void OnSwapWeapon( InputValue _value )
+    {
+        int value =  Mathf.RoundToInt( _value.Get<float>() );
+        OnSwapWeaponEvent?.Invoke( value );
     }
     #endregion
 }

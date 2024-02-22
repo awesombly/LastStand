@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 7915712840582445895}
   - component: {fileID: 2749857836408045721}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: WeaponHandgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -106,7 +106,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -144335857, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
+  m_Sprite: {fileID: -353751291, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -129,20 +129,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039b49cf111fe9d489f270acfcdf8f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: -2796159070604671697, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
+  bulletPrefab: {fileID: -2796159070604671697, guid: 394939e967e80314bb39062ac7589d26, type: 3}
   shotPoint: {fileID: 9035912363181180166}
   rotateCorrection: 90
   stat:
     ammo:
       max: 999
     magazine:
-      max: 30
+      max: 12
     repeatDelay:
-      max: 0.06
+      max: 0.35
     reloadDelay:
-      max: 0.8
+      max: 0.5
     isAllowKeyHold: 1
-    shakeShotAngle: 18
+    shakeShotAngle: 6
   lookInfo:
     curAngle: 0
     targetAngle: 0
