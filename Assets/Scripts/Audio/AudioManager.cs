@@ -6,7 +6,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
-using System.Runtime.Remoting.Channels;
 
 
 public class AudioManager : Singleton<AudioManager>
@@ -85,7 +84,7 @@ public class AudioManager : Singleton<AudioManager>
     protected override void Awake()
     {
         base.Awake();
-
+        
         LoadAssetsAsync( "Audio_Mixer",  ( AudioMixer _data ) => 
         {
             mixer = _data;
@@ -152,7 +151,7 @@ public class AudioManager : Singleton<AudioManager>
     #endregion
 
     #region Play
-    private AudioChannel GetChannel<T, U>( in AudioClipGroup<T, U> _clips, T _type, U _sound, float _volume ) where T : System.Enum where U : System.Enum
+    private AudioChannel GetChannel<T, U>( AudioClipGroup<T, U> _clips, T _type, U _sound, float _volume ) where T : System.Enum where U : System.Enum
     {
         AudioChannel channel = null;
         if ( _clips.TryGetClip( out AudioClip clip, _type, _sound ) )
