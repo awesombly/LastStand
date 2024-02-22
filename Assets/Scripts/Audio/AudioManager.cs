@@ -8,7 +8,7 @@ using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
 
 
-public class SoundManager : Singleton<SoundManager>
+public class AudioManager : Singleton<AudioManager>
 {
     public class AudioClipGroup<T, U> where T : System.Enum where U : System.Enum
     {
@@ -25,7 +25,7 @@ public class SoundManager : Singleton<SoundManager>
         }
 
         private Dictionary<T, ClipGroup> sounds = new Dictionary<T, ClipGroup>();
-        private ClipGroup this[T type] => sounds.ContainsKey( type ) ? sounds[type] : null;
+        //private ClipGroup this[T type] => sounds.ContainsKey( type ) ? sounds[type] : null;
 
         public bool TryGetClip( out AudioClip _clip, T _type, U _soundType )
         {
@@ -122,7 +122,7 @@ public class SoundManager : Singleton<SoundManager>
     #region Play
     public void Play( ThemeType _type, ThemeSound _sound )
     {
-        Debug.Log( mixer.outputAudioMixerGroup.name );
+        //Debug.Log( mixer.outputAudioMixerGroup.name );
         // if ( themeClips.TryGetClip( out AudioClip clip, _type, _sound ) )
         // {
         //     var channel = channels.Spawn();
@@ -148,10 +148,6 @@ public class SoundManager : Singleton<SoundManager>
     #endregion
 
     #region Addressable
-
-    //private void LoadAssetsAsync<T>( string _lable, System.Action<T> _OnCompleted ) where T : Object
-    //             => StartCoroutine( LoadAssetsAsyncCoroutine<T>( _lable, _OnCompleted ) );
-
     private void LoadAssetsAsync<T>( string _label, System.Action<T> _OnCompleted ) where T : UnityEngine.Object
     {
         AsyncOperationHandle<IList<IResourceLocation>> locationHandle = Addressables.LoadResourceLocationsAsync( _label, typeof( T ) );
