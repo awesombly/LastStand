@@ -13,9 +13,6 @@ public class SoundChannel : MonoBehaviour, WNS.IObjectPool<SoundChannel>
     private AudioSource channel;
     private Coroutine fadeCor;
 
-    private float length;
-
-    //public bool IsPlaying { get; private set; }
     public bool Loop
     {
         get => channel.loop;
@@ -36,8 +33,13 @@ public class SoundChannel : MonoBehaviour, WNS.IObjectPool<SoundChannel>
     public void Play( AudioClip _clip )
     {
         channel.clip = _clip;
-        length       = channel.clip.length;
         channel.Play();
+    }
+
+    public void PlayOneShot( AudioClip _clip )
+    {
+        channel.clip = _clip;
+        channel.PlayOneShot( _clip );
     }
 
     public void Stop()
@@ -81,7 +83,7 @@ public class SoundChannel : MonoBehaviour, WNS.IObjectPool<SoundChannel>
 
     private void Update()
     {
-        if ( Global.Mathematics.Abs( channel.time - length ) <= float.Epsilon )
+        if ( !channel.isPlaying )
         {
             Clear();
             pool.Despawn( this );
@@ -90,9 +92,9 @@ public class SoundChannel : MonoBehaviour, WNS.IObjectPool<SoundChannel>
 
     private void Clear()
     {
+        channel.Stop();
         StopEffect();
         channel.volume = 1f;
-        length         = 0f;
         channel.clip   = null;
     }
 

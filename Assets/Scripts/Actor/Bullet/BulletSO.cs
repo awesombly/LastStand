@@ -18,7 +18,7 @@ public class BulletSO : ScriptableObject
     public Poolable hitEffect;
 
     [Header( "¦¡ Sound" )]
-    public PlayerSoundScriptable.PlayerType playerType;
+    public PlayerType playerType;
     [Range( 0f, 1f )]
     public float volume;
 }

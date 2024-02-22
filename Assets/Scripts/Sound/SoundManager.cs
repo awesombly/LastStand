@@ -6,62 +6,48 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
-using static ThemeSoundScriptable;
-using static PlayerSoundScriptable;
-
 public class SoundManager : Singleton<SoundManager>
 {
-    private class SoundInfo<T> where T : System.Enum
-    {
-        private Dictionary<T, AudioClip> datas = new Dictionary<T, AudioClip>();
-
-        public AudioClip this[T type] => datas.ContainsKey( type ) ? datas[type] : null;
-
-        public void Add( T _sound, AudioClip _clip )
-        {
-            datas.Add( _sound, _clip );
-        }
-    }
-
-    private WNS.ObjectPool<SoundChannel> channels;
-    private Dictionary<ThemeType,  SoundInfo<ThemeSound>>  themeSounds  = new Dictionary<ThemeType,  SoundInfo<ThemeSound>>();
-    private Dictionary<PlayerType, SoundInfo<PlayerSound>> playerSounds = new Dictionary<PlayerType, SoundInfo<PlayerSound>>();
+    private SoundGroup<ThemeType,  ThemeSound>  themeGroup;
+    private SoundGroup<PlayerType, PlayerSound> playerGroup;
     // sfx.. misc.. 
 
     [Header( "Addressables" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
+
+    private void CreateChannelGroup<T, U>( out SoundGroup<T, U> _group, string _ObjName ) where T : System.Enum where U : System.Enum
+    {
+        GameObject obj = new GameObject();
+        obj.transform.parent = transform;
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
+        obj.transform.localScale    = Vector3.one;
+        obj.name = _ObjName;
+
+        // 기본 설정
+        AudioSource source = obj.AddComponent<AudioSource>();
+        source.playOnAwake = false;
+
+        _group = new SoundGroup<T, U>( source );
+    }
 
     #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
 
-        LoadAssetsAsync<GameObject>( "Sound_Prefab", ( GameObject _data ) => 
-        {
-            if ( _data.TryGetComponent<SoundChannel>( out SoundChannel channel ) )
-                 channels = new WNS.ObjectPool<SoundChannel>( channel, transform );
-        } );
-
+        CreateChannelGroup( out themeGroup, "Theme Group" );
         LoadAssetsAsync<ThemeSoundScriptable>( "Sound_Theme", ( ThemeSoundScriptable _data ) => 
         {
-            if ( !themeSounds.ContainsKey( _data.type ) )
-                 themeSounds.Add( _data.type, new SoundInfo<ThemeSound>() );
-
             foreach ( var data in _data.datas )
-            {
-                themeSounds[_data.type].Add( data.soundType, data.clip );
-            }
+                themeGroup.Add( _data.type, data.soundType, data.clip );
         } );
 
+        CreateChannelGroup( out playerGroup, "Player Group" );
         LoadAssetsAsync<PlayerSoundScriptable>( "Sound_Player", ( PlayerSoundScriptable _data ) => 
         {
-            if ( !playerSounds.ContainsKey( _data.type ) )
-                 playerSounds.Add( _data.type, new SoundInfo<PlayerSound>() );
-
             foreach ( var data in _data.datas )
-            {
-                playerSounds[_data.type].Add( data.soundType, data.clip );
-            }
+                playerGroup.Add( _data.type, data.soundType, data.clip );
         } );
     }
 
@@ -69,18 +55,12 @@ public class SoundManager : Singleton<SoundManager>
     {
         if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
         {
-            SoundChannel channel = Play( ThemeSound.Lobby );
-            channel.Fade( 0f, 1f, 5f );
-
+            Play( ThemeType.Default, ThemeSound.Login );
         }
-        //else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
-        //{
-        //    Play( PlayerSound.Dead );
-        //}
-        //else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
-        //{
-        //    Play( InterfaceSound.Login );
-        //}
+        else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
+        {
+            PlayOneShot( ThemeType.Default, ThemeSound.Lobby );
+        }
     }
 
     private void OnDestroy()
@@ -98,46 +78,24 @@ public class SoundManager : Singleton<SoundManager>
     #endregion
 
     #region Play
-    public SoundChannel Play( ThemeSound _sound, ThemeType _type = ThemeType.Default )
+    public void Play( ThemeType _type, ThemeSound _sound )
     {
-        if ( !themeSounds.ContainsKey( _type ) || themeSounds[_type] == null )
-        {
-            Debug.LogWarning( $"{_type} is not registered" );
-            return null;
-        }
-
-        AudioClip clip = themeSounds[_type][_sound];
-        if ( clip == null )
-        {
-            Debug.LogWarning( $"{_sound} is not registered" );
-            return null;
-        }
-
-        SoundChannel channel = channels.Spawn();
-        channel.Play( clip );
-
-        return channel;
+        themeGroup.Play( _type, _sound );
     }
 
-    public SoundChannel Play( PlayerSound _sound, PlayerType _type = PlayerType.Default )
+    public void PlayOneShot( ThemeType _type, ThemeSound _sound )
     {
-        if ( !playerSounds.ContainsKey( _type ) || playerSounds[_type] == null )
-        {
-            Debug.LogWarning( $"{_type} is not registered" );
-            return null;
-        }
+        themeGroup.PlayOneShot( _type, _sound );
+    }
 
-        AudioClip clip = playerSounds[_type][_sound];
-        if ( clip == null )
-        {
-            Debug.LogWarning( $"{_sound} is not registered" );
-            return null;
-        }
+    public void Play( PlayerType _type, PlayerSound _sound )
+    {
+        playerGroup.Play( _type, _sound );
+    }
 
-        SoundChannel channel = channels.Spawn();
-        channel.Play( clip );
-
-        return channel;
+    public void PlayOneShot( PlayerType _type, PlayerSound _sound )
+    {
+        playerGroup.Play( _type, _sound );
     }
     #endregion
 
