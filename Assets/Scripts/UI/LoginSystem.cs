@@ -175,7 +175,7 @@ public class LoginSystem : MonoBehaviour
         else
         {
             Info = data;
-            SceneBase.ChangeScene( SceneType.Lobby );
+            SceneBase.LoadScene( SceneType.Lobby );
         }
     }
 }

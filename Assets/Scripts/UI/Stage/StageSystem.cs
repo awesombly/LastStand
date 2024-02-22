@@ -107,7 +107,8 @@ public class StageSystem : MonoBehaviour
     {
         canSendCreateStage = true;
         Info = Global.FromJson<STAGE_INFO>( _packet );
-        SceneBase.ChangeScene( SceneType.InGame );
+        SceneBase.LoadScene( SceneType.InGame_UI );
+        SceneBase.LoadScene( SceneType.InGame_Logic, UnityEngine.SceneManagement.LoadSceneMode.Additive );
     }
 
     #region Update Stage Info

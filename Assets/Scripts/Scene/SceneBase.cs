@@ -11,6 +11,8 @@ public enum SceneType
     Login,
     Lobby,
     InGame,
+    InGame_Logic,
+    InGame_UI,
 }
 
 public class SceneBase : MonoBehaviour
@@ -28,10 +30,10 @@ public class SceneBase : MonoBehaviour
         OnGameStart?.Invoke();
     }
 
-    public static void ChangeScene( SceneType _sceneType )
+    public static void LoadScene( SceneType _sceneType, LoadSceneMode _loadMode = LoadSceneMode.Single )
     {
         OnBeforeSceneLoad?.Invoke();
-        SceneManager.LoadScene( _sceneType.ToString() );
+        SceneManager.LoadScene( _sceneType.ToString(), _loadMode );
     }
 
     protected virtual void Awake()

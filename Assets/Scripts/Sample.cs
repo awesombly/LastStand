@@ -37,6 +37,6 @@ public class Sample : MonoBehaviour
     {
         isProgress = false;
         StageSystem.Info = null;
-        SceneBase.ChangeScene( SceneType.Lobby );
+        SceneBase.LoadScene( SceneType.Lobby );
     }
 }

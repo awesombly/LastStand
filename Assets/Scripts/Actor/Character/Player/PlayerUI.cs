@@ -6,10 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public TextMeshProUGUI magazineText;
-    public TextMeshProUGUI ammoText;
     public Slider reloadBar;
-
     private Player player;
 
     private void Awake()
@@ -24,15 +21,15 @@ public class PlayerUI : MonoBehaviour
     {
         if ( !ReferenceEquals( player, null ) && player.IsLocal )
         {
-            ammoText?.SetText( _new.ToString() );
+            UIManager.Inst.ammoText?.SetText( _new.ToString() );
         }
     }
 
     private void OnChangeMagazine( int _old, int _new )
     {
         if ( !ReferenceEquals( player, null ) && player.IsLocal )
-        { 
-            magazineText?.SetText( _new.ToString() );
+        {
+            UIManager.Inst.magazineText?.SetText( _new.ToString() );
         }
     }
 
