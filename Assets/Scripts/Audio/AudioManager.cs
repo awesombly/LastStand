@@ -121,21 +121,21 @@ public class AudioManager : Singleton<AudioManager>
         } );
     }
 
-    public void Update()
-    {
-        if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
-        {
-            Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
-        }
-        else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
-        {
-            Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
-        }
-        else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
-        {
-            AllStop();
-        }
-    }
+    //public void Update()
+    //{
+    //    if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
+    //    {
+    //        Play( BGMType.Default, BGMSound.Login, 0f, 1f, 5f );
+    //    }
+    //    else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
+    //    {
+    //        Play( BGMType.Default, BGMSound.Lobby, 0f, 1f, 5f, false );
+    //    }
+    //    else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
+    //    {
+    //        AllStop();
+    //    }
+    //}
 
     private void OnDestroy()
     {

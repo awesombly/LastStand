@@ -1,6 +1,7 @@
 #include "SessionManager.h"
 #include "ProtocolSystem.h"
 #include "Protocol/Protocol.hpp"
+#include "StageManager.h"
 
 SessionManager::~SessionManager()
 {
@@ -64,7 +65,18 @@ void SessionManager::Erase( Session* _session )
 	
 	std::lock_guard<std::mutex> lock( mtx );
 	if ( _session->stage != nullptr )
-		 _session->stage->Exit( _session );
+	{
+		Stage* stage = _session->stage;
+		if ( !stage->Exit( _session ) )
+		{
+			BroadcastWaitingRoom( _session, UPacket( DELETE_STAGE_INFO, stage->info ) );
+			StageManager::Inst().Erase( stage );
+		}
+		else
+		{
+			BroadcastWaitingRoom( _session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
+		}
+	}
 
 	for ( std::list<Session*>::const_iterator iter = sessions.begin(); iter != sessions.end(); iter++ )
 	{

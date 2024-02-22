@@ -30,22 +30,29 @@ void InGame::AckExitStage( const Packet& _packet )
 	Session* session = _packet.session;
 	STAGE_INFO data  = FromJson<STAGE_INFO>( _packet );
 
-	Stage* stage = StageManager::Inst().Find( data.serial );
-	if ( stage == nullptr )
-		 throw std::exception( "# This stage does not exist" );
-
-	if ( !stage->Exit( session ) )
+	try
 	{
-		// 방에 아무도 없을 때
-		SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( DELETE_STAGE_INFO, stage->info ) );
-		StageManager::Inst().Erase( stage );
-	}
-	else
-	{
-		SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
-	}
+		Stage* stage = StageManager::Inst().Find( data.serial );
+		if ( stage == nullptr )
+			 throw std::exception( "# This stage does not exist" );
 
-	session->Send( UPacket( EXIT_STAGE_ACK, EMPTY() ) );
+		if ( !stage->Exit( session ) )
+		{
+			// 방에 아무도 없을 때
+			SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( DELETE_STAGE_INFO, stage->info ) );
+			StageManager::Inst().Erase( stage );
+		}
+		else
+		{
+			SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
+		}
+
+		session->Send( UPacket( EXIT_STAGE_ACK, EMPTY() ) );
+	}
+	catch ( std::exception _error )
+	{
+		Debug.LogWarning( _error.what() );
+	}
 }
 
 void InGame::AckSpawnActor( const Packet& _packet )
