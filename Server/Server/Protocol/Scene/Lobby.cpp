@@ -19,6 +19,7 @@ void Lobby::AckCreateStage( const Packet& _packet )
 	STAGE_INFO stageData;
 	stageData.serial = Global::GetNewSerial();
 	stageData.title = data.title;
+	stageData.targetKill = data.targetKill;
 	stageData.personnel.maximum = data.personnel.maximum;
 	stageData.personnel.current = 1;
 

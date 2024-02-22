@@ -168,6 +168,7 @@ typedef struct StageInfo
 public:
 	SerialType serial;
 	std::string title;
+	int targetKill;
 	Personnel personnel;
 
 public:
@@ -176,6 +177,7 @@ public:
 	{
 		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( title ) );
+		ar( CEREAL_NVP( targetKill ) );
 		ar( CEREAL_NVP( personnel ) );
 	}
 } STAGE_INFO;

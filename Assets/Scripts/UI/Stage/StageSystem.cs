@@ -14,8 +14,10 @@ public class StageSystem : MonoBehaviour
     public Stage prefab;
     private WNS.ObjectPool<Stage> pool;
 
-    public List<Outline> personnelOutlines = new List<Outline>();
+    public List<Outline> personnelOutlines  = new List<Outline>();
+    public List<Outline> targetKillOutlines = new List<Outline>();
     private int maxPersonnel;
+    private int targetKillCount;
     private bool canSendCreateStage = true;
 
     public static STAGE_INFO? Info { get; set; }
@@ -52,6 +54,7 @@ public class StageSystem : MonoBehaviour
 
             title.ActivateInputField();
             SetPersonnel( 4 );
+            SetTargetKillCount( 40 );
         }
         else
         {
@@ -71,6 +74,16 @@ public class StageSystem : MonoBehaviour
         }
     }
 
+    public void SetTargetKillCount( int _killCount )
+    {
+        targetKillCount = _killCount;
+        for ( int i = 0; i < targetKillOutlines.Count; i++ )
+        {
+            targetKillOutlines[i].enabled = i == Global.Mathematics.Round( _killCount * .1f ) - 1 ? true : false;
+        }
+    }
+
+
     public void CreateStage()
     {
         if ( !canSendCreateStage )
@@ -78,9 +91,10 @@ public class StageSystem : MonoBehaviour
 
         canSendCreateStage = false;
         STAGE_INFO protocol;
-        protocol.serial    = 0;
-        protocol.title     = title.text;
-        protocol.personnel = new Personnel { current = 0, maximum = maxPersonnel };
+        protocol.serial     = 0;
+        protocol.title      = title.text;
+        protocol.targetKill = targetKillCount;
+        protocol.personnel  = new Personnel { current = 0, maximum = maxPersonnel };
         
         Network.Inst.Send( new Packet( CREATE_STAGE_REQ, protocol ) );
     }

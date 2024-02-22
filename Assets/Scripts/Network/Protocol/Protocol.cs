@@ -119,6 +119,7 @@ public struct STAGE_INFO : IProtocol
 {
     public ushort serial;
     public string title;
+    public int targetKill;
     public Personnel personnel;
 }
 
