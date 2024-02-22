@@ -10,7 +10,7 @@ using UnityEngine.Audio;
 
 public class AudioManager : Singleton<AudioManager>
 {
-    public class AudioClipGroup<T, U> where T : System.Enum where U : System.Enum
+    private class AudioClipGroup<T, U> where T : System.Enum where U : System.Enum
     {
         public class ClipGroup
         {
@@ -25,7 +25,6 @@ public class AudioManager : Singleton<AudioManager>
         }
 
         private Dictionary<T, ClipGroup> sounds = new Dictionary<T, ClipGroup>();
-        //private ClipGroup this[T type] => sounds.ContainsKey( type ) ? sounds[type] : null;
 
         public bool TryGetClip( out AudioClip _clip, T _type, U _soundType )
         {
@@ -120,31 +119,70 @@ public class AudioManager : Singleton<AudioManager>
     #endregion
 
     #region Play
-    public void Play( ThemeType _type, ThemeSound _sound )
+    private AudioChannel GetChannel<T, U>( in AudioClipGroup<T, U> _clips, T _type, U _sound, float _volume ) where T : System.Enum where U : System.Enum
     {
-        //Debug.Log( mixer.outputAudioMixerGroup.name );
-        // if ( themeClips.TryGetClip( out AudioClip clip, _type, _sound ) )
-        // {
-        //     var channel = channels.Spawn();
-        // 
-        // 
-        // }
+        AudioChannel channel = null;
+        if ( _clips.TryGetClip( out AudioClip clip, _type, _sound ) )
+        {
+            channel = channels.Spawn();
+            channel.Clip   = clip;
+            channel.Volume = _volume;
+        }
+
+        return channel;
     }
 
-    //public void PlayOneShot( ThemeType _type, ThemeSound _sound )
-    //{
-    //    themeGroup.PlayOneShot( _type, _sound );
-    //}
+    /// <summary> Play with no effect </summary>
+    public void Play( ThemeType _type, ThemeSound _sound, float _volume = 1f )
+    {
+        AudioChannel channel = GetChannel( themeClips, _type, _sound, _volume );
+        channel.Play();
+    }
 
-    //public void Play( PlayerType _type, PlayerSound _sound )
-    //{
-    //    playerGroup.Play( _type, _sound );
-    //}
+    /// <summary> Play with fade effect </summary>
+    public void Play( ThemeType _type, ThemeSound _sound, float _start, float _end, float _t )
+    {
+        AudioChannel channel = GetChannel( themeClips, _type, _sound, 0f );
+        StartCoroutine( Fade( channel, _start, _end, _t ) );
+    }
 
-    //public void PlayOneShot( PlayerType _type, PlayerSound _sound )
-    //{
-    //    playerGroup.Play( _type, _sound );
-    //}
+    /// <summary> Play with no effect </summary>
+    public void Play( PlayerType _type, PlayerSound _sound, float _volume = 1f )
+    {
+        AudioChannel channel = GetChannel( playerClips, _type, _sound, _volume );
+        channel.Play();
+    }
+
+    /// <summary> Play the sound at the _point </summary>
+    public void Play( PlayerType _type, PlayerSound _sound, Vector3 _point, float _volume = 1f )
+    {
+        if ( playerClips.TryGetClip( out AudioClip clip, _type, _sound ) )
+             AudioSource.PlayClipAtPoint( clip, _point, _volume );
+    }
+    #endregion
+
+    #region Effect
+    private IEnumerator Fade( AudioChannel _channel, float _start, float _end, float _t )
+    {
+        if ( Global.Mathematics.Abs( _start - _end ) < float.Epsilon )
+        {
+            _channel.Volume = _end;
+            yield break;
+        }
+
+        float elapsedVolume = _start;
+        float offset = _end - _start;
+        _channel.Volume = _start;
+        _channel.Play();
+        while ( _start < _end ? elapsedVolume < _end : // FADEIN
+                                elapsedVolume > _end ) // FADEOUT
+        {
+            yield return YieldCache.WaitForEndOfFrame;
+            elapsedVolume += ( offset * Time.deltaTime ) / _t;
+            _channel.Volume = elapsedVolume;
+        }
+        _channel.Volume = _end;
+    }
     #endregion
 
     #region Addressable

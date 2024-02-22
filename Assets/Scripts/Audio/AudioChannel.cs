@@ -4,14 +4,49 @@ using UnityEngine;
 
 [RequireComponent( typeof( AudioSource ) )]
 public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
-{ 
+{
+    #region Variables
     public WNS.ObjectPool<AudioChannel> pool { get; set; }
     public AudioSource channel;
+    private bool isPlaying;
 
+    #region Properties
+    public AudioClip Clip
+    {
+        get => channel.clip;
+        set => channel.clip = value;
+    }
+
+    public float Volume
+    {
+        get => channel.volume;
+        set
+        {
+            if ( value < 0f || value > 1f )
+            {
+                Debug.LogWarning( "The volume must have a value between 0 and 1" );
+                return;
+            }
+            channel.volume = value;
+        }
+    }
+    #endregion
+    #endregion
+
+    #region Unity Callback
     private void Awake()
     {
         if ( !TryGetComponent( out channel ) )
-             Debug.LogError( "AudioSource is not found" );
+             Debug.LogError( "No AudioSource Component were found for the AudioChannel" );
+    }
+
+    private void Update()
+    {
+        if ( !isPlaying )
+             return;
+
+        if ( !channel.isPlaying )
+             pool.Despawn( this );
     }
 
     private void OnEnable()
@@ -20,38 +55,26 @@ public class AudioChannel : MonoBehaviour, WNS.IObjectPool<AudioChannel>
         channel.outputAudioMixerGroup = null;
         channel.volume = 1f;
         channel.clip = null;
+        isPlaying    = false;
     }
+    #endregion
 
-    private IEnumerator FadeVolume( float _start, float _end, float _t )
+
+    public void Play()
     {
-        channel.Pause();
-
-        if ( Global.Mathematics.Abs( _start - _end ) < float.Epsilon )
+        if ( isPlaying )
         {
-            channel.volume = _end;
-            yield break;
+            Debug.LogWarning( $"Audio is already playing" );
+            return;
         }
 
-        float elapsedVolume = _start;
-        float offset = _end - _start;
-        channel.volume =_start;
-        channel.UnPause();
-        while ( _start < _end ? elapsedVolume < _end : // FADEIN
-                                elapsedVolume > _end ) // FADEOUT
+        if ( channel.clip == null )
         {
-            yield return YieldCache.WaitForEndOfFrame;
-            elapsedVolume += ( offset * Time.deltaTime ) / _t;
-            channel.volume = elapsedVolume;
+            Debug.LogWarning( $"The SoundClip is not registered to the AudioSource" );
+            return;
         }
-        channel.volume = _end;
-    }
 
-    private void Update()
-    {
-        if ( !channel.isPlaying )
-        {
-     
-            pool.Despawn( this );
-        }
+        channel.Play();
+        isPlaying = true;
     }
 }
