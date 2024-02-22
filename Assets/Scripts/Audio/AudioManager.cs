@@ -65,6 +65,8 @@ public class AudioManager : Singleton<AudioManager>
 
     [Header( "Addressable" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
+    private int totalCount, loadCount;
+    public bool IsLoading { get; private set; } = true;
 
     public void Despawn( AudioChannel _channel )
     {
@@ -127,6 +129,14 @@ public class AudioManager : Singleton<AudioManager>
             playerClips.Add( PlayerType.Default, PlayerSound.Dead,   _data.Dead   );
             playerClips.Add( PlayerType.Default, PlayerSound.Hit,    _data.Hit    );
         } );
+
+        StartCoroutine( CheckLoadCount() );
+    }
+
+    private IEnumerator CheckLoadCount()
+    {
+        yield return new WaitUntil( () => totalCount > 0 && totalCount == loadCount );
+        IsLoading = false;
     }
 
     public void Update()
@@ -266,6 +276,7 @@ public class AudioManager : Singleton<AudioManager>
                 return;
             }
 
+            totalCount += _handle.Result.Count;
             foreach ( IResourceLocation location in _handle.Result )
             {
                 AsyncOperationHandle<T> assetHandle = Addressables.LoadAssetAsync<T>( location );
@@ -280,6 +291,7 @@ public class AudioManager : Singleton<AudioManager>
                     }
 
                     _OnCompleted?.Invoke( _handle.Result );
+                    loadCount++;
                 };
             }
         };

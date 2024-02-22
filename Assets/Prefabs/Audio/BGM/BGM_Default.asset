@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BGM_Default
   m_EditorClassIdentifier: 
   Login: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
-  Lobby: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
+  Lobby: {fileID: 8300000, guid: 91399eba7a9150e418d57855b331fce3, type: 3}
   InGame: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
