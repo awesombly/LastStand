@@ -67,6 +67,11 @@ public class StageSystem : MonoBehaviour
         canvas.SetActive( _active );
     }
 
+    public void MenuSelectSound()
+    {
+        AudioManager.Inst.Play( SFX.MouseClick );
+    }
+
     public void SetPersonnel( int _max )
     {
         maxPersonnel = _max;
@@ -74,7 +79,6 @@ public class StageSystem : MonoBehaviour
         {
             personnelOutlines[i].enabled = i == _max - 1 ? true : false;
         }
-        AudioManager.Inst.Play( SFX.MouseClick );
     }
 
     public void SetTargetKillCount( int _killCount )
@@ -84,7 +88,6 @@ public class StageSystem : MonoBehaviour
         {
             targetKillOutlines[i].enabled = i == Global.Mathematics.Round( _killCount * .1f ) - 1 ? true : false;
         }
-        AudioManager.Inst.Play( SFX.MouseClick );
     }
 
 
