@@ -113,6 +113,8 @@ public class InGameLogicScene : SceneBase
         player.Nickname = data.nickname;
         player.SwapWeapon( data.weapon );
         player.ApplyLookAngle( data.angle );
+
+        GameManager.Inst.AddPlayer( player );
     }
 
     private void AckSpawnBullet( Packet _packet )

@@ -19,6 +19,8 @@ public class Player : Character
             nicknameUI?.SetText( nickname );
         }
     }
+    public float KillScore { get; set; }
+    public float DeathScore { get; set; }
 
     public Vector2 Direction { get; set; }
 
@@ -126,6 +128,7 @@ public class Player : Character
     public override void Release()
     {
         EquipWeapon = null;
+        GameManager.Inst.RemovePlayer( this );
         base.Release();
     }
 }

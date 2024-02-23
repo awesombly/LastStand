@@ -27,6 +27,8 @@ public class GameManager : Singleton<GameManager>
     }
     public static event Action<Player/*old*/, Player/*new*/> OnChangeLocalPlayer;
 
+    public static List<Player> Players = new List<Player>();
+
     [SerializeField]
     private GameManagerSO data;
     private Dictionary<SceneType, SceneBase> activeScenes = new Dictionary<SceneType, SceneBase>();
@@ -60,6 +62,28 @@ public class GameManager : Singleton<GameManager>
         }
 
         return activeScenes[ _sceneType ];
+    }
+
+    public void AddPlayer( Player _player )
+    {
+        if ( _player == null || Players.Contains( _player ) )
+        {
+            Debug.LogWarning( $"Invalid Player. {_player}" );
+            return;
+        }
+
+        Players.Add( _player );
+    }
+
+    public void RemovePlayer( Player _player )
+    {
+        if ( _player == null || !Players.Contains( _player ) )
+        {
+            Debug.LogWarning( $"Invalid Player. {_player}" );
+            return;
+        }
+
+        Players.Remove( _player );
     }
 
     #region Actor
