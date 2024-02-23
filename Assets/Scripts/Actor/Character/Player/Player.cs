@@ -68,7 +68,7 @@ public class Player : Character
     }
     #endregion
 
-    private void SwapWeapon( int _index )
+    public void SwapWeapon( int _index )
     {
         if ( _index <= 0 || _index >= Weapons.Count )
         {
@@ -82,6 +82,14 @@ public class Player : Character
         }
 
         EquipWeapon = Weapons[_index];
+
+        if ( IsLocal )
+        {
+            INDEX_INFO protocol;
+            protocol.serial = Serial;
+            protocol.index = _index;
+            Network.Inst.Send( PacketType.SYNC_SWAP_WEAPON_REQ, protocol );
+        }
     }
 
     public override void SetMovement( Vector3 _position, Vector3 _velocity )

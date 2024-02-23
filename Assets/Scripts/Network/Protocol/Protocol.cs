@@ -51,6 +51,8 @@ public enum PacketType : ushort
     SYNC_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
     SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
     SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
+    SYNC_SWAP_WEAPON_REQ,          // Player 무기 교체 동기화 요청
+    SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
     HIT_ACTOR_REQ,                 // 피격 동기화 요청
     HIT_ACTOR_ACK,                 // 피격 동기화 응답
     INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
@@ -113,6 +115,7 @@ public struct EMPTY : IProtocol { }
 public struct MESSAGE : IProtocol { public string message; }
 public struct CONFIRM : IProtocol { public bool isCompleted; }
 public struct SERIAL_INFO : IProtocol { public uint serial; }
+public struct INDEX_INFO : IProtocol { public uint serial; public int index; }
 
 public struct Personnel { public int current, maximum; }
 public struct STAGE_INFO : IProtocol
@@ -145,6 +148,7 @@ public struct PLAYER_INFO : IProtocol
     public ACTOR_INFO actorInfo;
     public string nickname;
     public float angle;
+    public int weapon;
 }
 
 public struct BULLET_INFO : IProtocol

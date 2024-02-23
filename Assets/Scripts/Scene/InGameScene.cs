@@ -25,6 +25,7 @@ public class InGameScene : SceneBase
         ProtocolSystem.Inst.Regist( SYNC_RELOAD_ACK,        AckSyncReload );
         ProtocolSystem.Inst.Regist( SYNC_LOOK_ANGLE_ACK,    AckSyncLookAngle );
         ProtocolSystem.Inst.Regist( SYNC_DODGE_ACTION_ACK,  AckSyncDodgeAction );
+        ProtocolSystem.Inst.Regist( SYNC_SWAP_WEAPON_ACK,   AckSyncSwapWeapon );
         ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,          AckHitActor );
     }
 
@@ -80,6 +81,7 @@ public class InGameScene : SceneBase
         protocol.actorInfo.hp = playerPrefab.data.maxHp;
         protocol.nickname = string.Empty;
         protocol.angle = 0f;
+        protocol.weapon = 1;
 
         Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
     }
@@ -109,6 +111,8 @@ public class InGameScene : SceneBase
         player.Rigid2D.velocity = data.actorInfo.vel.To();
         player.Hp.Max = player.Hp.Current = data.actorInfo.hp;
         player.Nickname = data.nickname;
+        player.SwapWeapon( data.weapon );
+        player.ApplyLookAngle( data.angle );
     }
 
     private void AckSpawnBullet( Packet _packet )
@@ -182,6 +186,18 @@ public class InGameScene : SceneBase
         }
         player.transform.position = data.pos.To();
         player.AckDodgeAction( data.useCollision, data.dir.To(), data.dur );
+    }
+
+    private void AckSyncSwapWeapon( Packet _packet )
+    {
+        var data = Global.FromJson<INDEX_INFO>( _packet );
+        Player player = GameManager.Inst.GetActor( data.serial ) as Player;
+        if ( player == null )
+        {
+            Debug.LogWarning( "Player is null. serial:" + data.serial );
+            return;
+        }
+        player.SwapWeapon( data.index );
     }
 
     private void AckHitActor( Packet _packet )

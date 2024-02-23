@@ -13,6 +13,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SYNC_RELOAD_REQ,			AckSyncReload );
 	ProtocolSystem::Inst().Regist( SYNC_LOOK_ANGLE_REQ,		AckSyncLook );
 	ProtocolSystem::Inst().Regist( SYNC_DODGE_ACTION_REQ,	AckSyncDodgeAction );
+	ProtocolSystem::Inst().Regist( SYNC_SWAP_WEAPON_REQ,	AckSyncSwapWeapon );
 	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,			AckHitActor );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ,	AckInGameLoadData );
 }
@@ -178,6 +179,25 @@ void InGame::AckSyncDodgeAction( const Packet& _packet )
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_DODGE_ACTION_ACK, data ) );
 }
 
+void InGame::AckSyncSwapWeapon( const Packet& _packet )
+{
+	INDEX_INFO data = FromJson<INDEX_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	if ( _packet.session->player == nullptr )
+	{
+		Debug.LogError( "Player is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+	
+	_packet.session->player->weapon = data.index;
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_SWAP_WEAPON_ACK, data ) );
+}
+
 void InGame::AckHitActor( const Packet& _packet )
 {
 	HIT_INFO data = FromJson<HIT_INFO>( _packet );
@@ -249,11 +269,6 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 		}
 
 		_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, *session->player ) );
-
-		LOOK_INFO protocol;
-		protocol.serial = session->player->actorInfo.serial;
-		protocol.angle = session->player->angle;
-		_packet.session->Send( UPacket( SYNC_LOOK_ANGLE_ACK, protocol ) );
 	}
 
 	// 기존 데이터 스폰후 등록

@@ -49,6 +49,8 @@ enum PacketType : u_short
 	SYNC_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
 	SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
 	SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
+	SYNC_SWAP_WEAPON_REQ,          // Player 무기 교체 동기화 요청
+	SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
 	HIT_ACTOR_REQ,                 // 피격 동기화 요청
 	HIT_ACTOR_ACK,                 // 피격 동기화 응답
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
@@ -93,6 +95,19 @@ public:
 		ar( CEREAL_NVP( serial ) );
 	}
 } SERIAL_INFO;
+typedef struct SerialIntType
+{
+public:
+	SerialType serial;
+	int index;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( index ) );
+	}
+} INDEX_INFO;
 
 typedef struct Vector2
 {
@@ -208,6 +223,7 @@ public:
 	ACTOR_INFO actorInfo;
 	std::string nickname;
 	float angle;
+	int weapon;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -215,6 +231,7 @@ public:
 		ar( CEREAL_NVP( actorInfo ) );
 		ar( CEREAL_NVP( nickname ) );
 		ar( CEREAL_NVP( angle ) );
+		ar( CEREAL_NVP( weapon ) );
 	}
 } PLAYER_INFO;
 typedef struct BulletInfo
