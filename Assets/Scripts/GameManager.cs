@@ -28,6 +28,7 @@ public class GameManager : Singleton<GameManager>
     public static event Action<Player/*old*/, Player/*new*/> OnChangeLocalPlayer;
 
     public static List<Player> Players = new List<Player>();
+    public static event Action OnChangePlayers;
 
     [SerializeField]
     private GameManagerSO data;
@@ -73,6 +74,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         Players.Add( _player );
+        OnChangePlayers?.Invoke();
     }
 
     public void RemovePlayer( Player _player )
@@ -84,6 +86,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         Players.Remove( _player );
+        OnChangePlayers?.Invoke();
     }
 
     #region Actor
