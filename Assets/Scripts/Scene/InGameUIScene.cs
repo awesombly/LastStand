@@ -46,12 +46,12 @@ public class InGameUIScene : SceneBase
             if ( pause.activeInHierarchy )
             {
                 pause.SetActive( false );
-                AudioManager.Inst.Play( SFXType.Default, SFXSound.MenuExit );
+                AudioManager.Inst.Play( SFX.MenuExit );
             }
             else
             {
                 pause.SetActive( true );
-                AudioManager.Inst.Play( SFXType.Default, SFXSound.MenuEntry );
+                AudioManager.Inst.Play( SFX.MenuEntry );
             }
         }
     }
@@ -85,7 +85,7 @@ public class InGameUIScene : SceneBase
 
         isProgress = true;
         Network.Inst.Send( EXIT_STAGE_REQ, StageSystem.StageInfo.Value );
-        AudioManager.Inst.Play( SFXType.Default, SFXSound.MouseClick );
+        AudioManager.Inst.Play( SFX.MouseClick );
     }
 
     private void AckExitStage( Packet _packet )

@@ -9,60 +9,52 @@ using UnityEngine.Audio;
 
 
 public enum MixerType : int { Master = 0, BGM, SFX, }
+public enum BGM : ushort
+{
+    Login,
+    Lobby,
+    InGame,
+}
+
+public enum SFX : ushort
+{
+    MouseClick,
+    MenuEntry,
+    MenuExit,
+}
+
 public class AudioManager : Singleton<AudioManager>
 {
-    private class AudioClipGroup<T, U> where T : System.Enum where U : System.Enum
+    public class AudioClipGroup<T> where T : System.Enum
     {
-        public class ClipGroup
-        {
-            private Dictionary<U, AudioClip> datas = new Dictionary<U, AudioClip>();
+        private Dictionary<T, AudioClip> datas = new Dictionary<T, AudioClip>();
 
-            public AudioClip this[U type] => datas.ContainsKey( type ) ? datas[type] : null;
-
-            public void Add( U _sound, AudioClip _clip )
-            {
-                datas.Add( _sound, _clip );
-            }
-        }
-
-        private Dictionary<T, ClipGroup> sounds = new Dictionary<T, ClipGroup>();
-
-        public bool TryGetClip( out AudioClip _clip, T _type, U _soundType )
+        public AudioClip this[T _type] => TryGetClip( out AudioClip _clip, _type ) ? _clip : null;
+        
+        public bool TryGetClip( out AudioClip _clip, T _type )
         {
             _clip = null;
-            if ( !sounds.ContainsKey( _type ) || sounds[_type] == null )
+            if ( !datas.ContainsKey( _type ) || datas[_type] == null )
             {
                 Debug.LogWarning( $"{_type} is not registered" );
                 return false;
             }
 
-            AudioClip clip = sounds[_type][_soundType];
-            if ( clip == null )
-            {
-                Debug.LogWarning( $"{_soundType} is not registered" );
-                return false;
-            }
-
-            _clip = clip;
+            _clip = datas[_type];
             return true;
         }
 
-        public void Add( T _type, U _soundType, AudioClip _clip )
+        public void Add( T _sound, AudioClip _clip )
         {
-            if ( !sounds.ContainsKey( _type ) )
-                sounds.Add( _type, new ClipGroup() );
-
-            sounds[_type].Add( _soundType, _clip );
+            datas.Add( _sound, _clip );
         }
     }
     private AudioMixer mixer;
     private AudioMixerGroup[] mixerGroup;
     private WNS.ObjectPool<AudioChannel> channels;
     private LinkedList<AudioChannel> enabledChannels = new LinkedList<AudioChannel>();
-    private AudioClipGroup<BGMType,    BGMSound>    bgmClips    = new AudioClipGroup<BGMType,    BGMSound>();
-    private AudioClipGroup<SFXType,    SFXSound>    sfxClips    = new AudioClipGroup<SFXType,    SFXSound>();
-    private AudioClipGroup<PlayerType, PlayerSound> playerClips = new AudioClipGroup<PlayerType, PlayerSound>();
-    private AudioClipGroup<WeaponType, WeaponSound> weaponClips = new AudioClipGroup<WeaponType, WeaponSound>();
+    private AudioClipGroup<BGM> bgmClips = new AudioClipGroup<BGM>();
+    private AudioClipGroup<SFX> sfxClips = new AudioClipGroup<SFX>();
 
     [Header( "Addressable" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
@@ -99,85 +91,20 @@ public class AudioManager : Singleton<AudioManager>
 
         SceneBase.OnBeforeSceneLoad += AllStop;
 
-        LoadAssetsAsync( "Audio_Mixer",  ( AudioMixer _data ) => 
+        LoadAssetsAsync( "Global", ( GlobalAudioData _data ) =>
         {
-            mixer = _data;
+            mixer = _data.mixer;
             mixerGroup = mixer.FindMatchingGroups( "Master" );
-        } );
 
-        LoadAssetsAsync( "Audio_Prefab", ( GameObject _data ) => 
-        {
-            if ( _data.TryGetComponent( out AudioChannel _channel ) )
-                 channels = new WNS.ObjectPool<AudioChannel>( _channel, transform );
-        } );
+            channels = new WNS.ObjectPool<AudioChannel>( _data.channel, transform );
 
-        LoadAssetsAsync( "Theme_Default", ( AudioDataBGM _data ) =>
-        {
-            bgmClips.Add( BGMType.Default, BGMSound.Login,  _data.Login );
-            bgmClips.Add( BGMType.Default, BGMSound.Lobby,  _data.Lobby );
-            bgmClips.Add( BGMType.Default, BGMSound.InGame, _data.InGame );
-        } );
-
-        LoadAssetsAsync( "Theme_Default", ( AudioDataSFX _data ) => 
-        {
-            sfxClips.Add( SFXType.Default, SFXSound.MouseClick, _data.MouseClick );
-            sfxClips.Add( SFXType.Default, SFXSound.MenuEntry,  _data.MenuEntry  );
-            sfxClips.Add( SFXType.Default, SFXSound.MenuExit,   _data.MenuExit   );
-        } );
-
-        LoadAssetsAsync( "Player_Default", ( AudioDataPlayer _data ) =>
-        {
-            playerClips.Add( PlayerType.Default, PlayerSound.Attack, _data.Attack );
-            playerClips.Add( PlayerType.Default, PlayerSound.Dead,   _data.Dead   );
-            playerClips.Add( PlayerType.Default, PlayerSound.Hit,    _data.Hit    );
-        } );
-
-        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
-        {
-            weaponClips.Add( WeaponType.Default, WeaponSound.Fire, _data.Fire );
-            weaponClips.Add( WeaponType.Default, WeaponSound.Hit, _data.Hit );
-            weaponClips.Add( WeaponType.Default, WeaponSound.Reload, _data.Reload );
-            weaponClips.Add( WeaponType.Default, WeaponSound.Swap, _data.Swap );
-        } );
-
-        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
-        {
-            weaponClips.Add( WeaponType.Handgun, WeaponSound.Fire, _data.Fire );
-            weaponClips.Add( WeaponType.Handgun, WeaponSound.Hit, _data.Hit );
-            weaponClips.Add( WeaponType.Handgun, WeaponSound.Reload, _data.Reload );
-            weaponClips.Add( WeaponType.Handgun, WeaponSound.Swap, _data.Swap );
-        } );
-
-        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
-        {
-            weaponClips.Add( WeaponType.Rifle, WeaponSound.Fire, _data.Fire );
-            weaponClips.Add( WeaponType.Rifle, WeaponSound.Hit, _data.Hit );
-            weaponClips.Add( WeaponType.Rifle, WeaponSound.Reload, _data.Reload );
-            weaponClips.Add( WeaponType.Rifle, WeaponSound.Swap, _data.Swap );
-        } );
-
-        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
-        {
-            weaponClips.Add( WeaponType.BurstRifle, WeaponSound.Fire, _data.Fire );
-            weaponClips.Add( WeaponType.BurstRifle, WeaponSound.Hit, _data.Hit );
-            weaponClips.Add( WeaponType.BurstRifle, WeaponSound.Reload, _data.Reload );
-            weaponClips.Add( WeaponType.BurstRifle, WeaponSound.Swap, _data.Swap );
-        } );
-
-        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
-        {
-            weaponClips.Add( WeaponType.Shotgun, WeaponSound.Fire, _data.Fire );
-            weaponClips.Add( WeaponType.Shotgun, WeaponSound.Hit, _data.Hit );
-            weaponClips.Add( WeaponType.Shotgun, WeaponSound.Reload, _data.Reload );
-            weaponClips.Add( WeaponType.Shotgun, WeaponSound.Swap, _data.Swap );
-        } );
-
-        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
-        {
-            weaponClips.Add( WeaponType.AssaultShotgun, WeaponSound.Fire, _data.Fire );
-            weaponClips.Add( WeaponType.AssaultShotgun, WeaponSound.Hit, _data.Hit );
-            weaponClips.Add( WeaponType.AssaultShotgun, WeaponSound.Reload, _data.Reload );
-            weaponClips.Add( WeaponType.AssaultShotgun, WeaponSound.Swap, _data.Swap );
+            bgmClips.Add( BGM.Login,  _data.bgmLogin  );
+            bgmClips.Add( BGM.Lobby,  _data.bgmLobby  );
+            bgmClips.Add( BGM.InGame, _data.bgmInGame );
+                          
+            sfxClips.Add( SFX.MouseClick, _data.sfxMouseClick );
+            sfxClips.Add( SFX.MenuEntry,  _data.sfxMenuEntry  );
+            sfxClips.Add( SFX.MenuExit,   _data.sfxMenuExit   );
         } );
 
         StartCoroutine( CheckLoadCount() );
@@ -205,13 +132,13 @@ public class AudioManager : Singleton<AudioManager>
     #endregion
 
     #region Play
-    private AudioChannel GetChannel<T, U>( AudioClipGroup<T, U> _clips, T _type, U _sound, float _volume ) where T : System.Enum where U : System.Enum
+    private AudioChannel GetChannel<T>( AudioClipGroup<T> _clips, T _type, float _volume ) where T : System.Enum
     {
         AudioChannel channel = null;
-        if ( _clips.TryGetClip( out AudioClip clip, _type, _sound ) )
+        if ( _clips.TryGetClip( out AudioClip clip, _type ) )
         {
             channel = channels.Spawn();
-            channel.Clip   = clip;
+            channel.Clip = clip;
             channel.Volume = _volume;
 
             enabledChannels.AddLast( channel );
@@ -221,19 +148,10 @@ public class AudioManager : Singleton<AudioManager>
     }
 
     #region BGM
-    /// <summary> Play with no effect </summary>
-    public void Play( BGMType _type, BGMSound _sound, float _volume = 1f, bool _loop = true )
-    {
-        AudioChannel channel = GetChannel( bgmClips, _type, _sound, _volume );
-        channel.MixerGroup = mixerGroup[( int )MixerType.BGM];
-        channel.Loop = _loop;
-        channel.Play();
-    }
-
     /// <summary> Play with fade effect </summary>
-    public void Play( BGMType _type, BGMSound _sound, float _start, float _end, float _t, bool _loop = true )
+    public void Play( BGM _type, float _start, float _end, float _t, bool _loop = true )
     {
-        AudioChannel channel = GetChannel( bgmClips, _type, _sound, 0f );
+        AudioChannel channel = GetChannel( bgmClips, _type, 0f );
         channel.MixerGroup = mixerGroup[( int )MixerType.BGM];
         channel.Loop = _loop;
         StartCoroutine( Fade( channel, _start, _end, _t ) );
@@ -242,50 +160,36 @@ public class AudioManager : Singleton<AudioManager>
 
     #region SFX
     /// <summary> Play with no effect </summary>
-    public void Play( SFXType _type, SFXSound _sound, float _volume = 1f )
+    public void Play( SFX _type, float _volume = 1f )
     {
-        AudioChannel channel = GetChannel( sfxClips, _type, _sound, _volume );
+        AudioChannel channel = GetChannel( sfxClips, _type, _volume );
         channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
         channel.Play();
     }
     #endregion
 
-    #region Character
-    /// <summary> Play with no effect </summary>
-    public void Play( PlayerType _type, PlayerSound _sound, float _volume = 1f )
+    public void Play( in AudioClip _clip, float _volume = 1f )
     {
-        AudioChannel channel = GetChannel( playerClips, _type, _sound, _volume );
-        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
+        AudioChannel channel = channels.Spawn();
+        channel.MixerGroup   = mixerGroup[( int )MixerType.SFX];
+        channel.Clip         = _clip;
+        channel.Volume       = _volume;
         channel.Play();
+
+        enabledChannels.AddLast( channel );
     }
 
-    /// <summary> Play the sound at the _point </summary>
-    public void Play( PlayerType _type, PlayerSound _sound, Vector3 _point, float _volume = 1f )
+    public void Play( in AudioClip _clip, Vector3 _pos, float _volume = 1f )
     {
-        AudioChannel channel = GetChannel( playerClips, _type, _sound, _volume );
+        AudioChannel channel = channels.Spawn();
         channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
-        channel.transform.position = _point;
+        channel.Clip = _clip;
+        channel.Volume = _volume;
+        channel.transform.position = _pos;
+        
         channel.Play();
+        enabledChannels.AddLast( channel );
     }
-    #endregion
-    #region Character
-    /// <summary> Play with no effect </summary>
-    public void Play( WeaponType _type, WeaponSound _sound, float _volume = 1f )
-    {
-        AudioChannel channel = GetChannel( weaponClips, _type, _sound, _volume );
-        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
-        channel.Play();
-    }
-
-    /// <summary> Play the sound at the _point </summary>
-    public void Play( WeaponType _type, WeaponSound _sound, Vector3 _point, float _volume = 1f )
-    {
-        AudioChannel channel = GetChannel( weaponClips, _type, _sound, _volume );
-        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
-        channel.transform.position = _point;
-        channel.Play();
-    }
-    #endregion
     #endregion
 
     #region Effect

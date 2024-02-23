@@ -12,6 +12,6 @@ public class BulletSound : MonoBehaviour
 
     private void OnHit( Character _attacker, Character _defender, Bullet _bullet )
     {
-        AudioManager.Inst.Play( _bullet.data.weaponType, WeaponSound.Hit, _bullet.transform.position );
+        AudioManager.Inst.Play( _bullet.data.Hit, _bullet.transform.position );
     }
 }

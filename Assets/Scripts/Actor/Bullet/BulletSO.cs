@@ -18,5 +18,8 @@ public class BulletSO : ScriptableObject
     public Poolable hitEffect;
 
     [Header( "¦¡ Sound" )]
-    public WeaponType weaponType;
+    public AudioClip Fire;
+    public AudioClip Hit;
+    public AudioClip Reload;
+    public AudioClip Swap;
 }

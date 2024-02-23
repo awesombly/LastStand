@@ -55,13 +55,13 @@ public class StageSystem : MonoBehaviour
             title.ActivateInputField();
             SetPersonnel( 4 );
             SetTargetKillCount( 40 );
-            AudioManager.Inst.Play( SFXType.Default, SFXSound.MenuEntry );
+            AudioManager.Inst.Play( SFX.MenuEntry );
         }
         else
         {
             title.text = string.Empty;
             title.DeactivateInputField();
-            AudioManager.Inst.Play( SFXType.Default, SFXSound.MenuExit );
+            AudioManager.Inst.Play( SFX.MenuExit );
         }
 
         canvas.SetActive( _active );
@@ -74,7 +74,7 @@ public class StageSystem : MonoBehaviour
         {
             personnelOutlines[i].enabled = i == _max - 1 ? true : false;
         }
-        AudioManager.Inst.Play( SFXType.Default, SFXSound.MouseClick );
+        AudioManager.Inst.Play( SFX.MouseClick );
     }
 
     public void SetTargetKillCount( int _killCount )
@@ -84,7 +84,7 @@ public class StageSystem : MonoBehaviour
         {
             targetKillOutlines[i].enabled = i == Global.Mathematics.Round( _killCount * .1f ) - 1 ? true : false;
         }
-        AudioManager.Inst.Play( SFXType.Default, SFXSound.MouseClick );
+        AudioManager.Inst.Play( SFX.MouseClick );
     }
 
 
@@ -101,7 +101,7 @@ public class StageSystem : MonoBehaviour
         protocol.personnel  = new Personnel { current = 0, maximum = maxPersonnel };
         
         Network.Inst.Send( new Packet( CREATE_STAGE_REQ, protocol ) );
-        AudioManager.Inst.Play( SFXType.Default, SFXSound.MouseClick );
+        AudioManager.Inst.Play( SFX.MouseClick );
     }
 
     public void ExitGame() => Application.Quit();

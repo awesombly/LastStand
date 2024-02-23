@@ -9,4 +9,9 @@ public class CharacterData : ScriptableObject
     public float maxHp;
     public float moveSpeed;
     public float attackRate;
+
+    [Header( "¦¡ Sound" )]
+    public AudioClip Attack;
+    public AudioClip Hit;
+    public AudioClip Dead;
 }

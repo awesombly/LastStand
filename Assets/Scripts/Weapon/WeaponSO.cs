@@ -6,5 +6,8 @@ using UnityEngine;
 public class WeaponSO : ScriptableObject
 {
     [Header( "¦¡ Sound" )]
-    public WeaponType weaponType;
+    public AudioClip Fire;
+    public AudioClip Hit;
+    public AudioClip Reload;
+    public AudioClip Swap;
 }

@@ -20,4 +20,7 @@ MonoBehaviour:
     max: 1
   fireEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
   hitEffect: {fileID: 9222338147210068352, guid: eb67646278733d84aa3c4239011f7145, type: 3}
-  weaponType: 2
+  Fire: {fileID: 8300000, guid: 6457234ea4f9acb4eaa90d161d851a92, type: 3}
+  Hit: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
+  Reload: {fileID: 8300000, guid: 932d63e237e1d694da4d0c87419d0a85, type: 3}
+  Swap: {fileID: 8300000, guid: e6ce75a3530ffa64f82bd24c915029c2, type: 3}

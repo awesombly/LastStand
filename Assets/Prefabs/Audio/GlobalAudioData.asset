@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 944a59a035737e6409a502515eea3b49, type: 3}
+  m_Name: GlobalAudioData
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: c9cfc3c7dedde4c44aecc2ff855a77db, type: 2}
+  channel: {fileID: 9116064787317401852, guid: 72c602f1e0d397746bb557006016cfef, type: 3}
+  bgmLogin: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
+  bgmLobby: {fileID: 8300000, guid: 91399eba7a9150e418d57855b331fce3, type: 3}
+  bgmInGame: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
+  sfxMouseClick: {fileID: 8300000, guid: cd70e1cc9202f594cb0e12e64e36ca08, type: 3}
+  sfxMenuEntry: {fileID: 8300000, guid: e6ce75a3530ffa64f82bd24c915029c2, type: 3}
+  sfxMenuExit: {fileID: 8300000, guid: 7b85574f75a077c4885fc4a353ce3849, type: 3}

@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Player
+  m_Name: Audio
   m_EditorClassIdentifier: 
-  m_GroupName: Player
+  m_GroupName: Audio
   m_Data:
     m_SerializedData: []
-  m_GUID: b974dc6a73b9b1047a9c97f5e6ac4d06
+  m_GUID: 1cd9360a13486ae429efb39c682d5aa4
   m_SerializeEntries:
-  - m_GUID: 54763bc2314af264baaa3d840d5db80f
-    m_Address: Player_Default_Audio
+  - m_GUID: 5b66efa8abf56f94c88e72e970386ea9
+    m_Address: GlobalAudioData
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Player_Default
+    - Global
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a299492f31ddeed45b114ccd93e27a83, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 75735bd443e71eb459faf0e49d31cb09, type: 2}
-    - {fileID: 11400000, guid: 3c780434ce8e0614299101e0cb43354a, type: 2}
+    - {fileID: 11400000, guid: 317af9716f1c2f64c82f882582a0c468, type: 2}
+    - {fileID: 11400000, guid: c954920fad389d24f8b5b75643d908fa, type: 2}
