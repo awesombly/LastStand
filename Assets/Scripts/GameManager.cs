@@ -158,6 +158,7 @@ public class GameManager : Singleton<GameManager>
     private void Clear()
     {
         LocalPlayer = null;
+        Players.Clear();
     }
 
     private void UpdateActiveScene()

@@ -15,7 +15,7 @@ MonoBehaviour:
   moveSpeed: 28
   damage: 12
   range: 12
-  pushingPower: 600
+  pushingPower: 900
   penetratePower:
     max: 2
   fireEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}

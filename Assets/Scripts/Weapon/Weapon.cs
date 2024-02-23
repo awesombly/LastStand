@@ -155,8 +155,10 @@ public class Weapon : MonoBehaviour
         {
             var bullet = new BULLET_INFO();
             bullet.angle = GetRandomRange( angle, shotInfo.spreadAngle );
+            bullet.angle = MathF.Round( bullet.angle, Global.RoundDigit );
             bullet.serial = 0;
             bullet.rate = UnityEngine.Random.Range( shotInfo.speedRate, 1f );
+            bullet.rate = MathF.Round( bullet.rate, Global.RoundDigit );
             protocol.bullets.Add( bullet );
         }
 

@@ -19,6 +19,7 @@ public class InGameUIScene : SceneBase
     public GameObject pause;
     private bool isProgress;
 
+    #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
@@ -32,6 +33,26 @@ public class InGameUIScene : SceneBase
 
         GameManager.OnChangePlayers += UpdatePlayerBoard;
     }
+
+    protected override void Start()
+    {
+        base.Start();
+    }
+
+    private void Update()
+    {
+        if ( Input.GetKeyDown( KeyCode.Escape ) )
+        {
+            if ( pause.activeInHierarchy ) pause.SetActive( false );
+            else pause.SetActive( true );
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnChangePlayers -= UpdatePlayerBoard;
+    }
+    #endregion
 
     private void UpdatePlayerBoard()
     {
@@ -47,20 +68,6 @@ public class InGameUIScene : SceneBase
             {
                 boards[i].gameObject.SetActive( false );
             }
-        }
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    private void Update()
-    {
-        if ( Input.GetKeyDown( KeyCode.Escape ) )
-        {
-            if ( pause.activeInHierarchy ) pause.SetActive( false );
-            else pause.SetActive( true );
         }
     }
 

@@ -28,8 +28,9 @@ public class Enemy : Character
         target = GameManager.LocalPlayer.GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         attackRange = UnityEngine.Random.Range( 3f, 10f );
         OnDeadEvent += OnDead;
 

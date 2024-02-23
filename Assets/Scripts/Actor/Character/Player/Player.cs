@@ -58,8 +58,9 @@ public class Player : Character
         Hp.OnChangeCurrent += OnChangeHp;
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         OnDeadEvent += OnDead;
     }
 
@@ -71,7 +72,11 @@ public class Player : Character
     }
     #endregion
 
-    public void InitBoardUI( PlayerBoard _board ) => board = _board;
+    public void InitBoardUI( PlayerBoard _board )
+    {
+        board = _board;
+        board?.UpdateHealth( healthBar.value );
+    }
 
     public void SwapWeapon( int _index )
     {
