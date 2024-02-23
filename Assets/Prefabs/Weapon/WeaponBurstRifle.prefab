@@ -92,6 +92,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeaponBurstRifle
       objectReference: {fileID: 0}
+    - target: {fileID: 9035912363181180166, guid: 475f66fae0c60af438a59ff12a5358a6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.776
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035912363181180166, guid: 475f66fae0c60af438a59ff12a5358a6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.02
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
