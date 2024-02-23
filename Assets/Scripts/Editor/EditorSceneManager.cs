@@ -14,12 +14,6 @@ public class EditorSceneUtil : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = true;
     }
 
-    [MenuItem( "MyEditor/LoginScene Start" )]
-    public static void SetupLoginScene()
-    {
-        StartScene( SceneType.Login );
-    }
-
     [MenuItem( "MyEditor/LobbyScene Start" )]
     public static void SetupLobbyScene()
     {

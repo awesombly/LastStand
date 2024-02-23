@@ -36,6 +36,8 @@ public class GameManager : Singleton<GameManager>
     private Dictionary<uint/*Serial*/, Actor> actors = new Dictionary<uint, Actor>();
 
     public static STAGE_INFO? StageInfo { get; set; }
+    public static LOGIN_INFO? LoginInfo { get; set; }
+
 
 
     #region Unity Callback

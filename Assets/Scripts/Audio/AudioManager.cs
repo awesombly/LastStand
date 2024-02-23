@@ -11,7 +11,6 @@ using UnityEngine.Audio;
 public enum MixerType : int { Master = 0, BGM, SFX, }
 public enum BGM : ushort
 {
-    Login,
     Lobby,
     InGame,
 }
@@ -82,7 +81,6 @@ public sealed class AudioManager : Singleton<AudioManager>
             if ( !ReferenceEquals( _data.channel, null ) )
                  channels = new WNS.ObjectPool<AudioChannel>( _data.channel, transform );
 
-            clips.Add( BGM.Login,  _data.bgmLogin  );
             clips.Add( BGM.Lobby,  _data.bgmLobby  );
             clips.Add( BGM.InGame, _data.bgmInGame );
 

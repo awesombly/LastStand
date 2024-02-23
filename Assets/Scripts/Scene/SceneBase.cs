@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public enum SceneType
 {
     None,
-    Login,
     Lobby,
     InGame_Logic,
     InGame_UI,

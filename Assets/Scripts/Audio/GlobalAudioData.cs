@@ -10,7 +10,6 @@ public class GlobalAudioData : ScriptableObject
     public AudioChannel channel;
 
     [Header( "BGM" )]
-    public AudioClip bgmLogin;
     public AudioClip bgmLobby;
     public AudioClip bgmInGame;
 
