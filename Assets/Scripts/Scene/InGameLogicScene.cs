@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PacketType;
 
-public class InGameScene : SceneBase
+public class InGameLogicScene : SceneBase
 {
     [SerializeField]
     private Transform spawnTransform;
@@ -11,7 +11,7 @@ public class InGameScene : SceneBase
     protected override void Awake()
     {
         base.Awake();
-        SceneType = SceneType.InGame;
+        SceneType = SceneType.InGame_Logic;
         if ( spawnTransform == null )
         {
             spawnTransform = transform;

@@ -8,6 +8,7 @@ public class PlayerUI : MonoBehaviour
 {
     public Slider reloadBar;
     private Player player;
+    private InGameUIScene uiScene;
 
     private void Awake()
     {
@@ -17,11 +18,16 @@ public class PlayerUI : MonoBehaviour
         OnChangeEquipWeapon( null, player.EquipWeapon );
     }
 
+    private void Start()
+    {
+        uiScene = GameManager.Inst.GetActiveScene( SceneType.InGame_UI ) as InGameUIScene;
+    }
+
     private void OnChangeAmmo( int _old, int _new )
     {
         if ( !ReferenceEquals( player, null ) && player.IsLocal )
         {
-            UIManager.Inst.ammoText?.SetText( _new.ToString() );
+            uiScene.ammoText?.SetText( _new.ToString() );
         }
     }
 
@@ -29,7 +35,7 @@ public class PlayerUI : MonoBehaviour
     {
         if ( !ReferenceEquals( player, null ) && player.IsLocal )
         {
-            UIManager.Inst.magazineText?.SetText( _new.ToString() );
+            uiScene.magazineText?.SetText( _new.ToString() );
         }
     }
 

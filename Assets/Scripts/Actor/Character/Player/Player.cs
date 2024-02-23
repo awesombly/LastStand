@@ -47,7 +47,6 @@ public class Player : Character
         receiver = GetComponent<ActionReceiver>();
         movement = GetComponent<PlayerMovement>();
         Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
-        SwapWeapon( 1 );
 
         receiver.OnSwapWeaponEvent += SwapWeapon;
 
@@ -59,6 +58,8 @@ public class Player : Character
     private void Start()
     {
         OnDeadEvent += OnDead;
+
+        SwapWeapon( 1 );
     }
 
     private void Update()

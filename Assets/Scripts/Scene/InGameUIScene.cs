@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-// Sample이랑 합쳐도 될듯
-public class UIManager : Singleton<UIManager>
+public class InGameUIScene : SceneBase
 {
     public Camera uiCamera;
 
@@ -14,6 +13,11 @@ public class UIManager : Singleton<UIManager>
     protected override void Awake()
     {
         base.Awake();
+        SceneType = SceneType.InGame_UI;
         uiCamera.clearFlags = CameraClearFlags.Depth;
+    }
+    protected override void Start()
+    {
+        base.Start();
     }
 }

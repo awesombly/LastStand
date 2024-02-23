@@ -10,7 +10,6 @@ public enum SceneType
     None,
     Login,
     Lobby,
-    InGame,
     InGame_Logic,
     InGame_UI,
 }
@@ -42,6 +41,10 @@ public class SceneBase : MonoBehaviour
     }
 
     protected virtual void Start()
+    {
+    }
+
+    protected virtual void OnEnable()
     {
         OnAfterSceneLoad?.Invoke();
     }

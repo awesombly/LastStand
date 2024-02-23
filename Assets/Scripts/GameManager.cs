@@ -25,18 +25,19 @@ public class GameManager : Singleton<GameManager>
             OnChangeLocalPlayer?.Invoke( oldPlayer, localPlayer );
         }
     }
+    public static event Action<Player/*old*/, Player/*new*/> OnChangeLocalPlayer;
 
     [SerializeField]
     private GameMangerSO data;
-
+    private Dictionary<SceneType, SceneBase> activeScenes = new Dictionary<SceneType, SceneBase>();
     private Dictionary<uint/*Serial*/, Actor> actors = new Dictionary<uint, Actor>();
 
-    public static event Action<Player/*old*/, Player/*new*/> OnChangeLocalPlayer;
-
+    #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
         SceneBase.OnBeforeSceneLoad += Clear;
+        SceneBase.OnAfterSceneLoad += UpdateActiveScene;
     }
 
     private void Update()
@@ -48,7 +49,20 @@ public class GameManager : Singleton<GameManager>
             MouseDirection = ( MouseWorldPos - ( Vector2 )LocalPlayer.transform.position ).normalized;
         }
     }
+    #endregion
 
+    public SceneBase GetActiveScene( SceneType _sceneType )
+    {
+        if ( !activeScenes.ContainsKey( _sceneType ) )
+        {
+            Debug.LogWarning( $"Not active SceneType :{_sceneType}" );
+            return null;
+        }
+
+        return activeScenes[ _sceneType ];
+    }
+
+    #region Actor
     public void RegistActor( Actor _actor )
     {
         if ( _actor == null
@@ -83,7 +97,9 @@ public class GameManager : Singleton<GameManager>
 
         return actors[_serial];
     }
+    #endregion
 
+    #region Prefab
     public int GetPrefabIndex( Poolable _prefab )
     {
         int index = data.prefabList.FindIndex( ( _item ) => _item == _prefab );
@@ -110,9 +126,21 @@ public class GameManager : Singleton<GameManager>
     {
         return data.playerPrefab;
     }
+    #endregion
 
     private void Clear()
     {
         LocalPlayer = null;
+    }
+
+    private void UpdateActiveScene()
+    {
+        activeScenes.Clear();
+
+        SceneBase[] scenes = FindObjectsByType<SceneBase>( FindObjectsSortMode.None );
+        foreach ( SceneBase scene in scenes)
+        {
+            activeScenes.Add( scene.SceneType, scene );
+        }
     }
 }
