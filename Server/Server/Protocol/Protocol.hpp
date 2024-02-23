@@ -341,12 +341,14 @@ public:
 typedef struct ChatMessage
 {
 public:
+	u_int serial;
 	std::string nickname;
 	std::string message;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
+		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( nickname ) );
 		ar( CEREAL_NVP( message ) );
 	}

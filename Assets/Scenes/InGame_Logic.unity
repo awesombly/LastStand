@@ -751,14 +751,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9185096530725094759, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
-      propertyPath: ammoText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9185096530725094759, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
-      propertyPath: magazineText
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

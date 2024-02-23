@@ -33,6 +33,11 @@ public class InGameUIScene : SceneBase
         GameManager.OnChangePlayers += UpdatePlayerBoard;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.OnChangePlayers -= UpdatePlayerBoard;
+    }
+
     private void UpdatePlayerBoard()
     {
         var players = GameManager.Players;
