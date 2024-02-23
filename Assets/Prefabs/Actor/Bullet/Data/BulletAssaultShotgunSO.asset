@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4640bce3f05513c4a86e2ae658226082, type: 3}
-  m_Name: BulletShotgunSO
+  m_Name: BulletAssaultShotgunSO
   m_EditorClassIdentifier: 
-  moveSpeed: 30
+  moveSpeed: 36
   damage: 3
-  range: 9
-  pushingPower: 400
+  range: 8
+  pushingPower: 350
   penetratePower:
     max: 2
   fireEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
   hitEffect: {fileID: 9222338147210068352, guid: eb67646278733d84aa3c4239011f7145, type: 3}
-  hitSound: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}
+  hitSound: {fileID: 8300000, guid: d1bef3102d08ba944ac7bcac65733a26, type: 3}

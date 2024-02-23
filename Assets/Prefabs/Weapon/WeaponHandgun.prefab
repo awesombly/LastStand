@@ -19,7 +19,7 @@ PrefabInstance:
     - target: {fileID: 2749857836408045721, guid: 475f66fae0c60af438a59ff12a5358a6, type: 3}
       propertyPath: bulletPrefab
       value: 
-      objectReference: {fileID: -2796159070604671697, guid: 394939e967e80314bb39062ac7589d26, type: 3}
+      objectReference: {fileID: 7283121677434910822, guid: 40951348a385b2445a065dda0076bd16, type: 3}
     - target: {fileID: 2749857836408045721, guid: 475f66fae0c60af438a59ff12a5358a6, type: 3}
       propertyPath: stat.magazine.max
       value: 12

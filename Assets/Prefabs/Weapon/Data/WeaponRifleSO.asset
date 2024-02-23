@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df430bcac4fc1bf42b33587fc022b3a5, type: 3}
   m_Name: WeaponRifleSO
   m_EditorClassIdentifier: 
-  weaponType: 2
+  fireSound: {fileID: 8300000, guid: c71cb44630106aa4c90e8fa0e738e276, type: 3}
+  reloadSound: {fileID: 8300000, guid: 90e9f1c064e97f846b439632ace271ae, type: 3}
+  swapSound: {fileID: 8300000, guid: e6ce75a3530ffa64f82bd24c915029c2, type: 3}

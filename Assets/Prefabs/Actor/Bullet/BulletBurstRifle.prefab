@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4332696694487203145
+--- !u!1001 &3203599687891990918
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,14 +11,14 @@ PrefabInstance:
     - target: {fileID: -2796159070604671697, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
       propertyPath: data
       value: 
-      objectReference: {fileID: 11400000, guid: 3cff9d990fccd5e458b2b9250a9646b1, type: 2}
+      objectReference: {fileID: 11400000, guid: 9b1a18c253e00af44960d76a125842f1, type: 2}
     - target: {fileID: 1372491315667809296, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 154122315, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
+      objectReference: {fileID: -1327499133, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
     - target: {fileID: 3777912928162346754, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
       propertyPath: m_Name
-      value: BulletHandgun
+      value: BulletBurstRifle
       objectReference: {fileID: 0}
     - target: {fileID: 9178964893746154729, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
       propertyPath: m_LocalPosition.x
