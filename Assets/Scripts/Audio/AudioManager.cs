@@ -62,6 +62,7 @@ public class AudioManager : Singleton<AudioManager>
     private AudioClipGroup<BGMType,    BGMSound>    bgmClips    = new AudioClipGroup<BGMType,    BGMSound>();
     private AudioClipGroup<SFXType,    SFXSound>    sfxClips    = new AudioClipGroup<SFXType,    SFXSound>();
     private AudioClipGroup<PlayerType, PlayerSound> playerClips = new AudioClipGroup<PlayerType, PlayerSound>();
+    private AudioClipGroup<WeaponType, WeaponSound> weaponClips = new AudioClipGroup<WeaponType, WeaponSound>();
 
     [Header( "Addressable" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
@@ -129,6 +130,54 @@ public class AudioManager : Singleton<AudioManager>
             playerClips.Add( PlayerType.Default, PlayerSound.Attack, _data.Attack );
             playerClips.Add( PlayerType.Default, PlayerSound.Dead,   _data.Dead   );
             playerClips.Add( PlayerType.Default, PlayerSound.Hit,    _data.Hit    );
+        } );
+
+        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
+        {
+            weaponClips.Add( WeaponType.Default, WeaponSound.Fire, _data.Fire );
+            weaponClips.Add( WeaponType.Default, WeaponSound.Hit, _data.Hit );
+            weaponClips.Add( WeaponType.Default, WeaponSound.Reload, _data.Reload );
+            weaponClips.Add( WeaponType.Default, WeaponSound.Swap, _data.Swap );
+        } );
+
+        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
+        {
+            weaponClips.Add( WeaponType.Handgun, WeaponSound.Fire, _data.Fire );
+            weaponClips.Add( WeaponType.Handgun, WeaponSound.Hit, _data.Hit );
+            weaponClips.Add( WeaponType.Handgun, WeaponSound.Reload, _data.Reload );
+            weaponClips.Add( WeaponType.Handgun, WeaponSound.Swap, _data.Swap );
+        } );
+
+        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
+        {
+            weaponClips.Add( WeaponType.Rifle, WeaponSound.Fire, _data.Fire );
+            weaponClips.Add( WeaponType.Rifle, WeaponSound.Hit, _data.Hit );
+            weaponClips.Add( WeaponType.Rifle, WeaponSound.Reload, _data.Reload );
+            weaponClips.Add( WeaponType.Rifle, WeaponSound.Swap, _data.Swap );
+        } );
+
+        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
+        {
+            weaponClips.Add( WeaponType.BurstRifle, WeaponSound.Fire, _data.Fire );
+            weaponClips.Add( WeaponType.BurstRifle, WeaponSound.Hit, _data.Hit );
+            weaponClips.Add( WeaponType.BurstRifle, WeaponSound.Reload, _data.Reload );
+            weaponClips.Add( WeaponType.BurstRifle, WeaponSound.Swap, _data.Swap );
+        } );
+
+        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
+        {
+            weaponClips.Add( WeaponType.Shotgun, WeaponSound.Fire, _data.Fire );
+            weaponClips.Add( WeaponType.Shotgun, WeaponSound.Hit, _data.Hit );
+            weaponClips.Add( WeaponType.Shotgun, WeaponSound.Reload, _data.Reload );
+            weaponClips.Add( WeaponType.Shotgun, WeaponSound.Swap, _data.Swap );
+        } );
+
+        LoadAssetsAsync( "Player_Default", ( AudioDataWeapon _data ) =>
+        {
+            weaponClips.Add( WeaponType.AssaultShotgun, WeaponSound.Fire, _data.Fire );
+            weaponClips.Add( WeaponType.AssaultShotgun, WeaponSound.Hit, _data.Hit );
+            weaponClips.Add( WeaponType.AssaultShotgun, WeaponSound.Reload, _data.Reload );
+            weaponClips.Add( WeaponType.AssaultShotgun, WeaponSound.Swap, _data.Swap );
         } );
 
         StartCoroutine( CheckLoadCount() );
@@ -214,6 +263,24 @@ public class AudioManager : Singleton<AudioManager>
     public void Play( PlayerType _type, PlayerSound _sound, Vector3 _point, float _volume = 1f )
     {
         AudioChannel channel = GetChannel( playerClips, _type, _sound, _volume );
+        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
+        channel.transform.position = _point;
+        channel.Play();
+    }
+    #endregion
+    #region Character
+    /// <summary> Play with no effect </summary>
+    public void Play( WeaponType _type, WeaponSound _sound, float _volume = 1f )
+    {
+        AudioChannel channel = GetChannel( weaponClips, _type, _sound, _volume );
+        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
+        channel.Play();
+    }
+
+    /// <summary> Play the sound at the _point </summary>
+    public void Play( WeaponType _type, WeaponSound _sound, Vector3 _point, float _volume = 1f )
+    {
+        AudioChannel channel = GetChannel( weaponClips, _type, _sound, _volume );
         channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
         channel.transform.position = _point;
         channel.Play();

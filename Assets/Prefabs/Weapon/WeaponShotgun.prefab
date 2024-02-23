@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 039b49cf111fe9d489f270acfcdf8f19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: df1e8c0e6a896af4fb853e5888718f15, type: 2}
   bulletPrefab: {fileID: -2796159070604671697, guid: ebeb623f485d5354d9181482a491b44b, type: 3}
   shotPoint: {fileID: 9035912363181180166}
   rotateCorrection: 90

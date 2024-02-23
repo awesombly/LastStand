@@ -8,16 +8,10 @@ public class BulletSound : MonoBehaviour
     {
         Bullet bullet = GetComponent<Bullet>();
         bullet.OnHit += OnHit;
-        bullet.OnFire += OnFire;
-    }
-
-    private void OnFire( Bullet _bullet )
-    {
-        AudioManager.Inst.Play( _bullet.data.playerType, PlayerSound.Attack, _bullet.data.volume );
     }
 
     private void OnHit( Character _attacker, Character _defender, Bullet _bullet )
     {
-        AudioManager.Inst.Play( _bullet.data.playerType, PlayerSound.Hit, _bullet.data.volume );
+        AudioManager.Inst.Play( _bullet.data.weaponType, WeaponSound.Hit, _bullet.transform.position );
     }
 }

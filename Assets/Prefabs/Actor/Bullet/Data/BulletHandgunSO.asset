@@ -20,5 +20,4 @@ MonoBehaviour:
     max: 2
   fireEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
   hitEffect: {fileID: 9222338147210068352, guid: eb67646278733d84aa3c4239011f7145, type: 3}
-  playerType: 0
-  volume: 0.5
+  weaponType: 1

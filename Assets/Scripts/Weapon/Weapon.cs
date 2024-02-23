@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public WeaponSO data;
+
     [SerializeField]
     private Bullet bulletPrefab;
     [SerializeField]
@@ -58,6 +60,10 @@ public class Weapon : MonoBehaviour
     private Character owner;
     private ActionReceiver receiver;
 
+    public event Action<Weapon> OnFire;
+    public event Action<Weapon> OnReload;
+    public event Action<Weapon> OnSwap;
+
     #region Unity Callback
     private void Start()
     {
@@ -76,18 +82,21 @@ public class Weapon : MonoBehaviour
     {
         owner = GetComponentInParent<Character>();
         receiver = GetComponentInParent<ActionReceiver>();
+
         receiver.OnAttackPressEvent += OnAttackPress;
-        receiver.OnReloadEvent += OnReload;
+        receiver.OnReloadEvent += TryReload;
         stat.reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
 
         lookInfo.curAngle = lookInfo.targetAngle = transform.rotation.eulerAngles.z;
         stat.swapDelay.SetMax();
+
+        OnSwap?.Invoke( this );
     }
 
     private void OnDisable()
     {
         receiver.OnAttackPressEvent -= OnAttackPress;
-        receiver.OnReloadEvent -= OnReload;
+        receiver.OnReloadEvent -= TryReload;
         stat.reloadDelay.OnChangeCurrent -= OnChangeReloadDelay;
     }
 
@@ -132,7 +141,7 @@ public class Weapon : MonoBehaviour
         stat.repeatDelay.SetMax();
         if ( stat.magazine.IsZero )
         {
-            OnReload();
+            TryReload();
             return;
         }
 
@@ -143,6 +152,7 @@ public class Weapon : MonoBehaviour
         else
         {
             --stat.magazine.Current;
+            OnFire?.Invoke( this );
             Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, MakeBulletShotInfo() );
         }
     }
@@ -153,6 +163,7 @@ public class Weapon : MonoBehaviour
         {
             --stat.magazine.Current;
             --_burstCount;
+            OnFire?.Invoke( this );
             Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, MakeBulletShotInfo() );
             yield return YieldCache.WaitForSeconds( shotInfo.burstDelay );
         }
@@ -199,7 +210,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void OnReload()
+    private void TryReload()
     {
         if ( stat.magazine.IsMax || stat.ammo.IsZero || stat.reloadDelay.Current > 0f )
         {
@@ -208,6 +219,8 @@ public class Weapon : MonoBehaviour
 
         stat.reloadDelay.Max = Mathf.Max( stat.reloadDelay.Max, 0.001f );
         stat.reloadDelay.SetMax();
+        OnReload?.Invoke( this );
+
         SERIAL_INFO protocol;
         protocol.serial = owner.Serial;
         Network.Inst.Send( PacketType.SYNC_RELOAD_REQ, protocol );
