@@ -12,7 +12,6 @@ public enum SFXType : ushort
 public enum SFXSound : ushort
 {
     MouseClick,
-    MouseHover,
 
     MenuEntry,
     MenuExit,
@@ -22,7 +21,6 @@ public enum SFXSound : ushort
 public class AudioDataSFX : ScriptableObject
 {
     public AudioClip MouseClick;
-    public AudioClip MouseHover;
     public AudioClip MenuEntry;
     public AudioClip MenuExit;
 }

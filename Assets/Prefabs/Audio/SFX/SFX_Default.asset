@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1ddad8fc9121194db5449e9b2aabc59, type: 3}
   m_Name: SFX_Default
   m_EditorClassIdentifier: 
-  MouseClick: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}
-  MouseHover: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}
-  MenuEntry: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}
-  MenuExit: {fileID: 8300000, guid: 6b7eaf4532a2f614595ad58d2b86efc4, type: 3}
+  MouseClick: {fileID: 8300000, guid: cd70e1cc9202f594cb0e12e64e36ca08, type: 3}
+  MenuEntry: {fileID: 8300000, guid: e6ce75a3530ffa64f82bd24c915029c2, type: 3}
+  MenuExit: {fileID: 8300000, guid: 7b85574f75a077c4885fc4a353ce3849, type: 3}

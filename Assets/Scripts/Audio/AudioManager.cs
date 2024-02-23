@@ -120,7 +120,6 @@ public class AudioManager : Singleton<AudioManager>
         LoadAssetsAsync( "Theme_Default", ( AudioDataSFX _data ) => 
         {
             sfxClips.Add( SFXType.Default, SFXSound.MouseClick, _data.MouseClick );
-            sfxClips.Add( SFXType.Default, SFXSound.MouseHover, _data.MouseHover );
             sfxClips.Add( SFXType.Default, SFXSound.MenuEntry,  _data.MenuEntry  );
             sfxClips.Add( SFXType.Default, SFXSound.MenuExit,   _data.MenuExit   );
         } );

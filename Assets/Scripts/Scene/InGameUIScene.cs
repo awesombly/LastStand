@@ -43,8 +43,16 @@ public class InGameUIScene : SceneBase
     {
         if ( Input.GetKeyDown( KeyCode.Escape ) )
         {
-            if ( pause.activeInHierarchy ) pause.SetActive( false );
-            else pause.SetActive( true );
+            if ( pause.activeInHierarchy )
+            {
+                pause.SetActive( false );
+                AudioManager.Inst.Play( SFXType.Default, SFXSound.MenuExit );
+            }
+            else
+            {
+                pause.SetActive( true );
+                AudioManager.Inst.Play( SFXType.Default, SFXSound.MenuEntry );
+            }
         }
     }
 
@@ -77,6 +85,7 @@ public class InGameUIScene : SceneBase
 
         isProgress = true;
         Network.Inst.Send( EXIT_STAGE_REQ, StageSystem.StageInfo.Value );
+        AudioManager.Inst.Play( SFXType.Default, SFXSound.MouseClick );
     }
 
     private void AckExitStage( Packet _packet )
