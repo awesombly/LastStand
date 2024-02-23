@@ -141,6 +141,8 @@ MonoBehaviour:
       max: 0
     reloadDelay:
       max: 0.8
+    swapDelay:
+      max: 0.3
     isAllowKeyHold: 1
     shakeShotAngle: 40
   lookInfo:

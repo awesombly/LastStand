@@ -75,6 +75,12 @@ public class Player : Character
             return;
         }
 
+        if ( !ReferenceEquals( EquipWeapon, null )
+            && !EquipWeapon.stat.swapDelay.IsZero )
+        {
+            return;
+        }
+
         EquipWeapon = Weapons[_index];
     }
 

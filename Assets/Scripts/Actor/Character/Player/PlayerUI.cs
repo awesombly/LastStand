@@ -35,8 +35,18 @@ public class PlayerUI : MonoBehaviour
 
     private void OnChangeReloadDelay( float _old, float _new )
     {
-        reloadBar.gameObject.SetActive( !player.EquipWeapon.stat.reloadDelay.IsZero );
-        reloadBar.value = ( player.EquipWeapon.stat.reloadDelay.Max - player.EquipWeapon.stat.reloadDelay.Current ) / player.EquipWeapon.stat.reloadDelay.Max;
+        // swapDelay(무기교체시)도 같이 사용
+        bool isActive = !( player.EquipWeapon.stat.reloadDelay.IsZero && player.EquipWeapon.stat.swapDelay.IsZero );
+        reloadBar.gameObject.SetActive( isActive );
+
+        if ( player.EquipWeapon.stat.reloadDelay.Current >= player.EquipWeapon.stat.swapDelay.Current )
+        {
+            reloadBar.value = ( player.EquipWeapon.stat.reloadDelay.Max - player.EquipWeapon.stat.reloadDelay.Current ) / player.EquipWeapon.stat.reloadDelay.Max;
+        }
+        else
+        {
+            reloadBar.value = ( player.EquipWeapon.stat.swapDelay.Max - player.EquipWeapon.stat.swapDelay.Current ) / player.EquipWeapon.stat.swapDelay.Max;
+        }
     }
 
     private void OnChangeEquipWeapon( Weapon _old, Weapon _new )
@@ -51,6 +61,7 @@ public class PlayerUI : MonoBehaviour
             _old.stat.ammo.OnChangeCurrent           -= OnChangeAmmo;
             _old.stat.magazine.OnChangeCurrent       -= OnChangeMagazine;
             _old.stat.reloadDelay.OnChangeCurrent    -= OnChangeReloadDelay;
+            _old.stat.swapDelay.OnChangeCurrent      -= OnChangeReloadDelay;
         }
 
         if ( _new != null )
@@ -58,6 +69,7 @@ public class PlayerUI : MonoBehaviour
             _new.stat.ammo.OnChangeCurrent           += OnChangeAmmo;
             _new.stat.magazine.OnChangeCurrent       += OnChangeMagazine;
             _new.stat.reloadDelay.OnChangeCurrent    += OnChangeReloadDelay;
+            _new.stat.swapDelay.OnChangeCurrent      += OnChangeReloadDelay;
 
             OnChangeAmmo( 0, _new.stat.ammo.Current );
             OnChangeMagazine( 0, _new.stat.magazine.Current );

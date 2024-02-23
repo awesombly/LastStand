@@ -20,6 +20,7 @@ public class Weapon : MonoBehaviour
         public Global.StatusInt magazine;
         public Global.StatusFloat repeatDelay;
         public Global.StatusFloat reloadDelay;
+        public Global.StatusFloat swapDelay;
         public bool isAllowKeyHold;
         public float shakeShotAngle;
     }
@@ -52,6 +53,7 @@ public class Weapon : MonoBehaviour
         stat.magazine.SetMax();
         stat.repeatDelay.SetZero();
         stat.reloadDelay.SetZero();
+        stat.swapDelay.SetZero();
     }
 
     private void OnEnable()
@@ -63,6 +65,7 @@ public class Weapon : MonoBehaviour
         stat.reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
 
         lookInfo.curAngle = lookInfo.targetAngle = transform.rotation.eulerAngles.z;
+        stat.swapDelay.SetMax();
     }
 
     private void OnDisable()
@@ -82,6 +85,7 @@ public class Weapon : MonoBehaviour
 
         stat.repeatDelay.Current -= Time.deltaTime;
         stat.reloadDelay.Current -= Time.deltaTime;
+        stat.swapDelay.Current -= Time.deltaTime;
         if ( stat.isAllowKeyHold && receiver.IsAttackHolded )
         {
             TryFire();
@@ -101,7 +105,10 @@ public class Weapon : MonoBehaviour
 
     private void TryFire()
     {
-        if ( !stat.repeatDelay.IsZero || !stat.reloadDelay.IsZero || owner.UnattackableCount > 0 )
+        if ( !stat.repeatDelay.IsZero 
+            || !stat.reloadDelay.IsZero 
+            || !stat.swapDelay.IsZero 
+            || owner.UnattackableCount > 0 )
         {
             return;
         }
