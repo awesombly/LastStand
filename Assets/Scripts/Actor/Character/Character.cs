@@ -7,9 +7,10 @@ using UnityEngine;
 
 public class Character : Actor
 {
+    public CharacterData data;
     [HideInInspector]
     public Global.StatusFloat Hp;
-    public CharacterData data;
+    public float LookAngle { get; set; }
     [SerializeField]
     private GameObject uiCanvas;
 
@@ -96,6 +97,7 @@ public class Character : Actor
     {
         bool prevFlipX = IsFlipX;
         IsFlipX = ( _angle < -90f || _angle > 90f );
+        LookAngle = _angle;
         EquipWeapon?.LookAngle( prevFlipX != IsFlipX, _angle );
     }
 

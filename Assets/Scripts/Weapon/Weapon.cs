@@ -50,12 +50,11 @@ public class Weapon : MonoBehaviour
     {
         [HideInInspector]
         public float curAngle;
-        [HideInInspector]
-        public float targetAngle;
         public float lerpSpeed;
     }
     [SerializeField]
     private LookInfo lookInfo;
+    private Coroutine burstShotCoroutine;
 
     private Character owner;
     private ActionReceiver receiver;
@@ -87,7 +86,8 @@ public class Weapon : MonoBehaviour
         receiver.OnReloadEvent += TryReload;
         stat.reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
 
-        lookInfo.curAngle = lookInfo.targetAngle = transform.rotation.eulerAngles.z;
+        lookInfo.curAngle = owner.LookAngle;
+        transform.localScale = owner.IsFlipX ? new Vector3( -1f, -1f, 1f ) : Vector3.one;
         stat.swapDelay.SetMax();
 
         OnSwap?.Invoke( this );
@@ -104,7 +104,7 @@ public class Weapon : MonoBehaviour
     {
         if ( !owner.IsLocal )
         {
-            lookInfo.curAngle = Mathf.LerpAngle( lookInfo.curAngle, lookInfo.targetAngle, lookInfo.lerpSpeed * Time.deltaTime );
+            lookInfo.curAngle = Mathf.LerpAngle( lookInfo.curAngle, owner.LookAngle, lookInfo.lerpSpeed * Time.deltaTime );
             transform.rotation = Quaternion.Euler( 0, 0, lookInfo.curAngle - 90 + rotateCorrection );
         }
 
@@ -124,7 +124,6 @@ public class Weapon : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler( 0, 0, _angle - 90 + rotateCorrection );
         }
-        lookInfo.targetAngle = _angle;
         lookInfo.curAngle = transform.rotation.eulerAngles.z;
     }
 
@@ -147,7 +146,7 @@ public class Weapon : MonoBehaviour
 
         if ( shotInfo.burstCount > 2 )
         {
-            StartCoroutine( BurstShot( shotInfo.burstCount ) );
+            burstShotCoroutine = StartCoroutine( BurstShot( shotInfo.burstCount ) );
         }
         else
         {
@@ -167,6 +166,8 @@ public class Weapon : MonoBehaviour
             Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, MakeBulletShotInfo() );
             yield return YieldCache.WaitForSeconds( shotInfo.burstDelay );
         }
+
+        burstShotCoroutine = null;
     }
 
     private BULLET_SHOT_INFO MakeBulletShotInfo()
@@ -212,7 +213,10 @@ public class Weapon : MonoBehaviour
 
     private void TryReload()
     {
-        if ( stat.magazine.IsMax || stat.ammo.IsZero || stat.reloadDelay.Current > 0f )
+        if ( stat.magazine.IsMax
+            || stat.ammo.IsZero
+            || stat.reloadDelay.Current > 0f
+            || !ReferenceEquals( burstShotCoroutine, null ) )
         {
             return;
         }
