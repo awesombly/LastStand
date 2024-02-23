@@ -6,6 +6,9 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
+using System.Runtime.Remoting.Channels;
+using Unity.VisualScripting;
+using System.Runtime.InteropServices;
 
 
 public enum MixerType : int { Master = 0, BGM, SFX, }
@@ -25,18 +28,18 @@ public enum SFX : ushort
 
 public class AudioManager : Singleton<AudioManager>
 {
-    public class AudioClipGroup<T> where T : System.Enum
+    public class AudioClipGroup
     {
-        private Dictionary<T, AudioClip> datas = new Dictionary<T, AudioClip>();
+        private Dictionary<System.Enum, AudioClip> datas = new Dictionary<System.Enum, AudioClip>();
 
-        public AudioClip this[T _type] => TryGetClip( out AudioClip _clip, _type ) ? _clip : null;
-        
-        public bool TryGetClip( out AudioClip _clip, T _type )
+        public AudioClip this[System.Enum _type] => TryGetClip( out AudioClip _clip, _type ) ? _clip : null;
+
+        public bool TryGetClip<T>( out AudioClip _clip, T _type ) where T : System.Enum
         {
-            _clip = null;
             if ( !datas.ContainsKey( _type ) || datas[_type] == null )
             {
-                Debug.LogWarning( $"{_type} is not registered" );
+                Debug.LogWarning( $"Could not import {_type}" );
+                _clip = null;
                 return false;
             }
 
@@ -44,45 +47,29 @@ public class AudioManager : Singleton<AudioManager>
             return true;
         }
 
-        public void Add( T _sound, AudioClip _clip )
+        public void Add<T>( T _type, AudioClip _clip ) where T : System.Enum
         {
-            datas.Add( _sound, _clip );
+            if ( datas.ContainsKey( _type ) || _clip == null )
+            {
+                Debug.LogWarning( $"Unable to register {_type}" );
+                return;
+            }
+
+            datas.Add( _type, _clip );
         }
     }
+
+    #region Variables
     private AudioMixer mixer;
     private AudioMixerGroup[] mixerGroup;
     private WNS.ObjectPool<AudioChannel> channels;
-    private LinkedList<AudioChannel> enabledChannels = new LinkedList<AudioChannel>();
-    private AudioClipGroup<BGM> bgmClips = new AudioClipGroup<BGM>();
-    private AudioClipGroup<SFX> sfxClips = new AudioClipGroup<SFX>();
+    private AudioClipGroup clips = new AudioClipGroup();
 
     [Header( "Addressable" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
     private int totalCount, loadCount;
     public bool IsLoading { get; private set; } = true;
-
-    public void Despawn( AudioChannel _channel )
-    {
-        enabledChannels.Remove( _channel );
-        channels.Despawn( _channel );
-    }
-
-    public void AllStop()
-    {
-        foreach ( var channel in enabledChannels )
-            channels.Despawn( channel );
-
-        enabledChannels.Clear();
-    }
-
-    public void MixerDecibelControl( MixerType _type, float _volume )
-    {
-        string groupName = _type == MixerType.BGM ? "BGM" :
-                           _type == MixerType.SFX ? "SFX" : "Master";
-
-        float volume = ( 60f * _volume ) - 60f;
-        mixer.SetFloat( groupName, volume < -60f ? -80f : volume );
-    }
+    #endregion
 
     #region Unity Callback
     protected override void Awake()
@@ -90,21 +77,21 @@ public class AudioManager : Singleton<AudioManager>
         base.Awake();
 
         SceneBase.OnBeforeSceneLoad += AllStop;
-
         LoadAssetsAsync( "Global", ( GlobalAudioData _data ) =>
         {
             mixer = _data.mixer;
-            mixerGroup = mixer.FindMatchingGroups( "Master" );
+            mixerGroup = mixer?.FindMatchingGroups( "Master" );
 
-            channels = new WNS.ObjectPool<AudioChannel>( _data.channel, transform );
+            if ( !ReferenceEquals( _data.channel, null ) )
+                 channels = new WNS.ObjectPool<AudioChannel>( _data.channel, transform );
 
-            bgmClips.Add( BGM.Login,  _data.bgmLogin  );
-            bgmClips.Add( BGM.Lobby,  _data.bgmLobby  );
-            bgmClips.Add( BGM.InGame, _data.bgmInGame );
-                          
-            sfxClips.Add( SFX.MouseClick, _data.sfxMouseClick );
-            sfxClips.Add( SFX.MenuEntry,  _data.sfxMenuEntry  );
-            sfxClips.Add( SFX.MenuExit,   _data.sfxMenuExit   );
+            clips.Add( BGM.Login,  _data.bgmLogin  );
+            clips.Add( BGM.Lobby,  _data.bgmLobby  );
+            clips.Add( BGM.InGame, _data.bgmInGame );
+
+            clips.Add( SFX.MouseClick, _data.sfxMouseClick );
+            clips.Add( SFX.MenuEntry,  _data.sfxMenuEntry  );
+            clips.Add( SFX.MenuExit,   _data.sfxMenuExit   );
         } );
 
         StartCoroutine( CheckLoadCount() );
@@ -132,63 +119,70 @@ public class AudioManager : Singleton<AudioManager>
     #endregion
 
     #region Play
-    private AudioChannel GetChannel<T>( AudioClipGroup<T> _clips, T _type, float _volume ) where T : System.Enum
+    private AudioChannel GetChannel( AudioClip _clip, MixerType _type, float _volume, bool _loop )
     {
-        AudioChannel channel = null;
-        if ( _clips.TryGetClip( out AudioClip clip, _type ) )
-        {
-            channel = channels.Spawn();
-            channel.Clip = clip;
-            channel.Volume = _volume;
-
-            enabledChannels.AddLast( channel );
-        }
-
+        AudioChannel channel = channels.Spawn();
+        channel.MixerGroup = mixerGroup[( int )_type];
+        channel.Clip   = _clip;
+        channel.Volume = _volume;
+        channel.Loop   = _loop;
         return channel;
     }
 
-    #region BGM
     /// <summary> Play with fade effect </summary>
     public void Play( BGM _type, float _start, float _end, float _t, bool _loop = true )
     {
-        AudioChannel channel = GetChannel( bgmClips, _type, 0f );
-        channel.MixerGroup = mixerGroup[( int )MixerType.BGM];
-        channel.Loop = _loop;
-        StartCoroutine( Fade( channel, _start, _end, _t ) );
+        if ( clips.TryGetClip( out AudioClip clip, _type ) )
+        {
+            AudioChannel channel = GetChannel( clip, MixerType.BGM, 0f, _loop );
+            StartCoroutine( Fade( channel, _start, _end, _t ) );
+        }
     }
-    #endregion
 
-    #region SFX
     /// <summary> Play with no effect </summary>
     public void Play( SFX _type, float _volume = 1f )
     {
-        AudioChannel channel = GetChannel( sfxClips, _type, _volume );
-        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
-        channel.Play();
+        if ( clips.TryGetClip( out AudioClip clip, _type ) )
+        {
+            AudioChannel channel = GetChannel( clip, MixerType.SFX, _volume, false );
+            channel.Play();
+        }
+    }
+
+    public void Play( AudioClip _clip, float _volume = 1f )
+    {
+        if ( !ReferenceEquals( _clip, null ) )
+        {
+            AudioChannel channel = GetChannel( _clip, MixerType.SFX, _volume, false );
+            channel.Play();
+        }
+    }
+
+    public void Play( AudioClip _clip, Vector3 _pos, float _volume = 1f )
+    {
+        if ( !ReferenceEquals( _clip, null ) )
+        {
+            AudioChannel channel = GetChannel( _clip, MixerType.SFX, _volume, false );
+            channel.transform.position = _pos;
+            channel.Play();
+        }
     }
     #endregion
 
-    public void Play( in AudioClip _clip, float _volume = 1f )
-    {
-        AudioChannel channel = channels.Spawn();
-        channel.MixerGroup   = mixerGroup[( int )MixerType.SFX];
-        channel.Clip         = _clip;
-        channel.Volume       = _volume;
-        channel.Play();
+    #region Stop
+    public void Despawn( AudioChannel _channel ) => channels?.Despawn( _channel );
 
-        enabledChannels.AddLast( channel );
-    }
+    public void AllStop() => channels?.AllDespawn();
+    #endregion
 
-    public void Play( in AudioClip _clip, Vector3 _pos, float _volume = 1f )
+    #region AudioMixer
+    public void MixerDecibelControl( MixerType _type, float _volume )
     {
-        AudioChannel channel = channels.Spawn();
-        channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
-        channel.Clip = _clip;
-        channel.Volume = _volume;
-        channel.transform.position = _pos;
-        
-        channel.Play();
-        enabledChannels.AddLast( channel );
+        string groupName = _type == MixerType.BGM ? "BGM" :
+                           _type == MixerType.SFX ? "SFX" : "Master";
+
+        float volume = ( 60f * _volume ) - 60f;
+        mixer?.SetFloat( groupName, volume < -60f ? -80f : volume );
     }
     #endregion
 

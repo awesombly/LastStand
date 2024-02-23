@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Channels;
 using UnityEngine;
 
 public static partial class Global
@@ -133,6 +134,7 @@ namespace WNS
         private T prefab;
         private Transform parent;
         private Stack<T>  objects = new Stack<T>();
+        private LinkedList<T> activeObjects = new LinkedList<T>();
         private int allocate = 1;
 
         public ObjectPool( T _prefab, Transform _parent )
@@ -160,7 +162,6 @@ namespace WNS
             prefab = _prefab;
             
             GameObject canvas = GameObject.Find( "Pools" );
-            // GameObject.FindGameObjectWithTag( "Pools" );
             if ( ReferenceEquals( canvas, null ) )
             {
                 canvas = new GameObject();
@@ -204,14 +205,27 @@ namespace WNS
 
             T obj = objects.Pop();
             obj.gameObject.SetActive( true );
+            activeObjects.AddLast( obj );
 
             return obj;
         }
 
         public void Despawn( T _obj )
         {
+            activeObjects.Remove( _obj );
             _obj.gameObject.SetActive( false );
             objects.Push( _obj );
+        }
+
+        public void AllDespawn()
+        {
+            foreach ( var obj in activeObjects )
+            {
+                obj.gameObject.SetActive( false );
+                objects.Push( obj );
+            }
+
+            activeObjects.Clear();
         }
     }
 }
