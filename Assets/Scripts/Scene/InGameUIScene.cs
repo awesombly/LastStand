@@ -14,6 +14,8 @@ public class InGameUIScene : SceneBase
 
     public TextMeshProUGUI targetKillCount;
 
+    public List<PlayerBoard> boards = new List<PlayerBoard>();
+
     public GameObject pause;
     private bool isProgress;
 
@@ -27,6 +29,25 @@ public class InGameUIScene : SceneBase
 
         if ( !ReferenceEquals( StageSystem.StageInfo, null ) ) 
              targetKillCount.text = $"{StageSystem.StageInfo.Value.targetKill}";
+
+        GameManager.OnChangePlayers += UpdatePlayerBoard;
+    }
+
+    private void UpdatePlayerBoard()
+    {
+        var players = GameManager.Players;
+        for ( int i = 0; i < 4; i++ )
+        {
+            if ( i < players.Count )
+            {
+                boards[i].gameObject.SetActive( true );
+                boards[i].Initialize( players[i] );
+            }
+            else
+            {
+                boards[i].gameObject.SetActive( false );
+            }
+        }
     }
 
     protected override void Start()
