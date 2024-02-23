@@ -342,7 +342,6 @@ GameObject:
   m_Component:
   - component: {fileID: 12988609}
   - component: {fileID: 12988612}
-  - component: {fileID: 12988613}
   - component: {fileID: 12988611}
   - component: {fileID: 12988610}
   m_Layer: 5
@@ -416,8 +415,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: ShowCreateStagePanel
         m_Mode: 6
         m_Arguments:
@@ -466,33 +465,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12988608}
   m_CullTransparentMesh: 1
---- !u!114 &12988613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 12988608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97643c02a3beb26428b44e2bdff78f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  canvas: {fileID: 633061482}
-  title: {fileID: 1258207594}
-  contents: {fileID: 1436240422}
-  prefab: {fileID: 6763503459492760473, guid: 5e930bbabfcdf0c49b4575d4a53c0cc5, type: 3}
-  personnelOutlines:
-  - {fileID: 595915768}
-  - {fileID: 95381016}
-  - {fileID: 1321051177}
-  - {fileID: 1801139184}
-  targetKillOutlines:
-  - {fileID: 811711754}
-  - {fileID: 860736683}
-  - {fileID: 852004212}
-  - {fileID: 1543362641}
-  stages: []
 --- !u!1 &22809323
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,8 +585,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: ShowCreateStagePanel
         m_Mode: 6
         m_Arguments:
@@ -747,8 +719,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: Room, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: SetPersonnel
         m_Mode: 3
         m_Arguments:
@@ -759,8 +731,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
         m_MethodName: MenuSelectSound
         m_Mode: 1
         m_Arguments:
@@ -1848,8 +1820,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: Room, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: SetPersonnel
         m_Mode: 3
         m_Arguments:
@@ -1860,8 +1832,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
         m_MethodName: MenuSelectSound
         m_Mode: 1
         m_Arguments:
@@ -2478,8 +2450,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: SetTargetKillCount
         m_Mode: 3
         m_Arguments:
@@ -2490,8 +2462,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
         m_MethodName: MenuSelectSound
         m_Mode: 1
         m_Arguments:
@@ -2639,8 +2611,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: SetTargetKillCount
         m_Mode: 3
         m_Arguments:
@@ -2651,8 +2623,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
         m_MethodName: MenuSelectSound
         m_Mode: 1
         m_Arguments:
@@ -2800,8 +2772,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: SetTargetKillCount
         m_Mode: 3
         m_Arguments:
@@ -2812,8 +2784,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
         m_MethodName: MenuSelectSound
         m_Mode: 1
         m_Arguments:
@@ -3116,8 +3088,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: ExitGame
         m_Mode: 1
         m_Arguments:
@@ -4228,8 +4200,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: Room, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: SetPersonnel
         m_Mode: 3
         m_Arguments:
@@ -4240,8 +4212,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
         m_MethodName: MenuSelectSound
         m_Mode: 1
         m_Arguments:
@@ -5098,8 +5070,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: SetTargetKillCount
         m_Mode: 3
         m_Arguments:
@@ -5110,8 +5082,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
         m_MethodName: MenuSelectSound
         m_Mode: 1
         m_Arguments:
@@ -5189,6 +5161,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87ee651c6faead04d817b59c55013e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createStageCanvas: {fileID: 633061482}
+  title: {fileID: 1258207594}
+  personnelOutlines:
+  - {fileID: 595915768}
+  - {fileID: 95381016}
+  - {fileID: 1321051177}
+  - {fileID: 1801139184}
+  targetKillOutlines:
+  - {fileID: 811711754}
+  - {fileID: 860736683}
+  - {fileID: 852004212}
+  - {fileID: 1543362641}
+  stages: []
+  contents: {fileID: 1436240422}
+  prefab: {fileID: 6763503459492760473, guid: 5e930bbabfcdf0c49b4575d4a53c0cc5, type: 3}
 --- !u!4 &1554099032
 Transform:
   m_ObjectHideFlags: 0
@@ -5325,8 +5312,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: Room, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: SetPersonnel
         m_Mode: 3
         m_Arguments:
@@ -5337,8 +5324,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
         m_MethodName: MenuSelectSound
         m_Mode: 1
         m_Arguments:
@@ -5979,8 +5966,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 12988613}
-        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
+      - m_Target: {fileID: 1554099031}
+        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
         m_MethodName: CreateStage
         m_Mode: 1
         m_Arguments:

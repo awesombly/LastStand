@@ -28,8 +28,8 @@ public class InGameUIScene : SceneBase
 
         ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK, AckExitStage );
 
-        if ( !ReferenceEquals( StageSystem.StageInfo, null ) ) 
-             targetKillCount.text = $"{StageSystem.StageInfo.Value.targetKill}";
+        if ( !ReferenceEquals( GameManager.StageInfo, null ) ) 
+             targetKillCount.text = $"{GameManager.StageInfo.Value.targetKill}";
 
         GameManager.OnChangePlayers += UpdatePlayerBoard;
     }
@@ -61,6 +61,7 @@ public class InGameUIScene : SceneBase
         GameManager.OnChangePlayers -= UpdatePlayerBoard;
     }
     #endregion
+
     private void UpdatePlayerBoard()
     {
         var players = GameManager.Players;
@@ -80,18 +81,18 @@ public class InGameUIScene : SceneBase
 
     public void ReqExitStage()
     {
-        if ( isProgress || StageSystem.StageInfo == null )
+        if ( isProgress || GameManager.StageInfo == null )
             return;
 
         isProgress = true;
-        Network.Inst.Send( EXIT_STAGE_REQ, StageSystem.StageInfo.Value );
+        Network.Inst.Send( EXIT_STAGE_REQ, GameManager.StageInfo.Value );
         AudioManager.Inst.Play( SFX.MouseClick );
     }
 
     private void AckExitStage( Packet _packet )
     {
         isProgress = false;
-        StageSystem.StageInfo = null;
+        GameManager.StageInfo = null;
         SceneBase.LoadScene( SceneType.Lobby );
     }
 }

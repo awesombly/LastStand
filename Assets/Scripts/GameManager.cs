@@ -35,6 +35,9 @@ public class GameManager : Singleton<GameManager>
     private Dictionary<SceneType, SceneBase> activeScenes = new Dictionary<SceneType, SceneBase>();
     private Dictionary<uint/*Serial*/, Actor> actors = new Dictionary<uint, Actor>();
 
+    public static STAGE_INFO? StageInfo { get; set; }
+
+
     #region Unity Callback
     protected override void Awake()
     {
