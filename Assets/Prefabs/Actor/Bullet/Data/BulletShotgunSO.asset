@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4640bce3f05513c4a86e2ae658226082, type: 3}
   m_Name: BulletShotgunSO
   m_EditorClassIdentifier: 
-  moveSpeed: 24
+  moveSpeed: 30
   damage: 3
-  range: 7
+  range: 9
   pushingPower: 500
   penetratePower:
     max: 1

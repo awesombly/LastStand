@@ -146,10 +146,11 @@ MonoBehaviour:
     isAllowKeyHold: 1
     shakeShotAngle: 5
   shotInfo:
-    useMultiShot: 1
     bulletPerShot: 20
     spreadAngle: 35
     speedRate: 0.2
+    burstCount: 1
+    burstDelay: 0
   lookInfo:
     curAngle: 0
     targetAngle: 0

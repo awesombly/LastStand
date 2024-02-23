@@ -29,12 +29,16 @@ public class Weapon : MonoBehaviour
     [Serializable]
     public struct MultiShotInfo
     {
-        public bool useMultiShot;
+        [Min( 1 )]
         public int bulletPerShot;
-        //public float repeatDelay;
+        [Min( 0f )]
         public float spreadAngle;
         [Range( 0f, 1f )]
         public float speedRate;
+        [Min( 1 )]
+        public int burstCount;
+        [Min( 0f )]
+        public float burstDelay;
     }
     [SerializeField]
     public MultiShotInfo shotInfo;
@@ -132,7 +136,30 @@ public class Weapon : MonoBehaviour
             return;
         }
 
-        --stat.magazine.Current;
+        if ( shotInfo.burstCount > 2 )
+        {
+            StartCoroutine( BurstShot( shotInfo.burstCount ) );
+        }
+        else
+        {
+            --stat.magazine.Current;
+            Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, MakeBulletShotInfo() );
+        }
+    }
+
+    private IEnumerator BurstShot( int _burstCount )
+    {
+        while ( stat.magazine.Current > 0 && _burstCount > 0 )
+        {
+            --stat.magazine.Current;
+            --_burstCount;
+            Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, MakeBulletShotInfo() );
+            yield return YieldCache.WaitForSeconds( shotInfo.burstDelay );
+        }
+    }
+
+    private BULLET_SHOT_INFO MakeBulletShotInfo()
+    {
         float angle = Global.GetAngle( shotPoint.position, GameManager.MouseWorldPos );
         angle = GetRandomRange( angle, stat.shakeShotAngle );
 
@@ -144,12 +171,6 @@ public class Weapon : MonoBehaviour
         protocol.owner = owner.Serial;
         protocol.damage = owner.data.attackRate * bulletPrefab.data.damage;
         protocol.bullets = new List<BULLET_INFO>();
-        if ( !shotInfo.useMultiShot )
-        {
-            shotInfo.bulletPerShot = 1;
-            shotInfo.spreadAngle = 0f;
-            shotInfo.speedRate = 1f;
-        }
 
         for ( int i = 0; i < shotInfo.bulletPerShot; ++i )
         {
@@ -162,19 +183,7 @@ public class Weapon : MonoBehaviour
             protocol.bullets.Add( bullet );
         }
 
-        Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
-
-        // 로컬 테스트용
-        if ( !Network.Inst.IsConnected )
-        {
-            for ( int i = protocol.bullets.Count; i < protocol.bullets.Count; ++i )
-            {
-                Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
-                bullet.IsLocal = true;
-                bullet.Fire( protocol, protocol.bullets[i] );
-            }
-            return;
-        }
+        return protocol;
     }
 
     private float GetRandomRange( float _base, float _range )
