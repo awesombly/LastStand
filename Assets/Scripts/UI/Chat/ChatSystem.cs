@@ -22,6 +22,9 @@ public class ChatSystem : MonoBehaviour
         var data = Global.FromJson<CHAT_MESSAGE>( _packet );
         var obj  = pool.Spawn();
         obj.Initialize( data );
+
+        var player = GameManager.Inst.GetActor( data.serial ) as Player;
+        player.ReceiveMessage( data.message );
     }
 
     private void Update()
@@ -34,6 +37,7 @@ public class ChatSystem : MonoBehaviour
                 input.DeactivateInputField();
 
                 CHAT_MESSAGE message;
+                message.serial   = GameManager.LocalPlayer.Serial;
                 message.nickname = LoginSystem.LoginInfo == null ? string.Empty : LoginSystem.LoginInfo.Value.nickname;
                 message.message  = input.text;
                 Network.Inst.Send( PACKET_CHAT_MSG, message );

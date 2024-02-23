@@ -199,6 +199,7 @@ public struct DODGE_INFO : IProtocol
 
 public struct CHAT_MESSAGE : IProtocol
 {
+    public uint   serial;
     public string nickname;
     public string message;
 }

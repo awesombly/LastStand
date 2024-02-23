@@ -33,6 +33,8 @@ public class Player : Character
     private UnityEngine.UI.Slider healthBar;
     [SerializeField]
     private UnityEngine.UI.Slider healthLerpBar;
+    [SerializeField]
+    private PlayerChatMessage chatMessage;
     private PlayerBoard board;
     #endregion
 
@@ -76,6 +78,12 @@ public class Player : Character
     {
         board = _board;
         board?.UpdateHealth( healthBar.value );
+    }
+
+    public void ReceiveMessage( string _message )
+    {
+        chatMessage.gameObject.SetActive( true );
+        chatMessage.UpdateMessage( _message );
     }
 
     public void SwapWeapon( int _index )

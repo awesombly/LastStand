@@ -53,7 +53,6 @@ public class InGameUIScene : SceneBase
         GameManager.OnChangePlayers -= UpdatePlayerBoard;
     }
     #endregion
-
     private void UpdatePlayerBoard()
     {
         var players = GameManager.Players;
