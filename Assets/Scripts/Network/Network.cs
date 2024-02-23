@@ -9,7 +9,7 @@ using UnityEngine;
 using static PacketType;
 
 
-public class Network : Singleton<Network>
+public sealed class Network : Singleton<Network>
 {
     public enum IpType { NONE/* 콜백 주소 */, WNS, TAE, }
     public IpType ip = IpType.NONE;

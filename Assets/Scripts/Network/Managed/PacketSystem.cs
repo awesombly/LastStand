@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using static PacketType;
-public class PacketSystem : Singleton<PacketSystem>
+public sealed class PacketSystem : Singleton<PacketSystem>
 {
     private Queue<Packet> packets = new Queue<Packet>();
     
@@ -16,15 +15,18 @@ public class PacketSystem : Singleton<PacketSystem>
 
     private IEnumerator Process()
     {
-        yield return new WaitUntil( () => { return Network.Inst.IsConnected; } );
-
+        WaitUntil waitConnectNetwork = new WaitUntil( () => { return Network.Inst.IsConnected; } );
         WaitUntil waitReceivePackets = new WaitUntil( () => { return packets.Count > 0; } );
-        while ( Network.Inst.IsConnected )
+        while ( true )
         {
-            yield return waitReceivePackets;
+            if ( !Network.Inst.IsConnected )
+                 yield return waitConnectNetwork;
 
-            while( packets.Count > 0 )
-                   ProtocolSystem.Inst.Process( packets.Dequeue() );
+            yield return waitReceivePackets;
+            while ( packets.Count > 0 )
+            {
+                ProtocolSystem.Inst.Process( packets.Dequeue() );
+            }
         }
     }
 

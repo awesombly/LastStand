@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProtocolSystem : Singleton<ProtocolSystem>
+public sealed class ProtocolSystem : Singleton<ProtocolSystem>
 {
-    private Dictionary<PacketType/* Packet Type */, Action<Packet>> protocols = new Dictionary<PacketType, Action<Packet>>();
+    private Dictionary<PacketType, Action<Packet>> protocols = new Dictionary<PacketType, Action<Packet>>();
     
     public void Regist( PacketType _type, Action<Packet> _func )
     {

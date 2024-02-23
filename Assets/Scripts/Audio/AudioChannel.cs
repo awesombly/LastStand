@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 [RequireComponent( typeof( AudioSource ) )]
-public class AudioChannel : MonoBehaviour
+public sealed class AudioChannel : MonoBehaviour
 {
     #region Variables
     public AudioSource audioSource;
@@ -54,7 +54,7 @@ public class AudioChannel : MonoBehaviour
              AudioManager.Inst.Despawn( this );
     }
 
-    private void OnEnable()
+    private void OnDisable()
     {
         audioSource.Stop();
         audioSource.outputAudioMixerGroup = null;

@@ -6,11 +6,8 @@ using UnityEngine;
 [StructLayout( LayoutKind.Sequential, Pack = 1 )]
 public struct Packet
 {
-    [MarshalAs( UnmanagedType.U2 )] 
     public PacketType type;
-    [MarshalAs( UnmanagedType.U2 )] 
     public ushort size;
-    [MarshalAs( UnmanagedType.ByValArray, SizeConst = Global.MaxDataSize )]
     public byte[] data;
 
     public Packet( PacketType _type, ushort _size, byte[] _data )

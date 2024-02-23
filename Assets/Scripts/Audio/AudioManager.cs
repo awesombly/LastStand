@@ -6,9 +6,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.Audio;
-using System.Runtime.Remoting.Channels;
-using Unity.VisualScripting;
-using System.Runtime.InteropServices;
 
 
 public enum MixerType : int { Master = 0, BGM, SFX, }
@@ -26,9 +23,9 @@ public enum SFX : ushort
     MenuExit,
 }
 
-public class AudioManager : Singleton<AudioManager>
+public sealed class AudioManager : Singleton<AudioManager>
 {
-    public class AudioClipGroup
+    public sealed class AudioClipGroup
     {
         private Dictionary<System.Enum, AudioClip> datas = new Dictionary<System.Enum, AudioClip>();
 

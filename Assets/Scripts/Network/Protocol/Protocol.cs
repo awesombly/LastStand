@@ -186,8 +186,6 @@ public struct MOVEMENT_INFO : IProtocol
     public VECTOR2 vel;
 }
 
-
-
 public struct DODGE_INFO : IProtocol
 {
     public uint serial;
