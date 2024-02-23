@@ -141,8 +141,15 @@ MonoBehaviour:
       max: 0
     reloadDelay:
       max: 0
+    swapDelay:
+      max: 0
     isAllowKeyHold: 0
     shakeShotAngle: 0
+  shotInfo:
+    useMultiShot: 0
+    bulletPerShot: 0
+    spreadAngle: 0
+    speedRate: 1
   lookInfo:
     curAngle: 0
     targetAngle: 0

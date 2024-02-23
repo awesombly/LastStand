@@ -27,6 +27,19 @@ public class Weapon : MonoBehaviour
     public StatInfo stat;
 
     [Serializable]
+    public struct MultiShotInfo
+    {
+        public bool useMultiShot;
+        public int bulletPerShot;
+        //public float repeatDelay;
+        public float spreadAngle;
+        [Range( 0f, 1f )]
+        public float speedRate;
+    }
+    [SerializeField]
+    public MultiShotInfo shotInfo;
+
+    [Serializable]
     public struct LookInfo
     {
         [HideInInspector]
@@ -120,29 +133,51 @@ public class Weapon : MonoBehaviour
         }
 
         --stat.magazine.Current;
-
         float angle = Global.GetAngle( shotPoint.position, GameManager.MouseWorldPos );
-        angle += UnityEngine.Random.Range( -stat.shakeShotAngle * 0.5f, stat.shakeShotAngle * 0.5f );
-        
-        BULLET_INFO protocol;
+        angle = GetRandomRange( angle, stat.shakeShotAngle );
+
+        BULLET_SHOT_INFO protocol;
         protocol.isLocal = false;
         protocol.prefab = GameManager.Inst.GetPrefabIndex( bulletPrefab );
-        protocol.serial = 0;
         protocol.pos = new VECTOR2( shotPoint.position );
-        protocol.angle = angle;
         protocol.look = GameManager.LookAngle;
         protocol.owner = owner.Serial;
         protocol.damage = owner.data.attackRate * bulletPrefab.data.damage;
+        protocol.bullets = new List<BULLET_INFO>();
+        if ( !shotInfo.useMultiShot )
+        {
+            shotInfo.bulletPerShot = 1;
+            shotInfo.spreadAngle = 0f;
+            shotInfo.speedRate = 1f;
+        }
+
+        for ( int i = 0; i < shotInfo.bulletPerShot; ++i )
+        {
+            var bullet = new BULLET_INFO();
+            bullet.angle = GetRandomRange( angle, shotInfo.spreadAngle );
+            bullet.serial = 0;
+            bullet.rate = UnityEngine.Random.Range( shotInfo.speedRate, 1f );
+            protocol.bullets.Add( bullet );
+        }
+
         Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
 
         // 로컬 테스트용
         if ( !Network.Inst.IsConnected )
         {
-            Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
-            bullet.IsLocal = true;
-            bullet.Fire( protocol );
+            for ( int i = protocol.bullets.Count; i < protocol.bullets.Count; ++i )
+            {
+                Bullet bullet = PoolManager.Inst.Get( bulletPrefab ) as Bullet;
+                bullet.IsLocal = true;
+                bullet.Fire( protocol, protocol.bullets[i] );
+            }
             return;
         }
+    }
+
+    private float GetRandomRange( float _base, float _range )
+    {
+        return _base + UnityEngine.Random.Range( -_range * 0.5f, _range * 0.5f );
     }
 
     private void OnAttackPress()

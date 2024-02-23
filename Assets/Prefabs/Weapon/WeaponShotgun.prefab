@@ -136,15 +136,20 @@ MonoBehaviour:
     ammo:
       max: 999
     magazine:
-      max: 32
+      max: 8
     repeatDelay:
-      max: 0
+      max: 0.6
     reloadDelay:
-      max: 0.8
+      max: 1
     swapDelay:
       max: 0.3
     isAllowKeyHold: 1
-    shakeShotAngle: 40
+    shakeShotAngle: 5
+  shotInfo:
+    useMultiShot: 1
+    bulletPerShot: 20
+    spreadAngle: 35
+    speedRate: 0.2
   lookInfo:
     curAngle: 0
     targetAngle: 0

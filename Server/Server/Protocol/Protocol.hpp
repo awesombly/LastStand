@@ -108,6 +108,19 @@ public:
 		ar( CEREAL_NVP( index ) );
 	}
 } INDEX_INFO;
+typedef struct SerialFloatType
+{
+public:
+	SerialType serial;
+	float angle;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( angle ) );
+	}
+} LOOK_INFO;
 
 typedef struct Vector2
 {
@@ -237,28 +250,41 @@ public:
 typedef struct BulletInfo
 {
 public:
+	SerialType serial;
+	float angle;
+	float rate;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( angle ) );
+		ar( CEREAL_NVP( rate ) );
+	}
+} BULLET_INFO;
+typedef struct BulletShotInfo
+{
+public:
 	int prefab;
 	bool isLocal;
-	SerialType serial;
 	SerialType owner;
 	VECTOR2 pos;
-	float angle;
 	float look;
 	float damage;
+	std::vector<BULLET_INFO> bullets;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
 		ar( CEREAL_NVP( prefab ) );
 		ar( CEREAL_NVP( isLocal ) );
-		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( owner ) );
 		ar( CEREAL_NVP( pos ) );
-		ar( CEREAL_NVP( angle ) );
 		ar( CEREAL_NVP( look ) );
 		ar( CEREAL_NVP( damage ) );
+		ar( CEREAL_NVP( bullets ) );
 	}
-} BULLET_INFO;
+} BULLET_SHOT_INFO;
 typedef struct HitInfo
 {
 public:
@@ -293,19 +319,6 @@ public:
 		ar( CEREAL_NVP( vel ) );
 	}
 } MOVEMENT_INFO;
-typedef struct LookInfo
-{
-public:
-	SerialType serial;
-	float angle;
-
-	template <class Archive>
-	void serialize( Archive& ar )
-	{
-		ar( CEREAL_NVP( serial ) );
-		ar( CEREAL_NVP( angle ) );
-	}
-} LOOK_INFO;
 typedef struct DodgeInfo
 {
 public:

@@ -119,9 +119,12 @@ public class InGameLogicScene : SceneBase
 
     private void AckSpawnBullet( Packet _packet )
     {
-        var data = Global.FromJson<BULLET_INFO>( _packet );
-        Bullet bullet = PoolManager.Inst.Get( data.prefab ) as Bullet;
-        bullet?.Fire( data );
+        var data = Global.FromJson<BULLET_SHOT_INFO>( _packet );
+        for ( int i = 0; i < data.bullets.Count; ++i )
+        {
+            Bullet bullet = PoolManager.Inst.Get( data.prefab ) as Bullet;
+            bullet?.Fire( data, data.bullets[i] );
+        }
 
         Character owner = GameManager.Inst.GetActor( data.owner ) as Character;
         if ( !ReferenceEquals( owner, null ) && !owner.IsLocal

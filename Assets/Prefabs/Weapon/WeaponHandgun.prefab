@@ -145,6 +145,11 @@ MonoBehaviour:
       max: 0.15
     isAllowKeyHold: 1
     shakeShotAngle: 6
+  shotInfo:
+    useMultiShot: 0
+    bulletPerShot: 0
+    spreadAngle: 0
+    speedRate: 1
   lookInfo:
     curAngle: 0
     targetAngle: 0

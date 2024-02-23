@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 24
   damage: 3
-  range: 3
+  range: 7
   pushingPower: 500
   penetratePower:
     max: 1

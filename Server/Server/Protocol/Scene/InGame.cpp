@@ -78,24 +78,28 @@ void InGame::AckSpawnActor( const Packet& _packet )
 
 void InGame::AckSpawnBullet( const Packet& _packet )
 {
-	BULLET_INFO data = FromJson<BULLET_INFO>( _packet );
+	BULLET_SHOT_INFO data = FromJson<BULLET_SHOT_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. owner:", data.owner, ",nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
-	data.serial = Global::GetNewSerial();
+	for ( int i = 0; i < data.bullets.size(); ++i )
+	{
+		data.bullets[i].serial = Global::GetNewSerial();
+
+		ActorInfo* actor = new ActorInfo();
+		actor->prefab = data.prefab;
+		actor->isLocal = data.isLocal;
+		actor->serial = data.bullets[i].serial;
+		_packet.session->stage->RegistActor( actor );
+	}
+
 	data.isLocal = true;
 	_packet.session->Send( UPacket( SPAWN_BULLET_ACK, data ) );
 	data.isLocal = false;
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_BULLET_ACK, data ) );
-
-	ActorInfo* actor = new ActorInfo();
-	actor->prefab = data.prefab;
-	actor->isLocal = data.isLocal;
-	actor->serial = data.serial;
-	_packet.session->stage->RegistActor( actor );
 }
 
 void InGame::AckRemoveActor( const Packet& _packet )
@@ -150,7 +154,7 @@ void InGame::AckSyncReload( const Packet& _packet )
 
 void InGame::AckSyncLook( const Packet& _packet )
 {
-	LookInfo data = FromJson<LOOK_INFO>( _packet );
+	LOOK_INFO data = FromJson<LOOK_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );

@@ -77,18 +77,20 @@ public class Bullet : Actor
     }
     #endregion
 
-    public void Fire( BULLET_INFO _info )
+    public void Fire( BULLET_SHOT_INFO _shotInfo, BULLET_INFO _bulletInfo )
     {
-        IsLocal = _info.isLocal;
-        Serial = _info.serial;
-        owner = GameManager.Inst.GetActor( _info.owner ) as Character;
+        IsLocal = _shotInfo.isLocal;
+        Serial = _bulletInfo.serial;
+        owner = GameManager.Inst.GetActor( _shotInfo.owner ) as Character;
         targetLayer = IsLocal ? ( Global.LayerFlag.Enemy | Global.LayerFlag.Misc ) : 0;
-        transform.SetPositionAndRotation( _info.pos.To(), Quaternion.Euler( 0, 0, _info.angle - 90 ) );
+        transform.SetPositionAndRotation( _shotInfo.pos.To(), Quaternion.Euler( 0, 0, _bulletInfo.angle - 90 ) );
 
-        totalDamage = _info.damage;
+        totalDamage = _shotInfo.damage;
         lifeTime = data.range / data.moveSpeed;
         data.penetratePower.SetMax();
-        Rigid2D.velocity = transform.up * data.moveSpeed;
+
+        float speed = data.moveSpeed * _bulletInfo.rate;
+        Rigid2D.velocity = transform.up * speed;
 
         OnFire?.Invoke( this );
     }
