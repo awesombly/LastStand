@@ -28,7 +28,7 @@ public class GameManager : Singleton<GameManager>
     public static event Action<Player/*old*/, Player/*new*/> OnChangeLocalPlayer;
 
     [SerializeField]
-    private GameMangerSO data;
+    private GameManagerSO data;
     private Dictionary<SceneType, SceneBase> activeScenes = new Dictionary<SceneType, SceneBase>();
     private Dictionary<uint/*Serial*/, Actor> actors = new Dictionary<uint, Actor>();
 

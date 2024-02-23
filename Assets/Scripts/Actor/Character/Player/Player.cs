@@ -58,8 +58,6 @@ public class Player : Character
     private void Start()
     {
         OnDeadEvent += OnDead;
-
-        SwapWeapon( 1 );
     }
 
     private void Update()
@@ -123,5 +121,11 @@ public class Player : Character
         {
             healthLerpBar.value = healthBar.value;
         }
+    }
+
+    public override void Release()
+    {
+        EquipWeapon = null;
+        base.Release();
     }
 }
