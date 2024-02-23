@@ -53,7 +53,6 @@ public class Weapon : MonoBehaviour
         stat.magazine.SetMax();
         stat.repeatDelay.SetZero();
         stat.reloadDelay.SetZero();
-        stat.swapDelay.SetZero();
     }
 
     private void OnEnable()

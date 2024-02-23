@@ -84,7 +84,6 @@ public class Character : Actor
     protected override void Awake()
     {
         base.Awake();
-        EquipWeapon = GetComponentInChildren<Weapon>();
         Hp.Max = data.maxHp;
         Hp.SetMax();
     }
