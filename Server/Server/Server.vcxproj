@@ -128,8 +128,11 @@
     </Link>
     <PostBuildEvent>
       <Command>copy "$(OutputPath)Server.exe" "..\\..\\Server.exe"
+copy "$(MSBuildProjectDirectory)\libmysql.dll" "..\\..\\libmysql.dll"
+copy "$(MSBuildProjectDirectory)\libmysql.dll" "$(OutDir)libmysql.dll"
 
-if not exist "$(SolutionDir)Log" mkdir "$(SolutionDir)Log"</Command>
+if not exist "$(SolutionDir)Log" mkdir "$(SolutionDir)Log"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
