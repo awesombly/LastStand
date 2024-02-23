@@ -95,7 +95,9 @@ public class AudioManager : Singleton<AudioManager>
     protected override void Awake()
     {
         base.Awake();
-        
+
+        SceneBase.OnBeforeSceneLoad += AllStop;
+
         LoadAssetsAsync( "Audio_Mixer",  ( AudioMixer _data ) => 
         {
             mixer = _data;
@@ -216,8 +218,6 @@ public class AudioManager : Singleton<AudioManager>
         channel.MixerGroup = mixerGroup[( int )MixerType.SFX];
         channel.transform.position = _point;
         channel.Play();
-        // if ( playerClips.TryGetClip( out AudioClip clip, _type, _sound ) )
-        //      AudioSource.PlayClipAtPoint( clip, _point, _volume );
     }
     #endregion
     #endregion

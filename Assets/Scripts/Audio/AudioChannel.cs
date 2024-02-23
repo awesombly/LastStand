@@ -59,6 +59,7 @@ public class AudioChannel : MonoBehaviour
         audioSource.Stop();
         audioSource.outputAudioMixerGroup = null;
         audioSource.volume = 1f;
+        audioSource.loop = false;
         audioSource.clip = null;
 
         transform.position = Vector3.zero;
