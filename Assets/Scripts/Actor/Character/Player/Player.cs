@@ -33,6 +33,7 @@ public class Player : Character
     private UnityEngine.UI.Slider healthBar;
     [SerializeField]
     private UnityEngine.UI.Slider healthLerpBar;
+    private PlayerBoard board;
     #endregion
 
     #region Components
@@ -66,8 +67,11 @@ public class Player : Character
     {
         healthLerpBar.value = Mathf.Max( healthLerpBar.value - 0.1f * Time.deltaTime, healthBar.value );
         healthLerpBar.value = Global.Mathematics.Lerp( healthLerpBar.value, healthBar.value, 2f * Time.deltaTime );
+        board?.UpdateHealthLerp( healthLerpBar.value );
     }
     #endregion
+
+    public void InitBoardUI( PlayerBoard _board ) => board = _board;
 
     public void SwapWeapon( int _index )
     {
@@ -123,6 +127,8 @@ public class Player : Character
         {
             healthLerpBar.value = healthBar.value;
         }
+
+        board?.UpdateHealth( healthBar.value );
     }
 
     public override void Release()

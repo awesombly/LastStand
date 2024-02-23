@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-
 using static PacketType;
 using UnityEngine.SceneManagement;
 public class LoginSystem : MonoBehaviour
@@ -23,7 +22,7 @@ public class LoginSystem : MonoBehaviour
 
     private enum LoginPanelType { Default, Error, SignUp, SignUpComplete }
     private LoginPanelType type = LoginPanelType.Default;
-    public static LOGIN_INFO? Info { get; private set; }
+    public static LOGIN_INFO? LoginInfo { get; private set; }
 
     private void Awake()
     {
@@ -174,7 +173,7 @@ public class LoginSystem : MonoBehaviour
         }
         else
         {
-            Info = data;
+            LoginInfo = data;
             SceneBase.LoadScene( SceneType.Lobby );
         }
     }
