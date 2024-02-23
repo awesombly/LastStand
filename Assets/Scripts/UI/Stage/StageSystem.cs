@@ -20,7 +20,7 @@ public class StageSystem : MonoBehaviour
     private int targetKillCount;
     private bool canSendCreateStage = true;
 
-    public static STAGE_INFO? Info { get; set; }
+    public static STAGE_INFO? StageInfo { get; set; }
     public List<Stage> stages = new List<Stage>();
 
     private void Awake()
@@ -106,7 +106,7 @@ public class StageSystem : MonoBehaviour
     private void AckEntryStage( Packet _packet )
     {
         canSendCreateStage = true;
-        Info = Global.FromJson<STAGE_INFO>( _packet );
+        StageInfo = Global.FromJson<STAGE_INFO>( _packet );
         SceneBase.LoadScene( SceneType.InGame_UI );
         SceneBase.LoadScene( SceneType.InGame_Logic, UnityEngine.SceneManagement.LoadSceneMode.Additive );
     }

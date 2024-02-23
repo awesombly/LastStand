@@ -12,6 +12,8 @@ public class InGameUIScene : SceneBase
     public TextMeshProUGUI magazineText;
     public TextMeshProUGUI ammoText;
 
+    public TextMeshProUGUI targetKillCount;
+
     public GameObject pause;
     private bool isProgress;
 
@@ -22,6 +24,9 @@ public class InGameUIScene : SceneBase
         uiCamera.clearFlags = CameraClearFlags.Depth;
 
         ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK, AckExitStage );
+
+        if ( !ReferenceEquals( StageSystem.StageInfo, null ) ) 
+             targetKillCount.text = $"{StageSystem.StageInfo.Value.targetKill}";
     }
 
     protected override void Start()
@@ -40,17 +45,17 @@ public class InGameUIScene : SceneBase
 
     public void ReqExitStage()
     {
-        if ( isProgress || StageSystem.Info == null )
+        if ( isProgress || StageSystem.StageInfo == null )
             return;
 
         isProgress = true;
-        Network.Inst.Send( EXIT_STAGE_REQ, StageSystem.Info.Value );
+        Network.Inst.Send( EXIT_STAGE_REQ, StageSystem.StageInfo.Value );
     }
 
     private void AckExitStage( Packet _packet )
     {
         isProgress = false;
-        StageSystem.Info = null;
+        StageSystem.StageInfo = null;
         SceneBase.LoadScene( SceneType.Lobby );
     }
 }
