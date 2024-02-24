@@ -37,6 +37,7 @@ public enum PacketType : ushort
     // Actor
     SPAWN_ACTOR_REQ,               // Actor 스폰 요청
     SPAWN_ACTOR_ACK,               // Actor 스폰 응답
+    SPAWN_PLAYER_REQ,              // Player 스폰 응답
     SPAWN_PLAYER_ACK,              // Player 스폰 응답
     SPAWN_BULLET_REQ,              // Bullet 스폰 요청
     SPAWN_BULLET_ACK,              // Bullet 스폰 응답
@@ -148,8 +149,11 @@ public struct PLAYER_INFO : IProtocol
 {
     public ACTOR_INFO actorInfo;
     public string nickname;
+    public bool isDead;
     public float angle;
     public int weapon;
+    public int kill;
+    public int death;
 }
 
 public struct BULLET_INFO

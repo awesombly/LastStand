@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
+    #region UI
     private string nickname;
     public string Nickname 
     {
@@ -19,14 +20,27 @@ public class Player : Character
             nicknameUI?.SetText( nickname );
         }
     }
-    public float KillScore { get; set; }
-    public float DeathScore { get; set; }
+    private int killScore;
+    public int KillScore 
+    {
+        get => killScore;
+        set
+        {
+            killScore = value;
+            board?.UpdateKillCount( killScore );
+        }
+    }
+    private int deathScore;
+    public int DeathScore
+    {
+        get => deathScore;
+        set
+        {
+            deathScore = value;
+            board?.UpdateDeathCount( deathScore );
+        }
+    }
 
-    public Vector2 Direction { get; set; }
-
-    private List<Weapon> Weapons { get; set; } = null;
-
-    #region UI
     [SerializeField]
     private TextMeshProUGUI nicknameUI;
     [SerializeField]
@@ -37,6 +51,9 @@ public class Player : Character
     private PlayerChatMessage chatMessage;
     private PlayerBoard board;
     #endregion
+
+    public Vector2 Direction { get; set; }
+    private List<Weapon> Weapons { get; set; } = null;
 
     #region Components
     private PlayerInput playerInput;
@@ -63,7 +80,6 @@ public class Player : Character
     protected override void Start()
     {
         base.Start();
-        OnDeadEvent += OnDead;
     }
 
     private void Update()
@@ -78,6 +94,8 @@ public class Player : Character
     {
         board = _board;
         board?.UpdateHealth( healthBar.value );
+        board?.UpdateKillCount( KillScore );
+        board?.UpdateDeathCount( DeathScore );
     }
 
     public void ReceiveMessage( string _message )
@@ -121,10 +139,32 @@ public class Player : Character
         movement.DodgeAction( _useCollision, _direction, _duration );
     }
 
-    private void OnDead( Character _dead, Character _attacker )
+    protected override void OnDead( Character _attacker, Bullet _bullet )
     {
-        Debug.Log( "Player dead." );
-        Hp.SetMax();
+        if ( IsDead )
+        {
+            Debug.LogWarning( $"Already dead player. nick:{nickname}, name:{name}, attacker:{_attacker.name}" );
+            return;
+        }
+
+        base.OnDead(_attacker, _bullet );
+        IsDead = true;
+        ++DeathScore;
+
+        Player attacker = _attacker as Player;
+        if ( !ReferenceEquals( attacker, null ) )
+        {
+            ++attacker.KillScore;
+        }
+
+        if ( IsLocal )
+        {
+            GameManager.Inst.LocalPlayerDead( this, _attacker, _bullet );
+        }
+        else
+        {
+            Release();
+        }
     }
 
     protected override void OnChangeLocal( bool _isLocal )

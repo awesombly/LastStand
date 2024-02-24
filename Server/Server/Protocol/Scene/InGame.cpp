@@ -7,6 +7,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( PACKET_CHAT_MSG,			AckChatMessage );
 	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,			AckExitStage );
 	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,			AckSpawnActor );
+	ProtocolSystem::Inst().Regist( SPAWN_PLAYER_REQ,		AckSpawnPlayer );
 	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,		AckSpawnBullet );
 	ProtocolSystem::Inst().Regist( REMOVE_ACTOR_REQ,		AckRemoveActor );
 	ProtocolSystem::Inst().Regist( SYNC_MOVEMENT_REQ,		AckSyncMovement );
@@ -74,6 +75,40 @@ void InGame::AckSpawnActor( const Packet& _packet )
 	_packet.session->stage->RegistActor( actor );
 
 	_packet.session->stage->Broadcast( UPacket( SPAWN_ACTOR_ACK, data ) );
+}
+
+void InGame::AckSpawnPlayer( const Packet& _packet )
+{
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	PLAYER_INFO data = FromJson<PLAYER_INFO>( _packet );
+	if ( data.actorInfo.serial == 0 )
+	{
+		data.actorInfo.serial = Global::GetNewSerial();
+	}
+
+	data.nickname = _packet.session->loginInfo.nickname;
+	data.actorInfo.isLocal = true;
+	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
+	data.actorInfo.isLocal = false;
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, data ) );
+
+	if ( _packet.session->player == nullptr )
+	{
+		PlayerInfo* player = new PlayerInfo( data );
+		_packet.session->player = player;
+		_packet.session->stage->RegistActor( &player->actorInfo );
+	}
+	else
+	{
+		_packet.session->player->actorInfo = data.actorInfo;
+		_packet.session->player->isDead = false;
+		_packet.session->player->angle = data.angle;
+	}
 }
 
 void InGame::AckSpawnBullet( const Packet& _packet )
@@ -217,9 +252,38 @@ void InGame::AckHitActor( const Packet& _packet )
 		Debug.LogError( "defender is null. serial:", data.defender, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
-	defender->hp = data.hp;
 
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTOR_ACK, data ) );
+	defender->hp = data.hp;
+	if ( defender->hp <= 0 )
+	{
+		// 사망처리
+		PlayerInfo* player = _packet.session->stage->FindPlayer( defender->serial );
+		if ( player == nullptr )
+		{
+			Debug.LogError( "player null. ", defender->serial );
+			_packet.session->stage->UnregistActor( defender );
+			Global::Memory::SafeDelete( defender );
+		}
+		else if ( !player->isDead )
+		{
+			Debug.LogError( "player dead. ", defender->serial );
+			// Player라면 실제로 없애진 않는다
+			player->isDead = true;
+			++( player->death );
+
+			PlayerInfo* attacker = _packet.session->stage->FindPlayer( data.attacker );
+			if ( attacker == nullptr )
+			{
+				Debug.LogError( "attacker is null. serial:", data.attacker, ", nick:", _packet.session->loginInfo.nickname );
+				return;
+			}
+			++( attacker->kill );
+		}
+		else
+		{
+			Debug.LogError( "dlal wnrdma", defender->serial );
+		}
+	}
 
 	if ( data.needRelease )
 	{
@@ -233,6 +297,8 @@ void InGame::AckHitActor( const Packet& _packet )
 		_packet.session->stage->UnregistActor( bullet );
 		Global::Memory::SafeDelete( bullet );
 	}
+
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTOR_ACK, data ) );
 }
 
 void InGame::AckInGameLoadData( const Packet& _packet )

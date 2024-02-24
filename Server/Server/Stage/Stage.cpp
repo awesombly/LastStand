@@ -107,6 +107,24 @@ std::list<Session*>& Stage::GetSessions()
 	return sessions;
 }
 
+PlayerInfo* Stage::FindPlayer( SerialType _serial ) const
+{
+	for ( Session* session : sessions )
+	{
+		if ( session == nullptr || session->player == nullptr )
+		{
+			continue;
+		}
+
+		if ( session->player->actorInfo.serial == _serial )
+		{
+			return session->player;
+		}
+	}
+
+	return nullptr;
+}
+
 void Stage::Broadcast( const UPacket& _packet ) const
 {
 	for ( auto iter = sessions.begin(); iter != sessions.end(); iter++ )

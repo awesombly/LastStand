@@ -12,6 +12,7 @@ private:
 	static void AckExitStage( const Packet& _packet );
 
 	static void AckSpawnActor( const Packet& _packet );
+	static void AckSpawnPlayer( const Packet& _packet );
 	static void AckSpawnBullet( const Packet& _packet );
 	static void AckRemoveActor( const Packet& _packet );
 	static void AckSyncMovement( const Packet& _packet );

@@ -70,6 +70,46 @@ public class GameManager : Singleton<GameManager>
         return activeScenes[ _sceneType ];
     }
 
+    public void LocalPlayerDead( Player _dead, Character _attacker, Bullet _bullet )
+    {
+        // 로컬플레이어 사망시, 같은 객체를 재사용한다.
+        _dead.gameObject.SetActive( false );
+        RemovePlayer( _dead );
+
+        StartCoroutine( PlayerRespawn( _dead ) );
+    }
+
+    private IEnumerator PlayerRespawn( Player _player )
+    {
+        float delay = data.respawnDelay;
+        while ( delay > 0f )
+        {
+            Debug.Log( $"{delay}" );
+            delay -= Time.deltaTime;
+            yield return null;
+        }
+
+        if ( _player == null )
+        {
+            yield break;
+        }
+
+        PLAYER_INFO protocol;
+        protocol.actorInfo.isLocal = true;
+        protocol.actorInfo.prefab = _player.prefabIndex;
+        protocol.actorInfo.serial = _player.Serial;
+        protocol.actorInfo.pos = new VECTOR2( _player.transform.position );
+        protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
+        protocol.actorInfo.hp = _player.Hp.Max;
+        protocol.nickname = _player.Nickname;
+        protocol.isDead = false;
+        protocol.angle = _player.LookAngle;
+        protocol.weapon = 1;
+        protocol.kill = _player.KillScore;
+        protocol.death = _player.DeathScore;
+        Network.Inst.Send( PacketType.SPAWN_PLAYER_REQ, protocol );
+    }
+
     public void AddPlayer( Player _player )
     {
         if ( _player == null || Players.Contains( _player ) )

@@ -63,8 +63,11 @@ public class InGameLogicScene : SceneBase
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.actorInfo.hp = playerPrefab.data.maxHp;
         protocol.nickname = string.Empty;
+        protocol.isDead = false;
         protocol.angle = 0f;
         protocol.weapon = 1;
+        protocol.kill = 0;
+        protocol.death = 0;
 
         Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
     }
@@ -89,11 +92,15 @@ public class InGameLogicScene : SceneBase
             player.gameObject.layer = Global.Layer.Enemy;
         }
 
+        player.gameObject.SetActive( true );
         player.Serial = data.actorInfo.serial;
         player.transform.position = data.actorInfo.pos.To();
         player.Rigid2D.velocity = data.actorInfo.vel.To();
         player.Hp.Max = player.Hp.Current = data.actorInfo.hp;
         player.Nickname = data.nickname;
+        player.IsDead = data.isDead;
+        player.KillScore = data.kill;
+        player.DeathScore = data.death;
         player.SwapWeapon( data.weapon );
         player.ApplyLookAngle( data.angle );
 
@@ -157,7 +164,6 @@ public class InGameLogicScene : SceneBase
         Player player = GameManager.Inst.GetActor( data.serial ) as Player;
         if ( player == null )
         {
-            Debug.LogWarning( "Player is null. serial:" + data.serial );
             return;
         }
         player.ApplyLookAngle( data.angle );

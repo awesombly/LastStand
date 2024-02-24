@@ -24,6 +24,7 @@ public:
 	ActorInfo* GetActor( SerialType _serial ) const;
 	ActorContainer& GetActors();
 	std::list<Session*>& GetSessions();
+	PlayerInfo* FindPlayer( SerialType _serial ) const;
 
 	void Broadcast( const UPacket& _packet ) const;
 	void BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) const;

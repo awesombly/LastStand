@@ -10,6 +10,7 @@ public class Character : Actor
     public CharacterData data;
     [HideInInspector]
     public Global.StatusFloat Hp;
+    public bool IsDead { get; set; }
     public float LookAngle { get; set; }
     [SerializeField]
     private GameObject uiCanvas;
@@ -112,9 +113,14 @@ public class Character : Actor
         Rigid2D.AddForce( force );
 
         Hp.Current -= _bullet.GetDamage();
-        if ( Hp.Current <= 0 )
+        if ( Hp.IsZero )
         {
-            OnDeadEvent?.Invoke( this, _attacker  );
+            OnDead( _attacker, _bullet );
         }
+    }
+
+    protected virtual void OnDead( Character _attacker, Bullet _bullet )
+    {
+        OnDeadEvent?.Invoke( this, _attacker );
     }
 }

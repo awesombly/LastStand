@@ -24,12 +24,29 @@ public class PoolManager : Singleton<PoolManager>
         }
 
         curPrefab = _prefab;
-        return pools[_prefab].Get();
+        Poolable poolable = pools[_prefab].Get();
+        poolable.prefabIndex = curPrefab.prefabIndex;
+        return poolable;
     }
 
     public Poolable Get( int _prefabIndex )
     {
-        return Get( GameManager.Inst.GetPrefab( _prefabIndex ) );
+        Poolable prefab = GameManager.Inst.GetPrefab( _prefabIndex );
+        if ( !pools.ContainsKey( prefab ) )
+        {
+            RegisteObject( prefab );
+        }
+
+        curPrefab = prefab;
+        Poolable poolable = pools[prefab].Get();
+        if ( ReferenceEquals( poolable, null ) )
+        {
+            Debug.LogError( $"Invalid prefab. prefab:{prefab}" );
+            return null;
+        }
+
+        poolable.prefabIndex = _prefabIndex;
+        return poolable;
     }
 
     private void RegisteObject( Poolable _prefab )
@@ -46,6 +63,7 @@ public class PoolManager : Singleton<PoolManager>
 
         int initCapacity = 10;
         curPrefab = _prefab;
+        curPrefab.prefabIndex = GameManager.Inst.GetPrefabIndex( curPrefab );
         pools.Add( curPrefab, new ObjectPool<Poolable>( OnCreate, OnGetAction, OnReleaseAction, OnDestroyAction, true/*checkError*/, initCapacity ) );
     }
 

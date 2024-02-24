@@ -59,6 +59,11 @@ public class Bullet : Actor
             return;
         }
 
+        if ( defender.IsDead )
+        {
+            return;
+        }
+
         --data.penetratePower.Current;
         HitTarget( owner, defender );
 

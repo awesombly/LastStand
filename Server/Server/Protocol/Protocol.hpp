@@ -35,6 +35,7 @@ enum PacketType : u_short
 	// Actor
 	SPAWN_ACTOR_REQ,               // Actor 스폰 요청
 	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
+	SPAWN_PLAYER_REQ,	           // Player 스폰 응답
 	SPAWN_PLAYER_ACK,              // Player 스폰 응답
 	SPAWN_BULLET_REQ,              // Bullet 스폰 요청
 	SPAWN_BULLET_ACK,              // Bullet 스폰 응답
@@ -235,16 +236,22 @@ typedef struct PlayerInfo
 public:
 	ACTOR_INFO actorInfo;
 	std::string nickname;
+	bool isDead;
 	float angle;
 	int weapon;
+	int kill;
+	int death;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
 		ar( CEREAL_NVP( actorInfo ) );
 		ar( CEREAL_NVP( nickname ) );
+		ar( CEREAL_NVP( isDead ) );
 		ar( CEREAL_NVP( angle ) );
 		ar( CEREAL_NVP( weapon ) );
+		ar( CEREAL_NVP( kill ) );
+		ar( CEREAL_NVP( death ) );
 	}
 } PLAYER_INFO;
 typedef struct BulletInfo

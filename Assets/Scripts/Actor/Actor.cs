@@ -18,12 +18,6 @@ public class Actor : Poolable
         get => serial; 
         set
         {
-            if ( serial == value )
-            {
-                Debug.LogWarning( "Is same serial : " + serial );
-                return;
-            }
-
             serial = value;
             name = name + ":" + serial;
             // Serial을 부여받아야 등록가능
