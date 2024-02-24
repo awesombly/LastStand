@@ -4,13 +4,9 @@
 #include "Management/SessionManager.h"
 #include "Database/Database.h"
 
-Server::Server()
+Server::Server( const int _port, const char* _address )
 {
-	kill = ::CreateEvent( NULL, FALSE, FALSE, _T( "ServerKillEvent" ) );
-}
-
-void Server::Start( const int _port, const char* _address )
-{
+	Global::KillEvent = ::CreateEvent( NULL, FALSE, FALSE, _T( "GlobalKillEvent" ) );
 	if ( !Database::Inst().Initialize() )
 	{
 		std::cout << "MySQL connect failed" << std::endl;
@@ -36,8 +32,8 @@ void Server::Start( const int _port, const char* _address )
 		std::cout << "Accept failed" << std::endl;
 	}
 
-	if ( ::WaitForSingleObject( kill, INFINITE ) == WAIT_FAILED )
+	if ( ::WaitForSingleObject( Global::KillEvent, INFINITE ) == WAIT_FAILED )
 	{
-		// LOG_WARNING << "KillEvent Wait Failed" << ELogType::EndLine;
+
 	}
 }

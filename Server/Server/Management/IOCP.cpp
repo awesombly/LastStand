@@ -1,14 +1,14 @@
 #include "IOCP.h"
 #include "SessionManager.h"
 
-IOCP::IOCP() : handle( nullptr ) { }
+IOCP::IOCP() : handle( nullptr ) {}
 
 bool IOCP::Initialize()
 {
 	std::cout << "Create threads for IOCP" << std::endl;
 	std::cout << "Wait for data to be entered in the IO Completion Queue" << std::endl;
 	handle = ::CreateIoCompletionPort( INVALID_HANDLE_VALUE, 0, 0, Global::WorkerThreadCount );
-	for ( int count = 0; count < Global::WorkerThreadCount; count++ )
+	for ( int i = 0; i < Global::WorkerThreadCount; i++ )
 	{
 		std::thread th( [&]() { IOCP::WaitCompletionStatus(); } );
 		th.detach();
@@ -33,6 +33,9 @@ void IOCP::WaitCompletionStatus() const
 	
 	while ( true )
 	{
+		if ( ::WaitForSingleObject( Global::KillEvent, 0 ) == WAIT_OBJECT_0 )
+			 break;
+
 		if ( ::GetQueuedCompletionStatus( handle, &transferred, &key, &ov, INFINITE ) == TRUE )
 		{
 			Session* session = ( Session* )key;
@@ -91,5 +94,6 @@ void IOCP::WaitCompletionStatus() const
 				} break;
 			}
 		}
+		std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );
 	}
 }

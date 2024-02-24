@@ -21,7 +21,6 @@ protected:
 	WSABUF wsaSendBuffer;
 
 private:
-	//OVERLAPPEDEX ov;
 	char buffer[Global::HeaderSize + Global::MaxDataSize];
 
 public:

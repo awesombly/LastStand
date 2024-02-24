@@ -10,6 +10,8 @@ namespace Global
 	static const u_short MaxStagePersonnel = 4;
 	const static int     WorkerThreadCount = 5;
 
+	static HANDLE KillEvent;
+
 	inline SerialType GetNewSerial()
 	{
 		static std::mutex mtx;

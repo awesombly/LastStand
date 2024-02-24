@@ -34,7 +34,9 @@ void PacketSystem::Process()
 		cv.wait( lock, [&]() { return !packets.empty(); } );
 		
 		Packet packet = packets.front();
-		packets.pop();
 		ProtocolSystem::Inst().Process( packet );
+		packets.pop();
+
+		std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );
 	}
 }

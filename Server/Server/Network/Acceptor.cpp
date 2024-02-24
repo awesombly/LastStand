@@ -91,5 +91,6 @@ void Acceptor::WaitForClients() const
 		Session* session = new Session( clientSocket, addr );
 		IOCP::Inst().Bind( ( HANDLE )clientSocket, ( ULONG_PTR )session );
 		SessionManager::Inst().Push( session );
+		std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );
 	}
 }

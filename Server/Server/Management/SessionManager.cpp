@@ -30,24 +30,51 @@ void SessionManager::ConfirmDisconnect()
 	while ( true )
 	{
 		static std::queue<Session*> removeSessions;
+		{
+			std::lock_guard<std::mutex> lock( mtx );
+			for ( const auto& session : sessions )
+			{
+				if ( session == nullptr )
+					continue;
+
+				if ( !session->CheckAlive() )
+					removeSessions.push( session );
+			}
+
+			while ( !removeSessions.empty() )
+			{
+				Session* session = removeSessions.front();
+				Debug.Log( "# Remove unresponsive session ( ", session->GetPort(), " ", session->GetAddress(), " )" );
+				Debug.Log( "# The session has left ( ", session->GetPort(), " ", session->GetAddress(), " )" );
+				if ( session->stage != nullptr )
+				{
+					Stage* stage = session->stage;
+					if ( !stage->Exit( session ) )
+					{
+						BroadcastWaitingRoom( session, UPacket( DELETE_STAGE_INFO, stage->info ) );
+						StageManager::Inst().Erase( stage );
+					}
+					else
+					{
+						BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
+					}
+				}
+
+				for ( std::list<Session*>::const_iterator iter = sessions.begin(); iter != sessions.end(); iter++ )
+				{
+					if ( ( *iter )->GetSocket() == session->GetSocket() )
+					{
+						sessions.erase( iter );
+						break;
+					}
+				}
+
+				session->ClosedSocket();
+				Global::Memory::SafeDelete( session );
+				removeSessions.pop();
+			}
+		}
 		std::this_thread::sleep_for( std::chrono::milliseconds( 1000 ) );
-		std::lock_guard<std::mutex> lock( mtx );
-		for ( const auto& session : sessions )
-		{
-			if ( session == nullptr )
-				 continue;
-
-			if ( !session->CheckAlive() )
-				 removeSessions.push( session );
-		}
-
-		while ( !removeSessions.empty() )
-		{
-			Session* session = removeSessions.front();
-			Debug.Log( "# Remove unresponsive session ( ", session->GetPort(), " ", session->GetAddress(), " )" );
-			Erase( session, false );
-			removeSessions.pop();
-		}
 	}
 }
 #pragma endregion
@@ -55,23 +82,21 @@ void SessionManager::ConfirmDisconnect()
 #pragma region Full Management
 void SessionManager::Push( Session* _session )
 {
+	std::lock_guard<std::mutex> lock( mtx );
 	if ( _session == nullptr )
 		 return;
 
 	Debug.Log( "# Register a new session ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
 
-	std::lock_guard<std::mutex> lock( mtx );
 	sessions.push_back( _session );
 }
 
-void SessionManager::Erase( Session* _session, bool _isLock )
+void SessionManager::Erase( Session* _session )
 {
-	if ( _isLock )
-		 std::lock_guard<std::mutex> lock( mtx );
-
+	std::lock_guard<std::mutex> lock( mtx );
 	if ( _session == nullptr )
 		 return;
-
+	
 	Debug.Log( "# The session has left ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
 	if ( _session->stage != nullptr )
 	{
