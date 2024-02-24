@@ -29,6 +29,6 @@ public struct Packet
         BitConverter.TryWriteBytes( new Span<byte>( data, 2, sizeof( ushort ) ), ( ushort )size );
 
         if ( json.Length > 2 )
-             Buffer.BlockCopy( json, 0, data, 4, json.Length );
+             Buffer.BlockCopy( json, 0, data, Global.HeaderSize, json.Length );
     }
 }

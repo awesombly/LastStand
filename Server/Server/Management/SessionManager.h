@@ -20,7 +20,7 @@ public:
 	bool Initialize();
 
 	void Push( Session* _session );
-	void Erase( Session* _session );
+	void Erase( Session* _session, bool _isLock = true );
 
 	void Broadcast( const UPacket& _packet ) const;
 	void BroadcastWithoutSelf( Session* _session, const UPacket& _packet ) const;

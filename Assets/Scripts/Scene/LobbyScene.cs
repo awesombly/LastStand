@@ -222,7 +222,7 @@ public class LobbyScene : SceneBase
         targetKillCount = _killCount;
         for ( int i = 0; i < targetKillOutlines.Count; i++ )
         {
-            targetKillOutlines[i].enabled = i == Global.Mathematics.Round( _killCount * .1f ) - 1 ? true : false;
+            targetKillOutlines[i].enabled = i == WNS.Math.Round( _killCount * .1f ) - 1 ? true : false;
         }
     }
 

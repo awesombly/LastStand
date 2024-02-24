@@ -29,16 +29,24 @@ void SessionManager::ConfirmDisconnect()
 {
 	while ( true )
 	{
+		static std::queue<Session*> removeSessions;
+		std::this_thread::sleep_for( std::chrono::milliseconds( 1000 ) );
+		std::lock_guard<std::mutex> lock( mtx );
 		for ( const auto& session : sessions )
 		{
 			if ( session == nullptr )
 				 continue;
 
 			if ( !session->CheckAlive() )
-			{
-				Debug.Log( "# Remove unresponsive session ( ", session->GetPort(), " ", session->GetAddress(), " )" );
-				Erase( session );
-			}
+				 removeSessions.push( session );
+		}
+
+		while ( !removeSessions.empty() )
+		{
+			Session* session = removeSessions.front();
+			Debug.Log( "# Remove unresponsive session ( ", session->GetPort(), " ", session->GetAddress(), " )" );
+			Erase( session, false );
+			removeSessions.pop();
 		}
 	}
 }
@@ -56,14 +64,15 @@ void SessionManager::Push( Session* _session )
 	sessions.push_back( _session );
 }
 
-void SessionManager::Erase( Session* _session )
+void SessionManager::Erase( Session* _session, bool _isLock )
 {
+	if ( _isLock )
+		 std::lock_guard<std::mutex> lock( mtx );
+
 	if ( _session == nullptr )
 		 return;
 
 	Debug.Log( "# The session has left ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
-	
-	std::lock_guard<std::mutex> lock( mtx );
 	if ( _session->stage != nullptr )
 	{
 		Stage* stage = _session->stage;

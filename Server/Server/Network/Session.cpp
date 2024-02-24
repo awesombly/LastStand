@@ -39,10 +39,10 @@ bool Session::CheckAlive()
 
 void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 {
-	Alive();
 	OVERLAPPEDEX* overalapped = ( OVERLAPPEDEX* )_ov;
 	if ( overalapped->flag == OVERLAPPEDEX::MODE_RECV )
 	{
+		Alive();
 		// 버퍼에 여분이 없는 경우
 		// 버퍼를 초기화하고 읽지않은 잔여 데이터를 가장 앞으로 이동
 		if ( writePos + _size > MaxReceiveSize )

@@ -68,7 +68,7 @@ void IOCP::WaitCompletionStatus() const
 					}
 				} break;
 
-				// 서버에서 응답안하는 클라이언트 종료시켰을 때
+				// 서버에서 세션 강제 종료시켰을 때
 				case ERROR_CONNECTION_ABORTED:
 				{
 					continue;
@@ -89,7 +89,6 @@ void IOCP::WaitCompletionStatus() const
 					if ( session != nullptr )
 						 SessionManager::Inst().Erase( session );
 				} break;
-
 			}
 		}
 	}

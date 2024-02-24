@@ -184,7 +184,7 @@ public sealed class AudioManager : Singleton<AudioManager>
     #region Effect
     private IEnumerator Fade( AudioChannel _channel, float _start, float _end, float _t )
     {
-        if ( Global.Mathematics.Abs( _start - _end ) < float.Epsilon )
+        if ( WNS.Math.Abs( _start - _end ) < float.Epsilon )
         {
             _channel.Volume = _end;
             yield break;

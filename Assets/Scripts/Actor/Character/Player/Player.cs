@@ -85,7 +85,7 @@ public class Player : Character
     private void Update()
     {
         healthLerpBar.value = Mathf.Max( healthLerpBar.value - 0.1f * Time.deltaTime, healthBar.value );
-        healthLerpBar.value = Global.Mathematics.Lerp( healthLerpBar.value, healthBar.value, 2f * Time.deltaTime );
+        healthLerpBar.value = Mathf.Lerp( healthLerpBar.value, healthBar.value, 2f * Time.deltaTime );
         board?.UpdateHealthLerp( healthLerpBar.value );
     }
     #endregion
