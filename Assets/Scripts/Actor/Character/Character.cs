@@ -66,13 +66,13 @@ public class Character : Actor
             Weapon oldWeapon = equipWeapon;
             if ( !ReferenceEquals( oldWeapon, null ) )
             {
-                oldWeapon.gameObject.SetActive( false );
+                oldWeapon.SetActiveWeapon( false );
             }
 
             equipWeapon = value;
             if ( !ReferenceEquals( equipWeapon, null ) )
             {
-                equipWeapon.gameObject.SetActive( true );
+                equipWeapon.SetActiveWeapon( true );
             }
 
             OnChangeEquipWeapon?.Invoke( oldWeapon, equipWeapon );

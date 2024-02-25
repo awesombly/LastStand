@@ -157,14 +157,7 @@ public class Player : Character
             ++attacker.KillScore;
         }
 
-        if ( IsLocal )
-        {
-            GameManager.Inst.LocalPlayerDead( this, _attacker, _bullet );
-        }
-        else
-        {
-            Release();
-        }
+        GameManager.Inst.PlayerDead( this, _attacker, _bullet );
     }
 
     protected override void OnChangeLocal( bool _isLocal )

@@ -70,13 +70,16 @@ public class GameManager : Singleton<GameManager>
         return activeScenes[ _sceneType ];
     }
 
-    public void LocalPlayerDead( Player _dead, Character _attacker, Bullet _bullet )
+    public void PlayerDead( Player _dead, Character _attacker, Bullet _bullet )
     {
-        // 로컬플레이어 사망시, 같은 객체를 재사용한다.
+        // 플레이어 사망시, 같은 객체를 재사용한다.
         _dead.gameObject.SetActive( false );
-        RemovePlayer( _dead );
+        //RemovePlayer( _dead );
 
-        StartCoroutine( PlayerRespawn( _dead ) );
+        if ( _dead.IsLocal )
+        {
+            StartCoroutine( PlayerRespawn( _dead ) );
+        }
     }
 
     private IEnumerator PlayerRespawn( Player _player )

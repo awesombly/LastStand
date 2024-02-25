@@ -87,7 +87,12 @@ public class InGameLogicScene : SceneBase
         }
         else
         {
-            player = PoolManager.Inst.Get( data.actorInfo.prefab ) as Player;
+            // 리스폰일시 기존 Player를 재사용한다
+            player = GameManager.Players.Find( ( player ) => player.Serial == data.actorInfo.serial );
+            if ( player == null )
+            {
+                player = PoolManager.Inst.Get( data.actorInfo.prefab ) as Player;
+            }
             player.IsLocal = false;
             player.gameObject.layer = Global.Layer.Enemy;
         }
@@ -96,15 +101,19 @@ public class InGameLogicScene : SceneBase
         player.Serial = data.actorInfo.serial;
         player.transform.position = data.actorInfo.pos.To();
         player.Rigid2D.velocity = data.actorInfo.vel.To();
-        player.Hp.Max = player.Hp.Current = data.actorInfo.hp;
+        player.Hp.Current = data.actorInfo.hp;
         player.Nickname = data.nickname;
         player.IsDead = data.isDead;
         player.KillScore = data.kill;
         player.DeathScore = data.death;
         player.SwapWeapon( data.weapon );
         player.ApplyLookAngle( data.angle );
+        player.gameObject.SetActive( !player.IsDead );
 
-        GameManager.Inst.AddPlayer( player );
+        if ( !GameManager.Players.Contains( player )  )
+        {
+            GameManager.Inst.AddPlayer( player );
+        }
     }
 
     private void AckSpawnBullet( Packet _packet )

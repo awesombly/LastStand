@@ -260,13 +260,11 @@ void InGame::AckHitActor( const Packet& _packet )
 		PlayerInfo* player = _packet.session->stage->FindPlayer( defender->serial );
 		if ( player == nullptr )
 		{
-			Debug.LogError( "player null. ", defender->serial );
 			_packet.session->stage->UnregistActor( defender );
 			Global::Memory::SafeDelete( defender );
 		}
 		else if ( !player->isDead )
 		{
-			Debug.LogError( "player dead. ", defender->serial );
 			// Player라면 실제로 없애진 않는다
 			player->isDead = true;
 			++( player->death );
@@ -278,10 +276,6 @@ void InGame::AckHitActor( const Packet& _packet )
 				return;
 			}
 			++( attacker->kill );
-		}
-		else
-		{
-			Debug.LogError( "dlal wnrdma", defender->serial );
 		}
 	}
 

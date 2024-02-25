@@ -77,29 +77,6 @@ public class Weapon : MonoBehaviour
         stat.reloadDelay.SetZero();
     }
 
-    private void OnEnable()
-    {
-        owner = GetComponentInParent<Character>();
-        receiver = GetComponentInParent<ActionReceiver>();
-
-        receiver.OnAttackPressEvent += OnAttackPress;
-        receiver.OnReloadEvent += TryReload;
-        stat.reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
-
-        lookInfo.curAngle = owner.LookAngle;
-        transform.localScale = owner.IsFlipX ? new Vector3( -1f, -1f, 1f ) : Vector3.one;
-        stat.swapDelay.SetMax();
-
-        OnSwap?.Invoke( this );
-    }
-
-    private void OnDisable()
-    {
-        receiver.OnAttackPressEvent -= OnAttackPress;
-        receiver.OnReloadEvent -= TryReload;
-        stat.reloadDelay.OnChangeCurrent -= OnChangeReloadDelay;
-    }
-
     private void Update()
     {
         if ( !owner.IsLocal )
@@ -117,6 +94,32 @@ public class Weapon : MonoBehaviour
         }
     }
     #endregion
+
+    public void SetActiveWeapon( bool _isActive )
+    {
+        gameObject.SetActive( _isActive );
+        if ( _isActive )
+        {
+            owner = GetComponentInParent<Character>( true );
+            receiver = GetComponentInParent<ActionReceiver>( true );
+
+            receiver.OnAttackPressEvent += OnAttackPress;
+            receiver.OnReloadEvent += TryReload;
+            stat.reloadDelay.OnChangeCurrent += OnChangeReloadDelay;
+
+            lookInfo.curAngle = owner.LookAngle;
+            transform.localScale = owner.IsFlipX ? new Vector3( -1f, -1f, 1f ) : Vector3.one;
+            stat.swapDelay.SetMax();
+
+            OnSwap?.Invoke( this );
+        }
+        else
+        {
+            receiver.OnAttackPressEvent -= OnAttackPress;
+            receiver.OnReloadEvent -= TryReload;
+            stat.reloadDelay.OnChangeCurrent -= OnChangeReloadDelay;
+        }
+    }
 
     public void LookAngle( bool _isImmediateChange, float _angle )
     {
