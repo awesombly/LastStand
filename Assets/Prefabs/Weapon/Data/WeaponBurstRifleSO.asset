@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireSound: {fileID: 8300000, guid: 5a811eba232daff49a6adb7ccdda872b, type: 3}
   reloadSound: {fileID: 8300000, guid: 932d63e237e1d694da4d0c87419d0a85, type: 3}
-  swapSound: {fileID: 8300000, guid: e6ce75a3530ffa64f82bd24c915029c2, type: 3}
+  swapSound: {fileID: 8300000, guid: cd70e1cc9202f594cb0e12e64e36ca08, type: 3}
