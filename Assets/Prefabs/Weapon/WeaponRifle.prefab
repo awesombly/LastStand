@@ -131,32 +131,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: df74162f10cca3647a94d71ee8125792, type: 2}
-  bulletPrefab: {fileID: -2796159070604671697, guid: 4c7e5090a2f23e443b2df32d4e6a1d3a, type: 3}
   shotPoint: {fileID: 9035912363181180166}
   rotateCorrection: 90
-  stat:
-    ammo:
-      max: 999
-    magazine:
-      max: 30
-    repeatDelay:
-      max: 0.06
-    reloadDelay:
-      max: 0.8
-    swapDelay:
-      max: 0.4
-    isAllowKeyHold: 1
-    shakeShotAngle: 18
-  shotInfo:
-    bulletPerShot: 1
-    spreadAngle: 0
-    speedRate: 1
-    burstCount: 1
-    burstDelay: 0
-  lookInfo:
-    curAngle: 0
-    targetAngle: 0
-    lerpSpeed: 30
+  rotateLerpSpeed: 30
 --- !u!114 &5607787446871316320
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -164,7 +164,7 @@ public class InGameLogicScene : SceneBase
             Debug.LogWarning( "Player is null. serial:" + data.serial );
             return;
         }
-        player.EquipWeapon.stat.reloadDelay.SetMax();
+        player.EquipWeapon.myStat.reloadDelay.SetMax();
     }
 
     private void AckSyncLookAngle( Packet _packet )

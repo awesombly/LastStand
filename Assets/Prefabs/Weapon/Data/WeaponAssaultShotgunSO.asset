@@ -12,6 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df430bcac4fc1bf42b33587fc022b3a5, type: 3}
   m_Name: WeaponAssaultShotgunSO
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 8907944343759627471, guid: 2daa6e1d1a525a94cb78bd737e29e369, type: 3}
+  stat:
+    ammo: 999
+    magazine: 18
+    repeatDelay: 1
+    reloadDelay: 1
+    swapDelay: 0.5
+    isAllowKeyHold: 0
+    shakeShotAngle: 18
+  shotInfo:
+    bulletPerShot: 14
+    spreadAngle: 55
+    speedRate: 0.3
+    burstCount: 3
+    burstDelay: 0.13
   fireSound: {fileID: 8300000, guid: e0a08bdf25406054ab15a4ec0bf05ddc, type: 3}
   reloadSound: {fileID: 8300000, guid: 38e2f1829db74c349bab9291d3d02a66, type: 3}
   swapSound: {fileID: 8300000, guid: cd70e1cc9202f594cb0e12e64e36ca08, type: 3}

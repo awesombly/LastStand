@@ -112,7 +112,7 @@ public class Player : Character
         }
 
         if ( !ReferenceEquals( EquipWeapon, null )
-            && !EquipWeapon.stat.swapDelay.IsZero )
+            && !EquipWeapon.myStat.swapDelay.IsZero )
         {
             return;
         }

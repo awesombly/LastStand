@@ -17,7 +17,7 @@ MonoBehaviour:
   range: 8
   pushingPower: 350
   penetratePower:
-    max: 2
+    max: 1
   fireEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
   hitEffect: {fileID: 9222338147210068352, guid: eb67646278733d84aa3c4239011f7145, type: 3}
-  hitSound: {fileID: 8300000, guid: d1bef3102d08ba944ac7bcac65733a26, type: 3}
+  hitSound: {fileID: 8300000, guid: 0bddcb411d826e14bb26d40ae45d8e22, type: 3}
