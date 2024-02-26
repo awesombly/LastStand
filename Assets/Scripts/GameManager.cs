@@ -56,6 +56,14 @@ public class GameManager : Singleton<GameManager>
             LookAngle = Global.GetAngle( LocalPlayer.transform.position, MouseWorldPos );
             MouseDirection = ( MouseWorldPos - ( Vector2 )LocalPlayer.transform.position ).normalized;
         }
+
+        foreach ( Player player in Players )
+        {
+            if ( !ReferenceEquals( player, null ) )
+            {
+                player.UpdateUI();
+            }
+        }
     }
     #endregion
 
@@ -70,11 +78,11 @@ public class GameManager : Singleton<GameManager>
         return activeScenes[ _sceneType ];
     }
 
+    #region Player
     public void PlayerDead( Player _dead, Character _attacker, Bullet _bullet )
     {
         // 플레이어 사망시, 같은 객체를 재사용한다.
         _dead.gameObject.SetActive( false );
-        //RemovePlayer( _dead );
 
         if ( _dead.IsLocal )
         {
@@ -136,6 +144,7 @@ public class GameManager : Singleton<GameManager>
         Players.Remove( _player );
         OnChangePlayers?.Invoke();
     }
+    #endregion
 
     #region Actor
     public void RegistActor( Actor _actor )

@@ -76,17 +76,10 @@ public class Player : Character
         healthLerpBar.value = healthBar.value;
         Hp.OnChangeCurrent += OnChangeHp;
     }
-
+    
     protected override void Start()
     {
         base.Start();
-    }
-
-    private void Update()
-    {
-        healthLerpBar.value = Mathf.Max( healthLerpBar.value - 0.1f * Time.deltaTime, healthBar.value );
-        healthLerpBar.value = Mathf.Lerp( healthLerpBar.value, healthBar.value, 2f * Time.deltaTime );
-        board?.UpdateHealthLerp( healthLerpBar.value );
     }
     #endregion
 
@@ -96,6 +89,13 @@ public class Player : Character
         board?.UpdateHealth( healthBar.value );
         board?.UpdateKillCount( KillScore );
         board?.UpdateDeathCount( DeathScore );
+    }
+
+    public void UpdateUI()
+    {
+        healthLerpBar.value = Mathf.Max( healthLerpBar.value - 0.1f * Time.deltaTime, healthBar.value );
+        healthLerpBar.value = Mathf.Lerp( healthLerpBar.value, healthBar.value, 2f * Time.deltaTime );
+        board?.UpdateHealthLerp( healthLerpBar.value );
     }
 
     public void ReceiveMessage( string _message )
