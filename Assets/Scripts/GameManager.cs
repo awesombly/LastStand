@@ -79,7 +79,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     #region Player
-    public void PlayerDead( Player _dead, Character _attacker, Bullet _bullet )
+    public void PlayerDead( Player _dead, Actor _attacker, Bullet _bullet )
     {
         // 플레이어 사망시, 같은 객체를 재사용한다.
         _dead.gameObject.SetActive( false );

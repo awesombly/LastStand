@@ -215,12 +215,7 @@ public class InGameLogicScene : SceneBase
             return;
         }
 
-        bullet.HitTarget( attacker, defender );
-
-        if ( data.needRelease )
-        {
-            bullet.Release();
-        }
+        bullet.HitTarget( defender );
     }
     #endregion
 }

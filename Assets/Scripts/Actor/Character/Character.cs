@@ -8,8 +8,6 @@ using UnityEngine;
 public class Character : Actor
 {
     public CharacterData data;
-    [HideInInspector]
-    public Global.StatusFloat Hp;
     public bool IsDead { get; set; }
     public float LookAngle { get; set; }
     [SerializeField]
@@ -80,7 +78,6 @@ public class Character : Actor
     }
     public int UnattackableCount { get; set; }    // 0일때만 공격가능
 
-    public event Action<Character/*dead*/, Character/*attacker*/> OnDeadEvent;
     public event Action<Weapon/*old*/, Weapon/*new*/> OnChangeEquipWeapon;
 
     protected override void Awake()
@@ -100,27 +97,5 @@ public class Character : Actor
         IsFlipX = ( _angle < -90f || _angle > 90f );
         LookAngle = _angle;
         EquipWeapon?.LookAngle( prevFlipX != IsFlipX, _angle );
-    }
-
-    public virtual void OnHit( Character _attacker, Bullet _bullet )
-    {
-        if ( _attacker == null || _bullet == null )
-        {
-            Debug.LogWarning( $"Actor is null. attacker:{_attacker}, bullet:{_bullet}" );
-        }
-
-        Vector2 force = _bullet.data.pushingPower * _bullet.transform.up;
-        Rigid2D.AddForce( force );
-
-        Hp.Current -= _bullet.GetDamage();
-        if ( Hp.IsZero )
-        {
-            OnDead( _attacker, _bullet );
-        }
-    }
-
-    protected virtual void OnDead( Character _attacker, Bullet _bullet )
-    {
-        OnDeadEvent?.Invoke( this, _attacker );
     }
 }

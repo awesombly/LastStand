@@ -12,8 +12,8 @@ public class Bullet : Actor
 
     private Character owner;
 
-    public event Action<Bullet> OnFire;
-    public event Action<Character/*attacker*/, Character/*defender*/, Bullet> OnHit;
+    public event Action<Bullet> OnFireEvent;
+    public event Action<Bullet> OnHitEvent;
 
     #region Unity Callback
     protected override void Awake()
@@ -41,38 +41,19 @@ public class Bullet : Actor
 
     private void OnTriggerEnter2D( Collider2D _other )
     {
-        if ( !gameObject.activeSelf )
+        if ( !IsLocal || !_other.gameObject.activeSelf || ReferenceEquals( owner, null ) )
         {
             return;
         }
 
-        Character defender = _other.GetComponent<Character>();
-        if ( defender == null || owner == null )
+        Actor defender = _other.GetComponent<Actor>();
+        if ( defender == null )
         {
-            Debug.LogWarning( $"Character is null. other:{_other.name}, owner:{owner}" );
+            Debug.LogWarning( $"Actor is null. other:{_other.name}, owner:{owner}" );
             return;
         }
 
-        if ( defender.IsDead )
-        {
-            return;
-        }
-
-        --data.penetratePower.Current;
-        HitTarget( owner, defender );
-
-        HIT_INFO protocol;
-        protocol.needRelease = data.penetratePower.IsZero;
-        protocol.bullet = Serial;
-        protocol.attacker = owner.Serial;
-        protocol.defender = defender.Serial;
-        protocol.hp = defender.Hp.Current;
-        Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
-
-        if ( data.penetratePower.IsZero )
-        {
-            Release();
-        }
+        HitTarget( defender );
     }
     #endregion
 
@@ -98,17 +79,44 @@ public class Bullet : Actor
         transform.SetPositionAndRotation( _shotInfo.pos.To(), Quaternion.Euler( 0, 0, _bulletInfo.angle - 90 ) );
         Rigid2D.velocity = transform.up * ( data.moveSpeed * _bulletInfo.rate );
 
-        OnFire?.Invoke( this );
+        OnFireEvent?.Invoke( this );
     }
 
-    public void HitTarget( Character _attacker, Character _defender )
+    public void HitTarget( Actor _defender )
     {
-        _defender?.OnHit( _attacker, this );
-        OnHit?.Invoke( _attacker, _defender, this );
+        OnHitEvent?.Invoke( this );
+        _defender?.OnHit( owner, this );
+
+        --data.penetratePower.Current;
+        if ( IsLocal )
+        {
+            HIT_INFO protocol;
+            protocol.needRelease = data.penetratePower.IsZero;
+            protocol.bullet = Serial;
+            protocol.attacker = owner.Serial;
+            protocol.defender = _defender.Serial;
+            protocol.hp = _defender.Hp.Current;
+            Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
+        }
+
+        if ( data.penetratePower.IsZero )
+        {
+            Release();
+        }
     }
 
     public float GetDamage()
     {
         return totalDamage;
+    }
+
+    public override void OnHit( Actor _attacker, Bullet _bullet )
+    {
+        base.OnHit( _attacker, _bullet );
+    }
+
+    protected override void OnDead( Actor _attacker, Bullet _bullet )
+    {
+        base.OnDead( _attacker, _bullet );
     }
 }

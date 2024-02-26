@@ -8,8 +8,8 @@ public class BulletEffect : MonoBehaviour
     private void Awake()
     {
         Bullet bullet = GetComponent<Bullet>();
-        bullet.OnHit += OnHit;
-        bullet.OnFire += OnFire;
+        bullet.OnHitEvent += OnHit;
+        bullet.OnFireEvent += OnFire;
     }
 
     private void SpawnEffect( Poolable _effect, Transform _transform )
@@ -35,7 +35,7 @@ public class BulletEffect : MonoBehaviour
         SpawnEffect( _bullet.data.fireEffect, _bullet.transform );
     }
 
-    private void OnHit( Character _attacker, Character _defender, Bullet _bullet )
+    private void OnHit( Bullet _bullet )
     {
         SpawnEffect( _bullet.data.hitEffect, _bullet.transform );
     }

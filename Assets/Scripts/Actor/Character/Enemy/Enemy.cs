@@ -32,7 +32,6 @@ public class Enemy : Character
     {
         base.Start();
         attackRange = UnityEngine.Random.Range( 3f, 10f );
-        OnDeadEvent += OnDead;
 
         ChangeState( EnemyState.Idle );
     }
@@ -108,7 +107,7 @@ public class Enemy : Character
         ChangeState( EnemyState.Idle );
     }
 
-    private void OnDead( Character _dead, Character _attacker )
+    protected override void OnDead( Actor _attacker, Bullet _bullet )
     {
         if ( !ReferenceEquals( coroutine, null ) )
         {

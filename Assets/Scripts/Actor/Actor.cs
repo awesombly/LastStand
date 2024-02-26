@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,9 @@ public class Actor : Poolable
         }
     }
 
+    [HideInInspector]
+    public Global.StatusFloat Hp;
+
     public Rigidbody2D Rigid2D { get; private set; }
 
     #region Unity Callback
@@ -46,6 +50,28 @@ public class Actor : Poolable
         {
             Rigid2D.velocity = _velocity;
         }
+    }
+
+    public virtual void OnHit( Actor _attacker, Bullet _bullet )
+    {
+        if ( _attacker == null || _bullet == null )
+        {
+            Debug.LogWarning( $"Actor is null. attacker:{_attacker}, bullet:{_bullet}" );
+            return;
+        }
+
+        Vector2 force = _bullet.data.pushingPower * _bullet.transform.up;
+        Rigid2D.AddForce( force );
+
+        Hp.Current -= _bullet.GetDamage();
+        if ( Hp.IsZero )
+        {
+            OnDead( _attacker, _bullet );
+        }
+    }
+
+    protected virtual void OnDead( Actor _attacker, Bullet _bullet )
+    {
     }
 
     protected virtual void OnChangeLocal( bool _isLocal )

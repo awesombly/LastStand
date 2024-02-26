@@ -139,7 +139,7 @@ public class Player : Character
         movement.DodgeAction( _useCollision, _direction, _duration );
     }
 
-    protected override void OnDead( Character _attacker, Bullet _bullet )
+    protected override void OnDead( Actor _attacker, Bullet _bullet )
     {
         if ( IsDead )
         {
