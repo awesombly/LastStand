@@ -11,7 +11,6 @@ public class Bullet : Actor
     private float totalDamage;
 
     private Character owner;
-    private Global.LayerFlag targetLayer;
 
     public event Action<Bullet> OnFire;
     public event Action<Character/*attacker*/, Character/*defender*/, Bullet> OnHit;
@@ -43,11 +42,6 @@ public class Bullet : Actor
     private void OnTriggerEnter2D( Collider2D _other )
     {
         if ( !gameObject.activeSelf )
-        {
-            return;
-        }
-
-        if ( !Global.CompareLayer( targetLayer, _other.gameObject.layer ) )
         {
             return;
         }
@@ -87,15 +81,22 @@ public class Bullet : Actor
         IsLocal = _shotInfo.isLocal;
         Serial = _bulletInfo.serial;
         owner = GameManager.Inst.GetActor( _shotInfo.owner ) as Character;
-        targetLayer = IsLocal ? ( Global.LayerFlag.Enemy | Global.LayerFlag.Misc ) : 0;
-        transform.SetPositionAndRotation( _shotInfo.pos.To(), Quaternion.Euler( 0, 0, _bulletInfo.angle - 90 ) );
-
+        if ( IsLocal )
+        {
+            gameObject.layer = Global.Layer.PlayerAttack;
+            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy | Global.LayerFlag.Misc );
+        }
+        else
+        {
+            gameObject.layer = Global.Layer.EnemyAttack;
+            Rigid2D.excludeLayers = ~0;
+        }
         totalDamage = _shotInfo.damage;
         lifeTime = data.range / data.moveSpeed;
         data.penetratePower.SetMax();
 
-        float speed = data.moveSpeed * _bulletInfo.rate;
-        Rigid2D.velocity = transform.up * speed;
+        transform.SetPositionAndRotation( _shotInfo.pos.To(), Quaternion.Euler( 0, 0, _bulletInfo.angle - 90 ) );
+        Rigid2D.velocity = transform.up * ( data.moveSpeed * _bulletInfo.rate );
 
         OnFire?.Invoke( this );
     }
