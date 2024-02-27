@@ -8,7 +8,7 @@ using UnityEngine;
 public static partial class Global
 {
     public const int HeaderSize  = 4;
-    public const int MaxDataSize = 2048;
+    public const int MaxDataSize = 4096;
     public const int PacketSize  = HeaderSize + MaxDataSize;
 
     public static byte[] Serialize( in Packet _obj )
