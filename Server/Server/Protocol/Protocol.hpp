@@ -39,8 +39,8 @@ enum PacketType : u_short
 	SPAWN_PLAYER_ACK,              // Player 스폰 응답
 	SPAWN_BULLET_REQ,              // Bullet 스폰 요청
 	SPAWN_BULLET_ACK,              // Bullet 스폰 응답
-	REMOVE_ACTOR_REQ,              // Actor 제거 요청
-	REMOVE_ACTOR_ACK,              // Actor 제거 응답
+	REMOVE_ACTORS_REQ,             // Actor들 제거 요청
+	REMOVE_ACTORS_ACK,             // Actor들 제거 응답
 
 	SYNC_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
@@ -96,6 +96,17 @@ public:
 		ar( CEREAL_NVP( serial ) );
 	}
 } SERIAL_INFO;
+typedef struct SerialsType
+{
+public:
+	std::vector<SerialType> serials;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( serials ) );
+	}
+} SERIALS_INFO;
 typedef struct SerialIntType
 {
 public:

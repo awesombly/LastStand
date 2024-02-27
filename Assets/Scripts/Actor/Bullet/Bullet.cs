@@ -35,9 +35,7 @@ public class Bullet : Actor
         lifeTime -= Time.deltaTime;
         if ( lifeTime <= 0)
         {
-            SERIAL_INFO protocol;
-            protocol.serial = Serial;
-            Network.Inst.Send( PacketType.REMOVE_ACTOR_REQ, protocol );
+            GameManager.Inst.PushActorToRemove( Serial );
 
             Release();
         }

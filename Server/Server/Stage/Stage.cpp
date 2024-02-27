@@ -30,9 +30,9 @@ bool Stage::Exit( Session* _session )
 
 	if ( _session->player != nullptr )
 	{
-		SERIAL_INFO protocol;
-		protocol.serial = _session->player->actorInfo.serial;
-		_session->stage->BroadcastWithoutSelf( _session, UPacket( REMOVE_ACTOR_ACK, protocol ) );
+		SERIALS_INFO protocol;
+		protocol.serials.push_back( _session->player->actorInfo.serial );
+		_session->stage->BroadcastWithoutSelf( _session, UPacket( REMOVE_ACTORS_ACK, protocol ) );
 		_session->stage->UnregistActor( &_session->player->actorInfo );
 		Global::Memory::SafeDelete( _session->player );
 	}

@@ -38,18 +38,21 @@ public class GameManager : Singleton<GameManager>
     public static STAGE_INFO? StageInfo { get; set; }
     public static LOGIN_INFO? LoginInfo { get; set; }
 
-
+    private SERIALS_INFO actorsToRemove = new SERIALS_INFO();
 
     #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
+        actorsToRemove.serials = new List<uint>();
+
         SceneBase.OnBeforeSceneLoad += Clear;
         SceneBase.OnAfterSceneLoad += UpdateActiveScene;
     }
 
     private void Update()
     {
+        // Update Parameters
         MouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
         if ( !ReferenceEquals( LocalPlayer, null ) )
         {
@@ -57,6 +60,7 @@ public class GameManager : Singleton<GameManager>
             MouseDirection = ( MouseWorldPos - ( Vector2 )LocalPlayer.transform.position ).normalized;
         }
 
+        // Update Players
         foreach ( Player player in Players )
         {
             if ( !ReferenceEquals( player, null ) )
@@ -65,7 +69,23 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+
+    private void FixedUpdate()
+    {
+        // Actors Remove
+        if ( actorsToRemove.serials.Count >= 1 )
+        {
+            Network.Inst.Send( PacketType.REMOVE_ACTORS_REQ, actorsToRemove );
+            actorsToRemove.serials.Clear();
+        }
+    }
+
     #endregion
+
+    public void PushActorToRemove( uint _serial )
+    {
+        actorsToRemove.serials.Add( _serial );
+    }
 
     public SceneBase GetActiveScene( SceneType _sceneType )
     {

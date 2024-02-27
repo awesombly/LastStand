@@ -8,6 +8,7 @@ public class InGameLogicScene : SceneBase
     [SerializeField]
     private Transform spawnTransform;
 
+    #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
@@ -20,7 +21,7 @@ public class InGameLogicScene : SceneBase
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,        AckSpawnEnemy );
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,       AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,       AckSpawnBullet );
-        ProtocolSystem.Inst.Regist( REMOVE_ACTOR_ACK,       AckRemoveActor );
+        ProtocolSystem.Inst.Regist( REMOVE_ACTORS_ACK,      AckRemoveActors );
         ProtocolSystem.Inst.Regist( SYNC_MOVEMENT_ACK,      AckSyncMovement );
         ProtocolSystem.Inst.Regist( SYNC_RELOAD_ACK,        AckSyncReload );
         ProtocolSystem.Inst.Regist( SYNC_LOOK_ANGLE_ACK,    AckSyncLookAngle );
@@ -35,6 +36,7 @@ public class InGameLogicScene : SceneBase
         InitLocalPlayer();
         ReqInGameLoadData();
     }
+    #endregion
 
     private void InitLocalPlayer()
     {
@@ -141,11 +143,14 @@ public class InGameLogicScene : SceneBase
         enemy.Initialize( new Vector2( data.pos.x, data.pos.y ) );
     }
 
-    private void AckRemoveActor( Packet _packet )
+    private void AckRemoveActors( Packet _packet )
     {
-        var data = Global.FromJson<SERIAL_INFO>( _packet );
-        Actor actor = GameManager.Inst.GetActor( data.serial );
-        actor?.Release();
+        var data = Global.FromJson<SERIALS_INFO>( _packet );
+        foreach ( uint serial in data.serials )
+        {
+            Actor actor = GameManager.Inst.GetActor( serial );
+            actor?.Release();
+        }
     }
 
     private void AckSyncMovement( Packet _packet )

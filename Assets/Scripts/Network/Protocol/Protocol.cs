@@ -41,22 +41,22 @@ public enum PacketType : ushort
     SPAWN_PLAYER_ACK,              // Player 스폰 응답
     SPAWN_BULLET_REQ,              // Bullet 스폰 요청
     SPAWN_BULLET_ACK,              // Bullet 스폰 응답
-    REMOVE_ACTOR_REQ,              // Actor 제거 요청
-    REMOVE_ACTOR_ACK,              // Actor 제거 응답
+    REMOVE_ACTORS_REQ,             // Actor들 제거 요청
+    REMOVE_ACTORS_ACK,             // Actor들 제거 응답
 
     SYNC_MOVEMENT_REQ,             // Actor 이동 동기화 요청
-    SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
-    SYNC_RELOAD_REQ,               // 재장전 동기화 요청
-    SYNC_RELOAD_ACK,               // 재장전 동기화 응답
-    SYNC_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
-    SYNC_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
-    SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
-    SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
-    SYNC_SWAP_WEAPON_REQ,          // Player 무기 교체 동기화 요청
-    SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
-    HIT_ACTOR_REQ,                 // 피격 동기화 요청
-    HIT_ACTOR_ACK,                 // 피격 동기화 응답
-    INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
+	SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
+	SYNC_RELOAD_REQ,               // 재장전 동기화 요청
+	SYNC_RELOAD_ACK,               // 재장전 동기화 응답
+	SYNC_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
+	SYNC_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
+	SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
+	SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
+	SYNC_SWAP_WEAPON_REQ,          // Player 무기 교체 동기화 요청
+	SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
+	HIT_ACTOR_REQ,                 // 피격 동기화 요청
+	HIT_ACTOR_ACK,                 // 피격 동기화 응답
+	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
 };
 
 public struct VECTOR3
@@ -116,6 +116,7 @@ public struct EMPTY : IProtocol { }
 public struct MESSAGE : IProtocol { public string message; }
 public struct CONFIRM : IProtocol { public bool isCompleted; }
 public struct SERIAL_INFO : IProtocol { public uint serial; }
+public struct SERIALS_INFO : IProtocol { public List<uint> serials; }
 public struct INDEX_INFO : IProtocol { public uint serial; public int index; }
 public struct LOOK_INFO : IProtocol { public uint serial; public float angle; }
 
