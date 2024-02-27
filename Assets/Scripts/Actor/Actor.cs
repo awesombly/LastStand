@@ -52,6 +52,15 @@ public class Actor : Poolable
         }
     }
 
+    public virtual void SetHp( float _hp, Actor _attacker, Bullet _bullet )
+    {
+        Hp.Current = _hp;
+        if ( Hp.IsZero && gameObject.activeSelf )
+        {
+            OnDead( _attacker, _bullet );
+        }
+    }
+
     public virtual void OnHit( Actor _attacker, Bullet _bullet )
     {
         if ( _attacker == null || _bullet == null )
@@ -63,11 +72,7 @@ public class Actor : Poolable
         Vector2 force = _bullet.data.pushingPower * _bullet.transform.up;
         Rigid2D.AddForce( force );
 
-        Hp.Current -= _bullet.GetDamage();
-        if ( Hp.IsZero )
-        {
-            OnDead( _attacker, _bullet );
-        }
+        SetHp( Hp.Current - _bullet.GetDamage(), _attacker, _bullet );
     }
 
     protected virtual void OnDead( Actor _attacker, Bullet _bullet )

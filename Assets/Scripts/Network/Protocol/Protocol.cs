@@ -181,6 +181,7 @@ public struct HIT_INFO
     public uint bullet;
     public uint attacker;
     public uint defender;
+    public VECTOR2 pos;
     public float hp;
 }
 

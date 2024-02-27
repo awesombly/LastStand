@@ -310,6 +310,7 @@ public:
 	SerialType bullet;
 	SerialType attacker;
 	SerialType defender;
+	Vector2 pos;
 	float hp;
 
 	template <class Archive>
@@ -319,6 +320,7 @@ public:
 		ar( CEREAL_NVP( bullet ) );
 		ar( CEREAL_NVP( attacker ) );
 		ar( CEREAL_NVP( defender ) );
+		ar( CEREAL_NVP( pos ) );
 		ar( CEREAL_NVP( hp ) );
 	}
 } HIT_INFO;

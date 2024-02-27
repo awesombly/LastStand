@@ -105,23 +105,24 @@ public class Bullet : Actor
 
     public void HitTarget( Actor _defender )
     {
-        alreadyHitActors.Add( _defender.Serial );
-
-        OnHitEvent?.Invoke( this );
-        _defender?.OnHit( owner, this );
-
         if ( !( _defender is Bullet ) )
         {
             --penetrateCount.Current;
         }
 
+        OnHitEvent?.Invoke( this );
+        _defender?.OnHit( owner, this );
+
         if ( IsLocal )
         {
+            alreadyHitActors.Add( _defender.Serial );
+
             HIT_INFO hit;
             hit.needRelease = penetrateCount.IsZero;
             hit.bullet = Serial;
             hit.attacker = owner.Serial;
             hit.defender = _defender.Serial;
+            hit.pos = new VECTOR2( transform.position );
             hit.hp = _defender.Hp.Current;
             GameManager.Inst.PushHitInfoToSend( hit );
         }

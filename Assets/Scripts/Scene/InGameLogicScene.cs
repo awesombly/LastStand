@@ -221,7 +221,9 @@ public class InGameLogicScene : SceneBase
                 return;
             }
 
+            bullet.transform.position = hit.pos.To();
             bullet.HitTarget( defender );
+            defender.SetHp( hit.hp, GameManager.Inst.GetActor( hit.attacker ), bullet );
         }
     }
     #endregion
