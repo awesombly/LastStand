@@ -147,7 +147,6 @@ public class Player : Character
             return;
         }
 
-        base.OnDead(_attacker, _bullet );
         IsDead = true;
         ++DeathScore;
 

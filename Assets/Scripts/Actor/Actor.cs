@@ -72,6 +72,7 @@ public class Actor : Poolable
 
     protected virtual void OnDead( Actor _attacker, Bullet _bullet )
     {
+        Release();
     }
 
     protected virtual void OnChangeLocal( bool _isLocal )

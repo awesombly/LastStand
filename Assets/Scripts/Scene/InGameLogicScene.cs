@@ -207,11 +207,10 @@ public class InGameLogicScene : SceneBase
     {
         var data = Global.FromJson<HIT_INFO>( _packet );
         Bullet bullet = GameManager.Inst.GetActor( data.bullet ) as Bullet;
-        Character attacker = GameManager.Inst.GetActor( data.attacker ) as Character;
-        Character defender = GameManager.Inst.GetActor( data.defender ) as Character;
-        if ( bullet == null || attacker == null || defender == null )
+        Actor defender = GameManager.Inst.GetActor( data.defender );
+        if ( bullet == null || defender == null )
         {
-            Debug.LogWarning( $"Actor is null. {bullet}, {attacker}, {defender}" );
+            Debug.LogWarning( $"Actor is null. {bullet}, {defender}" );
             return;
         }
 

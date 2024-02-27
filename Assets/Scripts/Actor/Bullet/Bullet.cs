@@ -9,6 +9,7 @@ public class Bullet : Actor
     public BulletSO data;
     private float lifeTime;
     private float totalDamage;
+    private Global.StatusInt penetrateCount;
 
     private Character owner;
 
@@ -19,6 +20,8 @@ public class Bullet : Actor
     protected override void Awake()
     {
         base.Awake();
+        penetrateCount.Max = data.penetratePower;
+        Hp.Max = penetrateCount.Max * 10f;  // Bullet끼리 충돌했을 때 사용
     }
 
     private void Update()
@@ -53,6 +56,18 @@ public class Bullet : Actor
             return;
         }
 
+        Bullet bullet = defender as Bullet;
+        if ( !ReferenceEquals( bullet, null ) )
+        {
+            // Bullet끼리 충돌했을 때, 각자 클라가 처리시
+            // 중복처리 및 동기화 이슈가 생길 수 있어 Serial이 높은 쪽에서 Hit시킴
+            if ( bullet.Serial > Serial )
+            {
+                return;
+            }
+            bullet.HitTarget( this );
+        }
+
         HitTarget( defender );
     }
     #endregion
@@ -65,16 +80,17 @@ public class Bullet : Actor
         if ( IsLocal )
         {
             gameObject.layer = Global.Layer.PlayerAttack;
-            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy | Global.LayerFlag.Misc );
+            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy | Global.LayerFlag.EnemyAttack | Global.LayerFlag.Misc );
         }
         else
         {
             gameObject.layer = Global.Layer.EnemyAttack;
-            Rigid2D.excludeLayers = ~0;
+            Rigid2D.excludeLayers = ~( int )Global.LayerFlag.PlayerAttack;
         }
         totalDamage = _shotInfo.damage;
         lifeTime = data.range / data.moveSpeed;
-        data.penetratePower.SetMax();
+        penetrateCount.SetMax();
+        Hp.SetMax();
 
         transform.SetPositionAndRotation( _shotInfo.pos.To(), Quaternion.Euler( 0, 0, _bulletInfo.angle - 90 ) );
         Rigid2D.velocity = transform.up * ( data.moveSpeed * _bulletInfo.rate );
@@ -87,11 +103,15 @@ public class Bullet : Actor
         OnHitEvent?.Invoke( this );
         _defender?.OnHit( owner, this );
 
-        --data.penetratePower.Current;
+        if ( !( _defender is Bullet ) )
+        {
+            --penetrateCount.Current;
+        }
+
         if ( IsLocal )
         {
             HIT_INFO protocol;
-            protocol.needRelease = data.penetratePower.IsZero;
+            protocol.needRelease = penetrateCount.IsZero;
             protocol.bullet = Serial;
             protocol.attacker = owner.Serial;
             protocol.defender = _defender.Serial;
@@ -99,7 +119,7 @@ public class Bullet : Actor
             Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
         }
 
-        if ( data.penetratePower.IsZero )
+        if ( penetrateCount.IsZero )
         {
             Release();
         }
@@ -117,6 +137,6 @@ public class Bullet : Actor
 
     protected override void OnDead( Actor _attacker, Bullet _bullet )
     {
-        base.OnDead( _attacker, _bullet );
+        Release();
     }
 }

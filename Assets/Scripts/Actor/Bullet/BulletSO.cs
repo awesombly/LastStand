@@ -9,9 +9,11 @@ public class BulletSO : ScriptableObject
     [Header( "¦¡ Stat" )]
     public float moveSpeed;
     public float damage;
+    [Min( 0f )]
     public float range;
     public float pushingPower;
-    public Global.StatusInt penetratePower;
+    [Min( 1f )]
+    public int penetratePower;
 
     [Header( "¦¡ Effect" )]
     public Poolable fireEffect;
