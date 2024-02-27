@@ -10,6 +10,7 @@ public class Bullet : Actor
     private float lifeTime;
     private float totalDamage;
     private Global.StatusInt penetrateCount;
+    private List<uint/*Serial*/> hitActors = new List<uint>();
 
     private Character owner;
 
@@ -56,6 +57,11 @@ public class Bullet : Actor
             return;
         }
 
+        if ( hitActors.Contains( defender.Serial ) )
+        {
+            return;
+        }
+
         Bullet bullet = defender as Bullet;
         if ( !ReferenceEquals( bullet, null ) )
         {
@@ -91,6 +97,7 @@ public class Bullet : Actor
         lifeTime = data.range / data.moveSpeed;
         penetrateCount.SetMax();
         Hp.SetMax();
+        hitActors.Clear();
 
         transform.SetPositionAndRotation( _shotInfo.pos.To(), Quaternion.Euler( 0, 0, _bulletInfo.angle - 90 ) );
         Rigid2D.velocity = transform.up * ( data.moveSpeed * _bulletInfo.rate );
@@ -100,6 +107,7 @@ public class Bullet : Actor
 
     public void HitTarget( Actor _defender )
     {
+        hitActors.Add( _defender.Serial );
         OnHitEvent?.Invoke( this );
         _defender?.OnHit( owner, this );
 
