@@ -15,7 +15,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SYNC_LOOK_ANGLE_REQ,		AckSyncLook );
 	ProtocolSystem::Inst().Regist( SYNC_DODGE_ACTION_REQ,	AckSyncDodgeAction );
 	ProtocolSystem::Inst().Regist( SYNC_SWAP_WEAPON_REQ,	AckSyncSwapWeapon );
-	ProtocolSystem::Inst().Regist( HIT_ACTOR_REQ,			AckHitActor );
+	ProtocolSystem::Inst().Regist( HIT_ACTORS_REQ,			AckHitActors );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ,	AckInGameLoadData );
 }
 
@@ -240,62 +240,66 @@ void InGame::AckSyncSwapWeapon( const Packet& _packet )
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_SWAP_WEAPON_ACK, data ) );
 }
 
-void InGame::AckHitActor( const Packet& _packet )
+void InGame::AckHitActors( const Packet& _packet )
 {
-	HIT_INFO data = FromJson<HIT_INFO>( _packet );
+	HITS_INFO data = FromJson<HITS_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Session is null. nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
-	ActorInfo* defender = _packet.session->stage->GetActor( data.defender );
-	if ( defender == nullptr )
+	for ( HitInfo hit : data.hits )
 	{
-		Debug.LogError( "defender is null. serial:", data.defender, ", nick:", _packet.session->loginInfo.nickname );
-		return;
-	}
-
-	defender->hp = data.hp;
-	if ( defender->hp <= 0 )
-	{
-		// 사망처리
-		PlayerInfo* player = _packet.session->stage->FindPlayer( defender->serial );
-		if ( player == nullptr )
+		ActorInfo* defender = _packet.session->stage->GetActor( hit.defender );
+		if ( defender == nullptr )
 		{
-			_packet.session->stage->UnregistActor( defender );
-			Global::Memory::SafeDelete( defender );
-		}
-		else if ( !player->isDead )
-		{
-			// Player라면 실제로 없애진 않는다
-			player->isDead = true;
-			++( player->death );
-
-			PlayerInfo* attacker = _packet.session->stage->FindPlayer( data.attacker );
-			if ( attacker == nullptr )
-			{
-				Debug.LogError( "attacker is null. serial:", data.attacker, ", nick:", _packet.session->loginInfo.nickname );
-				return;
-			}
-			++( attacker->kill );
-		}
-	}
-
-	if ( data.needRelease )
-	{
-		ActorInfo* bullet = _packet.session->stage->GetActor( data.bullet );
-		if ( bullet == nullptr )
-		{
-			Debug.LogError( "Bullet is null. serial:", data.bullet, ", nick:", _packet.session->loginInfo.nickname );
+			Debug.LogError( "defender is null. serial:", hit.defender, ", nick:", _packet.session->loginInfo.nickname );
 			return;
 		}
 
-		_packet.session->stage->UnregistActor( bullet );
-		Global::Memory::SafeDelete( bullet );
+		defender->hp = hit.hp;
+		if ( defender->hp <= 0 )
+		{
+			// 사망처리
+			PlayerInfo* player = _packet.session->stage->FindPlayer( defender->serial );
+			if ( player == nullptr )
+			{
+				_packet.session->stage->UnregistActor( defender );
+				Global::Memory::SafeDelete( defender );
+			}
+			else if ( !player->isDead )
+			{
+				// Player라면 실제로 없애진 않는다
+				player->isDead = true;
+				++( player->death );
+
+				PlayerInfo* attacker = _packet.session->stage->FindPlayer( hit.attacker );
+				if ( attacker == nullptr )
+				{
+					Debug.LogError( "attacker is null. serial:", hit.attacker, ", nick:", _packet.session->loginInfo.nickname );
+					return;
+				}
+				++( attacker->kill );
+			}
+		}
+
+		if ( hit.needRelease )
+		{
+			ActorInfo* bullet = _packet.session->stage->GetActor( hit.bullet );
+			if ( bullet == nullptr )
+			{
+				Debug.LogError( "Bullet is null. serial:", hit.bullet, ", nick:", _packet.session->loginInfo.nickname );
+				return;
+			}
+
+			_packet.session->stage->UnregistActor( bullet );
+			Global::Memory::SafeDelete( bullet );
+		}
+
 	}
 
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTOR_ACK, data ) );
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTORS_ACK, data ) );
 }
 
 void InGame::AckInGameLoadData( const Packet& _packet )

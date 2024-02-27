@@ -38,13 +38,15 @@ public class GameManager : Singleton<GameManager>
     public static STAGE_INFO? StageInfo { get; set; }
     public static LOGIN_INFO? LoginInfo { get; set; }
 
-    private SERIALS_INFO actorsToRemove = new SERIALS_INFO();
+    private SERIALS_INFO removeActorsToSend = new SERIALS_INFO();
+    private HITS_INFO hitsInfoToSend = new HITS_INFO();
 
     #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
-        actorsToRemove.serials = new List<uint>();
+        removeActorsToSend.serials = new List<uint>();
+        hitsInfoToSend.hits = new List<HIT_INFO>();
 
         SceneBase.OnBeforeSceneLoad += Clear;
         SceneBase.OnAfterSceneLoad += UpdateActiveScene;
@@ -72,31 +74,33 @@ public class GameManager : Singleton<GameManager>
 
     private void FixedUpdate()
     {
-        // Actors Remove
-        if ( actorsToRemove.serials.Count >= 1 )
+        // Send Remove Actor
+        if ( removeActorsToSend.serials.Count >= 1 )
         {
-            Network.Inst.Send( PacketType.REMOVE_ACTORS_REQ, actorsToRemove );
-            actorsToRemove.serials.Clear();
+            Network.Inst.Send( PacketType.REMOVE_ACTORS_REQ, removeActorsToSend );
+            removeActorsToSend.serials.Clear();
+        }
+
+        // Send Hit Actor
+        if ( hitsInfoToSend.hits.Count >= 1 )
+        {
+            Network.Inst.Send( PacketType.HIT_ACTORS_REQ, hitsInfoToSend );
+            hitsInfoToSend.hits.Clear();
         }
     }
-
     #endregion
 
-    public void PushActorToRemove( uint _serial )
+    #region Req Protocol
+    public void PushRemoveActorToSend( uint _serial )
     {
-        actorsToRemove.serials.Add( _serial );
+        removeActorsToSend.serials.Add( _serial );
     }
 
-    public SceneBase GetActiveScene( SceneType _sceneType )
+    public void PushHitInfoToSend( HIT_INFO hit )
     {
-        if ( !activeScenes.ContainsKey( _sceneType ) )
-        {
-            Debug.LogWarning( $"Not active SceneType :{_sceneType}" );
-            return null;
-        }
-
-        return activeScenes[ _sceneType ];
+        hitsInfoToSend.hits.Add( hit );
     }
+    #endregion
 
     #region Player
     public void PlayerDead( Player _dead, Actor _attacker, Bullet _bullet )
@@ -232,10 +236,16 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
-    private void Clear()
+    #region Scene
+    public SceneBase GetActiveScene( SceneType _sceneType )
     {
-        LocalPlayer = null;
-        Players.Clear();
+        if ( !activeScenes.ContainsKey( _sceneType ) )
+        {
+            Debug.LogWarning( $"Not active SceneType :{_sceneType}" );
+            return null;
+        }
+
+        return activeScenes[ _sceneType ];
     }
 
     private void UpdateActiveScene()
@@ -247,5 +257,12 @@ public class GameManager : Singleton<GameManager>
         {
             activeScenes.Add( scene.SceneType, scene );
         }
+    }
+    #endregion
+
+    private void Clear()
+    {
+        LocalPlayer = null;
+        Players.Clear();
     }
 }

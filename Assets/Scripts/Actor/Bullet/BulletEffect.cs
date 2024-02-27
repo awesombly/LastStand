@@ -26,7 +26,6 @@ public class BulletEffect : MonoBehaviour
             return;
         }
         particle.transform.SetPositionAndRotation( _transform.position, _transform.rotation );
-        particle.transform.rotation = _transform.rotation;
         particle.Play( true );
     }
 

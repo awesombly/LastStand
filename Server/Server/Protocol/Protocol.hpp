@@ -52,8 +52,8 @@ enum PacketType : u_short
 	SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
 	SYNC_SWAP_WEAPON_REQ,          // Player 무기 교체 동기화 요청
 	SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
-	HIT_ACTOR_REQ,                 // 피격 동기화 요청
-	HIT_ACTOR_ACK,                 // 피격 동기화 응답
+	HIT_ACTORS_REQ,                // 피격된 Actor들 동기화 요청
+	HIT_ACTORS_ACK,                // 피격된 Actor들 동기화 응답
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
 };
 
@@ -322,6 +322,17 @@ public:
 		ar( CEREAL_NVP( hp ) );
 	}
 } HIT_INFO;
+typedef struct HitsInfo
+{
+public:
+	std::vector<HitInfo> hits;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( hits ) );
+	}
+} HITS_INFO;
 typedef struct MovementInfo
 {
 public:

@@ -27,7 +27,7 @@ public class InGameLogicScene : SceneBase
         ProtocolSystem.Inst.Regist( SYNC_LOOK_ANGLE_ACK,    AckSyncLookAngle );
         ProtocolSystem.Inst.Regist( SYNC_DODGE_ACTION_ACK,  AckSyncDodgeAction );
         ProtocolSystem.Inst.Regist( SYNC_SWAP_WEAPON_ACK,   AckSyncSwapWeapon );
-        ProtocolSystem.Inst.Regist( HIT_ACTOR_ACK,          AckHitActor );
+        ProtocolSystem.Inst.Regist( HIT_ACTORS_ACK,         AckHitActors );
     }
 
     protected override void Start()
@@ -208,18 +208,21 @@ public class InGameLogicScene : SceneBase
         player.SwapWeapon( data.index );
     }
 
-    private void AckHitActor( Packet _packet )
+    private void AckHitActors( Packet _packet )
     {
-        var data = Global.FromJson<HIT_INFO>( _packet );
-        Bullet bullet = GameManager.Inst.GetActor( data.bullet ) as Bullet;
-        Actor defender = GameManager.Inst.GetActor( data.defender );
-        if ( bullet == null || defender == null )
+        var data = Global.FromJson<HITS_INFO>( _packet );
+        foreach ( HIT_INFO hit in data.hits )
         {
-            Debug.LogWarning( $"Actor is null. {bullet}, {defender}" );
-            return;
-        }
+            Bullet bullet = GameManager.Inst.GetActor( hit.bullet ) as Bullet;
+            Actor defender = GameManager.Inst.GetActor( hit.defender );
+            if ( bullet == null || defender == null )
+            {
+                Debug.LogWarning( $"Actor is null. {bullet}, {defender}" );
+                return;
+            }
 
-        bullet.HitTarget( defender );
+            bullet.HitTarget( defender );
+        }
     }
     #endregion
 }

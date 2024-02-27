@@ -10,7 +10,7 @@ public class Bullet : Actor
     private float lifeTime;
     private float totalDamage;
     private Global.StatusInt penetrateCount;
-    private List<uint/*Serial*/> hitActors = new List<uint>();
+    private List<uint/*Serial*/> alreadyHitActors = new List<uint>();
 
     private Character owner;
 
@@ -35,7 +35,7 @@ public class Bullet : Actor
         lifeTime -= Time.deltaTime;
         if ( lifeTime <= 0)
         {
-            GameManager.Inst.PushActorToRemove( Serial );
+            GameManager.Inst.PushRemoveActorToSend( Serial );
 
             Release();
         }
@@ -55,7 +55,7 @@ public class Bullet : Actor
             return;
         }
 
-        if ( hitActors.Contains( defender.Serial ) )
+        if ( alreadyHitActors.Contains( defender.Serial ) )
         {
             return;
         }
@@ -95,7 +95,7 @@ public class Bullet : Actor
         lifeTime = data.range / data.moveSpeed;
         penetrateCount.SetMax();
         Hp.SetMax();
-        hitActors.Clear();
+        alreadyHitActors.Clear();
 
         transform.SetPositionAndRotation( _shotInfo.pos.To(), Quaternion.Euler( 0, 0, _bulletInfo.angle - 90 ) );
         Rigid2D.velocity = transform.up * ( data.moveSpeed * _bulletInfo.rate );
@@ -105,7 +105,8 @@ public class Bullet : Actor
 
     public void HitTarget( Actor _defender )
     {
-        hitActors.Add( _defender.Serial );
+        alreadyHitActors.Add( _defender.Serial );
+
         OnHitEvent?.Invoke( this );
         _defender?.OnHit( owner, this );
 
@@ -116,13 +117,13 @@ public class Bullet : Actor
 
         if ( IsLocal )
         {
-            HIT_INFO protocol;
-            protocol.needRelease = penetrateCount.IsZero;
-            protocol.bullet = Serial;
-            protocol.attacker = owner.Serial;
-            protocol.defender = _defender.Serial;
-            protocol.hp = _defender.Hp.Current;
-            Network.Inst.Send( PacketType.HIT_ACTOR_REQ, protocol );
+            HIT_INFO hit;
+            hit.needRelease = penetrateCount.IsZero;
+            hit.bullet = Serial;
+            hit.attacker = owner.Serial;
+            hit.defender = _defender.Serial;
+            hit.hp = _defender.Hp.Current;
+            GameManager.Inst.PushHitInfoToSend( hit );
         }
 
         if ( penetrateCount.IsZero )
