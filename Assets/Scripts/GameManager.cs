@@ -135,7 +135,7 @@ public class GameManager : Singleton<GameManager>
 
         PLAYER_INFO protocol;
         protocol.actorInfo.isLocal = true;
-        protocol.actorInfo.prefab = _player.prefabIndex;
+        protocol.actorInfo.prefab = _player.PrefabIndex;
         protocol.actorInfo.serial = _player.Serial;
         protocol.actorInfo.pos = new VECTOR2( _player.transform.position );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );

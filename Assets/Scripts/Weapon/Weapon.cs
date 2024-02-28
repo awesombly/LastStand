@@ -113,7 +113,7 @@ public class Weapon : MonoBehaviour
         if ( !myStat.repeatDelay.IsZero 
             || !myStat.reloadDelay.IsZero 
             || !myStat.swapDelay.IsZero 
-            || owner.UnattackableCount > 0 )
+            || owner.UnactionableCount > 0 )
         {
             return;
         }

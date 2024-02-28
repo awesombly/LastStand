@@ -76,7 +76,7 @@ public class Character : Actor
             OnChangeEquipWeapon?.Invoke( oldWeapon, equipWeapon );
         }
     }
-    public int UnattackableCount { get; set; }    // 0일때만 공격가능
+    public int UnactionableCount { get; set; }    // 0일때만 행동가능
 
     public event Action<Weapon/*old*/, Weapon/*new*/> OnChangeEquipWeapon;
 

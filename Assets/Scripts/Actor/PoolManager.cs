@@ -25,7 +25,7 @@ public class PoolManager : Singleton<PoolManager>
 
         curPrefab = _prefab;
         Poolable poolable = pools[_prefab].Get();
-        poolable.prefabIndex = curPrefab.prefabIndex;
+        poolable.PrefabIndex = curPrefab.PrefabIndex;
         return poolable;
     }
 
@@ -45,7 +45,7 @@ public class PoolManager : Singleton<PoolManager>
             return null;
         }
 
-        poolable.prefabIndex = _prefabIndex;
+        poolable.PrefabIndex = _prefabIndex;
         return poolable;
     }
 
@@ -63,7 +63,7 @@ public class PoolManager : Singleton<PoolManager>
 
         int initCapacity = 10;
         curPrefab = _prefab;
-        curPrefab.prefabIndex = GameManager.Inst.GetPrefabIndex( curPrefab );
+        curPrefab.PrefabIndex = GameManager.Inst.GetPrefabIndex( curPrefab );
         pools.Add( curPrefab, new ObjectPool<Poolable>( OnCreate, OnGetAction, OnReleaseAction, OnDestroyAction, true/*checkError*/, initCapacity ) );
     }
 

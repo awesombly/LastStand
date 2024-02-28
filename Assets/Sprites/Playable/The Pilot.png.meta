@@ -7780,7 +7780,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_477
+      name: Pilot_Dodge_Front0
       rect:
         serializedVersion: 2
         x: 22
@@ -7801,7 +7801,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_478
+      name: Pilot_Dodge_Front1
       rect:
         serializedVersion: 2
         x: 37
@@ -7822,7 +7822,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_479
+      name: Pilot_Dodge_Front2
       rect:
         serializedVersion: 2
         x: 52
@@ -7843,7 +7843,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_480
+      name: Pilot_Dodge_Front3
       rect:
         serializedVersion: 2
         x: 67
@@ -7864,7 +7864,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_481
+      name: Pilot_Dodge_Front4
       rect:
         serializedVersion: 2
         x: 82
@@ -7885,7 +7885,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_482
+      name: Pilot_Dodge_Front5
       rect:
         serializedVersion: 2
         x: 97
@@ -7906,7 +7906,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_483
+      name: Pilot_Dodge_Front6
       rect:
         serializedVersion: 2
         x: 112
@@ -7927,7 +7927,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_484
+      name: Pilot_Dodge_Front7
       rect:
         serializedVersion: 2
         x: 131
@@ -7948,7 +7948,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_485
+      name: Pilot_Dodge_Front8
       rect:
         serializedVersion: 2
         x: 146
@@ -8599,7 +8599,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_516
+      name: Pilot_Dodge_Right0
       rect:
         serializedVersion: 2
         x: 22
@@ -8620,7 +8620,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_517
+      name: Pilot_Dodge_Right1
       rect:
         serializedVersion: 2
         x: 43
@@ -8641,7 +8641,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_518
+      name: Pilot_Dodge_Right2
       rect:
         serializedVersion: 2
         x: 66
@@ -8662,7 +8662,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_519
+      name: Pilot_Dodge_Right3
       rect:
         serializedVersion: 2
         x: 90
@@ -8683,7 +8683,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_520
+      name: Pilot_Dodge_Right4
       rect:
         serializedVersion: 2
         x: 110
@@ -8704,7 +8704,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_521
+      name: Pilot_Dodge_Right5
       rect:
         serializedVersion: 2
         x: 128
@@ -8725,7 +8725,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_522
+      name: Pilot_Dodge_Right6
       rect:
         serializedVersion: 2
         x: 144
@@ -8746,7 +8746,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_523
+      name: Pilot_Dodge_Right7
       rect:
         serializedVersion: 2
         x: 161
@@ -8767,7 +8767,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_524
+      name: Pilot_Dodge_Right8
       rect:
         serializedVersion: 2
         x: 178
@@ -9292,7 +9292,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_549
+      name: Pilot_Dodge_Back0
       rect:
         serializedVersion: 2
         x: 22
@@ -9313,7 +9313,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_550
+      name: Pilot_Dodge_Back1
       rect:
         serializedVersion: 2
         x: 38
@@ -9334,7 +9334,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_551
+      name: Pilot_Dodge_Back2
       rect:
         serializedVersion: 2
         x: 52
@@ -9355,7 +9355,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_552
+      name: Pilot_Dodge_Back3
       rect:
         serializedVersion: 2
         x: 67
@@ -9376,7 +9376,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_553
+      name: Pilot_Dodge_Back8
       rect:
         serializedVersion: 2
         x: 141
@@ -9754,7 +9754,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_571
+      name: Pilot_Dodge_Back4
       rect:
         serializedVersion: 2
         x: 82
@@ -9775,7 +9775,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_572
+      name: Pilot_Dodge_Back5
       rect:
         serializedVersion: 2
         x: 97
@@ -9796,7 +9796,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_573
+      name: Pilot_Dodge_Back6
       rect:
         serializedVersion: 2
         x: 112
@@ -9817,7 +9817,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_574
+      name: Pilot_Dodge_Back7
       rect:
         serializedVersion: 2
         x: 126
@@ -10006,7 +10006,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_583
+      name: Pilot_Dodge_BackRight0
       rect:
         serializedVersion: 2
         x: 22
@@ -10027,7 +10027,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_584
+      name: Pilot_Dodge_BackRight1
       rect:
         serializedVersion: 2
         x: 40
@@ -10048,7 +10048,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_585
+      name: Pilot_Dodge_BackRight2
       rect:
         serializedVersion: 2
         x: 58
@@ -10069,7 +10069,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_586
+      name: Pilot_Dodge_BackRight3
       rect:
         serializedVersion: 2
         x: 78
@@ -10090,7 +10090,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_587
+      name: Pilot_Dodge_BackRight5
       rect:
         serializedVersion: 2
         x: 111
@@ -10111,7 +10111,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_588
+      name: Pilot_Dodge_BackRight6
       rect:
         serializedVersion: 2
         x: 127
@@ -10132,7 +10132,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_589
+      name: Pilot_Dodge_BackRight7
       rect:
         serializedVersion: 2
         x: 142
@@ -10153,7 +10153,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_590
+      name: Pilot_Dodge_BackRight8
       rect:
         serializedVersion: 2
         x: 158
@@ -10615,7 +10615,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_612
+      name: Pilot_Dodge_BackRight4
       rect:
         serializedVersion: 2
         x: 95
@@ -14185,7 +14185,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_782
+      name: Pilot_Dance0
       rect:
         serializedVersion: 2
         x: 367
@@ -14206,7 +14206,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_783
+      name: Pilot_Dance1
       rect:
         serializedVersion: 2
         x: 383
@@ -14227,7 +14227,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_784
+      name: Pilot_Dance2
       rect:
         serializedVersion: 2
         x: 403
@@ -14248,7 +14248,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_785
+      name: Pilot_Dance3
       rect:
         serializedVersion: 2
         x: 423
@@ -14269,7 +14269,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_786
+      name: Pilot_Dance4
       rect:
         serializedVersion: 2
         x: 440
@@ -14290,7 +14290,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_787
+      name: Pilot_Dance5
       rect:
         serializedVersion: 2
         x: 455
@@ -14311,7 +14311,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_788
+      name: Pilot_Dance_Loop0
       rect:
         serializedVersion: 2
         x: 471
@@ -14332,7 +14332,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_789
+      name: Pilot_Dance_Loop1
       rect:
         serializedVersion: 2
         x: 486
@@ -14353,7 +14353,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_790
+      name: Pilot_Dance_Loop2
       rect:
         serializedVersion: 2
         x: 502
@@ -14374,7 +14374,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_791
+      name: Pilot_Dance_Loop3
       rect:
         serializedVersion: 2
         x: 517
@@ -20842,7 +20842,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1102
+      name: Pilot_Defeat0
       rect:
         serializedVersion: 2
         x: 185
@@ -20863,7 +20863,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1103
+      name: Pilot_Defeat1
       rect:
         serializedVersion: 2
         x: 204
@@ -20884,7 +20884,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1104
+      name: Pilot_Defeat2
       rect:
         serializedVersion: 2
         x: 224
@@ -20905,7 +20905,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1105
+      name: Pilot_Defeat3
       rect:
         serializedVersion: 2
         x: 242
@@ -20926,7 +20926,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1106
+      name: Pilot_Defeat4
       rect:
         serializedVersion: 2
         x: 260
@@ -20947,7 +20947,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1107
+      name: Pilot_Defeat5
       rect:
         serializedVersion: 2
         x: 278
@@ -20968,7 +20968,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1108
+      name: Pilot_Defeat6
       rect:
         serializedVersion: 2
         x: 293
@@ -20989,7 +20989,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1109
+      name: Pilot_Defeat7
       rect:
         serializedVersion: 2
         x: 308
@@ -21010,7 +21010,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1110
+      name: Pilot_Defeat8
       rect:
         serializedVersion: 2
         x: 323
@@ -21535,7 +21535,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1135
+      name: Pilot_Death0
       rect:
         serializedVersion: 2
         x: 185
@@ -21556,7 +21556,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1136
+      name: Pilot_Death1
       rect:
         serializedVersion: 2
         x: 208
@@ -21577,7 +21577,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1137
+      name: Pilot_Death2
       rect:
         serializedVersion: 2
         x: 230
@@ -21598,7 +21598,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1138
+      name: Pilot_Death3
       rect:
         serializedVersion: 2
         x: 251
@@ -21619,7 +21619,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1139
+      name: Pilot_Death4
       rect:
         serializedVersion: 2
         x: 272
@@ -21640,7 +21640,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1140
+      name: Pilot_Death5
       rect:
         serializedVersion: 2
         x: 293
@@ -21661,7 +21661,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1141
+      name: Pilot_Death6
       rect:
         serializedVersion: 2
         x: 312
@@ -21682,7 +21682,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1142
+      name: Pilot_Death8
       rect:
         serializedVersion: 2
         x: 356
@@ -21703,7 +21703,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1143
+      name: Pilot_Death7
       rect:
         serializedVersion: 2
         x: 333
@@ -21724,7 +21724,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1144
+      name: Pilot_Death9
       rect:
         serializedVersion: 2
         x: 378
@@ -22396,7 +22396,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1176
+      name: Pilot_Revive0
       rect:
         serializedVersion: 2
         x: 185
@@ -22417,7 +22417,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1177
+      name: Pilot_Revive1
       rect:
         serializedVersion: 2
         x: 192
@@ -22438,7 +22438,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1178
+      name: Pilot_Revive2
       rect:
         serializedVersion: 2
         x: 204
@@ -22459,7 +22459,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1179
+      name: Pilot_Revive3
       rect:
         serializedVersion: 2
         x: 222
@@ -22480,7 +22480,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1180
+      name: Pilot_Revive4
       rect:
         serializedVersion: 2
         x: 239
@@ -22501,7 +22501,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1181
+      name: Pilot_Revive5
       rect:
         serializedVersion: 2
         x: 255
@@ -22522,7 +22522,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_1182
+      name: Pilot_Revive6
       rect:
         serializedVersion: 2
         x: 271
@@ -22553,6 +22553,71 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Pilot_Dance0: 829018727
+      Pilot_Dance1: 29625031
+      Pilot_Dance2: -794912632
+      Pilot_Dance3: -1368076736
+      Pilot_Dance4: 1955170632
+      Pilot_Dance5: -2007932782
+      Pilot_Dance_Loop0: -584128099
+      Pilot_Dance_Loop1: -1280690834
+      Pilot_Dance_Loop2: -1603950954
+      Pilot_Dance_Loop3: -470775199
+      Pilot_Death0: -348798237
+      Pilot_Death1: 1564811084
+      Pilot_Death2: 1659016220
+      Pilot_Death3: 1183261233
+      Pilot_Death4: 1953748718
+      Pilot_Death5: -757302925
+      Pilot_Death6: 1122852655
+      Pilot_Death7: 841553131
+      Pilot_Death8: 1599697486
+      Pilot_Death9: -1609209778
+      Pilot_Defeat0: -192765481
+      Pilot_Defeat1: -17396117
+      Pilot_Defeat2: 1300807183
+      Pilot_Defeat3: 1720281239
+      Pilot_Defeat4: 2025551690
+      Pilot_Defeat5: -2015893326
+      Pilot_Defeat6: -391797090
+      Pilot_Defeat7: 647563954
+      Pilot_Defeat8: 1106587731
+      Pilot_Dodge_Back0: -421161150
+      Pilot_Dodge_Back1: -1428183763
+      Pilot_Dodge_Back2: -2033670783
+      Pilot_Dodge_Back3: -1251080904
+      Pilot_Dodge_Back4: -644942502
+      Pilot_Dodge_Back5: -409472484
+      Pilot_Dodge_Back6: -866509176
+      Pilot_Dodge_Back7: 31064731
+      Pilot_Dodge_Back8: 398511670
+      Pilot_Dodge_BackRight0: -735429699
+      Pilot_Dodge_BackRight1: 1816460461
+      Pilot_Dodge_BackRight2: -675947174
+      Pilot_Dodge_BackRight3: -193830080
+      Pilot_Dodge_BackRight4: -439478430
+      Pilot_Dodge_BackRight5: 928155128
+      Pilot_Dodge_BackRight6: -1383416911
+      Pilot_Dodge_BackRight7: 1709195746
+      Pilot_Dodge_BackRight8: -728501878
+      Pilot_Dodge_Front0: -1247366086
+      Pilot_Dodge_Front1: 2105648247
+      Pilot_Dodge_Front2: -1235880374
+      Pilot_Dodge_Front3: -1718578370
+      Pilot_Dodge_Front4: 480259150
+      Pilot_Dodge_Front5: -1447153703
+      Pilot_Dodge_Front6: 1960491265
+      Pilot_Dodge_Front7: -2146191419
+      Pilot_Dodge_Front8: -1917005579
+      Pilot_Dodge_Right0: 341026480
+      Pilot_Dodge_Right1: 1632198600
+      Pilot_Dodge_Right2: -1779016796
+      Pilot_Dodge_Right3: -11968607
+      Pilot_Dodge_Right4: 96755897
+      Pilot_Dodge_Right5: -516865655
+      Pilot_Dodge_Right6: -1504446245
+      Pilot_Dodge_Right7: 1764494949
+      Pilot_Dodge_Right8: -702919872
       Pilot_Hand: -677256595
       Pilot_IdleS_Back0: -1130514143
       Pilot_IdleS_Back1: -775242381
@@ -22594,6 +22659,13 @@ TextureImporter:
       Pilot_Idle_Right1: -1730863887
       Pilot_Idle_Right2: -1841447629
       Pilot_Idle_Right3: -1396538625
+      Pilot_Revive0: 1402960938
+      Pilot_Revive1: 1379889720
+      Pilot_Revive2: -238523620
+      Pilot_Revive3: 1166554283
+      Pilot_Revive4: -469290448
+      Pilot_Revive5: 394207612
+      Pilot_Revive6: -515320034
       Pilot_WalkingS_Back0: 1244322946
       Pilot_WalkingS_Back1: 1815459436
       Pilot_WalkingS_Back2: 1128066427
@@ -22741,16 +22813,7 @@ TextureImporter:
       The Pilot_110: 1706924841
       The Pilot_1100: -1461434864
       The Pilot_1101: 554570044
-      The Pilot_1102: -192765481
-      The Pilot_1103: -17396117
-      The Pilot_1104: 1300807183
-      The Pilot_1105: 1720281239
-      The Pilot_1106: 2025551690
-      The Pilot_1107: -2015893326
-      The Pilot_1108: -391797090
-      The Pilot_1109: 647563954
       The Pilot_111: -529372604
-      The Pilot_1110: 1106587731
       The Pilot_1111: -1322927119
       The Pilot_1112: -1593772173
       The Pilot_1113: -2088154760
@@ -22777,17 +22840,7 @@ TextureImporter:
       The Pilot_1132: -164049788
       The Pilot_1133: 124780020
       The Pilot_1134: 342549697
-      The Pilot_1135: -348798237
-      The Pilot_1136: 1564811084
-      The Pilot_1137: 1659016220
-      The Pilot_1138: 1183261233
-      The Pilot_1139: 1953748718
       The Pilot_114: -300905525
-      The Pilot_1140: -757302925
-      The Pilot_1141: 1122852655
-      The Pilot_1142: 1599697486
-      The Pilot_1143: 841553131
-      The Pilot_1144: -1609209778
       The Pilot_1145: -2053893718
       The Pilot_1146: -605627664
       The Pilot_1147: 1709782674
@@ -22822,14 +22875,7 @@ TextureImporter:
       The Pilot_1173: -656841565
       The Pilot_1174: -1474894392
       The Pilot_1175: 85811810
-      The Pilot_1176: 1402960938
-      The Pilot_1177: 1379889720
-      The Pilot_1178: -238523620
-      The Pilot_1179: 1166554283
       The Pilot_118: -1614605332
-      The Pilot_1180: -469290448
-      The Pilot_1181: 394207612
-      The Pilot_1182: -515320034
       The Pilot_119: 212238976
       The Pilot_12: -1636194237
       The Pilot_120: -1535424309
@@ -23169,16 +23215,7 @@ TextureImporter:
       The Pilot_474: -1131012895
       The Pilot_475: 466279578
       The Pilot_476: 569648474
-      The Pilot_477: -1247366086
-      The Pilot_478: 2105648247
-      The Pilot_479: -1235880374
       The Pilot_48: -1170263400
-      The Pilot_480: -1718578370
-      The Pilot_481: 480259150
-      The Pilot_482: -1447153703
-      The Pilot_483: 1960491265
-      The Pilot_484: -2146191419
-      The Pilot_485: -1917005579
       The Pilot_486: -1675748214
       The Pilot_487: -1645638764
       The Pilot_488: -1329418738
@@ -23213,16 +23250,7 @@ TextureImporter:
       The Pilot_513: -540047397
       The Pilot_514: 166527744
       The Pilot_515: -1867807597
-      The Pilot_516: 341026480
-      The Pilot_517: 1632198600
-      The Pilot_518: -1779016796
-      The Pilot_519: -11968607
       The Pilot_52: 977116457
-      The Pilot_520: 96755897
-      The Pilot_521: -516865655
-      The Pilot_522: -1504446245
-      The Pilot_523: 1764494949
-      The Pilot_524: -702919872
       The Pilot_525: -1681368136
       The Pilot_526: -1192074352
       The Pilot_527: 893256892
@@ -23249,12 +23277,7 @@ TextureImporter:
       The Pilot_546: -1569398646
       The Pilot_547: -1540597925
       The Pilot_548: -1475677844
-      The Pilot_549: -421161150
       The Pilot_55: -1945204408
-      The Pilot_550: -1428183763
-      The Pilot_551: -2033670783
-      The Pilot_552: -1251080904
-      The Pilot_553: 398511670
       The Pilot_554: -890756492
       The Pilot_555: 599102370
       The Pilot_556: -248235033
@@ -23274,10 +23297,6 @@ TextureImporter:
       The Pilot_569: 2143220025
       The Pilot_57: -1822279060
       The Pilot_570: -44756916
-      The Pilot_571: -644942502
-      The Pilot_572: -409472484
-      The Pilot_573: -866509176
-      The Pilot_574: 31064731
       The Pilot_575: 1682828830
       The Pilot_576: -891163479
       The Pilot_577: 1192459971
@@ -23287,15 +23306,7 @@ TextureImporter:
       The Pilot_580: -816618526
       The Pilot_581: 2017535581
       The Pilot_582: -1489406665
-      The Pilot_583: -735429699
-      The Pilot_584: 1816460461
-      The Pilot_585: -675947174
-      The Pilot_586: -193830080
-      The Pilot_587: 928155128
-      The Pilot_588: -1383416911
-      The Pilot_589: 1709195746
       The Pilot_59: -840317292
-      The Pilot_590: -728501878
       The Pilot_591: 523424225
       The Pilot_592: 36635447
       The Pilot_593: -124337990
@@ -23320,7 +23331,6 @@ TextureImporter:
       The Pilot_61: -812758975
       The Pilot_610: -1812065011
       The Pilot_611: -1508245580
-      The Pilot_612: -439478430
       The Pilot_613: 198801985
       The Pilot_614: 1818769149
       The Pilot_615: 698179846
@@ -23506,16 +23516,6 @@ TextureImporter:
       The Pilot_779: -1574531673
       The Pilot_780: 936274304
       The Pilot_781: 1159887528
-      The Pilot_782: 829018727
-      The Pilot_783: 29625031
-      The Pilot_784: -794912632
-      The Pilot_785: -1368076736
-      The Pilot_786: 1955170632
-      The Pilot_787: -2007932782
-      The Pilot_788: -584128099
-      The Pilot_789: -1280690834
-      The Pilot_790: -1603950954
-      The Pilot_791: -470775199
       The Pilot_792: 1924920518
       The Pilot_793: 1378322909
       The Pilot_794: -272714412

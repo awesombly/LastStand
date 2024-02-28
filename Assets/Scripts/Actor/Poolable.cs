@@ -5,7 +5,7 @@ using UnityEngine.Pool;
 
 public class Poolable : MonoBehaviour
 {
-    public int prefabIndex;
+    public int PrefabIndex { get; set; }
     private IObjectPool<Poolable> parentPool = null;
 
     private void OnParticleSystemStopped()

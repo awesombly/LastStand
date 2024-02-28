@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     }
     [SerializeField]
     private DodgeInfo dodgeInfo;
+    public event Action<bool> OnDodgeAction;
 
     #region Components
     private Player player;
@@ -100,6 +101,12 @@ public class PlayerMovement : MonoBehaviour
     }
 #endregion
 
+    public Vector2 GetDodgeDirection()
+    {
+        bool isAFK = ( receiver.InputVector.sqrMagnitude == 0f );
+        return isAFK ? GameManager.MouseDirection : receiver.InputVector;
+    }
+
     private void ReqSyncMovement()
     {
         bool isStopped = !moveInfo.prevIsSleep && rigid2D.IsSleeping();
@@ -116,6 +123,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void UpdateLookAngle()
     {
+        if ( player.UnactionableCount > 0 )
+        {
+            return;
+        }
+
         bool prevFlipX = player.IsFlipX;
         player.ApplyLookAngle( GameManager.LookAngle );
 
@@ -136,7 +148,9 @@ public class PlayerMovement : MonoBehaviour
 
     public void DodgeAction( bool _useCollision, Vector2 _direction, float _duration )
     {
-        ++player.UnattackableCount;
+        OnDodgeAction?.Invoke( true );
+
+        ++player.UnactionableCount;
         dodgeInfo.cooldown.SetMax();
 
         dodgeInfo.duration.Max = _duration;
@@ -154,8 +168,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        bool isAFK = ( receiver.InputVector.sqrMagnitude == 0f );
-        Vector2 direction = isAFK ? GameManager.MouseDirection : receiver.InputVector;
+        Vector2 direction = GetDodgeDirection();
         float duration = dodgeInfo.range / dodgeInfo.moveSpeed;
 
         DodgeAction( dodgeInfo.useCollision, direction, duration );
@@ -180,9 +193,11 @@ public class PlayerMovement : MonoBehaviour
         Vector2 delta = dodgeInfo.direction * dodgeInfo.moveSpeed * deltaTime;
         rigid2D.MovePosition( rigid2D.position + delta );
 
+        // Dodge Finish
         if ( dodgeInfo.duration.IsZero )
         {
-            --player.UnattackableCount;
+            OnDodgeAction?.Invoke( false );
+            --player.UnactionableCount;
             capsuleCollider.isTrigger = false;
         }
     }

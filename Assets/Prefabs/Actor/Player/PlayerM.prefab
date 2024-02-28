@@ -1587,7 +1587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 400916ac03e5d7449a47cba6870bb3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabIndex: 0
   Hp:
     max: 0
   data: {fileID: 11400000, guid: 0c128d2c50c140742bbde51a827fee73, type: 2}
@@ -1764,8 +1763,8 @@ MonoBehaviour:
       max: 0.1
   dodgeInfo:
     useCollision: 0
-    moveSpeed: 25
-    range: 5.5
+    moveSpeed: 13
+    range: 10
     cooldown:
       max: 0.8
     duration:

@@ -11,16 +11,20 @@ public class PlayerAnimator : MonoBehaviour
     private Vector3 handLeftPosition;
     private Vector3 handRightPosition;
 
-    private Animator animator;
+    private Player player;
     private PlayerMovement movement;
+    private Animator animator;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        player = GetComponent<Player>();
         movement = GetComponent<PlayerMovement>();
+        animator = GetComponent<Animator>();
 
         handLeftPosition = handLeft.transform.localPosition;
         handRightPosition = handRight.transform.localPosition;
+
+        movement.OnDodgeAction += OnDodgeAction;
     }
 
     private void Update()
@@ -38,13 +42,24 @@ public class PlayerAnimator : MonoBehaviour
 
     private void UpdateAnimatorParameters()
     {
+
         animator.SetFloat( AnimatorParameters.MoveSpeed, movement.moveInfo.moveVector.sqrMagnitude );
-        animator.SetInteger( AnimatorParameters.LookDirection, ( int )GetLookDirection() );
+        animator.SetInteger( AnimatorParameters.LookDirection, ( int )GetAnimatorDirection( GameManager.LookAngle ) );
+        animator.SetBool( AnimatorParameters.IsActionBlocked, player.UnactionableCount > 0 );
     }
 
-    private LookDirection GetLookDirection()
+    private void OnDodgeAction( bool _isActive )
     {
-        switch ( GameManager.LookAngle )
+        float actionAngle = Global.GetAngle( Vector3.zero, movement.GetDodgeDirection() );
+        player.ApplyLookAngle( actionAngle );
+
+        animator.SetInteger( AnimatorParameters.ActionDirection, ( int )GetAnimatorDirection( actionAngle ) );
+        animator.SetBool( AnimatorParameters.DodgeAction, _isActive );
+    }
+
+    private LookDirection GetAnimatorDirection( float angle )
+    {
+        switch ( angle )
         {
             case > 157.5f:
                 return LookDirection.Right;
@@ -54,7 +69,7 @@ public class PlayerAnimator : MonoBehaviour
                 return LookDirection.Back;
             case > 22.5f:
                 return LookDirection.BackRight;
-            case > -45f:
+            case >= -45f:
                 return LookDirection.Right;
             case > -135f:
                 return LookDirection.Front;
@@ -63,9 +78,9 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
-    private LookDirection GetLookDirection8Way()
+    private LookDirection GetAnimatorDirection8Way( float angle )
     {
-        switch ( GameManager.LookAngle )
+        switch ( angle )
         {
             case > 157.5f:
                 return LookDirection.Left;
@@ -97,5 +112,9 @@ public class PlayerAnimator : MonoBehaviour
     {
         public static int MoveSpeed = Animator.StringToHash( "MoveSpeed" );
         public static int LookDirection = Animator.StringToHash( "LookDirection" );
+        public static int ActionDirection = Animator.StringToHash( "ActionDirection" );
+
+        public static int IsActionBlocked = Animator.StringToHash( "IsActionBlocked" );
+        public static int DodgeAction = Animator.StringToHash( "DodgeAction" );
     }
 }
