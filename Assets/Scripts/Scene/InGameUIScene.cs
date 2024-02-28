@@ -98,6 +98,6 @@ public class InGameUIScene : SceneBase
     {
         isProgress = false;
         GameManager.StageInfo = null;
-        SceneBase.LoadScene( SceneType.Lobby );
+        LoadScene( SceneType.Lobby );
     }
 }

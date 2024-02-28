@@ -250,8 +250,8 @@ public class LobbyScene : SceneBase
     {
         canSendCreateStage = true;
         GameManager.StageInfo = Global.FromJson<STAGE_INFO>( _packet );
-        SceneBase.LoadScene( SceneType.InGame_UI );
-        SceneBase.LoadScene( SceneType.InGame_Logic, LoadSceneMode.Additive );
+        LoadScene( SceneType.InGame_UI );
+        LoadScene( SceneType.InGame_Logic, LoadSceneMode.Additive );
     }
 
     private void AckUpdateStageInfo( Packet _packet )
