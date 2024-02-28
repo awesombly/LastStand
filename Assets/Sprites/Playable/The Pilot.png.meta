@@ -262,7 +262,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_77
+      name: Pilot_IdleS_Front0
       rect:
         serializedVersion: 2
         x: 154
@@ -283,7 +283,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_78
+      name: Pilot_IdleS_Front1
       rect:
         serializedVersion: 2
         x: 171
@@ -304,7 +304,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_79
+      name: Pilot_IdleS_Front2
       rect:
         serializedVersion: 2
         x: 188
@@ -325,7 +325,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_80
+      name: Pilot_IdleS_Front3
       rect:
         serializedVersion: 2
         x: 205
@@ -346,7 +346,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_81
+      name: Pilot_IdleS_Front4
       rect:
         serializedVersion: 2
         x: 222
@@ -367,7 +367,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_82
+      name: Pilot_IdleS_Front5
       rect:
         serializedVersion: 2
         x: 239
@@ -1564,7 +1564,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_145
+      name: Pilot_IdleS_Right0
       rect:
         serializedVersion: 2
         x: 154
@@ -1585,7 +1585,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_146
+      name: Pilot_IdleS_Right1
       rect:
         serializedVersion: 2
         x: 169
@@ -1606,7 +1606,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_147
+      name: Pilot_IdleS_Right2
       rect:
         serializedVersion: 2
         x: 184
@@ -1627,7 +1627,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_148
+      name: Pilot_IdleS_Right3
       rect:
         serializedVersion: 2
         x: 199
@@ -2110,10 +2110,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_171
+      name: Pilot_IdleS_Back0
       rect:
         serializedVersion: 2
-        x: 154
+        x: 153
         y: 710
         width: 15
         height: 20
@@ -2131,7 +2131,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_172
+      name: Pilot_IdleS_Back1
       rect:
         serializedVersion: 2
         x: 171
@@ -2152,7 +2152,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_173
+      name: Pilot_IdleS_Back2
       rect:
         serializedVersion: 2
         x: 188
@@ -2173,7 +2173,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_174
+      name: Pilot_IdleS_Back3
       rect:
         serializedVersion: 2
         x: 205
@@ -2194,7 +2194,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_175
+      name: Pilot_IdleS_Back4
       rect:
         serializedVersion: 2
         x: 222
@@ -2215,7 +2215,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_176
+      name: Pilot_IdleS_Back5
       rect:
         serializedVersion: 2
         x: 239
@@ -2572,7 +2572,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_193
+      name: Pilot_IdleS_BackRight0
       rect:
         serializedVersion: 2
         x: 154
@@ -2593,7 +2593,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_194
+      name: Pilot_IdleS_BackRight1
       rect:
         serializedVersion: 2
         x: 170
@@ -2614,7 +2614,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_195
+      name: Pilot_IdleS_BackRight2
       rect:
         serializedVersion: 2
         x: 186
@@ -2635,10 +2635,10 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_196
+      name: Pilot_IdleS_BackRight3
       rect:
         serializedVersion: 2
-        x: 202
+        x: 203
         y: 683
         width: 14
         height: 21
@@ -2651,762 +2651,6 @@ TextureImporter:
       bones: []
       spriteID: 87616a288202f5b4599d74856259ba3e
       internalID: -772049145
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_197
-      rect:
-        serializedVersion: 2
-        x: 22
-        y: 671
-        width: 15
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f29fc2f0d6ce5d48b0c451768426cba
-      internalID: 2019697022
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_198
-      rect:
-        serializedVersion: 2
-        x: 38
-        y: 671
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 099e9af04117b8149b0cca412e81b760
-      internalID: 368363275
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_199
-      rect:
-        serializedVersion: 2
-        x: 45
-        y: 671
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5b0a2060eab167a48911b2973bbdd650
-      internalID: -720970180
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_200
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 669
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2f0551d9d846a73479039635751a1b0b
-      internalID: -1443069749
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_201
-      rect:
-        serializedVersion: 2
-        x: 154
-        y: 671
-        width: 15
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 44fe18172e779da46859d147d8e57042
-      internalID: 517337525
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_202
-      rect:
-        serializedVersion: 2
-        x: 170
-        y: 671
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f8f6fd3027220b4a9403ca43206d41c
-      internalID: -426984991
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_203
-      rect:
-        serializedVersion: 2
-        x: 177
-        y: 671
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 48304556ddba7ac46b5b9d2f53a15b91
-      internalID: -949983566
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_204
-      rect:
-        serializedVersion: 2
-        x: 182
-        y: 669
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6bc5d0ac56743e142b3aa47206d7e5f8
-      internalID: -1862530007
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_205
-      rect:
-        serializedVersion: 2
-        x: 189
-        y: 671
-        width: 12
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1d27bf59019d2e641af4521098f07adf
-      internalID: 1033850209
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_206
-      rect:
-        serializedVersion: 2
-        x: 202
-        y: 671
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bf3abb24e694a8d46b4ee71c22fb507c
-      internalID: -1814107251
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_207
-      rect:
-        serializedVersion: 2
-        x: 209
-        y: 671
-        width: 7
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 26094fc1b74f89f4d84b1242ed6208ef
-      internalID: -1690012834
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_208
-      rect:
-        serializedVersion: 2
-        x: 217
-        y: 671
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 824b136a85280774b8387e17ccc01517
-      internalID: -382906477
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_209
-      rect:
-        serializedVersion: 2
-        x: 222
-        y: 671
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eee6d91480cd2fb4898a772680195916
-      internalID: -1547411826
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_210
-      rect:
-        serializedVersion: 2
-        x: 227
-        y: 669
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e1f974313a6c60549bf7f8ac74f69190
-      internalID: -267038017
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_211
-      rect:
-        serializedVersion: 2
-        x: 232
-        y: 671
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4605098a2bb64a048832a823a74405fa
-      internalID: -878208300
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_212
-      rect:
-        serializedVersion: 2
-        x: 237
-        y: 671
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ce309156121711541af1b4e7708f22ac
-      internalID: 114890047
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_213
-      rect:
-        serializedVersion: 2
-        x: 286
-        y: 672
-        width: 15
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 49e70718f6e679444852fda64bc824e4
-      internalID: -1792165669
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_214
-      rect:
-        serializedVersion: 2
-        x: 302
-        y: 672
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 18dc38d23dc086649a5713dcd418161b
-      internalID: 1628186606
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_215
-      rect:
-        serializedVersion: 2
-        x: 309
-        y: 672
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b9099be32cbaaf646b4c4e4d44f04790
-      internalID: 2139267143
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_216
-      rect:
-        serializedVersion: 2
-        x: 314
-        y: 670
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2617d78ab5379f440a9de72504113c47
-      internalID: 1890110569
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_217
-      rect:
-        serializedVersion: 2
-        x: 321
-        y: 672
-        width: 12
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 12984b0e5d905de4ab68682504c45713
-      internalID: -1122619398
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_218
-      rect:
-        serializedVersion: 2
-        x: 334
-        y: 672
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b7c1f50e1e0dc6640a054a3651eb8ae4
-      internalID: 31042363
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_219
-      rect:
-        serializedVersion: 2
-        x: 341
-        y: 672
-        width: 10
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1d826c3be9245ed44a46bc9d73ef8c4c
-      internalID: -1745087984
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_220
-      rect:
-        serializedVersion: 2
-        x: 352
-        y: 672
-        width: 8
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2ac7737d5e4188e4c8004f1b8b51239a
-      internalID: -255756565
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_221
-      rect:
-        serializedVersion: 2
-        x: 361
-        y: 672
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0bd1716f17ccddb4dbeb4ce3f2afaa5e
-      internalID: -2112822817
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_222
-      rect:
-        serializedVersion: 2
-        x: 366
-        y: 672
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 081a8c286a9cc09468c8d2a7ec52dfa9
-      internalID: 632054918
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_223
-      rect:
-        serializedVersion: 2
-        x: 371
-        y: 672
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8bebf03787ee3ff4d8efff1bcdaf80ab
-      internalID: 2071954197
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_224
-      rect:
-        serializedVersion: 2
-        x: 376
-        y: 672
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0d4e409d9682f8f40aae26b251952dff
-      internalID: 1569075540
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_225
-      rect:
-        serializedVersion: 2
-        x: 381
-        y: 672
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7d80ff5a122c7ec43929206ff2efd95e
-      internalID: 141844146
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_226
-      rect:
-        serializedVersion: 2
-        x: 386
-        y: 672
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b94c47c557af40d4a917a5e391ea188f
-      internalID: -1712392895
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_227
-      rect:
-        serializedVersion: 2
-        x: 393
-        y: 672
-        width: 7
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 09b1c5d89d3754a4b85d0401168852c5
-      internalID: -801744505
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_228
-      rect:
-        serializedVersion: 2
-        x: 401
-        y: 672
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 637f292de42b05b41b6b67832296d6fa
-      internalID: -58671313
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_229
-      rect:
-        serializedVersion: 2
-        x: 406
-        y: 672
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6186c54fa556cd94e9ea2928634c8528
-      internalID: -1402322732
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_230
-      rect:
-        serializedVersion: 2
-        x: 411
-        y: 670
-        width: 4
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4025d5bb1c3bef840b394f54d816159b
-      internalID: -831324096
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_231
-      rect:
-        serializedVersion: 2
-        x: 416
-        y: 672
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8a370b85e06169c4ab59cc0d863b46f4
-      internalID: 197742476
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_232
-      rect:
-        serializedVersion: 2
-        x: 421
-        y: 672
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 795650c1629616244b8079a3e9d07908
-      internalID: 789171431
       vertices: []
       indices: 
       edges: []
@@ -4294,7 +3538,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_275
+      name: Pilot_WalkingS_Front0
       rect:
         serializedVersion: 2
         x: 154
@@ -4315,7 +3559,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_276
+      name: Pilot_WalkingS_Front1
       rect:
         serializedVersion: 2
         x: 171
@@ -4336,7 +3580,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_277
+      name: Pilot_WalkingS_Front2
       rect:
         serializedVersion: 2
         x: 190
@@ -4357,7 +3601,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_278
+      name: Pilot_WalkingS_Front3
       rect:
         serializedVersion: 2
         x: 210
@@ -4378,7 +3622,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_279
+      name: Pilot_WalkingS_Front4
       rect:
         serializedVersion: 2
         x: 229
@@ -4399,7 +3643,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_280
+      name: Pilot_WalkingS_Front5
       rect:
         serializedVersion: 2
         x: 249
@@ -5323,7 +4567,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_324
+      name: Pilot_WalkingS_Right0
       rect:
         serializedVersion: 2
         x: 154
@@ -5344,7 +4588,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_325
+      name: Pilot_WalkingS_Right1
       rect:
         serializedVersion: 2
         x: 169
@@ -5365,7 +4609,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_326
+      name: Pilot_WalkingS_Right2
       rect:
         serializedVersion: 2
         x: 186
@@ -5386,7 +4630,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_327
+      name: Pilot_WalkingS_Right3
       rect:
         serializedVersion: 2
         x: 203
@@ -5407,7 +4651,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_328
+      name: Pilot_WalkingS_Right4
       rect:
         serializedVersion: 2
         x: 218
@@ -5428,7 +4672,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_329
+      name: Pilot_WalkingS_Right5
       rect:
         serializedVersion: 2
         x: 234
@@ -6163,7 +5407,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_364
+      name: Pilot_WalkingS_Back0
       rect:
         serializedVersion: 2
         x: 154
@@ -6184,7 +5428,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_365
+      name: Pilot_WalkingS_Back1
       rect:
         serializedVersion: 2
         x: 171
@@ -6205,7 +5449,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_366
+      name: Pilot_WalkingS_Back2
       rect:
         serializedVersion: 2
         x: 189
@@ -6226,7 +5470,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_367
+      name: Pilot_WalkingS_Back3
       rect:
         serializedVersion: 2
         x: 207
@@ -6247,7 +5491,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_368
+      name: Pilot_WalkingS_Back4
       rect:
         serializedVersion: 2
         x: 224
@@ -6268,7 +5512,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_369
+      name: Pilot_WalkingS_Back5
       rect:
         serializedVersion: 2
         x: 242
@@ -7003,7 +6247,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_404
+      name: Pilot_WalkingS_BackRight0
       rect:
         serializedVersion: 2
         x: 154
@@ -7024,7 +6268,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_405
+      name: Pilot_WalkingS_BackRight1
       rect:
         serializedVersion: 2
         x: 169
@@ -7045,7 +6289,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_406
+      name: Pilot_WalkingS_BackRight2
       rect:
         serializedVersion: 2
         x: 187
@@ -7066,7 +6310,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_407
+      name: Pilot_WalkingS_BackRight3
       rect:
         serializedVersion: 2
         x: 206
@@ -7087,7 +6331,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_408
+      name: Pilot_WalkingS_BackRight4
       rect:
         serializedVersion: 2
         x: 221
@@ -7108,7 +6352,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_409
+      name: Pilot_WalkingS_BackRight5
       rect:
         serializedVersion: 2
         x: 237
@@ -7129,7 +6373,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_410
+      name: Pilot_Walking_BackRight0
       rect:
         serializedVersion: 2
         x: 286
@@ -7150,7 +6394,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_411
+      name: Pilot_Walking_BackRight1
       rect:
         serializedVersion: 2
         x: 301
@@ -7171,7 +6415,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_412
+      name: Pilot_Walking_BackRight2
       rect:
         serializedVersion: 2
         x: 319
@@ -7192,7 +6436,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_413
+      name: Pilot_Walking_BackRight3
       rect:
         serializedVersion: 2
         x: 338
@@ -7213,7 +6457,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_414
+      name: Pilot_Walking_BackRight4
       rect:
         serializedVersion: 2
         x: 353
@@ -7234,7 +6478,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_415
+      name: Pilot_Walking_BackRight5
       rect:
         serializedVersion: 2
         x: 369
@@ -18427,69 +17671,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Pilot_948
-      rect:
-        serializedVersion: 2
-        x: 58
-        y: 240
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 581820e3f713cec43acce1eeb4934e9a
-      internalID: 1769225482
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_949
-      rect:
-        serializedVersion: 2
-        x: 68
-        y: 240
-        width: 9
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b326e956cb2d1ae4ba2653b6ac543843
-      internalID: 1004465814
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: The Pilot_950
-      rect:
-        serializedVersion: 2
-        x: 78
-        y: 240
-        width: 4
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3355fe770ea1a6c4d8eebd7e1d72ecb2
-      internalID: 1959019807
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: The Pilot_951
       rect:
         serializedVersion: 2
@@ -23373,6 +22554,26 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Pilot_Hand: -677256595
+      Pilot_IdleS_Back0: -1130514143
+      Pilot_IdleS_Back1: -775242381
+      Pilot_IdleS_Back2: -443513271
+      Pilot_IdleS_Back3: -700317777
+      Pilot_IdleS_Back4: 1622454925
+      Pilot_IdleS_Back5: 497647308
+      Pilot_IdleS_BackRight0: 794763647
+      Pilot_IdleS_BackRight1: -279748873
+      Pilot_IdleS_BackRight2: 1270157727
+      Pilot_IdleS_BackRight3: -772049145
+      Pilot_IdleS_Front0: 2002876439
+      Pilot_IdleS_Front1: -587481385
+      Pilot_IdleS_Front2: -2110222337
+      Pilot_IdleS_Front3: -484541053
+      Pilot_IdleS_Front4: -1868035595
+      Pilot_IdleS_Front5: -1814532829
+      Pilot_IdleS_Right0: 908297077
+      Pilot_IdleS_Right1: 285803498
+      Pilot_IdleS_Right2: -576494328
+      Pilot_IdleS_Right3: 1190259650
       Pilot_Idle_Back0: 537407233
       Pilot_Idle_Back1: -282176575
       Pilot_Idle_Back2: -1490038154
@@ -23393,6 +22594,36 @@ TextureImporter:
       Pilot_Idle_Right1: -1730863887
       Pilot_Idle_Right2: -1841447629
       Pilot_Idle_Right3: -1396538625
+      Pilot_WalkingS_Back0: 1244322946
+      Pilot_WalkingS_Back1: 1815459436
+      Pilot_WalkingS_Back2: 1128066427
+      Pilot_WalkingS_Back3: 253771202
+      Pilot_WalkingS_Back4: -15517552
+      Pilot_WalkingS_Back5: 1108825901
+      Pilot_WalkingS_BackRight0: -1290989369
+      Pilot_WalkingS_BackRight1: 714804435
+      Pilot_WalkingS_BackRight2: -855850190
+      Pilot_WalkingS_BackRight3: -544026321
+      Pilot_WalkingS_BackRight4: -1772904335
+      Pilot_WalkingS_BackRight5: 1610725558
+      Pilot_WalkingS_Front0: -1020739098
+      Pilot_WalkingS_Front1: -36588249
+      Pilot_WalkingS_Front2: 1759813459
+      Pilot_WalkingS_Front3: -550862604
+      Pilot_WalkingS_Front4: -240942908
+      Pilot_WalkingS_Front5: -2131728507
+      Pilot_WalkingS_Right0: 701617067
+      Pilot_WalkingS_Right1: 704098009
+      Pilot_WalkingS_Right2: -520826091
+      Pilot_WalkingS_Right3: -1845938081
+      Pilot_WalkingS_Right4: 801929835
+      Pilot_WalkingS_Right5: 909905863
+      Pilot_Walking_BackRight0: -2083343611
+      Pilot_Walking_BackRight1: -1470063951
+      Pilot_Walking_BackRight2: -701467021
+      Pilot_Walking_BackRight3: 210196772
+      Pilot_Walking_BackRight4: -2012663664
+      Pilot_Walking_BackRight5: 888710643
       The Pilot_0: -44007018
       The Pilot_1: -4547353
       The Pilot_10: 509850304
@@ -23624,10 +22855,6 @@ TextureImporter:
       The Pilot_142: -989055676
       The Pilot_143: 178218593
       The Pilot_144: 722541023
-      The Pilot_145: 908297077
-      The Pilot_146: 285803498
-      The Pilot_147: -576494328
-      The Pilot_148: 1190259650
       The Pilot_15: 543096131
       The Pilot_155: -1440188929
       The Pilot_156: 721822909
@@ -23647,12 +22874,6 @@ TextureImporter:
       The Pilot_169: 119060517
       The Pilot_17: -1452904465
       The Pilot_170: 831932684
-      The Pilot_171: -1130514143
-      The Pilot_172: -775242381
-      The Pilot_173: -443513271
-      The Pilot_174: -700317777
-      The Pilot_175: 1622454925
-      The Pilot_176: 497647308
       The Pilot_18: -956094113
       The Pilot_181: 796279259
       The Pilot_182: -1166403046
@@ -23667,10 +22888,6 @@ TextureImporter:
       The Pilot_190: 541124784
       The Pilot_191: -169515591
       The Pilot_192: -1043501210
-      The Pilot_193: 794763647
-      The Pilot_194: -279748873
-      The Pilot_195: 1270157727
-      The Pilot_196: -772049145
       The Pilot_197: 2019697022
       The Pilot_198: 368363275
       The Pilot_199: -720970180
@@ -23758,13 +22975,7 @@ TextureImporter:
       The Pilot_272: -600057518
       The Pilot_273: -1295737546
       The Pilot_274: 1288166617
-      The Pilot_275: -1020739098
-      The Pilot_276: -36588249
-      The Pilot_277: 1759813459
-      The Pilot_278: -550862604
-      The Pilot_279: -240942908
       The Pilot_28: 726577692
-      The Pilot_280: -2131728507
       The Pilot_281: -1022247831
       The Pilot_282: -1334854452
       The Pilot_283: 1547721004
@@ -23813,12 +23024,6 @@ TextureImporter:
       The Pilot_321: -847797293
       The Pilot_322: 1075628202
       The Pilot_323: 190978213
-      The Pilot_324: 701617067
-      The Pilot_325: 704098009
-      The Pilot_326: -520826091
-      The Pilot_327: -1845938081
-      The Pilot_328: 801929835
-      The Pilot_329: 909905863
       The Pilot_33: 850635685
       The Pilot_330: -1818896705
       The Pilot_331: -729105950
@@ -23857,12 +23062,6 @@ TextureImporter:
       The Pilot_361: 64004231
       The Pilot_362: 1153626570
       The Pilot_363: -853198036
-      The Pilot_364: 1244322946
-      The Pilot_365: 1815459436
-      The Pilot_366: 1128066427
-      The Pilot_367: 253771202
-      The Pilot_368: -15517552
-      The Pilot_369: 1108825901
       The Pilot_37: -954562950
       The Pilot_370: 1545302665
       The Pilot_371: 1141137356
@@ -23902,19 +23101,7 @@ TextureImporter:
       The Pilot_401: -1802387984
       The Pilot_402: 846582756
       The Pilot_403: 701584620
-      The Pilot_404: -1290989369
-      The Pilot_405: 714804435
-      The Pilot_406: -855850190
-      The Pilot_407: -544026321
-      The Pilot_408: -1772904335
-      The Pilot_409: 1610725558
       The Pilot_41: 1737158209
-      The Pilot_410: -2083343611
-      The Pilot_411: -1470063951
-      The Pilot_412: -701467021
-      The Pilot_413: 210196772
-      The Pilot_414: -2012663664
-      The Pilot_415: 888710643
       The Pilot_416: 1992589224
       The Pilot_417: -1744929315
       The Pilot_418: 244634947
@@ -24307,7 +23494,6 @@ TextureImporter:
       The Pilot_767: -1082418990
       The Pilot_768: 1244695288
       The Pilot_769: -2114837255
-      The Pilot_77: 2002876439
       The Pilot_770: 703040877
       The Pilot_771: 1647220325
       The Pilot_772: 733903171
@@ -24318,7 +23504,6 @@ TextureImporter:
       The Pilot_777: 1379272884
       The Pilot_778: 1530899436
       The Pilot_779: -1574531673
-      The Pilot_78: -587481385
       The Pilot_780: 936274304
       The Pilot_781: 1159887528
       The Pilot_782: 829018727
@@ -24329,7 +23514,6 @@ TextureImporter:
       The Pilot_787: -2007932782
       The Pilot_788: -584128099
       The Pilot_789: -1280690834
-      The Pilot_79: -2110222337
       The Pilot_790: -1603950954
       The Pilot_791: -470775199
       The Pilot_792: 1924920518
@@ -24340,7 +23524,6 @@ TextureImporter:
       The Pilot_797: -683206150
       The Pilot_798: -1353756087
       The Pilot_799: -1112237529
-      The Pilot_80: -484541053
       The Pilot_800: 865309381
       The Pilot_801: -41096474
       The Pilot_802: -27014044
@@ -24351,7 +23534,6 @@ TextureImporter:
       The Pilot_807: 29643859
       The Pilot_808: 431189607
       The Pilot_809: -472970546
-      The Pilot_81: -1868035595
       The Pilot_810: 1473964465
       The Pilot_811: 1805322985
       The Pilot_812: 965137332
@@ -24362,7 +23544,6 @@ TextureImporter:
       The Pilot_817: 452440437
       The Pilot_818: 168216211
       The Pilot_819: -933993074
-      The Pilot_82: -1814532829
       The Pilot_820: -105891314
       The Pilot_821: 437516008
       The Pilot_822: -1466758541
