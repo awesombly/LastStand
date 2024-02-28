@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 using static PacketType;
 
@@ -45,11 +46,15 @@ public class InGameUIScene : SceneBase
         {
             if ( pause.activeInHierarchy )
             {
+                InputSystem.EnableDevice( Mouse.current );
+                InputSystem.EnableDevice( Keyboard.current );
                 pause.SetActive( false );
                 AudioManager.Inst.Play( SFX.MenuExit );
             }
             else
             {
+                InputSystem.DisableDevice( Mouse.current );
+                InputSystem.DisableDevice( Keyboard.current );
                 pause.SetActive( true );
                 AudioManager.Inst.Play( SFX.MenuEntry );
             }
