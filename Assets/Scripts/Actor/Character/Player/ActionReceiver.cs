@@ -9,7 +9,7 @@ public class ActionReceiver : MonoBehaviour
     public bool IsAttackHolded { get; private set; }
     public Vector2 InputVector { get; private set; }
 
-    public event Action<InputValue> OnMoveEvent;
+    public event Action<Vector2> OnMoveEvent;
     public event Action OnAttackPressEvent;
     public event Action OnAttackReleaseEvent;
     public event Action OnReloadEvent;
@@ -21,7 +21,7 @@ public class ActionReceiver : MonoBehaviour
     {
         InputVector = _value.Get<Vector2>();
 
-        OnMoveEvent?.Invoke( _value );
+        OnMoveEvent?.Invoke( InputVector );
     }
 
     private void OnAttackPress()

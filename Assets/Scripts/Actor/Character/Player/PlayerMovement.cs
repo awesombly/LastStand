@@ -45,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
     private Player player;
     private ActionReceiver receiver;
     private Rigidbody2D rigid2D;
-    private Animator animator;
     private CapsuleCollider2D capsuleCollider;
     #endregion
 
@@ -55,7 +54,6 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Player>();
         receiver = GetComponent<ActionReceiver>();
         rigid2D = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         capsuleCollider = GetComponent<CapsuleCollider2D>();
 
         receiver.OnDodgeEvent += OnDodge;
@@ -99,11 +97,6 @@ public class PlayerMovement : MonoBehaviour
         moveInfo.prevPosition = rigid2D.position;
         moveInfo.prevMoveVector = moveInfo.moveVector;
         moveInfo.prevIsSleep = rigid2D.IsSleeping();
-    }
-
-    private void LateUpdate()
-    {
-        animator.SetFloat( "MoveSpeed", moveInfo.moveVector.sqrMagnitude );
     }
 #endregion
 

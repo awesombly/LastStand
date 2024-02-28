@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -45,6 +46,9 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
+        InputSystem.EnableDevice( Mouse.current );
+        InputSystem.EnableDevice( Keyboard.current );
+
         removeActorsToSend.serials = new List<uint>();
         hitsInfoToSend.hits = new List<HIT_INFO>();
 
