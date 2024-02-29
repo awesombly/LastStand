@@ -12,7 +12,7 @@ void Lobby::Bind()
 
 void Lobby::AckCreateStage( const Packet& _packet )
 {
-	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
+	const STAGE_INFO& data = FromJson<STAGE_INFO>( _packet );
 	Session* session = _packet.session;
 
 	// 데이터 생성
@@ -34,7 +34,7 @@ void Lobby::AckCreateStage( const Packet& _packet )
 void Lobby::AckEntryStage( const Packet& _packet )
 {
 	Session* session = _packet.session;
-	STAGE_INFO data = FromJson<STAGE_INFO>( _packet );
+	const STAGE_INFO& data = FromJson<STAGE_INFO>( _packet );
 
 	try
 	{

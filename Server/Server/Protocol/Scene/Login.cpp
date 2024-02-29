@@ -36,7 +36,7 @@ void Login::ConfirmMatchData( const Packet& _packet )
 
 void Login::ConfirmDuplicateInfo( const Packet& _packet )
 {
-	auto data = FromJson<LOGIN_INFO>( _packet );
+	const auto& data = FromJson<LOGIN_INFO>( _packet );
 	CONFIRM protocol;
 
 	try

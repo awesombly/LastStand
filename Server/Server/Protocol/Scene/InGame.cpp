@@ -30,7 +30,7 @@ void InGame::AckChatMessage( const Packet& _packet )
 void InGame::AckExitStage( const Packet& _packet )
 {
 	Session* session = _packet.session;
-	STAGE_INFO data  = FromJson<STAGE_INFO>( _packet );
+	const STAGE_INFO& data  = FromJson<STAGE_INFO>( _packet );
 
 	try
 	{
@@ -139,7 +139,7 @@ void InGame::AckSpawnBullet( const Packet& _packet )
 
 void InGame::AckRemoveActors( const Packet& _packet )
 {
-	SERIALS_INFO data = FromJson<SERIALS_INFO>( _packet );
+	const SERIALS_INFO& data = FromJson<SERIALS_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
@@ -158,7 +158,7 @@ void InGame::AckRemoveActors( const Packet& _packet )
 
 void InGame::AckSyncMovement( const Packet& _packet )
 {
-	MOVEMENT_INFO data = FromJson<MOVEMENT_INFO>( _packet );
+	const MOVEMENT_INFO& data = FromJson<MOVEMENT_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
@@ -180,7 +180,7 @@ void InGame::AckSyncMovement( const Packet& _packet )
 
 void InGame::AckSyncReload( const Packet& _packet )
 {
-	SERIAL_INFO data = FromJson<SERIAL_INFO>( _packet );
+	const SERIAL_INFO& data = FromJson<SERIAL_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
@@ -192,7 +192,7 @@ void InGame::AckSyncReload( const Packet& _packet )
 
 void InGame::AckSyncLook( const Packet& _packet )
 {
-	LOOK_INFO data = FromJson<LOOK_INFO>( _packet );
+	const LOOK_INFO& data = FromJson<LOOK_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
@@ -211,7 +211,7 @@ void InGame::AckSyncLook( const Packet& _packet )
 
 void InGame::AckSyncDodgeAction( const Packet& _packet )
 {
-	DODGE_INFO data = FromJson<DODGE_INFO>( _packet );
+	const DODGE_INFO& data = FromJson<DODGE_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
@@ -223,7 +223,7 @@ void InGame::AckSyncDodgeAction( const Packet& _packet )
 
 void InGame::AckSyncSwapWeapon( const Packet& _packet )
 {
-	INDEX_INFO data = FromJson<INDEX_INFO>( _packet );
+	const INDEX_INFO& data = FromJson<INDEX_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
@@ -242,14 +242,14 @@ void InGame::AckSyncSwapWeapon( const Packet& _packet )
 
 void InGame::AckHitActors( const Packet& _packet )
 {
-	HITS_INFO data = FromJson<HITS_INFO>( _packet );
+	const HITS_INFO& data = FromJson<HITS_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Session is null. nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
-	for ( HitInfo hit : data.hits )
+	for ( const HitInfo& hit : data.hits )
 	{
 		ActorInfo* defender = _packet.session->stage->GetActor( hit.defender );
 		if ( defender == nullptr )
