@@ -77,6 +77,7 @@ public class Character : Actor
         }
     }
     public int UnactionableCount { get; set; }    // 0일때만 행동가능
+    public bool IsOnFire { get; set; }
 
     public event Action<Weapon/*old*/, Weapon/*new*/> OnChangeEquipWeapon;
 

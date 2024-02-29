@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,47 +11,57 @@ public class PlayerAnimator : MonoBehaviour
     private GameObject handRight;
     private Vector3 handLeftPosition;
     private Vector3 handRightPosition;
+    private float elapsedTimeForHand;
+
+    private Sequence fireSequence;
 
     private Player player;
     private PlayerMovement movement;
     private Animator animator;
 
+    #region Unity Callback
     private void Awake()
     {
         player = GetComponent<Player>();
         movement = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
 
+        player.OnChangeEquipWeapon += OnChangeEquipWeapon;
+        movement.OnDodgeAction += OnDodgeAction;
+
         handLeftPosition = handLeft.transform.localPosition;
         handRightPosition = handRight.transform.localPosition;
-
-        movement.OnDodgeAction += OnDodgeAction;
     }
 
     private void Update()
     {
         // Hand Shaking
-        Vector3 delta = Vector3.up * ( Mathf.Sin( Time.time * 20f ) * 0.05f );
-        handLeft.transform.localPosition = handLeftPosition + delta;
-        handRight.transform.localPosition = handRightPosition + delta;
+        player.IsOnFire = !ReferenceEquals( fireSequence, null ) && ( fireSequence.IsActive() || fireSequence.IsPlaying() );
+        if ( !player.IsOnFire )
+        {
+            elapsedTimeForHand += Time.deltaTime;
+            Vector3 delta = Vector3.up * ( Mathf.Sin( elapsedTimeForHand * 20f ) * 0.05f );
+            //handLeft.transform.localPosition = handLeftPosition + delta;
+            handRight.transform.localPosition = handRightPosition + delta;
+        }
     }
 
     private void LateUpdate()
     {
         UpdateAnimatorParameters();
     }
+    #endregion
 
     private void UpdateAnimatorParameters()
     {
-
         animator.SetFloat( AnimatorParameters.MoveSpeed, movement.moveInfo.moveVector.sqrMagnitude );
-        animator.SetInteger( AnimatorParameters.LookDirection, ( int )GetAnimatorDirection( GameManager.LookAngle ) );
+        animator.SetInteger( AnimatorParameters.LookDirection, ( int )GetAnimatorDirection( player.LookAngle ) );
         animator.SetBool( AnimatorParameters.IsActionBlocked, player.UnactionableCount > 0 );
     }
 
-    private void OnDodgeAction( bool _isActive )
+    private void OnDodgeAction( bool _isActive, Vector2 _direction )
     {
-        float actionAngle = Global.GetAngle( Vector3.zero, movement.GetDodgeDirection() );
+        float actionAngle = Global.GetAngle( Vector3.zero, _direction );
         player.ApplyLookAngle( actionAngle );
 
         animator.SetInteger( AnimatorParameters.ActionDirection, ( int )GetAnimatorDirection( actionAngle ) );
@@ -101,6 +112,37 @@ public class PlayerAnimator : MonoBehaviour
             default:
                 return LookDirection.Left;
         }
+    }
+
+    private void OnChangeEquipWeapon( Weapon _old, Weapon _new )
+    {
+        if ( _old == _new )
+        {
+            return;
+        }
+
+        if ( _old != null )
+        {
+            _old.OnFireEvent -= OnFire;
+        }
+
+        if ( _new != null )
+        {
+            _new.OnFireEvent += OnFire;
+        }
+    }
+
+    private void OnFire( Weapon _weapon )
+    {
+        // 적당히 계산한 값
+        float positionStrength = 0.17f + ( _weapon.data.stat.reactionPower / 3000f );
+        float rotationStrength = 22f + ( _weapon.data.stat.reactionPower / 60f );
+
+        fireSequence?.Kill();
+        fireSequence = DOTween.Sequence().SetAutoKill( true )
+            .Append( handRight.transform.DOShakePosition( _weapon.data.stat.repeatDelay * 0.6f, positionStrength ) )
+            .Join( handRight.transform.DOShakeRotation( _weapon.data.stat.repeatDelay * 0.6f, Vector3.forward * rotationStrength ) )
+            .OnKill( () => fireSequence = null );
     }
 
     private enum LookDirection

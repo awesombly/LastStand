@@ -57,7 +57,7 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if ( !owner.IsLocal )
+        if ( !owner.IsLocal && !owner.IsOnFire )
         {
             curLookAngle = Mathf.LerpAngle( curLookAngle, owner.LookAngle, rotateLerpSpeed * Time.deltaTime );
             transform.rotation = Quaternion.Euler( 0, 0, curLookAngle - 90 + rotateCorrection );
@@ -101,7 +101,7 @@ public class Weapon : MonoBehaviour
 
     public void LookAngle( bool _isImmediateChange, float _angle )
     {
-        if ( owner.IsLocal || _isImmediateChange )
+        if ( !owner.IsOnFire && ( owner.IsLocal || _isImmediateChange ) )
         {
             transform.rotation = Quaternion.Euler( 0, 0, _angle - 90 + rotateCorrection );
         }

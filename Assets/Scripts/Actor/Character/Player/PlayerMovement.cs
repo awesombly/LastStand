@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
     }
     [SerializeField]
     private DodgeInfo dodgeInfo;
-    public event Action<bool> OnDodgeAction;
+    public event Action<bool, Vector2/*direction*/> OnDodgeAction;
 
     #region Components
     private Player player;
@@ -99,13 +99,7 @@ public class PlayerMovement : MonoBehaviour
         moveInfo.prevMoveVector = moveInfo.moveVector;
         moveInfo.prevIsSleep = rigid2D.IsSleeping();
     }
-#endregion
-
-    public Vector2 GetDodgeDirection()
-    {
-        bool isAFK = ( receiver.InputVector.sqrMagnitude == 0f );
-        return isAFK ? GameManager.MouseDirection : receiver.InputVector;
-    }
+    #endregion
 
     private void ReqSyncMovement()
     {
@@ -148,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void DodgeAction( bool _useCollision, Vector2 _direction, float _duration )
     {
-        OnDodgeAction?.Invoke( true );
+        OnDodgeAction?.Invoke( true, _direction );
 
         ++player.UnactionableCount;
         dodgeInfo.cooldown.SetMax();
@@ -168,7 +162,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Vector2 direction = GetDodgeDirection();
+        bool isAFK = ( receiver.InputVector.sqrMagnitude == 0f );
+        Vector2 direction = isAFK ? GameManager.MouseDirection : receiver.InputVector;
         float duration = dodgeInfo.range / dodgeInfo.moveSpeed;
 
         DodgeAction( dodgeInfo.useCollision, direction, duration );
@@ -196,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
         // Dodge Finish
         if ( dodgeInfo.duration.IsZero )
         {
-            OnDodgeAction?.Invoke( false );
+            OnDodgeAction?.Invoke( false, Vector2.zero );
             --player.UnactionableCount;
             capsuleCollider.isTrigger = false;
         }
