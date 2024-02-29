@@ -7,9 +7,9 @@ public class WeaponSoundEffect : MonoBehaviour
     private void Awake()
     {
         Weapon weapon = GetComponent<Weapon>();
-        weapon.OnFire += OnFire;
-        weapon.OnReload += OnReload;
-        weapon.OnSwap += OnSwap;
+        weapon.OnFireEvent += OnFire;
+        weapon.OnReloadEvent += OnReload;
+        weapon.OnSwapEvent += OnSwap;
     }
 
     private void OnFire( Weapon _weapon )

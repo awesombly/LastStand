@@ -31,9 +31,9 @@ public class Weapon : MonoBehaviour
     private Character owner;
     private ActionReceiver receiver;
 
-    public event Action<Weapon> OnFire;
-    public event Action<Weapon> OnReload;
-    public event Action<Weapon> OnSwap;
+    public Action<Weapon> OnFireEvent;
+    public event Action<Weapon> OnReloadEvent;
+    public event Action<Weapon> OnSwapEvent;
 
     #region Unity Callback
     private void Awake()
@@ -89,7 +89,7 @@ public class Weapon : MonoBehaviour
             transform.localScale = owner.IsFlipX ? new Vector3( -1f, -1f, 1f ) : Vector3.one;
             myStat.swapDelay.SetMax();
 
-            OnSwap?.Invoke( this );
+            OnSwapEvent?.Invoke( this );
         }
         else
         {
@@ -106,6 +106,15 @@ public class Weapon : MonoBehaviour
             transform.rotation = Quaternion.Euler( 0, 0, _angle - 90 + rotateCorrection );
         }
         curLookAngle = transform.rotation.eulerAngles.z;
+    }
+
+    public void InvokeOnFire()
+    {
+        OnFireEvent?.Invoke( this );
+
+        float radian = owner.LookAngle * Mathf.Deg2Rad;
+        Vector2 direction = new Vector2( Mathf.Cos( radian ), Mathf.Sin( radian ) );
+        owner.Rigid2D.AddForce( -direction * owner.EquipWeapon.data.stat.reactionPower );
     }
 
     private void TryFire()
@@ -132,7 +141,6 @@ public class Weapon : MonoBehaviour
         else
         {
             --myStat.magazine.Current;
-            OnFire?.Invoke( this );
             Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, MakeBulletShotInfo() );
         }
     }
@@ -143,7 +151,6 @@ public class Weapon : MonoBehaviour
         {
             --myStat.magazine.Current;
             --_burstCount;
-            OnFire?.Invoke( this );
             Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, MakeBulletShotInfo() );
             yield return YieldCache.WaitForSeconds( data.shotInfo.burstDelay );
         }
@@ -203,7 +210,7 @@ public class Weapon : MonoBehaviour
         }
 
         myStat.reloadDelay.SetMax();
-        OnReload?.Invoke( this );
+        OnReloadEvent?.Invoke( this );
 
         SERIAL_INFO protocol;
         protocol.serial = owner.Serial;

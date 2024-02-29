@@ -21,6 +21,7 @@ MonoBehaviour:
     swapDelay: 0.5
     isAllowKeyHold: 0
     shakeShotAngle: 18
+    reactionPower: 400
   shotInfo:
     bulletPerShot: 14
     spreadAngle: 55

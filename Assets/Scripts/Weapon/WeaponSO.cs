@@ -12,19 +12,22 @@ public class WeaponSO : ScriptableObject
     [Serializable]
     public struct StatInfo
     {
-        [Min( 0 )]
+        [Tooltip( "총 탄약" ), Min( 0 )]
         public int ammo;
-        [Min( 0 )]
+        [Tooltip( "탄창 크기" ), Min( 0 )]
         public int magazine;
-        [Min( 0f )]
+        [Tooltip( "사격간 딜레이" ), Min( 0f )]
         public float repeatDelay;
-        [Min( 0.001f )]
+        [Tooltip( "재장전 딜레이" ), Min( 0.001f )]
         public float reloadDelay;
-        [Min( 0f )]
+        [Tooltip( "해당 무기로 교체시 딜레이" ), Min( 0f )]
         public float swapDelay;
+        [Tooltip( "발사키 유지시 자동 사격 여부" )]
         public bool isAllowKeyHold;
-        [Min( 0f )]
+        [Tooltip( "발사각 흔들림" ), Min( 0f )]
         public float shakeShotAngle;
+        [Tooltip( "발사시 사격자가 밀려나는 힘" ), Min( 0f )]
+        public float reactionPower;
     }
     [Header( "─ Stat" )]
     public StatInfo stat;
@@ -32,15 +35,15 @@ public class WeaponSO : ScriptableObject
     [Serializable]
     public struct MultiShotInfo
     {
-        [Min( 1 )]
+        [Tooltip( "한 번 발사할 때 탄 갯수" ), Min( 1 )]
         public int bulletPerShot;
-        [Min( 0f )]
+        [Tooltip( "한 번 발사할 때 발사각 흔들림" ), Min( 0f )]
         public float spreadAngle;
-        [Range( 0f, 1f )]
+        [Tooltip( "발사시 탄속 랜덤화" ), Range( 0f, 1f )]
         public float speedRate;
-        [Min( 1 )]
+        [Tooltip( "점사 횟수" ), Min( 1 )]
         public int burstCount;
-        [Min( 0f )]
+        [Tooltip( "점사 딜레이" ), Min( 0f )]
         public float burstDelay;
     }
     [Header( "─ Extend" )]

@@ -128,10 +128,14 @@ public class InGameLogicScene : SceneBase
         }
 
         Character owner = GameManager.Inst.GetActor( data.owner ) as Character;
-        if ( !ReferenceEquals( owner, null ) && !owner.IsLocal
+        if ( !ReferenceEquals( owner, null )
             && !ReferenceEquals( owner.EquipWeapon, null ) )
         {
-            owner.EquipWeapon.LookAngle( true, data.look );
+            if ( !owner.IsLocal )
+            {
+                owner.EquipWeapon.LookAngle( true, data.look );
+            }
+            owner.EquipWeapon.InvokeOnFire();
         }
     }
 

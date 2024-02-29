@@ -1571,7 +1571,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 2
+  m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
@@ -1764,7 +1764,7 @@ MonoBehaviour:
   dodgeInfo:
     useCollision: 0
     moveSpeed: 13
-    range: 10
+    range: 8.2
     cooldown:
       max: 0.8
     duration:
