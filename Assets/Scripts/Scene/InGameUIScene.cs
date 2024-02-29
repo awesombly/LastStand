@@ -17,6 +17,11 @@ public class InGameUIScene : SceneBase
 
     public List<PlayerBoard> boards = new List<PlayerBoard>();
 
+    // Game Result
+    public GameObject gameResult;
+    public TextMeshProUGUI resultText;
+    public List<ResultBoard> resultBoards;
+
     public GameObject pause;
     private bool isProgress;
 
@@ -33,6 +38,7 @@ public class InGameUIScene : SceneBase
              targetKillCount.text = $"{GameManager.StageInfo.Value.targetKill}";
 
         GameManager.OnChangePlayers += UpdatePlayerBoard;
+        GameManager.OnGameOver += OnGameOver;
     }
 
     protected override void Start()
@@ -64,6 +70,7 @@ public class InGameUIScene : SceneBase
     private void OnDestroy()
     {
         GameManager.OnChangePlayers -= UpdatePlayerBoard;
+        GameManager.OnGameOver -= OnGameOver;
     }
     #endregion
 
@@ -99,5 +106,25 @@ public class InGameUIScene : SceneBase
         isProgress = false;
         GameManager.StageInfo = null;
         LoadScene( SceneType.Lobby );
+    }
+
+    private void OnGameOver( Player _winner )
+    {
+        gameResult.SetActive( true );
+        bool isWinner = ReferenceEquals( GameManager.LocalPlayer, _winner );
+        resultText.text = isWinner ? "- ½Â¸® -" : "- ÆÐ¹è -";
+
+        var players = GameManager.Players;
+        for ( int i = 0; i < resultBoards.Count; ++i )
+        {
+            if ( i >= players.Count )
+            {
+                resultBoards[i].gameObject.SetActive( false );
+                return;
+            }
+
+            resultBoards[i].gameObject.SetActive( true );
+            resultBoards[i].Initialize( players[i], ReferenceEquals( players[i], _winner ) );
+        }
     }
 }

@@ -35,7 +35,7 @@ enum PacketType : u_short
 	// Actor
 	SPAWN_ACTOR_REQ,               // Actor 스폰 요청
 	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
-	SPAWN_PLAYER_REQ,	           // Player 스폰 응답
+	SPAWN_PLAYER_REQ,              // Player 스폰 요청
 	SPAWN_PLAYER_ACK,              // Player 스폰 응답
 	SPAWN_BULLET_REQ,              // Bullet 스폰 요청
 	SPAWN_BULLET_ACK,              // Bullet 스폰 응답
@@ -54,7 +54,9 @@ enum PacketType : u_short
 	SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
 	HIT_ACTORS_REQ,                // 피격된 Actor들 동기화 요청
 	HIT_ACTORS_ACK,                // 피격된 Actor들 동기화 응답
+
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
+	GAME_OVER_ACK,                 // 게임 종료 응답
 };
 
 typedef struct Empty

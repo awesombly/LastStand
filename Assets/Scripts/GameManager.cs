@@ -30,14 +30,15 @@ public class GameManager : Singleton<GameManager>
 
     public static List<Player> Players = new List<Player>();
     public static event Action OnChangePlayers;
+    public static event Action<Player/*winner*/> OnGameOver;
+
+    public static STAGE_INFO? StageInfo { get; set; }
+    public static LOGIN_INFO? LoginInfo { get; set; }
 
     [SerializeField]
     private GameManagerSO data;
     private Dictionary<SceneType, SceneBase> activeScenes = new Dictionary<SceneType, SceneBase>();
     private Dictionary<uint/*Serial*/, Actor> actors = new Dictionary<uint, Actor>();
-
-    public static STAGE_INFO? StageInfo { get; set; }
-    public static LOGIN_INFO? LoginInfo { get; set; }
 
     private SERIALS_INFO removeActorsToSend = new SERIALS_INFO();
     private HITS_INFO hitsInfoToSend = new HITS_INFO();
@@ -91,18 +92,6 @@ public class GameManager : Singleton<GameManager>
             Network.Inst.Send( PacketType.HIT_ACTORS_REQ, hitsInfoToSend );
             hitsInfoToSend.hits.Clear();
         }
-    }
-    #endregion
-
-    #region Req Protocol
-    public void PushRemoveActorToSend( uint _serial )
-    {
-        removeActorsToSend.serials.Add( _serial );
-    }
-
-    public void PushHitInfoToSend( HIT_INFO hit )
-    {
-        hitsInfoToSend.hits.Add( hit );
     }
     #endregion
 
@@ -263,6 +252,23 @@ public class GameManager : Singleton<GameManager>
         }
     }
     #endregion
+
+    #region Req Protocol
+    public void PushRemoveActorToSend( uint _serial )
+    {
+        removeActorsToSend.serials.Add( _serial );
+    }
+
+    public void PushHitInfoToSend( HIT_INFO hit )
+    {
+        hitsInfoToSend.hits.Add( hit );
+    }
+    #endregion
+
+    public void GameOver( Player _winner )
+    {
+        OnGameOver?.Invoke( _winner );
+    }
 
     private void Clear()
     {

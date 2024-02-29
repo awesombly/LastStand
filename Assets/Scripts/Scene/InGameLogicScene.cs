@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class InGameLogicScene : SceneBase
         ProtocolSystem.Inst.Regist( SYNC_DODGE_ACTION_ACK,  AckSyncDodgeAction );
         ProtocolSystem.Inst.Regist( SYNC_SWAP_WEAPON_ACK,   AckSyncSwapWeapon );
         ProtocolSystem.Inst.Regist( HIT_ACTORS_ACK,         AckHitActors );
+        ProtocolSystem.Inst.Regist( GAME_OVER_ACK,          AckGameOver );
     }
 
     protected override void Start()
@@ -61,7 +63,7 @@ public class InGameLogicScene : SceneBase
         protocol.actorInfo.isLocal = true;
         protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
         protocol.actorInfo.serial = 0;
-        protocol.actorInfo.pos = new VECTOR2( spawnTransform.position + new Vector3( Random.Range( -5f, 5f ), Random.Range( -5f, 5f ), 0f ) );
+        protocol.actorInfo.pos = new VECTOR2( spawnTransform.position + new Vector3( UnityEngine.Random.Range( -5f, 5f ), UnityEngine.Random.Range( -5f, 5f ), 0f ) );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.actorInfo.hp = playerPrefab.data.maxHp;
         protocol.nickname = string.Empty;
@@ -229,6 +231,19 @@ public class InGameLogicScene : SceneBase
             bullet.HitTarget( defender );
             defender.SetHp( hit.hp, GameManager.Inst.GetActor( hit.attacker ), bullet );
         }
+    }
+
+    private void AckGameOver( Packet _packet )
+    {
+        var data = Global.FromJson<SERIAL_INFO>( _packet );
+
+        Player winner = GameManager.Inst.GetActor( data.serial ) as Player;
+        if ( ReferenceEquals( winner, null ) )
+        {
+            Debug.LogWarning( $"Player is null. serial:{data.serial}" );
+        }
+
+        GameManager.Inst.GameOver( winner );
     }
     #endregion
 }

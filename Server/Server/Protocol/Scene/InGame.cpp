@@ -249,6 +249,7 @@ void InGame::AckHitActors( const Packet& _packet )
 		return;
 	}
 
+	PlayerInfo* winner = nullptr;
 	for ( const HitInfo& hit : data.hits )
 	{
 		ActorInfo* defender = _packet.session->stage->GetActor( hit.defender );
@@ -257,7 +258,7 @@ void InGame::AckHitActors( const Packet& _packet )
 			Debug.LogError( "defender is null. serial:", hit.defender, ", nick:", _packet.session->loginInfo.nickname );
 			return;
 		}
-
+		
 		defender->hp = hit.hp;
 		if ( defender->hp <= 0 )
 		{
@@ -280,7 +281,12 @@ void InGame::AckHitActors( const Packet& _packet )
 					Debug.LogError( "attacker is null. serial:", hit.attacker, ", nick:", _packet.session->loginInfo.nickname );
 					return;
 				}
+
 				++( attacker->kill );
+				if ( winner == nullptr && attacker->kill == _packet.session->stage->info.targetKill )
+				{
+					winner = attacker;
+				}
 			}
 		}
 
@@ -296,10 +302,16 @@ void InGame::AckHitActors( const Packet& _packet )
 			_packet.session->stage->UnregistActor( bullet );
 			Global::Memory::SafeDelete( bullet );
 		}
-
 	}
 
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTORS_ACK, data ) );
+
+	if ( winner != nullptr )
+	{
+		SERIAL_INFO protocol;
+		protocol.serial = winner->actorInfo.serial;
+		_packet.session->stage->Broadcast( UPacket( GAME_OVER_ACK, protocol ) );
+	}
 }
 
 void InGame::AckInGameLoadData( const Packet& _packet )
