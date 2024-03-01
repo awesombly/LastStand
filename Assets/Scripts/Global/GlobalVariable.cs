@@ -85,10 +85,10 @@ public static partial class Global
 
                 float old = current;
                 current = value;
-                OnChangeCurrent?.Invoke( old, current );
+                OnChangeCurrent?.Invoke( old, current, max );
             }
         }
-        public Action<float/*old*/, float/*new*/> OnChangeCurrent;
+        public Action<float/*old*/, float/*new*/, float/*max*/> OnChangeCurrent;
 
         public bool IsMax { get => Current == Max; }
         public bool IsZero { get => Current == 0f; }
@@ -134,10 +134,10 @@ public static partial class Global
 
                 int old = current;
                 current = value;
-                OnChangeCurrent?.Invoke( old, current );
+                OnChangeCurrent?.Invoke( old, current, max );
             }
         }
-        public Action<int/*old*/, int/*new*/> OnChangeCurrent;
+        public Action<int/*old*/, int/*new*/, int/*max*/> OnChangeCurrent;
 
         public bool IsMax { get => Current == Max; }
         public bool IsZero { get => Current == 0; }

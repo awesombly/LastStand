@@ -23,7 +23,7 @@ public class PlayerUI : MonoBehaviour
         uiScene = GameManager.Inst.GetActiveScene( SceneType.InGame_UI ) as InGameUIScene;
     }
 
-    private void OnChangeAmmo( int _old, int _new )
+    private void OnChangeAmmo( int _old, int _new, int _max )
     {
         if ( !ReferenceEquals( player, null ) && player.IsLocal )
         {
@@ -31,7 +31,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    private void OnChangeMagazine( int _old, int _new )
+    private void OnChangeMagazine( int _old, int _new, int _max )
     {
         if ( !ReferenceEquals( player, null ) && player.IsLocal )
         {
@@ -39,7 +39,7 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-    private void OnChangeReloadDelay( float _old, float _new )
+    private void OnChangeReloadDelay( float _old, float _new, float _max )
     {
         // swapDelay(무기교체시)도 같이 사용
         bool isActive = !( player.EquipWeapon.myStat.reloadDelay.IsZero && player.EquipWeapon.myStat.swapDelay.IsZero );
@@ -77,9 +77,9 @@ public class PlayerUI : MonoBehaviour
             _new.myStat.reloadDelay.OnChangeCurrent    += OnChangeReloadDelay;
             _new.myStat.swapDelay.OnChangeCurrent      += OnChangeReloadDelay;
 
-            OnChangeAmmo( 0, _new.myStat.ammo.Current );
-            OnChangeMagazine( 0, _new.myStat.magazine.Current );
-            OnChangeReloadDelay( 0f, _new.myStat.reloadDelay.Current );
+            OnChangeAmmo( 0, _new.myStat.ammo.Current, _new.myStat.ammo.Max );
+            OnChangeMagazine( 0, _new.myStat.magazine.Current, _new.myStat.magazine.Max );
+            OnChangeReloadDelay( 0f, _new.myStat.reloadDelay.Current, _new.myStat.reloadDelay.Max );
         }
     }
 }

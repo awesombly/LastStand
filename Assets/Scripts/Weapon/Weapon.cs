@@ -218,7 +218,7 @@ public class Weapon : MonoBehaviour
         Network.Inst.Send( PacketType.SYNC_RELOAD_REQ, protocol );
     }
 
-    private void OnChangeReloadDelay( float _old, float _new )
+    private void OnChangeReloadDelay( float _old, float _new, float _max )
     {
         // 재장전 완료
         if ( myStat.reloadDelay.IsZero )

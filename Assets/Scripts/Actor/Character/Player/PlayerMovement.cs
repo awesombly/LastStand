@@ -177,7 +177,7 @@ public class PlayerMovement : MonoBehaviour
         Network.Inst.Send( PacketType.SYNC_DODGE_ACTION_REQ, protocol );
     }
 
-    private void OnChangeDodgeDuration( float _old, float _new )
+    private void OnChangeDodgeDuration( float _old, float _new , float _max )
     {
         float deltaTime = ( _old - _new );
         if ( deltaTime <= 0f )

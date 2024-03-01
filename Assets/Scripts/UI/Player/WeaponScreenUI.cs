@@ -101,7 +101,7 @@ public class WeaponScreenUI : MonoBehaviour
         LayoutRebuilder.ForceRebuildLayoutImmediate( magazinePanel.GetComponent<RectTransform>() );
     }
 
-    private void OnChangeMagazine( int _old, int _new )
+    private void OnChangeMagazine( int _old, int _new, int _max )
     {
         UpdateBulletIcons();
     }

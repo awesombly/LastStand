@@ -165,9 +165,9 @@ public class Player : Character
         playerInput.enabled = _isLocal;
     }
 
-    private void OnChangeHp( float _old, float _new )
+    private void OnChangeHp( float _old, float _new, float _max )
     {
-        healthBar.value = Hp.Current / Hp.Max;
+        healthBar.value = _new / _max;
         if ( _old < _new )
         {
             healthLerpBar.value = healthBar.value;
