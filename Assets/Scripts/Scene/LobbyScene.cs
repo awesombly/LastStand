@@ -26,6 +26,9 @@ public class LobbyScene : SceneBase
     public Stage prefab;
 
     [Header( "===================================================" )]
+    public GameObject optionCanvas;
+
+    [Header( "===================================================" )]
 
     [Header( "< Login >" )]
     public GameObject loginCanvas;
@@ -108,6 +111,25 @@ public class LobbyScene : SceneBase
         signUpPanel.SetActive( _isActive );
         if ( _isActive ) nickname.ActivateInputField();
         else             email.ActivateInputField();
+    }
+
+    public void ActiveOptionPanel()
+    {
+        if ( optionCanvas.activeInHierarchy )
+        {
+            optionCanvas.SetActive( false );
+            AudioManager.Inst.Play( SFX.MenuExit );
+        }
+        else
+        {
+            optionCanvas.SetActive( true );
+
+            email?.ActivateInputField();
+            if ( password != null )
+                 password.contentType = TMP_InputField.ContentType.Password;
+
+            AudioManager.Inst.Play( SFX.MenuEntry );
+        }
     }
 
     #region Request Protocols
