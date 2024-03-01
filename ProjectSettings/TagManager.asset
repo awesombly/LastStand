@@ -13,7 +13,7 @@ TagManager:
   - UI
   - Player
   - Enemy
-  - Temp2
+  - Wall
   - PlayerAttack
   - EnemyAttack
   - Misc
