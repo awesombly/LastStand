@@ -28,6 +28,7 @@ public class SceneBase : MonoBehaviour
     private static readonly float FadeDuration = FadeTime + ( FadeWaitTime * 2f );
 
     public SceneType SceneType { get; protected set; }
+    public bool IsSending { get; protected set; }
 
     // 게임 시작시 자동 실행
     [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]

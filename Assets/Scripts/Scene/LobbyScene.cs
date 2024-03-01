@@ -17,7 +17,7 @@ public class LobbyScene : SceneBase
     public List<Outline> targetKillOutlines = new List<Outline>();
     private int maxPersonnel;
     private int targetKillCount;
-    private bool canSendCreateStage = true;
+    private bool canCreateStage = true;
 
     [Header( "< Current Stage List >" )]
     public List<Stage> stages = new List<Stage>();
@@ -228,10 +228,10 @@ public class LobbyScene : SceneBase
 
     public void CreateStage()
     {
-        if ( !canSendCreateStage )
-            return;
+        if ( IsSending || !canCreateStage )
+             return;
 
-        canSendCreateStage = false;
+        IsSending = true;
         STAGE_INFO protocol;
         protocol.serial = 0;
         protocol.title = title.text;
@@ -248,7 +248,7 @@ public class LobbyScene : SceneBase
     #region Response Protocols
     private void AckEntryStage( Packet _packet )
     {
-        canSendCreateStage = true;
+        IsSending = canCreateStage = false;
         GameManager.StageInfo = Global.FromJson<STAGE_INFO>( _packet );
         LoadScene( SceneType.InGame_UI );
         LoadScene( SceneType.InGame_Logic, LoadSceneMode.Additive );

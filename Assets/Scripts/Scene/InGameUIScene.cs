@@ -33,8 +33,7 @@ public class InGameUIScene : SceneBase
     public Transform deadContents;
     private WNS.ObjectPool<PlayerDeadUI> deadUIPool;
 
-
-    private bool isProgress;
+    private bool canExitStage = true;
 
     #region Unity Callback
     protected override void Awake()
@@ -113,17 +112,17 @@ public class InGameUIScene : SceneBase
 
     public void ReqExitStage()
     {
-        if ( isProgress || GameManager.StageInfo == null )
+        if ( IsSending || !canExitStage || GameManager.StageInfo == null )
             return;
 
-        isProgress = true;
+        IsSending = true;
         Network.Inst.Send( EXIT_STAGE_REQ, GameManager.StageInfo.Value );
         AudioManager.Inst.Play( SFX.MouseClick );
     }
 
     private void AckExitStage( Packet _packet )
     {
-        isProgress = false;
+        IsSending = canExitStage = false;
         GameManager.StageInfo = null;
         LoadScene( SceneType.Lobby );
     }
