@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.UI;
 using static PacketType;
 
 public class InGameUIScene : SceneBase
 {
     public Camera uiCamera;
+
+    [Header( "< Mouse >" )]
+    public RectTransform mouseCursor;
 
     [Header( "< Magaginze >" )]
     public TextMeshProUGUI magazineText;
@@ -61,6 +64,8 @@ public class InGameUIScene : SceneBase
 
     private void Update()
     {
+        mouseCursor.anchoredPosition = Mouse.current.position.value;
+
         if ( Input.GetKeyDown( KeyCode.Escape ) )
         {
             if ( pause.activeInHierarchy )
