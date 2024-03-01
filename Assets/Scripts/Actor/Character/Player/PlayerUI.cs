@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
+    [HideInInspector]
+    public Global.StatusFloat respawnDelay;
+
     public Slider reloadBar;
     private Player player;
     private InGameUIScene uiScene;

@@ -111,11 +111,11 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator PlayerRespawn( Player _player )
     {
-        float delay = data.respawnDelay;
-        while ( delay > 0f )
+        _player.PlayerUI.respawnDelay.Max = data.respawnDelay;
+        _player.PlayerUI.respawnDelay.SetMax();
+        while ( !_player.PlayerUI.respawnDelay.IsZero )
         {
-            Debug.Log( $"{delay}" );
-            delay -= Time.deltaTime;
+            _player.PlayerUI.respawnDelay.Current -= Time.deltaTime;
             yield return null;
         }
 

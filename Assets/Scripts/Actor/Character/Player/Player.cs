@@ -56,6 +56,7 @@ public class Player : Character
     private List<Weapon> Weapons { get; set; } = null;
 
     #region Components
+    public PlayerUI PlayerUI { get; private set; }
     private PlayerInput playerInput;
     private ActionReceiver receiver;
     private PlayerMovement movement;
@@ -65,6 +66,7 @@ public class Player : Character
     protected override void Awake()
     {
         base.Awake();
+        PlayerUI = GetComponent<PlayerUI>();
         playerInput = GetComponent<PlayerInput>();
         receiver = GetComponent<ActionReceiver>();
         movement = GetComponent<PlayerMovement>();
