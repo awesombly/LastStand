@@ -84,7 +84,7 @@ public class WeaponScreenUI : MonoBehaviour
         equipWeapon.myStat.magazine.OnChangeCurrent += OnChangeMagazine;
 
         // Weapon Image
-        weaponImage.sprite = equipWeapon.GetComponent<SpriteRenderer>().sprite;
+        weaponImage.sprite = equipWeapon.spriter.sprite;
 
         // Bullet Icons
         bulletIcons.Clear();

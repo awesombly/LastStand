@@ -7,6 +7,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public WeaponSO data;
+    public SpriteRenderer spriter;
     [SerializeField]
     private Transform shotPoint;
     [SerializeField]
