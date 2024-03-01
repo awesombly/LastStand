@@ -10,19 +10,30 @@ public class InGameUIScene : SceneBase
 {
     public Camera uiCamera;
 
+    [Header( "< Magaginze >" )]
     public TextMeshProUGUI magazineText;
     public TextMeshProUGUI ammoText;
 
+    [Header( "< Target Kill >" )]
     public TextMeshProUGUI targetKillCount;
 
+    [Header( "< Player Board >" )]
     public List<PlayerBoard> boards = new List<PlayerBoard>();
 
-    // Game Result
+    [Header( "< Result >" )]
     public GameObject gameResult;
     public TextMeshProUGUI resultText;
     public List<ResultBoard> resultBoards;
 
+    [Header( "< Pause >" )]
     public GameObject pause;
+
+    [Header( "< Player Dead >" )]
+    public PlayerDeadUI deadPrefab;
+    public Transform deadContents;
+    private WNS.ObjectPool<PlayerDeadUI> deadUIPool;
+
+
     private bool isProgress;
 
     #region Unity Callback
@@ -39,6 +50,9 @@ public class InGameUIScene : SceneBase
 
         GameManager.OnChangePlayers += UpdatePlayerBoard;
         GameManager.OnGameOver += OnGameOver;
+        GameManager.OnDead += OnPlayerDead;
+
+        deadUIPool = new WNS.ObjectPool<PlayerDeadUI>( deadPrefab, deadContents );
     }
 
     protected override void Start()
@@ -73,6 +87,12 @@ public class InGameUIScene : SceneBase
         GameManager.OnGameOver -= OnGameOver;
     }
     #endregion
+
+    private void OnPlayerDead( Player _player )
+    {
+        PlayerDeadUI deadUI = deadUIPool.Spawn();
+        deadUI.Initialize( _player );
+    }
 
     private void UpdatePlayerBoard()
     {

@@ -31,6 +31,7 @@ public class GameManager : Singleton<GameManager>
     public static List<Player> Players = new List<Player>();
     public static event Action OnChangePlayers;
     public static event Action<Player/*winner*/> OnGameOver;
+    public static event Action<Player/* Dead Player */> OnDead;
 
     public static STAGE_INFO? StageInfo { get; set; }
     public static LOGIN_INFO? LoginInfo { get; set; }
@@ -100,6 +101,7 @@ public class GameManager : Singleton<GameManager>
     {
         // 플레이어 사망시, 같은 객체를 재사용한다.
         _dead.gameObject.SetActive( false );
+        OnDead?.Invoke( _dead );
 
         if ( _dead.IsLocal )
         {
