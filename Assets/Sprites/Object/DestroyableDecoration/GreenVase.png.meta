@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4c65e6b939aef31419105e3602246ca0
+guid: b91204ad4d2e48d42afdc5ca3c1363da
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_0
+      name: GreenVase_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 48
-        height: 28
+        y: 6
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eee228acb48ccf749bf4e1b8d48c9ac5
-      internalID: -2052031795
+      spriteID: a9a9bfedad265e14c88270f3a4b994db
+      internalID: 1625124062
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_1
+      name: GreenVase_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 6
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5213e0e834c1dde41b146569a8baf659
+      internalID: 1964119941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreenVase_2
       rect:
         serializedVersion: 2
         x: 48
-        y: 0
-        width: 48
-        height: 28
+        y: 6
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +192,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97ff7024f0429ef499ace1ab9bdfa93c
-      internalID: -1803894842
+      spriteID: be92b06b2d7261e45b2352a38127847b
+      internalID: 1855931812
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_2
+      name: GreenVase_3
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 6
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5465b572982d9c4880d7f9885fd26ef
+      internalID: 1479264398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GreenVase_4
       rect:
         serializedVersion: 2
         x: 96
-        y: 0
-        width: 48
-        height: 28
+        y: 6
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18d269db7981ee142bd5889b0ea58bcb
-      internalID: 327933952
+      spriteID: 61768f6c2faf45043aeb5521f8fd2494
+      internalID: 1579167452
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_3
+      name: GreenVase_5
       rect:
         serializedVersion: 2
-        x: 144
-        y: 0
-        width: 48
-        height: 28
+        x: 120
+        y: 6
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,29 +255,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af8085ef24f3b3a459828d6b2c37cdf7
-      internalID: -654459869
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_4
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 48
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 41e48cf0387f12d4c9a85176f366e658
-      internalID: 1392568228
+      spriteID: 890ba99fafd8bf14d892c7aa391eb432
+      internalID: -67749896
       vertices: []
       indices: 
       edges: []
@@ -251,11 +272,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      WoodenTableHorizontalFlipDown_0: -2052031795
-      WoodenTableHorizontalFlipDown_1: -1803894842
-      WoodenTableHorizontalFlipDown_2: 327933952
-      WoodenTableHorizontalFlipDown_3: -654459869
-      WoodenTableHorizontalFlipDown_4: 1392568228
+      GreenVase_0: 1625124062
+      GreenVase_1: 1964119941
+      GreenVase_2: 1855931812
+      GreenVase_3: 1479264398
+      GreenVase_4: 1579167452
+      GreenVase_5: -67749896
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

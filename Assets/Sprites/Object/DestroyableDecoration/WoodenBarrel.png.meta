@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4c65e6b939aef31419105e3602246ca0
+guid: 33adc2cdac406924caa58ecf69c8425f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_0
+      name: WoodenBarrel_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 28
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eee228acb48ccf749bf4e1b8d48c9ac5
-      internalID: -2052031795
+      spriteID: 449e5af5e0be0bc4b93fd15032bf2b6f
+      internalID: -557636554
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_1
+      name: WoodenBarrel_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 30
         y: 0
-        width: 48
-        height: 28
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97ff7024f0429ef499ace1ab9bdfa93c
-      internalID: -1803894842
+      spriteID: 6637f5fbdf3cea5478b0dcc9576bf898
+      internalID: -1379635067
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_2
+      name: WoodenBarrel_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 60
         y: 0
-        width: 48
-        height: 28
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18d269db7981ee142bd5889b0ea58bcb
-      internalID: 327933952
+      spriteID: 03ead6782c1ee4645ba315246f99ebca
+      internalID: -1445929275
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_3
+      name: WoodenBarrel_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 90
         y: 0
-        width: 48
-        height: 28
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af8085ef24f3b3a459828d6b2c37cdf7
-      internalID: -654459869
+      spriteID: ab5ac9094df7b4242832ec69543dfccc
+      internalID: -939969863
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_4
+      name: WoodenBarrel_4
       rect:
         serializedVersion: 2
-        x: 192
+        x: 120
         y: 0
-        width: 48
-        height: 28
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,8 +234,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41e48cf0387f12d4c9a85176f366e658
-      internalID: 1392568228
+      spriteID: b4323686ec9b35745b79f845598707f3
+      internalID: 1193604813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: WoodenBarrel_5
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8611f992b4dd6d9459fc53fc30ad1024
+      internalID: 1468849033
       vertices: []
       indices: 
       edges: []
@@ -251,11 +272,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      WoodenTableHorizontalFlipDown_0: -2052031795
-      WoodenTableHorizontalFlipDown_1: -1803894842
-      WoodenTableHorizontalFlipDown_2: 327933952
-      WoodenTableHorizontalFlipDown_3: -654459869
-      WoodenTableHorizontalFlipDown_4: 1392568228
+      WoodenBarrel_0: -557636554
+      WoodenBarrel_1: -1379635067
+      WoodenBarrel_2: -1445929275
+      WoodenBarrel_3: -939969863
+      WoodenBarrel_4: 1193604813
+      WoodenBarrel_5: 1468849033
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

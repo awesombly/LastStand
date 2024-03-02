@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AcBottle_Blue
+  m_Controller: {fileID: 9100000, guid: 9a84a449e9b33234b83df6ece6b0a1be, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 5d5326ff85f9da1479a5e3729726ef8b, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d393a476047b0d841af0c98d2b604b21, type: 2}

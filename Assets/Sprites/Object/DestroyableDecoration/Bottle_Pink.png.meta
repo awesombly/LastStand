@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4c65e6b939aef31419105e3602246ca0
+guid: 4db7637c8b3bb4a418351cc33a06d10a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_0
+      name: Bottle_Pink_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 28
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eee228acb48ccf749bf4e1b8d48c9ac5
-      internalID: -2052031795
+      spriteID: 3e1982a59ad0c1b4aae21b82a67226f0
+      internalID: 301682726
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_1
+      name: Bottle_Pink_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65d92e3e079b3284cb0a79d2fad73e99
+      internalID: 1843804493
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bottle_Pink_2
       rect:
         serializedVersion: 2
         x: 48
         y: 0
-        width: 48
-        height: 28
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +192,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97ff7024f0429ef499ace1ab9bdfa93c
-      internalID: -1803894842
+      spriteID: 0c790419b1d19df428551ebff35aebcc
+      internalID: -1557053242
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_2
+      name: Bottle_Pink_3
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 0
+        width: 24
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d96778ce0e1a0c4181180d221e0cdf0
+      internalID: 13690229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bottle_Pink_4
       rect:
         serializedVersion: 2
         x: 96
         y: 0
-        width: 48
-        height: 28
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18d269db7981ee142bd5889b0ea58bcb
-      internalID: 327933952
+      spriteID: d91c4109e6b5c6b43a4d4dd90b038b24
+      internalID: 383638232
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_3
+      name: Bottle_Pink_5
       rect:
         serializedVersion: 2
-        x: 144
+        x: 120
         y: 0
-        width: 48
-        height: 28
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,29 +255,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af8085ef24f3b3a459828d6b2c37cdf7
-      internalID: -654459869
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_4
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 48
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 41e48cf0387f12d4c9a85176f366e658
-      internalID: 1392568228
+      spriteID: 1efc9ee798879694c99a43a4a4efef1b
+      internalID: -735380574
       vertices: []
       indices: 
       edges: []
@@ -251,11 +272,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      WoodenTableHorizontalFlipDown_0: -2052031795
-      WoodenTableHorizontalFlipDown_1: -1803894842
-      WoodenTableHorizontalFlipDown_2: 327933952
-      WoodenTableHorizontalFlipDown_3: -654459869
-      WoodenTableHorizontalFlipDown_4: 1392568228
+      Bottle_Pink_0: 301682726
+      Bottle_Pink_1: 1843804493
+      Bottle_Pink_2: -1557053242
+      Bottle_Pink_3: 13690229
+      Bottle_Pink_4: 383638232
+      Bottle_Pink_5: -735380574
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

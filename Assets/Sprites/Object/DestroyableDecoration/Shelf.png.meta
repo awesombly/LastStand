@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4c65e6b939aef31419105e3602246ca0
+guid: bfb6e474ce7ecde47bd0272accf9f45a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_0
+      name: Shelf_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 28
+        width: 40
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eee228acb48ccf749bf4e1b8d48c9ac5
-      internalID: -2052031795
+      spriteID: 8a54553254d5b4f4997495e8a86bfd79
+      internalID: -312327878
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_1
+      name: Shelf_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 40
         y: 0
-        width: 48
-        height: 28
+        width: 40
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97ff7024f0429ef499ace1ab9bdfa93c
-      internalID: -1803894842
+      spriteID: cf8db2122e4de274384145586871b275
+      internalID: 387101911
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_2
+      name: Shelf_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 80
         y: 0
-        width: 48
-        height: 28
+        width: 40
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,20 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18d269db7981ee142bd5889b0ea58bcb
-      internalID: 327933952
+      spriteID: 7497c8bb361213748b60c755acb2742d
+      internalID: -1115850262
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_3
+      name: Shelf_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 120
         y: 0
-        width: 48
-        height: 28
+        width: 40
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -213,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af8085ef24f3b3a459828d6b2c37cdf7
-      internalID: -654459869
+      spriteID: 8e2bf63537371fe41a6747b5c373d837
+      internalID: 737005050
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WoodenTableHorizontalFlipDown_4
+      name: Shelf_4
       rect:
         serializedVersion: 2
-        x: 192
+        x: 160
         y: 0
-        width: 48
-        height: 28
+        width: 40
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,8 +234,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41e48cf0387f12d4c9a85176f366e658
-      internalID: 1392568228
+      spriteID: daf2ef7747c242a4c86169a504fc59f4
+      internalID: -219965231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shelf_5
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75802a0db1be9bb4094da645983377fd
+      internalID: -385034583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shelf_6
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 975e874fa534b164a8d04c7e56ff35e2
+      internalID: 718865984
       vertices: []
       indices: 
       edges: []
@@ -251,11 +293,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      WoodenTableHorizontalFlipDown_0: -2052031795
-      WoodenTableHorizontalFlipDown_1: -1803894842
-      WoodenTableHorizontalFlipDown_2: 327933952
-      WoodenTableHorizontalFlipDown_3: -654459869
-      WoodenTableHorizontalFlipDown_4: 1392568228
+      Shelf_0: -312327878
+      Shelf_1: 387101911
+      Shelf_2: -1115850262
+      Shelf_3: 737005050
+      Shelf_4: -219965231
+      Shelf_5: -385034583
+      Shelf_6: 718865984
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
