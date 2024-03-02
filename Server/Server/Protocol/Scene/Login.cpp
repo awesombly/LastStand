@@ -24,8 +24,11 @@ void Login::ConfirmMatchData( const Packet& _packet )
 
 		Debug.Log( "# < ", info.nickname, " > login completed" );
 		
-		session->loginInfo = info;
-		session->Send( UPacket( CONFIRM_LOGIN_ACK, info ) );
+		ACCOUNT_INFO ret;
+		ret.loginInfo = session->loginInfo = info;
+
+		ret.userInfo = Database::Inst().GetUserData( info.uid );
+		session->Send( UPacket( CONFIRM_LOGIN_ACK, ret ) );
 	}
 	catch ( const std::exception& _error )
 	{

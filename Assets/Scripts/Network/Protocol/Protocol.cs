@@ -147,6 +147,12 @@ public struct USER_INFO : IProtocol
     public int kill, death;
     public int bestKill, bestDeath;
 }
+
+public struct ACCOUNT_INFO : IProtocol
+{
+    public LOGIN_INFO loginInfo;
+    public USER_INFO userInfo;
+}
 #endregion
 
 public struct ACTOR_INFO : IProtocol

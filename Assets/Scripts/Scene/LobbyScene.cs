@@ -26,10 +26,13 @@ public class LobbyScene : SceneBase
     public Stage prefab;
 
     [Header( "===================================================" )]
+    [Header( "< Option >" )]
     public GameObject optionCanvas;
 
-    [Header( "===================================================" )]
+    [Header( "< UserInfo >" )]
+    public GameObject userInfoCanvas;
 
+    [Header( "===================================================" )]
     [Header( "< Login >" )]
     public GameObject loginCanvas;
     public TMP_InputField email;
@@ -52,15 +55,6 @@ public class LobbyScene : SceneBase
 
         var net = Network.Inst;
         pool = new WNS.ObjectPool<Stage>( prefab, contents );
-
-        //if ( GameManager.LoginInfo == null )
-        //{
-        //    loginCanvas.SetActive( true );
-        //    email?.ActivateInputField();
-        //    if ( password != null )
-        //         password.contentType = TMP_InputField.ContentType.Password;
-        //}
-        //else loginCanvas.SetActive( false );
 
         // Login
         ProtocolSystem.Inst.Regist( CONFIRM_LOGIN_ACK,   AckConfirmMatchData );
@@ -188,22 +182,29 @@ public class LobbyScene : SceneBase
 
     public void AckAddAccountInfoToDB( Packet _packet )
     {
-        if ( Global.FromJson<CONFIRM>( _packet ).isCompleted ) 
-             ReqConfirmLoginInfo();
+        if ( Global.FromJson<CONFIRM>( _packet ).isCompleted )
+        {
+            signUpPanel.SetActive( false );
+            AudioManager.Inst.Play( SFX.MenuExit );
+            ReqConfirmLoginInfo();
+        }
     }
 
     private void AckConfirmMatchData( Packet _packet )
     {
-        var data = Global.FromJson<LOGIN_INFO>( _packet );
-        if ( data.nickname == string.Empty )
+        var data = Global.FromJson<ACCOUNT_INFO>( _packet );
+        if ( data.loginInfo.nickname == string.Empty )
         {
             ActiveErrorPanel( true );
             errorMessage.text = "아이디 또는 비밀번호가 일치하지 않습니다.";
         }
         else
         {
-            GameManager.LoginInfo = data;
+            GameManager.LoginInfo = data.loginInfo;
+            GameManager.UserInfo  = data.userInfo;
+
             loginCanvas.SetActive( false );
+            userInfoCanvas.SetActive( true );
         }
     }
     #endregion

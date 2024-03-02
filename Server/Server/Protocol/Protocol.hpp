@@ -212,6 +212,20 @@ public:
 		ar( CEREAL_NVP( bestDeath ) );
 	}
 } USER_INFO, UserData, USER_DATA;
+
+typedef struct AccountInfo
+{
+public:
+	LOGIN_INFO loginInfo;
+	USER_INFO userInfo;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( loginInfo ) );
+		ar( CEREAL_NVP( userInfo ) );
+	}
+} ACCOUNT_INFO;
 #pragma endregion
 
 #pragma region Lobby Infomation

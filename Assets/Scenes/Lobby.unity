@@ -11552,6 +11552,7 @@ MonoBehaviour:
   contents: {fileID: 1436240422}
   prefab: {fileID: 6763503459492760473, guid: 5e930bbabfcdf0c49b4575d4a53c0cc5, type: 3}
   optionCanvas: {fileID: 1372104375}
+  userInfoCanvas: {fileID: 223403813}
   loginCanvas: {fileID: 351586226}
   email: {fileID: 2072268686}
   password: {fileID: 466124603}
