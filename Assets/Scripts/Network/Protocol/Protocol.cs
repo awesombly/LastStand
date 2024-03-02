@@ -144,6 +144,9 @@ public struct LOGIN_INFO : IProtocol
 
 public struct USER_INFO : IProtocol
 {
+    public int level;
+    public double exp;
+    public int playCount;
     public int kill, death;
     public int bestKill, bestDeath;
 }

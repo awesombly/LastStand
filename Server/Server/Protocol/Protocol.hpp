@@ -200,12 +200,18 @@ public:
 typedef struct UserInfo
 {
 public:
+	int level;
+	double exp;
+	int playCount;
 	int kill, death;
 	int bestKill, bestDeath;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
+		ar( CEREAL_NVP( level ) );
+		ar( CEREAL_NVP( exp ) );
+		ar( CEREAL_NVP( playCount ) );
 		ar( CEREAL_NVP( kill ) );
 		ar( CEREAL_NVP( death ) );
 		ar( CEREAL_NVP( bestKill ) );

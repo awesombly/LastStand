@@ -31,6 +31,10 @@ public class LobbyScene : SceneBase
 
     [Header( "< UserInfo >" )]
     public GameObject userInfoCanvas;
+    public TextMeshProUGUI playCount;
+    public TextMeshProUGUI kill, death;
+    public TextMeshProUGUI killDeathAverage;
+    public TextMeshProUGUI bestKill, bestDeath;
 
     [Header( "===================================================" )]
     [Header( "< Login >" )]
@@ -70,6 +74,21 @@ public class LobbyScene : SceneBase
         ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
 
         StartCoroutine( WaitForAudioLoad() );
+
+        if ( GameManager.LoginInfo == null )
+        {
+            loginCanvas.SetActive( true );
+            userInfoCanvas.SetActive( false );
+
+            if ( password != null )
+                 password.contentType = TMP_InputField.ContentType.Password;
+        }
+        else
+        {
+            loginCanvas.SetActive( false );
+            userInfoCanvas.SetActive( true );
+            UpdateUserInfo();
+        }
     }
 
     protected override void Start()
@@ -84,6 +103,24 @@ public class LobbyScene : SceneBase
         yield return new WaitUntil( () => !AudioManager.Inst.IsLoading );
         AudioManager.Inst.Play( BGM.Lobby, 0f, .5f, 5f );
     }
+
+    private void UpdateUserInfo()
+    {
+        if ( GameManager.UserInfo == null )
+             return;
+        
+        USER_INFO data = GameManager.UserInfo.Value;
+        playCount.text        = $"{data.playCount}";
+        kill.text             = $"{data.kill}";
+        death.text            = $"{data.death}";
+
+        float kd = ( ( data.kill * 100f ) / ( data.kill + data.death ) );
+        killDeathAverage.text = $"{( float.IsNaN( kd ) ? 0 : kd.ToString( "F1" ) )}";
+
+        bestKill.text         = $"{data.bestKill}";
+        bestDeath.text        = $"{data.bestDeath}";
+    }
+
     #endregion
 
     #region Login
@@ -204,7 +241,8 @@ public class LobbyScene : SceneBase
             GameManager.UserInfo  = data.userInfo;
 
             loginCanvas.SetActive( false );
-            userInfoCanvas.SetActive( true );
+            userInfoCanvas.SetActive( true ); 
+            UpdateUserInfo();
         }
     }
     #endregion

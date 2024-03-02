@@ -101,7 +101,7 @@ USER_DATA Database::GetUserData( int _uid )
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
 		throw std::exception( "The data was not found" );
 
-	return USER_DATA{ ::atoi( row[2] ), ::atoi( row[3] ),::atoi( row[4] ),::atoi( row[5] ) };
+	return USER_DATA{ ::atoi( row[2] ), ::atof( row[3] ), ::atoi( row[4] ), ::atoi( row[5] ), ::atoi( row[6] ), ::atoi( row[7] ), ::atoi( row[8] ) };
 }
 
 //LOGIN_DATA Database::Search( const std::string& _type, const std::string& _data )
