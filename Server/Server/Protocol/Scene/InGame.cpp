@@ -10,6 +10,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SPAWN_PLAYER_REQ,		AckSpawnPlayer );
 	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,		AckSpawnBullet );
 	ProtocolSystem::Inst().Regist( REMOVE_ACTORS_REQ,		AckRemoveActors );
+	ProtocolSystem::Inst().Regist( INIT_SCENE_ACTORS_REQ,	AckInitSceneActors );
 	ProtocolSystem::Inst().Regist( SYNC_MOVEMENT_REQ,		AckSyncMovement );
 	ProtocolSystem::Inst().Regist( SYNC_RELOAD_REQ,			AckSyncReload );
 	ProtocolSystem::Inst().Regist( SYNC_LOOK_ANGLE_REQ,		AckSyncLook );
@@ -72,6 +73,7 @@ void InGame::AckSpawnActor( const Packet& _packet )
 	}
 
 	ActorInfo* actor = new ActorInfo( data );
+	actor->type = ActorType::Default;
 	_packet.session->stage->RegistActor( actor );
 
 	_packet.session->stage->Broadcast( UPacket( SPAWN_ACTOR_ACK, data ) );
@@ -100,6 +102,7 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	if ( _packet.session->player == nullptr )
 	{
 		PlayerInfo* player = new PlayerInfo( data );
+		player->actorInfo.type = ActorType::Player;
 		_packet.session->player = player;
 		_packet.session->stage->RegistActor( &player->actorInfo );
 	}
@@ -128,6 +131,7 @@ void InGame::AckSpawnBullet( const Packet& _packet )
 		actor->prefab = data.prefab;
 		actor->isLocal = data.isLocal;
 		actor->serial = data.bullets[i].serial;
+		actor->type = ActorType::Bullet;
 		_packet.session->stage->RegistActor( actor );
 	}
 
@@ -154,6 +158,29 @@ void InGame::AckRemoveActors( const Packet& _packet )
 		_packet.session->stage->UnregistActor( actor );
 		Global::Memory::SafeDelete( actor );
 	}
+}
+
+void InGame::AckInitSceneActors( const Packet& _packet )
+{
+	ACTORS_INFO data = FromJson<ACTORS_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	for ( ACTOR_INFO& actorInfo : data.actors )
+	{
+		if ( actorInfo.serial == 0 )
+		{
+			actorInfo.serial = Global::GetNewSerial();
+		}
+		ActorInfo* actor = new ActorInfo( actorInfo );
+		actor->type = ActorType::SceneActor;
+		_packet.session->stage->RegistActor( actor );
+	}
+
+	_packet.session->stage->Broadcast( UPacket( INIT_SCENE_ACTORS_ACK, data ) );
 }
 
 void InGame::AckSyncMovement( const Packet& _packet )
@@ -329,13 +356,15 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 	}
 
 	// 접속시 플레이어 생성
-	data.nickname = _packet.session->loginInfo.nickname;
-	data.actorInfo.isLocal = true;
-	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
-	data.actorInfo.isLocal = false;
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, data ) );
+	{
+		data.nickname = _packet.session->loginInfo.nickname;
+		data.actorInfo.isLocal = true;
+		_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
+		data.actorInfo.isLocal = false;
+		_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, data ) );
+	}
 
-	// 기존에 있던 Player 스폰
+	// 기존에 있던 Player들 스폰
 	std::list<Session*> sessions = _packet.session->stage->GetSessions();
 	for ( auto session : sessions )
 	{
@@ -354,8 +383,51 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 		_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, *session->player ) );
 	}
 
-	// 기존 데이터 스폰후 등록
-	PlayerInfo* player = new PlayerInfo( data );
-	_packet.session->player = player;
-	_packet.session->stage->RegistActor( &player->actorInfo );
+	// 기존에 있던 Actor들 처리
+	{
+		ACTORS_INFO sceneActors;
+		const ActorContainer& actors = _packet.session->stage->GetActors();
+		for ( const auto& actorPair : actors )
+		{
+			if ( actorPair.second == nullptr )
+			{
+				Debug.LogError( "Actor is null. nick:", _packet.session->loginInfo.nickname );
+				continue;
+			}
+
+			switch ( actorPair.second->type )
+			{
+			case ActorType::Default:
+			{
+				/// TODO
+			} break;
+			case ActorType::Player:
+			case ActorType::Bullet:
+			{
+				// Player는 위에서 처리
+				// Bullet은 일단 스폰 안해도 될 것 같다
+			} break;
+			case ActorType::SceneActor:
+			{
+				sceneActors.actors.push_back( *actorPair.second );
+			} break;
+			default:
+			{
+				Debug.LogWarning( "Not processed type. type:", actorPair.second->type );
+			} break;
+			}
+		}
+
+		if ( _packet.session != _packet.session->stage->host && sceneActors.actors.size() > 0 )
+		{
+			_packet.session->Send( UPacket( INIT_SCENE_ACTORS_ACK, sceneActors ) );
+		}
+	}
+
+	// 기존 Actor들 처리후 등록
+	{
+		PlayerInfo* player = new PlayerInfo( data );
+		_packet.session->player = player;
+		_packet.session->stage->RegistActor( &player->actorInfo );
+	}
 }

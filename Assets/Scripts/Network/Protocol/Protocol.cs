@@ -43,6 +43,8 @@ public enum PacketType : ushort
     SPAWN_BULLET_ACK,              // Bullet 스폰 응답
     REMOVE_ACTORS_REQ,             // Actor들 제거 요청
     REMOVE_ACTORS_ACK,             // Actor들 제거 응답
+    INIT_SCENE_ACTORS_REQ,         // 씬에 배치된 Actor들 초기화 요청
+    INIT_SCENE_ACTORS_ACK,         // 씬에 배치된 Actor들 초기화 응답
 
     SYNC_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
@@ -146,6 +148,11 @@ public struct ACTOR_INFO : IProtocol
     public VECTOR2 pos;
     public VECTOR2 vel;
     public float hp;
+}
+
+public struct ACTORS_INFO : IProtocol
+{
+    public List<ACTOR_INFO> actors;
 }
 
 public struct PLAYER_INFO : IProtocol

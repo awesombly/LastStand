@@ -41,6 +41,8 @@ enum PacketType : u_short
 	SPAWN_BULLET_ACK,              // Bullet 스폰 응답
 	REMOVE_ACTORS_REQ,             // Actor들 제거 요청
 	REMOVE_ACTORS_ACK,             // Actor들 제거 응답
+	INIT_SCENE_ACTORS_REQ,         // 씬에 배치된 Actor들 초기화 요청
+	INIT_SCENE_ACTORS_ACK,         // 씬에 배치된 Actor들 초기화 응답
 
 	SYNC_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
@@ -223,6 +225,10 @@ public:
 		ar( CEREAL_NVP( personnel ) );
 	}
 } STAGE_INFO;
+enum ActorType : u_short
+{ 
+	Default, Player, Bullet, SceneActor,
+};
 typedef struct ActorInfo
 {
 public:
@@ -232,6 +238,9 @@ public:
 	Vector2 pos;
 	Vector2 vel;
 	float hp;
+
+	// 서버에서만 사용
+	ActorType type;
 
 	template <class Archive>
 	void serialize( Archive& ar )
@@ -244,6 +253,17 @@ public:
 		ar( CEREAL_NVP( hp ) );
 	}
 } ACTOR_INFO;
+typedef struct ActorsInfo
+{
+public:
+	std::vector<ACTOR_INFO> actors;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( actors ) );
+	}
+} ACTORS_INFO;
 typedef struct PlayerInfo
 {
 public:

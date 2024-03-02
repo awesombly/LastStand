@@ -8,6 +8,8 @@ public class InGameLogicScene : SceneBase
 {
     [SerializeField]
     private Transform spawnTransform;
+    [SerializeField]
+    private Transform sceneActors;
 
     #region Unity Callback
     protected override void Awake()
@@ -23,6 +25,7 @@ public class InGameLogicScene : SceneBase
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,       AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,       AckSpawnBullet );
         ProtocolSystem.Inst.Regist( REMOVE_ACTORS_ACK,      AckRemoveActors );
+        ProtocolSystem.Inst.Regist( INIT_SCENE_ACTORS_ACK,  AckInitSceneActors );
         ProtocolSystem.Inst.Regist( SYNC_MOVEMENT_ACK,      AckSyncMovement );
         ProtocolSystem.Inst.Regist( SYNC_RELOAD_ACK,        AckSyncReload );
         ProtocolSystem.Inst.Regist( SYNC_LOOK_ANGLE_ACK,    AckSyncLookAngle );
@@ -36,6 +39,12 @@ public class InGameLogicScene : SceneBase
     {
         base.Start();
         InitLocalPlayer();
+
+        // is Host
+        if ( GameManager.StageInfo.Value.personnel.current == 1 )
+        {
+            ReqInitSceneActors();
+        }
         ReqInGameLoadData();
     }
     #endregion
@@ -53,7 +62,6 @@ public class InGameLogicScene : SceneBase
     }
 
     #region Req Protocols
-
     private void ReqInGameLoadData()
     {
         Player playerPrefab = GameManager.Inst.GetPlayerPrefab();
@@ -74,6 +82,31 @@ public class InGameLogicScene : SceneBase
         protocol.death = 0;
 
         Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
+    }
+
+    private void ReqInitSceneActors()
+    {
+        ACTORS_INFO protocol;
+        protocol.actors = new List<ACTOR_INFO>();
+
+        // Scene에 배치된 Actor 등록 및 Serial을 요청한다
+        Actor[] actors = sceneActors.GetComponentsInChildren<Actor>();
+        foreach ( Actor actor in actors )
+        {
+            actor.IsLocal = true;
+
+            ACTOR_INFO actorInfo;
+            actorInfo.isLocal = true;
+            // 다른 클라에서 찾기 위한 용도
+            actorInfo.prefab = actor.MyHashCode; 
+            actorInfo.serial = 0;
+            actorInfo.pos = new VECTOR2( actor.transform.position );
+            actorInfo.vel = new VECTOR2( actor.Rigid2D.velocity );
+            actorInfo.hp = actor.Hp.Current;
+            protocol.actors.Add( actorInfo );
+        }
+
+        Network.Inst.Send( INIT_SCENE_ACTORS_REQ, protocol );
     }
     #endregion
 
@@ -114,7 +147,7 @@ public class InGameLogicScene : SceneBase
         player.ApplyLookAngle( data.angle );
         player.gameObject.SetActive( !player.IsDead );
 
-        if ( !GameManager.Players.Contains( player )  )
+        if ( !GameManager.Players.Contains( player ) )
         {
             GameManager.Inst.AddPlayer( player );
         }
@@ -156,6 +189,35 @@ public class InGameLogicScene : SceneBase
         {
             Actor actor = GameManager.Inst.GetActor( serial );
             actor?.Release();
+        }
+    }
+
+    private void AckInitSceneActors( Packet _packet )
+    {
+        var data = Global.FromJson<ACTORS_INFO>( _packet );
+        Dictionary<int/*HashCode*/, ACTOR_INFO> actorHashs = new Dictionary<int, ACTOR_INFO>();
+        foreach ( ACTOR_INFO actorInfo in data.actors )
+        {
+            actorHashs.Add( actorInfo.prefab, actorInfo );
+        }
+
+        Actor[] actors = sceneActors.GetComponentsInChildren<Actor>();
+        foreach ( Actor actor in actors )
+        {
+            ACTOR_INFO actorInfo;
+            if ( !actorHashs.TryGetValue( actor.MyHashCode, out actorInfo ) )
+            {
+                actor.Release();
+                continue;
+            }
+
+            actor.Serial = actorInfo.serial;
+            actor.transform.position = actorInfo.pos.To();
+            if ( !actor.gameObject.isStatic )
+            {
+                actor.Rigid2D.velocity = actorInfo.vel.To();
+            }
+            actor.Hp.Current = actorInfo.hp;
         }
     }
 

@@ -25,9 +25,12 @@ public class Actor : Poolable
             GameManager.Inst.RegistActor( this );
         }
     }
+    // 씬에 미리 배치된 Actor 구별용
+    public int MyHashCode { get; private set; }
 
     [HideInInspector]
     public Global.StatusFloat Hp;
+    public int PenetrationResist { get; protected set; }
 
     public Rigidbody2D Rigid2D { get; private set; }
 
@@ -35,6 +38,8 @@ public class Actor : Poolable
     protected virtual void Awake()
     {
         Rigid2D = GetComponent<Rigidbody2D>();
+        MyHashCode = name.GetHashCode();
+        PenetrationResist = 1;
     }
 
     protected virtual void OnDisable()
