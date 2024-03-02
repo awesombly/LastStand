@@ -46,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
     private Player player;
     private ActionReceiver receiver;
     private Rigidbody2D rigid2D;
-    private CapsuleCollider2D capsuleCollider;
     #endregion
 
     #region Unity Callback
@@ -55,10 +54,14 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Player>();
         receiver = GetComponent<ActionReceiver>();
         rigid2D = GetComponent<Rigidbody2D>();
-        capsuleCollider = GetComponent<CapsuleCollider2D>();
 
         receiver.OnDodgeEvent += OnDodge;
         dodgeInfo.duration.OnChangeCurrent += OnChangeDodgeDuration;
+
+        rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
+                | Global.LayerFlag.EnemyAttack
+                | Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
     }
 
     private void OnEnable()
@@ -152,7 +155,16 @@ public class PlayerMovement : MonoBehaviour
 
         dodgeInfo.direction = _direction;
 
-        capsuleCollider.isTrigger = !_useCollision;
+        if ( _useCollision )
+        {
+            rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
+                | Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
+        }
+        else
+        {
+            rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Wall );
+        }
     }
 
     private void OnDodge()
@@ -193,7 +205,10 @@ public class PlayerMovement : MonoBehaviour
         {
             OnDodgeAction?.Invoke( false, Vector2.zero );
             --player.UnactionableCount;
-            capsuleCollider.isTrigger = false;
+            rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
+                | Global.LayerFlag.EnemyAttack
+                | Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
         }
     }
 }

@@ -1762,7 +1762,7 @@ MonoBehaviour:
     interval:
       max: 0.1
   dodgeInfo:
-    useCollision: 0
+    useCollision: 1
     moveSpeed: 13
     range: 8.2
     cooldown:
@@ -1782,6 +1782,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b84ef8187e05ea54186feb570a9d219d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnDelay:
+    max: 0
   reloadBar: {fileID: 1657714690436139336}
 --- !u!114 &5403955393062696307
 MonoBehaviour:
@@ -2543,11 +2545,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8246462525239658187, guid: b1c7f5c30d7cf894182975f252a7f5c1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.3058
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8246462525239658187, guid: b1c7f5c30d7cf894182975f252a7f5c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3337
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8246462525239658187, guid: b1c7f5c30d7cf894182975f252a7f5c1, type: 3}
       propertyPath: m_LocalPosition.z

@@ -101,6 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e929d7c633f168c49b8beaf5b331eeaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Hp:
+    max: 0
   data: {fileID: 11400000, guid: 083eb93e248fab346a8847c91c581a31, type: 2}
 --- !u!114 &1586745007394399230
 MonoBehaviour:
@@ -168,7 +170,7 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 319
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
