@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 using static PacketType;
+using UnityEditor.U2D.Aseprite;
 
 public class LobbyScene : SceneBase
 {
@@ -31,6 +32,10 @@ public class LobbyScene : SceneBase
 
     [Header( "< UserInfo >" )]
     public GameObject userInfoCanvas;
+    public TextMeshProUGUI userInfoNickname;
+    public TextMeshProUGUI level;
+    public Slider exp;
+
     public TextMeshProUGUI playCount;
     public TextMeshProUGUI kill, death;
     public TextMeshProUGUI killDeathAverage;
@@ -106,19 +111,24 @@ public class LobbyScene : SceneBase
 
     private void UpdateUserInfo()
     {
-        if ( GameManager.UserInfo == null )
+        if ( GameManager.LoginInfo == null || GameManager.UserInfo == null )
              return;
-        
-        USER_INFO data = GameManager.UserInfo.Value;
-        playCount.text        = $"{data.playCount}";
-        kill.text             = $"{data.kill}";
-        death.text            = $"{data.death}";
 
-        float kd = ( ( data.kill * 100f ) / ( data.kill + data.death ) );
+        LOGIN_INFO loginData = GameManager.LoginInfo.Value;
+        userInfoNickname.text = $"- {loginData.nickname} -";
+        
+        USER_INFO userData = GameManager.UserInfo.Value;
+        level.text            = $"{userData.level}";
+        exp.value             = ( float )( userData.exp / 1d );
+        playCount.text        = $"{userData.playCount}";
+        kill.text             = $"{userData.kill}";
+        death.text            = $"{userData.death}";
+
+        float kd = ( ( userData.kill * 100f ) / ( userData.kill + userData.death ) );
         killDeathAverage.text = $"{( float.IsNaN( kd ) ? 0 : kd.ToString( "F1" ) )}";
 
-        bestKill.text         = $"{data.bestKill}";
-        bestDeath.text        = $"{data.bestDeath}";
+        bestKill.text         = $"{userData.bestKill}";
+        bestDeath.text        = $"{userData.bestDeath}";
     }
 
     #endregion
