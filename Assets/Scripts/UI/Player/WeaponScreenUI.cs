@@ -25,6 +25,11 @@ public class WeaponScreenUI : MonoBehaviour
         GameManager.OnChangeLocalPlayer += OnChangeLocalPlayer;
     }
 
+    private void OnDestroy()
+    {
+        GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
+    }
+
     private void UpdateBulletIcons()
     {
         if ( ReferenceEquals( equipWeapon, null ) )
