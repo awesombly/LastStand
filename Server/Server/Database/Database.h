@@ -17,14 +17,21 @@ private:
 public:
 	bool Initialize();
 
-public:
-	LOGIN_INFO Search( const std::string& _type, const std::string& _data );
-	bool Insert( const LOGIN_INFO& _data );
-	bool Update( const LOGIN_INFO& _data );
-	bool Delete( const LOGIN_INFO& _data );
-
 private:
 	bool Query( const char* _sentence );
+
+public:
+	bool CreateUserData( const std::string& _nickname, const std::string& _email, const std::string& _password );
+	bool DeleteUserData( int _uid );
+
+	LOGIN_DATA GetLoginData( const std::string& _email );
+	LOGIN_DATA GetLoginData( int _uid );
+	USER_DATA  GetUserData( int _uid );
+
+	//LOGIN_DATA Search( const std::string& _type, const std::string& _data );
+	//bool Insert( const LOGIN_DATA& _data );
+	//bool Update( const LOGIN_DATA& _data );
+	//bool Delete( const LOGIN_DATA& _data );
 
 public:
 	Database() = default;

@@ -177,9 +177,12 @@ public:
 		ar( CEREAL_NVP( w ) );
 	}
 } Quaternion, QUATERNION;
+
+#pragma region Database
 typedef struct LoginInfo
 {
 public:
+	int uid;
 	std::string nickname;
 	std::string email;
 	std::string password;
@@ -187,11 +190,31 @@ public:
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
+		ar( CEREAL_NVP( uid ) );
 		ar( CEREAL_NVP( nickname ) );
 		ar( CEREAL_NVP( email ) );
 		ar( CEREAL_NVP( password ) );
 	}
-} LOGIN_INFO;
+} LOGIN_INFO, LoginData, LOGIN_DATA;
+
+typedef struct UserInfo
+{
+public:
+	int kill, death;
+	int bestKill, bestDeath;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( kill ) );
+		ar( CEREAL_NVP( death ) );
+		ar( CEREAL_NVP( bestKill ) );
+		ar( CEREAL_NVP( bestDeath ) );
+	}
+} USER_INFO, UserData, USER_DATA;
+#pragma endregion
+
+#pragma region Lobby Infomation
 struct Personnel
 {
 public:
@@ -225,6 +248,8 @@ public:
 		ar( CEREAL_NVP( personnel ) );
 	}
 } STAGE_INFO;
+#pragma endregion
+
 enum ActorType : u_short
 { 
 	Default, Player, Bullet, SceneActor,

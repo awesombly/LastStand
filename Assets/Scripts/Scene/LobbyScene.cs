@@ -136,6 +136,7 @@ public class LobbyScene : SceneBase
     public void ReqConfirmLoginInfo()
     {
         LOGIN_INFO protocol;
+        protocol.uid      = -1;
         protocol.email    = email.text;
         protocol.password = password.text;
         protocol.nickname = string.Empty;
@@ -145,6 +146,7 @@ public class LobbyScene : SceneBase
     public void ReqConfirmDuplicateEmail()
     {
         LOGIN_INFO protocol;
+        protocol.uid      = -1;
         protocol.email    = email.text;
         protocol.password = password.text;
         protocol.nickname = string.Empty;
@@ -157,6 +159,7 @@ public class LobbyScene : SceneBase
              return;
 
         LOGIN_INFO protocol;
+        protocol.uid      = -1;
         protocol.nickname = nickname.text;
         protocol.email    = email.text;
         protocol.password = password.text;

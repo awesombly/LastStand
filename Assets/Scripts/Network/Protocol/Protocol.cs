@@ -133,12 +133,21 @@ public struct STAGE_INFO : IProtocol
     public Personnel personnel;
 }
 
+#region Database
 public struct LOGIN_INFO : IProtocol
 {
+    public int uid;
     public string nickname;
     public string email;
     public string password;
 }
+
+public struct USER_INFO : IProtocol
+{
+    public int kill, death;
+    public int bestKill, bestDeath;
+}
+#endregion
 
 public struct ACTOR_INFO : IProtocol
 {

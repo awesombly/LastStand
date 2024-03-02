@@ -11,14 +11,14 @@ void Login::Bind()
 
 void Login::ConfirmMatchData( const Packet& _packet )
 {
-	auto data = FromJson<LOGIN_INFO>( _packet );
+	auto data = FromJson<LOGIN_DATA>( _packet );
 	Session* session = _packet.session;
 	try
 	{
 		if ( Global::String::Trim( data.email ).empty() )
 			 throw std::exception( "# The email is empty" );
 
-		LOGIN_INFO info = Database::Inst().Search( "email", data.email );
+		LOGIN_DATA info = Database::Inst().GetLoginData( data.email );
 		if ( data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
 			 throw std::exception( "# Login information does not match" );
 
@@ -30,18 +30,18 @@ void Login::ConfirmMatchData( const Packet& _packet )
 	catch ( const std::exception& _error )
 	{
 		Debug.LogWarning( "# DB Exception < ", _error.what(), " >" );
-		session->Send( UPacket( CONFIRM_LOGIN_ACK, LOGIN_INFO() ) );
+		session->Send( UPacket( CONFIRM_LOGIN_ACK, LOGIN_DATA() ) );
 	}
 }
 
 void Login::ConfirmDuplicateInfo( const Packet& _packet )
 {
-	const auto& data = FromJson<LOGIN_INFO>( _packet );
+	const auto& data = FromJson<LOGIN_DATA>( _packet );
 	CONFIRM protocol;
 
 	try
 	{
-		LOGIN_INFO user = Database::Inst().Search( "email", data.email );
+		LOGIN_DATA user = Database::Inst().GetLoginData( data.email );
 		protocol.isCompleted = false;
 	}
 	catch ( const std::exception& )
@@ -54,7 +54,7 @@ void Login::ConfirmDuplicateInfo( const Packet& _packet )
 
 void Login::AddToDatabase( const Packet& _packet )
 {
-	auto data = FromJson<LOGIN_INFO>( _packet );
+	auto data = FromJson<LOGIN_DATA>( _packet );
 	Session* session = _packet.session;
 	
 	CONFIRM confirm;
@@ -63,7 +63,8 @@ void Login::AddToDatabase( const Packet& _packet )
 		if ( Global::String::Trim( data.nickname ).empty() )
 			 throw std::exception( "# The email is empty" );
 
-		confirm.isCompleted = Database::Inst().Insert( LOGIN_INFO{ data.nickname, data.email, data.password } );
+		confirm.isCompleted = Database::Inst().CreateUserData( data.nickname, data.email, data.password );
+		//confirm.isCompleted = Database::Inst().Insert( LOGIN_INFO{ data.nickname, data.email, data.password } );
 	}
 	catch ( const std::exception& _error )
 	{
