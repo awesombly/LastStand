@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
+
+using DG.Tweening;
+
 using static PacketType;
 
 public class InGameUIScene : SceneBase
@@ -26,6 +30,9 @@ public class InGameUIScene : SceneBase
     public GameObject gameResult;
     public TextMeshProUGUI resultText;
     public List<ResultBoard> resultBoards;
+
+    public TextMeshProUGUI resultLevel;
+    public Slider          resultExp;
 
     [Header( "< Pause >" )]
     public GameObject pause;
@@ -95,7 +102,22 @@ public class InGameUIScene : SceneBase
 
     private void AckUpdateResultInfo( Packet _packet )
     {
+        var prevInfo = GameManager.UserInfo.Value;
         GameManager.UserInfo = Global.FromJson<USER_INFO>( _packet );
+        
+        var curInfo = GameManager.UserInfo.Value;
+        if ( prevInfo.level < curInfo.level )
+        {
+            resultExp.DOValue( 1f, .5f ).OnComplete( () =>
+            {
+                resultExp.value = 0f;
+                resultExp.DOValue( curInfo.exp / Global.GetTotalEXP( curInfo.level ), .5f );
+            } );
+        }
+        else
+        {
+            resultExp.DOValue( curInfo.exp / Global.GetTotalEXP( curInfo.level ), .5f );
+        }
     }
 
     private void OnPlayerDead( Player _player )
@@ -150,11 +172,18 @@ public class InGameUIScene : SceneBase
             if ( i >= players.Count )
             {
                 resultBoards[i].gameObject.SetActive( false );
-                return;
+                continue;
             }
 
             resultBoards[i].gameObject.SetActive( true );
             resultBoards[i].Initialize( players[i], ReferenceEquals( players[i], _winner ) );
+        }
+
+        if ( GameManager.UserInfo != null )
+        {
+            var userInfo = GameManager.UserInfo.Value;
+            resultLevel.text = $"{userInfo.level}";
+            resultExp.value  = userInfo.exp / Global.GetTotalEXP( userInfo.level );
         }
 
         RESULT_INFO protocol;
