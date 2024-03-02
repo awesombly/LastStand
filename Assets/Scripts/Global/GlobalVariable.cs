@@ -10,18 +10,19 @@ public static partial class Global
 
     public struct Layer
     {
-        public const int Default       = 0;
-        public const int TransparentFX = 1;
-        public const int IgnoreRaycast = 2;
-        public const int Temp          = 3;
-        public const int Water         = 4;
-        public const int UI            = 5;
-        public const int Player        = 6;
-        public const int Enemy         = 7;
-        public const int Wall          = 8;
-        public const int PlayerAttack  = 9;
-        public const int EnemyAttack   = 10;
-        public const int Misc          = 11;
+        public const int Default        = 0;
+        public const int TransparentFX  = 1;
+        public const int IgnoreRaycast  = 2;
+        public const int Temp           = 3;
+        public const int Water          = 4;
+        public const int UI             = 5;
+        public const int Player         = 6;
+        public const int Enemy          = 7;
+        public const int Wall           = 8;
+        public const int PlayerAttack   = 9;
+        public const int EnemyAttack    = 10;
+        public const int Misc           = 11;
+        public const int Invincible     = 12;
     }
 
     [Flags]
@@ -39,6 +40,7 @@ public static partial class Global
         PlayerAttack    = 1 << Layer.PlayerAttack,
         EnemyAttack     = 1 << Layer.EnemyAttack,
         Misc            = 1 << Layer.Misc,
+        Invincible      = 1 << Layer.Invincible,
     }
 
     public static bool CompareLayer( LayerFlag _flagLayer, int _intLayer )

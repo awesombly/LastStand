@@ -36,8 +36,7 @@ public class GameManager : Singleton<GameManager>
     public static STAGE_INFO? StageInfo { get; set; }
     public static LOGIN_INFO? LoginInfo { get; set; }
 
-    [SerializeField]
-    private GameManagerSO data;
+    public GameManagerSO data;
     private Dictionary<SceneType, SceneBase> activeScenes = new Dictionary<SceneType, SceneBase>();
     private Dictionary<uint/*Serial*/, Actor> actors = new Dictionary<uint, Actor>();
 
@@ -124,11 +123,18 @@ public class GameManager : Singleton<GameManager>
             yield break;
         }
 
+        var scene = GetActiveScene( SceneType.InGame_Logic ) as InGameLogicScene;
+        if ( ReferenceEquals( scene, null ) )
+        {
+            Debug.LogError( "InGameLogicScene is null." );
+            yield break;
+        }
+
         PLAYER_INFO protocol;
         protocol.actorInfo.isLocal = true;
         protocol.actorInfo.prefab = _player.PrefabIndex;
         protocol.actorInfo.serial = _player.Serial;
-        protocol.actorInfo.pos = new VECTOR2( _player.transform.position );
+        protocol.actorInfo.pos = new VECTOR2( scene.GetSpawnPosition() );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.actorInfo.hp = _player.Hp.Max;
         protocol.nickname = _player.Nickname;

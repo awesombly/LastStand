@@ -7,7 +7,7 @@ using static PacketType;
 public class InGameLogicScene : SceneBase
 {
     [SerializeField]
-    private Transform spawnTransform;
+    private List<Transform> spawnTransforms;
     [SerializeField]
     private Transform sceneActors;
 
@@ -16,9 +16,9 @@ public class InGameLogicScene : SceneBase
     {
         base.Awake();
         SceneType = SceneType.InGame_Logic;
-        if ( spawnTransform == null )
+        if ( spawnTransforms.Count == 0 )
         {
-            spawnTransform = transform;
+            spawnTransforms.Add( transform );
         }
 
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,        AckSpawnEnemy );
@@ -49,6 +49,12 @@ public class InGameLogicScene : SceneBase
     }
     #endregion
 
+    public Vector3 GetSpawnPosition()
+    {
+        int index = UnityEngine.Random.Range( 0, spawnTransforms.Count );
+        return spawnTransforms[index].position;
+    }
+
     private void InitLocalPlayer()
     {
         Player player = FindObjectOfType<Player>();
@@ -71,7 +77,7 @@ public class InGameLogicScene : SceneBase
         protocol.actorInfo.isLocal = true;
         protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
         protocol.actorInfo.serial = 0;
-        protocol.actorInfo.pos = new VECTOR2( spawnTransform.position + new Vector3( UnityEngine.Random.Range( -5f, 5f ), UnityEngine.Random.Range( -5f, 5f ), 0f ) );
+        protocol.actorInfo.pos = new VECTOR2( GetSpawnPosition() );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.actorInfo.hp = playerPrefab.data.maxHp;
         protocol.nickname = string.Empty;
@@ -93,7 +99,7 @@ public class InGameLogicScene : SceneBase
         Actor[] actors = sceneActors.GetComponentsInChildren<Actor>();
         foreach ( Actor actor in actors )
         {
-            actor.IsLocal = true;
+            actor.IsLocal = false;
 
             ACTOR_INFO actorInfo;
             actorInfo.isLocal = true;
@@ -145,7 +151,12 @@ public class InGameLogicScene : SceneBase
         player.DeathScore = data.death;
         player.SwapWeapon( data.weapon );
         player.ApplyLookAngle( data.angle );
+        player.ResetExcludeLayers();
         player.gameObject.SetActive( !player.IsDead );
+        if ( player.gameObject.activeSelf )
+        {
+            player.SetInvincibleTime( GameManager.Inst.data.respawnInvincibleTime );
+        }
 
         if ( !GameManager.Players.Contains( player ) )
         {

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GameManagerSO
   m_EditorClassIdentifier: 
   respawnDelay: 5
+  respawnInvincibleTime: 5
   playerPrefab: {fileID: 2518964481862004779, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
   prefabList:
   - {fileID: 2518964481862004779, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}

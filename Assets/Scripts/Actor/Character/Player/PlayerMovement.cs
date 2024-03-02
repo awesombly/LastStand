@@ -57,11 +57,6 @@ public class PlayerMovement : MonoBehaviour
 
         receiver.OnDodgeEvent += OnDodge;
         dodgeInfo.duration.OnChangeCurrent += OnChangeDodgeDuration;
-
-        rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
-                | Global.LayerFlag.EnemyAttack
-                | Global.LayerFlag.Wall
-                | Global.LayerFlag.Misc );
     }
 
     private void OnEnable()
@@ -157,7 +152,8 @@ public class PlayerMovement : MonoBehaviour
 
         if ( _useCollision )
         {
-            rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
+            rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Player
+                | Global.LayerFlag.Enemy
                 | Global.LayerFlag.Wall
                 | Global.LayerFlag.Misc );
         }
@@ -205,10 +201,7 @@ public class PlayerMovement : MonoBehaviour
         {
             OnDodgeAction?.Invoke( false, Vector2.zero );
             --player.UnactionableCount;
-            rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
-                | Global.LayerFlag.EnemyAttack
-                | Global.LayerFlag.Wall
-                | Global.LayerFlag.Misc );
+            player.ResetExcludeLayers();
         }
     }
 }

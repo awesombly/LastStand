@@ -6,6 +6,8 @@ using UnityEngine;
 public class GameManagerSO : ScriptableObject
 {
     public float respawnDelay;
+    public float respawnInvincibleTime;
+
     public Player playerPrefab;
     // PoolManager를 사용할 모든 프리팹들
     public List<Poolable/*Prefab*/> prefabList;

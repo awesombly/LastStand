@@ -130,6 +130,47 @@ public class Player : Character
         }
     }
 
+    public void ResetExcludeLayers()
+    {
+        if ( gameObject.layer == Global.Layer.Player )
+        {
+            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
+                | Global.LayerFlag.EnemyAttack
+                | Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
+        }
+        else
+        {
+            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Player
+                | Global.LayerFlag.Enemy
+                | Global.LayerFlag.PlayerAttack
+                | Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
+        }
+    }
+
+    public void SetInvincibleTime( float _time )
+    {
+        StartCoroutine( UpdateInvincible( _time ) );
+    }
+
+    private IEnumerator UpdateInvincible( float _time )
+    {
+        int originLayer = gameObject.layer;
+        SpriteRenderer spriter = gameObject.GetComponent<SpriteRenderer>();
+
+        gameObject.layer = Global.Layer.Invincible;
+        while ( _time > 0f )
+        {
+            _time -= Time.deltaTime;
+            float alpha = Mathf.Max( .2f, .2f + ( 2f - _time ) * .3f );
+            spriter.color = new Color( 1f, 1f, 1f, alpha );
+            yield return YieldCache.WaitForEndOfFrame;
+        }
+        spriter.color = Color.white;
+        gameObject.layer = originLayer;
+    }
+
     public override void SetMovement( Vector3 _position, Vector3 _velocity )
     {
         transform.position = _position;
