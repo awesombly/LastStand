@@ -33,6 +33,7 @@ public class InGameUIScene : SceneBase
 
     public TextMeshProUGUI resultLevel;
     public Slider          resultExp;
+    public GameObject      resultBackButton;
 
     [Header( "< Pause >" )]
     public GameObject pause;
@@ -102,6 +103,8 @@ public class InGameUIScene : SceneBase
 
     private void AckUpdateResultInfo( Packet _packet )
     {
+        resultBackButton.SetActive( true );
+
         var prevInfo = GameManager.UserInfo.Value;
         GameManager.UserInfo = Global.FromJson<USER_INFO>( _packet );
         
@@ -118,6 +121,12 @@ public class InGameUIScene : SceneBase
         {
             resultExp.DOValue( curInfo.exp / Global.GetTotalEXP( curInfo.level ), .5f );
         }
+    }
+
+    public void MoveToLobby()
+    {
+        AudioManager.Inst.Play( SFX.MouseClick );
+        LoadScene( SceneType.Lobby );
     }
 
     private void OnPlayerDead( Player _player )
