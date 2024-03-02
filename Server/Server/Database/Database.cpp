@@ -101,7 +101,13 @@ USER_DATA Database::GetUserData( int _uid )
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
 		throw std::exception( "The data was not found" );
 
-	return USER_DATA{ ::atoi( row[2] ), ::atof( row[3] ), ::atoi( row[4] ), ::atoi( row[5] ), ::atoi( row[6] ), ::atoi( row[7] ), ::atoi( row[8] ) };
+	return USER_DATA{ ::atoi( row[2] ), ( float )::atof(row[3]), ::atoi(row[4]), ::atoi(row[5]), ::atoi(row[6]), ::atoi(row[7]), ::atoi(row[8])};
+}
+bool Database::UpdateUserData( int _uid, const USER_DATA& _data )
+{
+	::sprintf( sentence, R"Q( Call UpdateUserData( %d, %d, %f, %d, %d, %d, %d, %d ); )Q", 
+			                  _uid, _data.level, _data.exp, _data.playCount, _data.kill, _data.death, _data.bestKill, _data.bestDeath );
+	return Query( sentence );
 }
 
 //LOGIN_DATA Database::Search( const std::string& _type, const std::string& _data )

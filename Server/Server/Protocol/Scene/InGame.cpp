@@ -1,6 +1,7 @@
 #include "InGame.h"
 #include "Management/SessionManager.h"
 #include "Management/StageManager.h"
+#include "Database/Database.h"
 
 void InGame::Bind()
 {
@@ -18,6 +19,8 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SYNC_SWAP_WEAPON_REQ,	AckSyncSwapWeapon );
 	ProtocolSystem::Inst().Regist( HIT_ACTORS_REQ,			AckHitActors );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ,	AckInGameLoadData );
+
+	ProtocolSystem::Inst().Regist( UPDATE_RESULT_INFO_REQ,  AckUpdateResultData );
 }
 
 void InGame::AckChatMessage( const Packet& _packet )
@@ -429,5 +432,37 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 		PlayerInfo* player = new PlayerInfo( data );
 		_packet.session->player = player;
 		_packet.session->stage->RegistActor( &player->actorInfo );
+	}
+}
+
+void InGame::AckUpdateResultData( const Packet& _packet )
+{
+	RESULT_INFO data = FromJson<RESULT_INFO>( _packet );
+
+	try
+	{
+		USER_DATA userData = Database::Inst().GetUserData( data.uid );
+
+		userData.exp += 10.0f;
+		float totalExp = Global::Result::GetTotalEXP( userData.level );
+		while ( userData.exp >= totalExp )
+		{
+			userData.level += 1;
+			userData.exp -= totalExp;
+			totalExp = Global::Result::GetTotalEXP( userData.level );
+		}
+
+		userData.playCount += 1;
+		userData.kill  += data.kill;
+		userData.death += data.death;
+		userData.bestKill  = userData.bestKill  < data.kill  ? data.kill  : userData.bestKill;
+		userData.bestDeath = userData.bestDeath < data.death ? data.death : userData.bestDeath;
+
+		Database::Inst().UpdateUserData( data.uid, userData );
+		_packet.session->Send( UPacket( UPDATE_RESULT_INFO_ACK, userData ) );
+	}
+	catch ( std::exception _error )
+	{
+
 	}
 }

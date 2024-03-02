@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using static PacketType;
 public class GameManager : Singleton<GameManager>
 {
     public static Vector2 MouseWorldPos { get; private set; }

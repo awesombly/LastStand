@@ -2,9 +2,9 @@
 #include "Synchronize/CriticalSection.h"
 
 using SerialType = u_int;
-namespace Global 
+namespace Global
 {
-	static const u_short HeaderSize  = 4;
+	static const u_short HeaderSize = 4;
 	static const u_short MaxDataSize = 4096;
 
 	static const u_short MaxStagePersonnel = 4;
@@ -19,6 +19,15 @@ namespace Global
 		std::lock_guard<std::mutex> lock( mtx );
 		return ++serial;
 	}
+
+
+	namespace Result
+	{
+		static float GetTotalEXP( int _level )
+		{
+			return 100.0f + ( ( _level - 1 ) * 1.24309230421f );
+		}
+	}	
 
 	namespace DB
 	{

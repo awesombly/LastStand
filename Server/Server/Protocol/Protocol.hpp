@@ -59,6 +59,8 @@ enum PacketType : u_short
 
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
 	GAME_OVER_ACK,                 // 게임 종료 응답
+	UPDATE_RESULT_INFO_REQ,        // 게임 결과 갱신 요청
+	UPDATE_RESULT_INFO_ACK,        // 게임 결과 갱신 응답
 };
 
 typedef struct Empty
@@ -201,7 +203,7 @@ typedef struct UserInfo
 {
 public:
 	int level;
-	double exp;
+	float exp;
 	int playCount;
 	int kill, death;
 	int bestKill, bestDeath;
@@ -218,6 +220,20 @@ public:
 		ar( CEREAL_NVP( bestDeath ) );
 	}
 } USER_INFO, UserData, USER_DATA;
+
+typedef struct ResultInfo
+{
+	int uid;
+	int kill, death;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( uid ) );
+		ar( CEREAL_NVP( kill ) );
+		ar( CEREAL_NVP( death ) );
+	}
+} RESULT_INFO, ResultData, RESULT_DATA;
 
 typedef struct AccountInfo
 {

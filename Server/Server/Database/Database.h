@@ -27,6 +27,7 @@ public:
 	LOGIN_DATA GetLoginData( const std::string& _email );
 	LOGIN_DATA GetLoginData( int _uid );
 	USER_DATA  GetUserData( int _uid );
+	bool UpdateUserData( int _uid, const USER_DATA& _data );
 
 	//LOGIN_DATA Search( const std::string& _type, const std::string& _data );
 	//bool Insert( const LOGIN_DATA& _data );

@@ -33,6 +33,7 @@ public class InGameLogicScene : SceneBase
         ProtocolSystem.Inst.Regist( SYNC_SWAP_WEAPON_ACK,   AckSyncSwapWeapon );
         ProtocolSystem.Inst.Regist( HIT_ACTORS_ACK,         AckHitActors );
         ProtocolSystem.Inst.Regist( GAME_OVER_ACK,          AckGameOver );
+        ProtocolSystem.Inst.Regist( UPDATE_RESULT_INFO_ACK, AckUpdateResultInfo );
     }
 
     protected override void Start()
@@ -117,6 +118,11 @@ public class InGameLogicScene : SceneBase
     #endregion
 
     #region Ack Protocols
+    private void AckUpdateResultInfo( Packet _packet )
+    {
+        GameManager.UserInfo = Global.FromJson<USER_INFO>( _packet );
+    }
+
     private void AckSpawnPlayer( Packet _packet )
     {
         var data = Global.FromJson<PLAYER_INFO>( _packet );
@@ -315,6 +321,12 @@ public class InGameLogicScene : SceneBase
         {
             Debug.LogWarning( $"Player is null. serial:{data.serial}" );
         }
+
+        RESULT_INFO protocol;
+        protocol.uid   = GameManager.LoginInfo.Value.uid;
+        protocol.kill  = GameManager.LocalPlayer.KillScore;
+        protocol.death = GameManager.LocalPlayer.DeathScore;
+        Network.Inst.Send( new Packet( UPDATE_RESULT_INFO_REQ, protocol ) );
 
         GameManager.Inst.GameOver( winner );
     }

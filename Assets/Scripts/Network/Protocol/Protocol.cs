@@ -61,6 +61,8 @@ public enum PacketType : ushort
 
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
     GAME_OVER_ACK,                 // 게임 종료 응답
+    UPDATE_RESULT_INFO_REQ,        // 게임 결과 갱신 요청
+    UPDATE_RESULT_INFO_ACK,        // 게임 결과 갱신 응답
 };
 
 public struct VECTOR3
@@ -145,10 +147,16 @@ public struct LOGIN_INFO : IProtocol
 public struct USER_INFO : IProtocol
 {
     public int level;
-    public double exp;
+    public float exp;
     public int playCount;
     public int kill, death;
     public int bestKill, bestDeath;
+}
+
+public struct RESULT_INFO : IProtocol
+{
+    public int uid;
+    public int kill, death;
 }
 
 public struct ACCOUNT_INFO : IProtocol

@@ -23,6 +23,7 @@ private:
 	static void AckSyncSwapWeapon( const Packet& _packet );
 	static void AckHitActors( const Packet& _packet );
 	static void AckInGameLoadData( const Packet& _packet );
+	static void AckUpdateResultData( const Packet& _packet );
 
 public:
 	virtual void Bind() override;
