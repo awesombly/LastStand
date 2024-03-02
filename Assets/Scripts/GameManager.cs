@@ -270,6 +270,12 @@ public class GameManager : Singleton<GameManager>
     public void PushHitInfoToSend( HIT_INFO hit )
     {
         hitsInfoToSend.hits.Add( hit );
+        // 양이 많으면 바로 Send. (패킷 4096 바이트 기준, 34개 정도면 사이즈를 벗어난다)
+        if ( hitsInfoToSend.hits.Count >= 20 )
+        {
+            Network.Inst.Send( PacketType.HIT_ACTORS_REQ, hitsInfoToSend );
+            hitsInfoToSend.hits.Clear();
+        }
     }
     #endregion
 
