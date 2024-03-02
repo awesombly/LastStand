@@ -162,6 +162,7 @@ public class LobbyScene : SceneBase
         }
         else
         {
+            createStageCanvas.SetActive( false );
             optionCanvas.SetActive( true );
 
             email?.ActivateInputField();
@@ -265,6 +266,8 @@ public class LobbyScene : SceneBase
         {
             if ( createStageCanvas.activeInHierarchy )
                 return;
+
+            optionCanvas.SetActive( false );
 
             title.ActivateInputField();
             SetPersonnel( 4 );
