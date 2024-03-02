@@ -194,7 +194,7 @@ public class PlayerAnimator : MonoBehaviour
         Left = 0, BackLeft, Back, BackRight, Right, FrontRight, Front, FrontLeft,
     }
 
-    private static class AnimatorParameters
+    public static class AnimatorParameters
     {
         public static int MoveSpeed = Animator.StringToHash( "MoveSpeed" );
         public static int LookDirection = Animator.StringToHash( "LookDirection" );

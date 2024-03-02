@@ -6,15 +6,25 @@ using UnityEngine.UI;
 
 public class ResultBoard : MonoBehaviour
 {
-    public Image playerImage;
+    public Animator animatior;
     public TextMeshProUGUI nickname;
     public TextMeshProUGUI killCount;
     public TextMeshProUGUI deathCount;
 
     public void Initialize( Player _player, bool _isWinner )
     {
-        playerImage.sprite = _player.GetComponent<SpriteRenderer>().sprite;
-        nickname.text = _isWinner ? $"~ {_player.Nickname} ~" : _player.Nickname;
+        animatior.SetBool( PlayerAnimator.AnimatorParameters.IsActionBlocked, true );
+        if ( _isWinner )
+        {
+            animatior.SetTrigger( PlayerAnimator.AnimatorParameters.DanceAction );
+            nickname.text = $"~ {_player.Nickname} ~";
+
+        }
+        else
+        {
+            animatior.SetTrigger( PlayerAnimator.AnimatorParameters.DefeatAction );
+            nickname.text = _player.Nickname;
+        }
         killCount.text = $"{_player.KillScore}";
         deathCount.text = $"{_player.DeathScore}";
     }
