@@ -6,6 +6,9 @@ using UnityEngine;
 public class PlayerAnimator : MonoBehaviour
 {
     [SerializeField]
+    private Poolable deadPrefab;
+
+    [SerializeField]
     private GameObject handLeft;
     [SerializeField]
     private GameObject handRight;
@@ -66,6 +69,26 @@ public class PlayerAnimator : MonoBehaviour
 
         animator.SetInteger( AnimatorParameters.ActionDirection, ( int )GetAnimatorDirection( actionAngle ) );
         animator.SetBool( AnimatorParameters.DodgeAction, _isActive );
+    }
+
+    public void SetReviveAction( bool _isActive )
+    {
+        animator.SetTrigger( AnimatorParameters.ReviveAction );
+    }
+
+    public void SetDefeatAction( bool _isActive )
+    {
+        animator.SetTrigger( AnimatorParameters.DefeatAction );
+    }
+
+    public void SetDanceAction( bool _isActive )
+    {
+        animator.SetTrigger( AnimatorParameters.DanceAction );
+    }
+
+    private void OnEndAnimation()
+    {
+        --player.UnactionableCount;
     }
 
     private LookDirection GetAnimatorDirection( float angle )
@@ -145,6 +168,27 @@ public class PlayerAnimator : MonoBehaviour
             .OnKill( () => fireSequence = null );
     }
 
+    public void OnDead( Vector3 _direction )
+    {
+        Poolable poolable = PoolManager.Inst.Get( deadPrefab );
+        poolable.transform.position = transform.position;
+
+        Animator anim = poolable.GetComponent<Animator>();
+        animator.SetBool( AnimatorParameters.IsActionBlocked, true );
+        anim.SetTrigger( AnimatorParameters.DeathAction );
+
+        Rigidbody2D rigid = poolable.GetComponent<Rigidbody2D>();
+        rigid.AddForce( _direction * 700f );
+
+        poolable.StartCoroutine( RemoveDead( poolable, 5f ) );
+    }
+
+    private IEnumerator RemoveDead( Poolable _dead, float _delay )
+    {
+        yield return YieldCache.WaitForSeconds( _delay );
+        _dead.Release();
+    }
+
     private enum LookDirection
     {
         Left = 0, BackLeft, Back, BackRight, Right, FrontRight, Front, FrontLeft,
@@ -158,5 +202,9 @@ public class PlayerAnimator : MonoBehaviour
 
         public static int IsActionBlocked = Animator.StringToHash( "IsActionBlocked" );
         public static int DodgeAction = Animator.StringToHash( "DodgeAction" );
+        public static int ReviveAction = Animator.StringToHash( "ReviveAction" );
+        public static int DeathAction = Animator.StringToHash( "DeathAction" );
+        public static int DanceAction = Animator.StringToHash( "DanceAction" );
+        public static int DefeatAction = Animator.StringToHash( "DefeatAction" );
     }
 }

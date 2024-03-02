@@ -1797,6 +1797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3aa956696d01649928eccb96aa00b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deadPrefab: {fileID: 610666648289893438, guid: 2162c34e08d1f424793d3cd0dc0b8141, type: 3}
   handLeft: {fileID: 2908879931573615755}
   handRight: {fileID: 4111294106419656854}
 --- !u!1 &7976187742649946540
@@ -1871,7 +1872,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 1304559308, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -58,6 +58,7 @@ public class Player : Character
     #region Components
     public PlayerUI PlayerUI { get; private set; }
     private PlayerInput playerInput;
+    private PlayerAnimator playerAnimator;
     private ActionReceiver receiver;
     private PlayerMovement movement;
     #endregion
@@ -68,6 +69,7 @@ public class Player : Character
         base.Awake();
         PlayerUI = GetComponent<PlayerUI>();
         playerInput = GetComponent<PlayerInput>();
+        playerAnimator = GetComponent<PlayerAnimator>();
         receiver = GetComponent<ActionReceiver>();
         movement = GetComponent<PlayerMovement>();
         Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
@@ -159,11 +161,13 @@ public class Player : Character
         int originLayer = gameObject.layer;
         SpriteRenderer spriter = gameObject.GetComponent<SpriteRenderer>();
 
+        playerAnimator.SetReviveAction( true );
+        ++UnactionableCount;
         gameObject.layer = Global.Layer.Invincible;
         while ( _time > 0f )
         {
             _time -= Time.deltaTime;
-            float alpha = Mathf.Max( .2f, .2f + ( 2f - _time ) * .3f );
+            float alpha = Mathf.Max( .4f, .4f + ( 2f - _time ) * .2f );
             spriter.color = new Color( 1f, 1f, 1f, alpha );
             yield return YieldCache.WaitForEndOfFrame;
         }
@@ -199,6 +203,7 @@ public class Player : Character
             ++attacker.KillScore;
         }
 
+        playerAnimator.OnDead( _bullet.transform.up );
         GameManager.Inst.PlayerDead( this, _attacker, _bullet );
     }
 
