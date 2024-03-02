@@ -84,7 +84,10 @@ public class Bullet : Actor
         if ( IsLocal )
         {
             gameObject.layer = Global.Layer.PlayerAttack;
-            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy | Global.LayerFlag.EnemyAttack | Global.LayerFlag.Misc );
+            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
+                | Global.LayerFlag.EnemyAttack
+                | Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
         }
         else
         {
@@ -107,7 +110,7 @@ public class Bullet : Actor
     {
         if ( !( _defender is Bullet ) )
         {
-            --penetrateCount.Current;
+            penetrateCount.Current -= _defender.PenetrationResist;
         }
 
         OnHitEvent?.Invoke( this );

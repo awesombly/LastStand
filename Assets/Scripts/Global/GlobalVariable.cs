@@ -18,7 +18,7 @@ public static partial class Global
         public const int UI            = 5;
         public const int Player        = 6;
         public const int Enemy         = 7;
-        public const int Temp2         = 8;
+        public const int Wall          = 8;
         public const int PlayerAttack  = 9;
         public const int EnemyAttack   = 10;
         public const int Misc          = 11;
@@ -35,7 +35,7 @@ public static partial class Global
         UI              = 1 << Layer.UI,
         Player          = 1 << Layer.Player,
         Enemy           = 1 << Layer.Enemy,
-        Temp2           = 1 << Layer.Temp2,
+        Wall            = 1 << Layer.Wall,
         PlayerAttack    = 1 << Layer.PlayerAttack,
         EnemyAttack     = 1 << Layer.EnemyAttack,
         Misc            = 1 << Layer.Misc,
