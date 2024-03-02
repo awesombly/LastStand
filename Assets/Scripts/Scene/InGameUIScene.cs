@@ -5,10 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-using DG.Tweening;
-
 using static PacketType;
-
 public class InGameUIScene : SceneBase
 {
     public Camera uiCamera;
@@ -103,24 +100,57 @@ public class InGameUIScene : SceneBase
 
     private void AckUpdateResultInfo( Packet _packet )
     {
-        resultBackButton.SetActive( true );
-
         var prevInfo = GameManager.UserInfo.Value;
         GameManager.UserInfo = Global.FromJson<USER_INFO>( _packet );
-        
         var curInfo = GameManager.UserInfo.Value;
-        if ( prevInfo.level < curInfo.level )
+
+        StartCoroutine( SmoothLevelUp( prevInfo, curInfo ) );
+    }
+
+    private IEnumerator SmoothLevelUp( USER_INFO _prev, USER_INFO _cur )
+    {
+        float time = 0f;
+        float prevExp = ( _prev.exp / Global.GetTotalEXP( _prev.level ) );
+        float curExp  = ( _cur.exp  / Global.GetTotalEXP( _cur.level ) );
+        bool isLevelUp = false;
+
+        while ( true )
         {
-            resultExp.DOValue( 1f, .5f ).OnComplete( () =>
+
+            if ( _prev.level < _cur.level )
             {
-                resultExp.value = 0f;
-                resultExp.DOValue( curInfo.exp / Global.GetTotalEXP( curInfo.level ), .5f );
-            } );
+                resultExp.value = WNS.Math.Lerp( prevExp, 1f, time );
+                time += ( 1f + ( _cur.level - _prev.level ) ) * Time.deltaTime;
+
+                if ( time >= 1f )
+                {
+                    isLevelUp = true;
+
+                    time             = 0f;
+                    _prev.level     += 1;
+                    _prev.exp        = 0f;
+                    prevExp          = ( _prev.exp / Global.GetTotalEXP( _prev.level ) );
+                    resultExp.value  = 0f;
+                    resultLevel.text = $"{_prev.level}";
+                }
+            }
+            else
+            {
+                resultExp.value = isLevelUp ? WNS.Math.Lerp( 0f,      curExp, time ) :
+                                              WNS.Math.Lerp( prevExp, curExp, time );
+
+                time += Time.deltaTime;
+                if ( time >= 1f )
+                {
+                    resultExp.value = curExp;
+                    break;
+                }
+            }
+
+            yield return null;
         }
-        else
-        {
-            resultExp.DOValue( curInfo.exp / Global.GetTotalEXP( curInfo.level ), .5f );
-        }
+
+        resultBackButton.SetActive( true );
     }
 
     public void MoveToLobby()

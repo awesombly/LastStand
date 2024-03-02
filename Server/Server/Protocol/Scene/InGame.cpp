@@ -443,7 +443,7 @@ void InGame::AckUpdateResultData( const Packet& _packet )
 	{
 		USER_DATA userData = Database::Inst().GetUserData( data.uid );
 
-		userData.exp += 10.0f;
+		userData.exp += 1000.0f;
 		float totalExp = Global::Result::GetTotalEXP( userData.level );
 		while ( userData.exp >= totalExp )
 		{
