@@ -44,16 +44,17 @@ public class InGameUIScene : SceneBase
         SceneType = SceneType.InGame_UI;
         uiCamera.clearFlags = CameraClearFlags.Depth;
 
-        ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK, AckExitStage );
+        deadUIPool = new WNS.ObjectPool<PlayerDeadUI>( deadPrefab, deadContents );
 
         if ( !ReferenceEquals( GameManager.StageInfo, null ) ) 
              targetKillCount.text = $"{GameManager.StageInfo.Value.targetKill}";
 
         GameManager.OnChangePlayers += UpdatePlayerBoard;
-        GameManager.OnGameOver += OnGameOver;
-        GameManager.OnDead += OnPlayerDead;
+        GameManager.OnGameOver      += OnGameOver;
+        GameManager.OnDead          += OnPlayerDead;
 
-        deadUIPool = new WNS.ObjectPool<PlayerDeadUI>( deadPrefab, deadContents );
+        ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK,         AckExitStage );
+        ProtocolSystem.Inst.Regist( UPDATE_RESULT_INFO_ACK, AckUpdateResultInfo );
     }
 
     protected override void Start()
@@ -87,9 +88,15 @@ public class InGameUIScene : SceneBase
     private void OnDestroy()
     {
         GameManager.OnChangePlayers -= UpdatePlayerBoard;
-        GameManager.OnGameOver -= OnGameOver;
+        GameManager.OnGameOver      -= OnGameOver;
+        GameManager.OnDead          -= OnPlayerDead;
     }
     #endregion
+
+    private void AckUpdateResultInfo( Packet _packet )
+    {
+        GameManager.UserInfo = Global.FromJson<USER_INFO>( _packet );
+    }
 
     private void OnPlayerDead( Player _player )
     {
@@ -149,5 +156,11 @@ public class InGameUIScene : SceneBase
             resultBoards[i].gameObject.SetActive( true );
             resultBoards[i].Initialize( players[i], ReferenceEquals( players[i], _winner ) );
         }
+
+        RESULT_INFO protocol;
+        protocol.uid   = GameManager.LoginInfo.Value.uid;
+        protocol.kill  = GameManager.LocalPlayer.KillScore;
+        protocol.death = GameManager.LocalPlayer.DeathScore;
+        Network.Inst.Send( new Packet( UPDATE_RESULT_INFO_REQ, protocol ) );
     }
 }

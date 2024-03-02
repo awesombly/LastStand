@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 using static PacketType;
-using UnityEditor.U2D.Aseprite;
 
 public class LobbyScene : SceneBase
 {
@@ -119,7 +118,7 @@ public class LobbyScene : SceneBase
         
         USER_INFO userData = GameManager.UserInfo.Value;
         level.text            = $"{userData.level}";
-        exp.value             = ( float )( userData.exp / 1d );
+        exp.value             = ( float )( userData.exp / Global.GetTotalEXP( userData.level ) ) ;
         playCount.text        = $"{userData.playCount}";
         kill.text             = $"{userData.kill}";
         death.text            = $"{userData.death}";

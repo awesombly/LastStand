@@ -2,7 +2,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Channels;
 using UnityEngine;
 
 public static partial class Global
@@ -51,6 +50,11 @@ public static partial class Global
     {
         Vector3 dir = ( _to - _from ).normalized;
         return Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
+    }
+
+    public static float GetTotalEXP( int _level )
+    {
+        return 100.0f + ( ( _level - 1 ) * 1.24309230421f );
     }
 }
 
