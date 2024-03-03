@@ -7,9 +7,13 @@ using UnityEngine.SceneManagement;
 
 using static PacketType;
 using DG.Tweening;
+using UnityEditor;
+using UnityEngine.InputSystem;
 
 public class LobbyScene : SceneBase
 {
+    public Camera uiCamera;
+
     [Header( "< Create Stage >" )]
     public GameObject createStageCanvas;
     public CanvasGroup createStageGroup;
@@ -60,6 +64,9 @@ public class LobbyScene : SceneBase
     public GameObject      signUpPanel;
     public TextMeshProUGUI signUpMessage;
 
+    public Transform cursor;
+    public TrailRenderer cusorTrail;
+
     #region Unity Callback
     protected override void Awake()
     {
@@ -105,6 +112,11 @@ public class LobbyScene : SceneBase
         base.Start();
         if ( Network.Inst.IsConnected )
              Network.Inst.Send( new Packet( STAGE_INFO_REQ, new EMPTY() ) );
+    }
+    private void Update()
+    {
+        Vector3 pos = Input.mousePosition;
+        cursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
     }
 
     private IEnumerator WaitForAudioLoad()
