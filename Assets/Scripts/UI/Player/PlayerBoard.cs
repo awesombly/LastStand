@@ -14,6 +14,7 @@ public class PlayerBoard : MonoBehaviour
     public TextMeshProUGUI deathCount;
 
     public Slider health, healthLerp;
+    public GameObject healthFill, healthLerpFill;
 
     [Header( "< Effect >" )]
     public Image deadBackground;
@@ -42,9 +43,21 @@ public class PlayerBoard : MonoBehaviour
     {
         deadBackground.DOColor( Color.clear, .5f )
                       .OnComplete( () => deadBackground.gameObject.SetActive( false ) );
+
+        healthFill.SetActive( true );
+        healthLerpFill.SetActive( true );
     }
 
-    public void UpdateHealth( float _health ) => health.value = _health;
+    public void UpdateHealth( float _health )
+    {
+        health.value = _health;
+        if ( _health <= float.Epsilon )
+        {
+            healthFill.SetActive( false );
+            healthLerpFill.SetActive( false );
+
+        }
+    }
 
     public void UpdateHealthLerp( float _healthLerp ) => healthLerp.value = _healthLerp;
 
