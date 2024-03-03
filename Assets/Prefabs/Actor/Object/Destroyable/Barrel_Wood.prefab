@@ -58,11 +58,15 @@ PrefabInstance:
       objectReference: {fileID: -557636554, guid: 33adc2cdac406924caa58ecf69c8425f, type: 3}
     - target: {fileID: 4985992683186285644, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: maxHp
-      value: 50
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6044429545338188396, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: m_Name
-      value: BarrelWood
+      value: Barrel_Wood
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433639796225493239, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
+      propertyPath: m_Mass
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

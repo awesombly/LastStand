@@ -15,6 +15,7 @@ public class ActionReceiver : MonoBehaviour
     public event Action OnReloadEvent;
     public event Action OnDodgeEvent;
     public event Action<int/*index*/> OnSwapWeaponEvent;
+    public event Action OnInteractionEvent;
 
     #region InputSystem Callback
     private void OnMove( InputValue _value )
@@ -50,6 +51,11 @@ public class ActionReceiver : MonoBehaviour
     {
         int value =  Mathf.RoundToInt( _value.Get<float>() );
         OnSwapWeaponEvent?.Invoke( value );
+    }
+
+    private void OnInteraction()
+    {
+        OnInteractionEvent?.Invoke();
     }
     #endregion
 }

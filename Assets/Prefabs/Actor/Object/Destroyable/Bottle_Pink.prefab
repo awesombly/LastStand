@@ -70,11 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 301682726, guid: 4db7637c8b3bb4a418351cc33a06d10a, type: 3}
     - target: {fileID: 4985992683186285644, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: maxHp
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4985992683186285644, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: deadDuration
-      value: 8
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6044429545338188396, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: m_Name

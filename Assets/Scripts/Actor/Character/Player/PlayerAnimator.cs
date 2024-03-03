@@ -194,17 +194,18 @@ public class PlayerAnimator : MonoBehaviour
         Left = 0, BackLeft, Back, BackRight, Right, FrontRight, Front, FrontLeft,
     }
 
-    public static class AnimatorParameters
-    {
-        public static int MoveSpeed = Animator.StringToHash( "MoveSpeed" );
-        public static int LookDirection = Animator.StringToHash( "LookDirection" );
-        public static int ActionDirection = Animator.StringToHash( "ActionDirection" );
+}
 
-        public static int IsActionBlocked = Animator.StringToHash( "IsActionBlocked" );
-        public static int DodgeAction = Animator.StringToHash( "DodgeAction" );
-        public static int ReviveAction = Animator.StringToHash( "ReviveAction" );
-        public static int DeathAction = Animator.StringToHash( "DeathAction" );
-        public static int DanceAction = Animator.StringToHash( "DanceAction" );
-        public static int DefeatAction = Animator.StringToHash( "DefeatAction" );
-    }
+public static partial class AnimatorParameters
+{
+    public static int MoveSpeed = Animator.StringToHash( "MoveSpeed" );
+    public static int LookDirection = Animator.StringToHash( "LookDirection" );
+    public static int ActionDirection = Animator.StringToHash( "ActionDirection" );
+
+    public static int IsActionBlocked = Animator.StringToHash( "IsActionBlocked" );
+    public static int DodgeAction = Animator.StringToHash( "DodgeAction" );
+    public static int ReviveAction = Animator.StringToHash( "ReviveAction" );
+    public static int DeathAction = Animator.StringToHash( "DeathAction" );
+    public static int DanceAction = Animator.StringToHash( "DanceAction" );
+    public static int DefeatAction = Animator.StringToHash( "DefeatAction" );
 }

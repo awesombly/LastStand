@@ -71,6 +71,14 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
+    - m_Name: Interaction
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: a9a9664d-4a5f-466c-a894-9893e2b387b9
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
     - m_Name: SwapWeapon
       m_Type: 0
       m_ExpectedControlType: Digital
@@ -263,6 +271,22 @@ MonoBehaviour:
       m_Processors: 
       m_Groups: ;Keyboard&Mouse
       m_Action: Dodge
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 118a6c07-bcb8-4b9d-985f-bbd1a7e11cbd
+      m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Keyboard&Mouse
+      m_Action: Interaction
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 457c9a46-deae-4a0b-8ad5-7e071294be16
+      m_Path: <Keyboard>/f
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Keyboard&Mouse
+      m_Action: Interaction
       m_Flags: 0
     - m_Name: 
       m_Id: 63a41be3-b83b-484c-b993-bda6790f48db

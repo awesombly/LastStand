@@ -58,15 +58,19 @@ PrefabInstance:
       objectReference: {fileID: 1625124062, guid: b91204ad4d2e48d42afdc5ca3c1363da, type: 3}
     - target: {fileID: 4985992683186285644, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: maxHp
-      value: 80
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 4985992683186285644, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: penetrationResist
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6044429545338188396, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: m_Name
       value: Vase
+      objectReference: {fileID: 0}
+    - target: {fileID: 8433639796225493239, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
+      propertyPath: m_Mass
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

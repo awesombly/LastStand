@@ -75,6 +75,7 @@ public class Player : Character
         Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
 
         receiver.OnSwapWeaponEvent += SwapWeapon;
+        receiver.OnInteractionEvent += Interaction;
 
         healthBar.value = Hp.Current / Hp.Max;
         healthLerpBar.value = healthBar.value;
@@ -184,6 +185,21 @@ public class Player : Character
     public void AckDodgeAction( bool _useCollision, Vector2 _direction, float _duration )
     {
         movement.DodgeAction( _useCollision, _direction, _duration );
+    }
+
+    private void Interaction()
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll( transform.position, 1f, ( int )Global.LayerFlag.Misc );
+        foreach ( Collider2D col in colliders )
+        {
+            InteractableActor interactable = col.GetComponent<InteractableActor>();
+            if ( ReferenceEquals( interactable, null ) )
+            {
+                continue;
+            }
+
+            interactable.Interaction( this );
+        }
     }
 
     protected override void OnDead( Actor _attacker, Bullet _bullet )

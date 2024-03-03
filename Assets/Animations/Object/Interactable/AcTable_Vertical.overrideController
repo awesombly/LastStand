@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AcTable_Vertical
+  m_Controller: {fileID: 9100000, guid: c81cf65ef2011704fb9e7cd757eb7a7f, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 57b07f8d1c15e0045b79fc0ab0b69101, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 57b07f8d1c15e0045b79fc0ab0b69101, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c65870cbf4c21084d83a4cfc65b90e50, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 07a8a73652401034fbbb1e081e520254, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: facc48450d071ae458f33fdab9992484, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: ff73cb94547ec8642b3ccbb899ad8873, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 2db79e1c1c015c0469738d6ec0203edb, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 866e5f1c4a5ffba4f885870939437e16, type: 2}

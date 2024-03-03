@@ -11,7 +11,7 @@ public class DestroyableActor : Actor
     [SerializeField]
     private int penetrationResist;
     private bool isDead;
-    private Animator animator;
+    protected Animator animator;
 
     protected override void Awake()
     {
@@ -37,6 +37,7 @@ public class DestroyableActor : Actor
 
         isDead = true;
         gameObject.layer = Global.Layer.Invincible;
+        Rigid2D.excludeLayers = ~( int )Global.LayerFlag.Wall;
         Rigid2D.AddForce( _bullet.transform.up * _bullet.data.pushingPower * 2f );
         animator.SetBool( AnimatorParameters.IsDestroy, true );
         StartCoroutine( RemoveDead( deadDuration ) );
@@ -52,9 +53,9 @@ public class DestroyableActor : Actor
         yield return YieldCache.WaitForSeconds( _duration );
         Release();
     }
+}
 
-    public static class AnimatorParameters
-    {
-        public static int IsDestroy = Animator.StringToHash( "IsDestroy" );
-    }
+public static partial class AnimatorParameters
+{
+    public static int IsDestroy = Animator.StringToHash( "IsDestroy" );
 }

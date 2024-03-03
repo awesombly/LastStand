@@ -13,16 +13,16 @@ public class ResultBoard : MonoBehaviour
 
     public void Initialize( Player _player, bool _isWinner )
     {
-        animatior.SetBool( PlayerAnimator.AnimatorParameters.IsActionBlocked, true );
+        animatior.SetBool( AnimatorParameters.IsActionBlocked, true );
         if ( _isWinner )
         {
-            animatior.SetTrigger( PlayerAnimator.AnimatorParameters.DanceAction );
+            animatior.SetTrigger( AnimatorParameters.DanceAction );
             nickname.text = $"~ {_player.Nickname} ~";
 
         }
         else
         {
-            animatior.SetTrigger( PlayerAnimator.AnimatorParameters.DefeatAction );
+            animatior.SetTrigger( AnimatorParameters.DefeatAction );
             nickname.text = _player.Nickname;
         }
         killCount.text = $"{_player.KillScore}";

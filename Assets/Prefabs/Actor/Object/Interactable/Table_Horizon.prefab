@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 3582460777480089616}
   - component: {fileID: 1786908752513858536}
   - component: {fileID: 8433639796225493239}
-  - component: {fileID: 7073386992962715880}
-  - component: {fileID: 4985992683186285644}
+  - component: {fileID: 6960456545833537443}
+  - component: {fileID: -2104784804172561782}
   m_Layer: 11
-  m_Name: Barrel_Golden
+  m_Name: Table_Horizon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1246109208, guid: f3883d8742fa4a54e9800c27d00c8ff7, type: 3}
+  m_Sprite: {fileID: 1100420598, guid: d5709dab762c8a8489574c97668ffa12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 6044429545338188396}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9a84a449e9b33234b83df6ece6b0a1be, type: 2}
+  m_Controller: {fileID: 9100000, guid: c81cf65ef2011704fb9e7cd757eb7a7f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -121,8 +121,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 8
-  m_LinearDrag: 20
+  m_Mass: 10
+  m_LinearDrag: 40
   m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -131,13 +131,30 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1087
+    m_Bits: 1599
   m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!70 &7073386992962715880
-CapsuleCollider2D:
+--- !u!114 &6960456545833537443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044429545338188396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515e2f5f7726f644380d24468e407be2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp:
+    max: 0
+  maxHp: 200
+  deadDuration: 0
+  penetrationResist: 3
+--- !u!60 &-2104784804172561782
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -169,22 +186,19 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.5, y: 1.875}
-  m_Direction: 0
---- !u!114 &4985992683186285644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6044429545338188396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa9d5432fedac2c42b91c3733bc8dd8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hp:
-    max: 0
-  maxHp: 30
-  deadDuration: 0
-  penetrationResist: 3
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 1.75}
+    newSize: {x: 1.5, y: 1.875}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -1.5, y: 0.6875}
+      - {x: -1.5, y: -0.3125}
+      - {x: 1.5, y: -0.3125}
+      - {x: 1.5, y: 0.6875}
+  m_UseDelaunayMesh: 0
