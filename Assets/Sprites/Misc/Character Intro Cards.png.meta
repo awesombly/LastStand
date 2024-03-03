@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -134,7 +134,2212 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Character Intro Cards_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1463
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db56694eddc8ab8449c7f75273371292
+      internalID: -1854976297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_1
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 1463
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6beec0da15e0164790c48f3e04d1da5
+      internalID: -283975136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_2
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 1463
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f3d3b3127cbe024b98a4e7c10c9b07c
+      internalID: 178267277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_3
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1463
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 991fcc486ae08744f999ad570c05cc64
+      internalID: 1573512312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_4
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 1463
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8f4ea4bf2ccf9f49a1f1575f671173b
+      internalID: -1158768497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_5
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 1463
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00e681979beca86479e8b40ddf4220ca
+      internalID: 1542835255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_6
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 1463
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f937b1f9f1d61a438a7928c15f61578
+      internalID: -1309213611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_7
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 1463
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb0bc87eb74578a4e91b883d08ed43c0
+      internalID: 69196606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_8
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1319
+        width: 145
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 462b908377509cd4b9d05502dafec0d4
+      internalID: 564961473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_9
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 1319
+        width: 145
+        height: 137
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 432ea40f620c744499159a7a4d5b88ea
+      internalID: -1096096909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_10
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 1319
+        width: 145
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67f11d54af8ee7c44814df023d3aff27
+      internalID: 1115912483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_11
+      rect:
+        serializedVersion: 2
+        x: 451
+        y: 1319
+        width: 145
+        height: 136
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3665da5c6bb3fce4c9d1a53d4e8c0f8c
+      internalID: -1612136311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_12
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1301
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a77f56162956c1f46871cc27326ec538
+      internalID: -376719027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_13
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 1301
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96ffd24ad7510aa48a8a7e1a5d629131
+      internalID: -1786590347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_14
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 1301
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb10511891015bf4a95ef21f4490b7d6
+      internalID: -1716716832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_15
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1301
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb5094c77b9b32241aa2543153c40f1a
+      internalID: 1596895859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_16
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 1301
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69219359c9b3ffe42a50c0b91127b79c
+      internalID: 1266885705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_17
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 1301
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 652d37a34f5e4c54d909bf291294d037
+      internalID: -1521897582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_18
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 1301
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe79efd7fee8cee4481ad5d8183a5ff4
+      internalID: 1091785465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pilot_Intro0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1179
+        width: 129
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a4cebd1aa7f27d4d9dbee6a7424145f
+      internalID: 1043499335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pilot_Intro1
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 1179
+        width: 129
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e39cfd29484c94e44be0e0b08aebb8c2
+      internalID: 359941278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pilot_Intro2
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 1179
+        width: 128
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e32236f3c08ca3249a2aaec23f810c73
+      internalID: -2041113476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pilot_Intro3
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 1179
+        width: 128
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd7e5296c7ab8954793b7392d35fcf76
+      internalID: 1209098093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_23
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1161
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b3f2617b754c6445939f64794aa5ce8
+      internalID: -1765585986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_24
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 1161
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d892347f1f52db3408bd198f96a515eb
+      internalID: -84473871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_25
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 1161
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b99b9402d7889c4fb6bff3ca80728d3
+      internalID: 1177977491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_26
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 1161
+        width: 23
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0005962f5e9b2444fb14ee5bde817347
+      internalID: -643939605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_27
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 1161
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90c681cb640774441a42692bc222ed64
+      internalID: -827720814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_28
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 1161
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2868b6dd2e4546a469ef0d9789d3c6a0
+      internalID: 294425262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: convict_intro0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 1010
+        width: 166
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfd4b70477b5b794581910d9e9f54ecd
+      internalID: -862806697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: convict_intro1
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 1010
+        width: 166
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e1093b0931d7134d9f5a9e198c1f190
+      internalID: -1035659333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: convict_intro2
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 1010
+        width: 166
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1874d98fa404e68439adfe45c3b4c820
+      internalID: 1046494932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: convict_intro3
+      rect:
+        serializedVersion: 2
+        x: 514
+        y: 1010
+        width: 166
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27a9a5bfb1204a7438487039b7156ff7
+      internalID: -1246665603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_33
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 992
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74c544de978dfac468460194a4a166df
+      internalID: -266319098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_34
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 992
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ead3535e14a13b640a9e01d30be264da
+      internalID: 1039156287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_35
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 992
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b3db9c2cdec3c24c85224ee4df700f7
+      internalID: 2100273843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_36
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 992
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c4583a5ba6f31d4dadf3dc536c612f3
+      internalID: -1910078816
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_37
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 992
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb77c1fee0fa2d64b9afbcee9833a0ef
+      internalID: 615071891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_38
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 992
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2eeb778dd18ac0c498d3b0260f4961af
+      internalID: 1222242170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_39
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 992
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4e8b3ff38b3c1245b7e61c3d4fc6e3d
+      internalID: 554493606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_40
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 992
+        width: 14
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b110917003bb76c4188f31cd67b49dbb
+      internalID: 1366290636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hunter_intro0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 851
+        width: 144
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4458b101568ac34e88108c777f2b962
+      internalID: -570505441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hunter_intro1
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 851
+        width: 144
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73a456cf3d5ca3a4a935ba8f21888852
+      internalID: -990459224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hunter_intro2
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 851
+        width: 144
+        height: 133
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40557a7ec1db3864681192e50d6da50c
+      internalID: -275935258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: hunter_intro3
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 851
+        width: 144
+        height: 134
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdbaf6cc506aa7141b381ac5a590baff
+      internalID: -969642119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_45
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 833
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be99a961d74f86548910c301c7f82004
+      internalID: -1926093130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_46
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 833
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9f7d3169971e4644aed5dfd6e74cbf3
+      internalID: 1833037705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_47
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 833
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a8734eb8bd5a0f419646c74ff9de9ad
+      internalID: 536980479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_48
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 833
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9fa19c406aac97344881a35bd4f8a8c6
+      internalID: -741818742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_49
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 833
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c6a013046f70ed46a799f8a5848020c
+      internalID: 1277225594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_50
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 833
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 399858e170a940b42905c9d47814c557
+      internalID: -1749040963
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_51
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 833
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02d0188b4c3708e40a70f6ccd7bbabc9
+      internalID: 743102809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_52
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 683
+        width: 119
+        height: 143
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4e8d3345c7bb054d81b321d2871ef4b
+      internalID: -883321563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_53
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 665
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ac919cc16abec44fa3e43190beee97e
+      internalID: 441556800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_54
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 665
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a794fdd2d00693548975914bdb566ade
+      internalID: -1651881198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_55
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 665
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40e37c78f5822af448bb2f2fdb66f9b3
+      internalID: -517801646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_56
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 665
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58f66023df2b8a0499a69e7532090a04
+      internalID: -362311502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_57
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 665
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65c3bb4400d2c8a42873b2d9dc9df898
+      internalID: -916761927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_58
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 665
+        width: 20
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba751568060e3ca4f80391eadda2cb8a
+      internalID: 316416577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_59
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 519
+        width: 141
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32a1ac348bba6784b855d4821949a747
+      internalID: -460173559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_60
+      rect:
+        serializedVersion: 2
+        x: 149
+        y: 519
+        width: 141
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 207b9d6ea5466414aa21682ba319fdf5
+      internalID: 1883931864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_61
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 519
+        width: 141
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66541247daa99e94aad3be1fd69dcec8
+      internalID: 1308987076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_62
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 519
+        width: 141
+        height: 139
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02c59b72d02b41147a8fb64e6acea664
+      internalID: -492883792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_63
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 501
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37b3b2e3cf4871f4fac18e4bbaca3081
+      internalID: -1744267221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_64
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 501
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1d0c97508553f141bf870c79ef2d763
+      internalID: -1179096934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_65
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 501
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 188f75fb9c11fad4492ca1ec55ec4442
+      internalID: -1200380747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_66
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 501
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a7b91f81c85da14e8e75539c1751b21
+      internalID: -2113145636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_67
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 501
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c806f23e98b24b4e8b34d0a8110f492
+      internalID: -185562966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_68
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 501
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29473a3b71e8abc4fb2b77803047a7a3
+      internalID: -739489491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_69
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 501
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b335a4ab879d9b54fbd630ca030a09bb
+      internalID: 1613373220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_70
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 501
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82540ecf0ba41424198a2a82a58dd424
+      internalID: 969145839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_71
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 501
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8556a737821671e4f9e08fb6a1269a84
+      internalID: -1455907367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_72
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 498
+        width: 22
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d4339f37329b384398fd1e6e2baf4ac
+      internalID: 431164960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_73
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 335
+        width: 117
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25be4826dc7bf9943a5d40c426a637c2
+      internalID: -353698854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_74
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 335
+        width: 117
+        height: 159
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 884b2b2aa08d7bd4a8d6a786ba9c9bbc
+      internalID: -1635503973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_75
+      rect:
+        serializedVersion: 2
+        x: 246
+        y: 335
+        width: 117
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 51ca54fb9d3c25148b3693e785fef173
+      internalID: -555292024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_76
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 335
+        width: 117
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcad93f18e1c5c343ae2e41617f72eb5
+      internalID: 579105575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_77
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 317
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d0d4ee8720d3754da1439b1b03c3158
+      internalID: 1271779104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_78
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 317
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 914f16b47c9e6f64cba7c1df5a4fdebe
+      internalID: -323303989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_79
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 317
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32e20e95ca2710f40b6e8116c28c73dd
+      internalID: -818760193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_80
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 317
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec1bcf773d9ee694a8c003d85d64dd34
+      internalID: -1013999814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_81
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 317
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f8d4f69779672f45936c1dfd2a1c87a
+      internalID: 885193933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_82
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 317
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79896ff5b285a5c44a5f1363db9361b4
+      internalID: 1012867305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_83
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 317
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8703942ce37a3e3468963125920c44cd
+      internalID: 501506913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_84
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 317
+        width: 4
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1919267ddb3097e47b8254036d466192
+      internalID: 568726589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_85
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 317
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45a6228f5e1f0b945b101217129ffee4
+      internalID: 672812313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_86
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 317
+        width: 5
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6100314e6cf7d2542b160b0a68d90159
+      internalID: 1615641924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_87
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 317
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c4a2cb431fa04744a6a04fd45bfb6cf
+      internalID: -1187170909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_88
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 317
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc153f8af17623542a4336d17341bb58
+      internalID: 954123318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_89
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 317
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c28b565008de8a64490200d366d121b7
+      internalID: -2117371810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_90
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 317
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4008071ea0457454490f266bf9164a8b
+      internalID: 756393877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_91
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 317
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4f5ba70ae24a7749bce1610e1bc2617
+      internalID: 2055400783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_92
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 158
+        width: 115
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acfc9c88faf38a845807edbeecb9047a
+      internalID: -424027310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_93
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 158
+        width: 106
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce17ce836ced40143a52d5e7cd6bcbb5
+      internalID: -953285823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_94
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 140
+        width: 14
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72cf97ca160455848ba352d73070f811
+      internalID: 1357269985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_95
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 140
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a0f078a76bf04b40be2c9b51723eb44
+      internalID: -100488610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_96
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 137
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5fb99777f9122b439c62ae40cb80421
+      internalID: 344295135
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_97
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 137
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caee679172eff2d42abb5a2b4ea1ffb1
+      internalID: 1462643645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_98
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 140
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 150f705e0f73cd147b7bb242cd8a2846
+      internalID: -677107078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_99
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 140
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c82e911dfcea93f4d9bc1ec682240b05
+      internalID: -1768049526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_100
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 140
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 025fcd407216d9641b9ead3277ae8101
+      internalID: 25095573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_101
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 140
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebfd4fdc568dfdf40b19154df5d9e2d8
+      internalID: -549187020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_102
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 140
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d7bd545f0578744088bb9a770e76e15
+      internalID: 318632861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_103
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 137
+        width: 6
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25b7630ee05dd1d4499697e6be78090f
+      internalID: 1424155051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Character Intro Cards_104
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 118
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca5b1cbb290d941489d69c307f316b5f
+      internalID: 511200641
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +2350,112 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Character Intro Cards_0: -1854976297
+      Character Intro Cards_1: -283975136
+      Character Intro Cards_10: 1115912483
+      Character Intro Cards_100: 25095573
+      Character Intro Cards_101: -549187020
+      Character Intro Cards_102: 318632861
+      Character Intro Cards_103: 1424155051
+      Character Intro Cards_104: 511200641
+      Character Intro Cards_11: -1612136311
+      Character Intro Cards_12: -376719027
+      Character Intro Cards_13: -1786590347
+      Character Intro Cards_14: -1716716832
+      Character Intro Cards_15: 1596895859
+      Character Intro Cards_16: 1266885705
+      Character Intro Cards_17: -1521897582
+      Character Intro Cards_18: 1091785465
+      Character Intro Cards_2: 178267277
+      Character Intro Cards_23: -1765585986
+      Character Intro Cards_24: -84473871
+      Character Intro Cards_25: 1177977491
+      Character Intro Cards_26: -643939605
+      Character Intro Cards_27: -827720814
+      Character Intro Cards_28: 294425262
+      Character Intro Cards_3: 1573512312
+      Character Intro Cards_33: -266319098
+      Character Intro Cards_34: 1039156287
+      Character Intro Cards_35: 2100273843
+      Character Intro Cards_36: -1910078816
+      Character Intro Cards_37: 615071891
+      Character Intro Cards_38: 1222242170
+      Character Intro Cards_39: 554493606
+      Character Intro Cards_4: -1158768497
+      Character Intro Cards_40: 1366290636
+      Character Intro Cards_45: -1926093130
+      Character Intro Cards_46: 1833037705
+      Character Intro Cards_47: 536980479
+      Character Intro Cards_48: -741818742
+      Character Intro Cards_49: 1277225594
+      Character Intro Cards_5: 1542835255
+      Character Intro Cards_50: -1749040963
+      Character Intro Cards_51: 743102809
+      Character Intro Cards_52: -883321563
+      Character Intro Cards_53: 441556800
+      Character Intro Cards_54: -1651881198
+      Character Intro Cards_55: -517801646
+      Character Intro Cards_56: -362311502
+      Character Intro Cards_57: -916761927
+      Character Intro Cards_58: 316416577
+      Character Intro Cards_59: -460173559
+      Character Intro Cards_6: -1309213611
+      Character Intro Cards_60: 1883931864
+      Character Intro Cards_61: 1308987076
+      Character Intro Cards_62: -492883792
+      Character Intro Cards_63: -1744267221
+      Character Intro Cards_64: -1179096934
+      Character Intro Cards_65: -1200380747
+      Character Intro Cards_66: -2113145636
+      Character Intro Cards_67: -185562966
+      Character Intro Cards_68: -739489491
+      Character Intro Cards_69: 1613373220
+      Character Intro Cards_7: 69196606
+      Character Intro Cards_70: 969145839
+      Character Intro Cards_71: -1455907367
+      Character Intro Cards_72: 431164960
+      Character Intro Cards_73: -353698854
+      Character Intro Cards_74: -1635503973
+      Character Intro Cards_75: -555292024
+      Character Intro Cards_76: 579105575
+      Character Intro Cards_77: 1271779104
+      Character Intro Cards_78: -323303989
+      Character Intro Cards_79: -818760193
+      Character Intro Cards_8: 564961473
+      Character Intro Cards_80: -1013999814
+      Character Intro Cards_81: 885193933
+      Character Intro Cards_82: 1012867305
+      Character Intro Cards_83: 501506913
+      Character Intro Cards_84: 568726589
+      Character Intro Cards_85: 672812313
+      Character Intro Cards_86: 1615641924
+      Character Intro Cards_87: -1187170909
+      Character Intro Cards_88: 954123318
+      Character Intro Cards_89: -2117371810
+      Character Intro Cards_9: -1096096909
+      Character Intro Cards_90: 756393877
+      Character Intro Cards_91: 2055400783
+      Character Intro Cards_92: -424027310
+      Character Intro Cards_93: -953285823
+      Character Intro Cards_94: 1357269985
+      Character Intro Cards_95: -100488610
+      Character Intro Cards_96: 344295135
+      Character Intro Cards_97: 1462643645
+      Character Intro Cards_98: -677107078
+      Character Intro Cards_99: -1768049526
+      Pilot_Intro0: 1043499335
+      Pilot_Intro1: 359941278
+      Pilot_Intro2: -2041113476
+      Pilot_Intro3: 1209098093
+      convict_intro0: -862806697
+      convict_intro1: -1035659333
+      convict_intro2: 1046494932
+      convict_intro3: -1246665603
+      hunter_intro0: -570505441
+      hunter_intro1: -990459224
+      hunter_intro2: -275935258
+      hunter_intro3: -969642119
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
