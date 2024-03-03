@@ -1545,6 +1545,7 @@ GameObject:
   m_Component:
   - component: {fileID: 622411134}
   - component: {fileID: 622411135}
+  - component: {fileID: 622411136}
   m_Layer: 5
   m_Name: Master Slider
   m_TagString: Untagged
@@ -1618,16 +1619,16 @@ MonoBehaviour:
   m_FillRect: {fileID: 2080421806}
   m_HandleRect: {fileID: 1567458192}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -60
+  m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 691157875}
-        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
-        m_MethodName: OnMasterVolumeChanged
+      - m_Target: {fileID: 622411136}
+        m_TargetAssemblyTypeName: SliderVolumeController, Assembly-CSharp
+        m_MethodName: OnMixerVolumeChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1637,6 +1638,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &622411136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622411133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf6de48736dad946abaf989476cb8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &652337284
 GameObject:
   m_ObjectHideFlags: 0
@@ -3794,6 +3808,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1118824783}
   - component: {fileID: 1118824784}
+  - component: {fileID: 1118824785}
   m_Layer: 5
   m_Name: BGM Slider
   m_TagString: Untagged
@@ -3867,16 +3882,16 @@ MonoBehaviour:
   m_FillRect: {fileID: 802984605}
   m_HandleRect: {fileID: 652337285}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -60
+  m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 691157875}
-        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
-        m_MethodName: OnBGMVolumeChanged
+      - m_Target: {fileID: 1118824785}
+        m_TargetAssemblyTypeName: SliderVolumeController, Assembly-CSharp
+        m_MethodName: OnMixerVolumeChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3886,6 +3901,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1118824785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118824782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf6de48736dad946abaf989476cb8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!1 &1120239136
 GameObject:
   m_ObjectHideFlags: 0
@@ -4030,6 +4058,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1174070437}
   - component: {fileID: 1174070438}
+  - component: {fileID: 1174070439}
   m_Layer: 5
   m_Name: SFX Slider
   m_TagString: Untagged
@@ -4103,16 +4132,16 @@ MonoBehaviour:
   m_FillRect: {fileID: 1649144238}
   m_HandleRect: {fileID: 1056984646}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -60
+  m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 691157875}
-        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
-        m_MethodName: OnSFXVolumeChanged
+      - m_Target: {fileID: 1174070439}
+        m_TargetAssemblyTypeName: SliderVolumeController, Assembly-CSharp
+        m_MethodName: OnMixerVolumeChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4122,6 +4151,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1174070439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174070436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf6de48736dad946abaf989476cb8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
 --- !u!1001 &1185948130
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -3968,6 +3968,7 @@ GameObject:
   m_Component:
   - component: {fileID: 444705013}
   - component: {fileID: 444705014}
+  - component: {fileID: 444705015}
   m_Layer: 5
   m_Name: SFX Slider
   m_TagString: Untagged
@@ -4041,16 +4042,16 @@ MonoBehaviour:
   m_FillRect: {fileID: 1414028782}
   m_HandleRect: {fileID: 2140796474}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -60
+  m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
-        m_MethodName: OnSFXVolumeChanged
+      - m_Target: {fileID: 444705015}
+        m_TargetAssemblyTypeName: SliderVolumeController, Assembly-CSharp
+        m_MethodName: OnMixerVolumeChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4060,6 +4061,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &444705015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444705012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf6de48736dad946abaf989476cb8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
 --- !u!1 &455401191
 GameObject:
   m_ObjectHideFlags: 0
@@ -5020,6 +5034,7 @@ GameObject:
   m_Component:
   - component: {fileID: 563159831}
   - component: {fileID: 563159832}
+  - component: {fileID: 563159833}
   m_Layer: 5
   m_Name: BGM Slider
   m_TagString: Untagged
@@ -5093,16 +5108,16 @@ MonoBehaviour:
   m_FillRect: {fileID: 1806568154}
   m_HandleRect: {fileID: 1131465625}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -60
+  m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
-        m_MethodName: OnBGMVolumeChanged
+      - m_Target: {fileID: 563159833}
+        m_TargetAssemblyTypeName: SliderVolumeController, Assembly-CSharp
+        m_MethodName: OnMixerVolumeChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5112,6 +5127,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &563159833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563159830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf6de48736dad946abaf989476cb8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
 --- !u!1 &577450910
 GameObject:
   m_ObjectHideFlags: 0
@@ -11632,7 +11660,6 @@ MonoBehaviour:
   signUpPanel: {fileID: 334415594}
   signUpMessage: {fileID: 408067444}
   cursor: {fileID: 2146961822}
-  cusorTrail: {fileID: 2146961821}
 --- !u!4 &1554099032
 Transform:
   m_ObjectHideFlags: 0
@@ -15612,6 +15639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2110760754}
   - component: {fileID: 2110760755}
+  - component: {fileID: 2110760756}
   m_Layer: 5
   m_Name: Master Slider
   m_TagString: Untagged
@@ -15685,16 +15713,16 @@ MonoBehaviour:
   m_FillRect: {fileID: 510451003}
   m_HandleRect: {fileID: 421595030}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -60
+  m_MaxValue: 0
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: SceneBase, Assembly-CSharp
-        m_MethodName: OnMasterVolumeChanged
+      - m_Target: {fileID: 2110760756}
+        m_TargetAssemblyTypeName: SliderVolumeController, Assembly-CSharp
+        m_MethodName: OnMixerVolumeChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15704,6 +15732,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2110760756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110760753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cf6de48736dad946abaf989476cb8e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &2140796473
 GameObject:
   m_ObjectHideFlags: 0

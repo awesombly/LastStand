@@ -135,20 +135,6 @@ public class SceneBase : MonoBehaviour
 
 
     #region Sound
-    public void OnMasterVolumeChanged( float _volume )
-    {
-        AudioManager.Inst.MixerDecibelControl( MixerType.Master, _volume );
-    }
-
-    public void OnBGMVolumeChanged( float _volume )
-    {
-        AudioManager.Inst.MixerDecibelControl( MixerType.BGM, _volume );
-    }
-
-    public void OnSFXVolumeChanged( float _volume )
-    {
-        AudioManager.Inst.MixerDecibelControl( MixerType.SFX, _volume );
-    }
     
     public void MenuSelectSound()
     {

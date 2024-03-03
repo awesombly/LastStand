@@ -178,8 +178,17 @@ public sealed class AudioManager : Singleton<AudioManager>
         string groupName = _type == MixerType.BGM ? "BGM" :
                            _type == MixerType.SFX ? "SFX" : "Master";
 
-        float volume = ( 60f * _volume ) - 60f;
-        mixer?.SetFloat( groupName, volume < -60f ? -80f : volume );
+        mixer?.SetFloat( groupName, _volume <= -59f ? -80f : _volume );
+    }
+
+    public float GetMixerDecibel( MixerType _type )
+    {
+        string groupName = _type == MixerType.BGM ? "BGM" :
+                           _type == MixerType.SFX ? "SFX" : "Master";
+
+        float volume = 0f;
+        mixer?.GetFloat( groupName, out volume );
+        return volume;
     }
     #endregion
 
