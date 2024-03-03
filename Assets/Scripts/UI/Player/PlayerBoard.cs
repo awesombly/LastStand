@@ -20,6 +20,14 @@ public class PlayerBoard : MonoBehaviour
     public Image deadBackground;
     public static readonly Color PlayerDeadBGStartColor = new Color( 1f, 0f, 0f, .9f );
     public static readonly Color PlayerDeadBGEndColor   = new Color( 0f, 0f, 0f, .9f );
+
+    private Image image;
+
+    private void Awake()
+    {
+        image = GetComponent<Image>();
+    }
+
     public void Initialize( in Player _player )
     {
         nickname.text   = _player.Nickname;
@@ -28,6 +36,9 @@ public class PlayerBoard : MonoBehaviour
 
         _player.OnPlayerDead    += PlayerDead;
         _player.OnPlayerRespawn += PlayerRespawn;
+
+        if ( _player.IsLocal ) image.color = new Color( .5f, 1f, .5f );
+        else                   image.color = new Color( 1f, .5f, .5f );
 
         _player.InitBoardUI( this );
     }
