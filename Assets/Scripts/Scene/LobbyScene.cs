@@ -6,11 +6,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 using static PacketType;
+using DG.Tweening;
 
 public class LobbyScene : SceneBase
 {
     [Header( "< Create Stage >" )]
     public GameObject createStageCanvas;
+    public CanvasGroup createStageGroup;
+    private Tween createStageGroupEffect;
     public TMP_InputField title;
 
     public List<Outline> personnelOutlines  = new List<Outline>();
@@ -28,6 +31,8 @@ public class LobbyScene : SceneBase
     [Header( "===================================================" )]
     [Header( "< Option >" )]
     public GameObject optionCanvas;
+    public RectTransform optionMovement;
+    private Tween curOptionMoveTween;
 
     [Header( "< UserInfo >" )]
     public GameObject userInfoCanvas;
@@ -155,20 +160,23 @@ public class LobbyScene : SceneBase
 
     public void ActiveOptionPanel()
     {
+        if ( curOptionMoveTween != null && curOptionMoveTween.IsPlaying() )
+             return;
+
         if ( optionCanvas.activeInHierarchy )
         {
-            optionCanvas.SetActive( false );
             AudioManager.Inst.Play( SFX.MenuExit );
+            curOptionMoveTween = optionMovement.DOAnchorPosX( -325f, .5f ).OnComplete(() => optionCanvas.SetActive( false ) );
         }
         else
         {
-            createStageCanvas.SetActive( false );
             optionCanvas.SetActive( true );
 
             email?.ActivateInputField();
             if ( password != null )
                  password.contentType = TMP_InputField.ContentType.Password;
 
+            curOptionMoveTween = optionMovement.DOAnchorPosX( 325f, .5f );
             AudioManager.Inst.Play( SFX.MenuEntry );
         }
     }
@@ -260,28 +268,28 @@ public class LobbyScene : SceneBase
 
     #region Create Stage
     #region Button Events
-    public void ShowCreateStagePanel( bool _active )
+    public void ShowCreateStagePanel()
     {
-        if ( _active )
+        if ( createStageGroupEffect != null && createStageGroupEffect.IsPlaying() )
+             return;
+
+        if ( !createStageCanvas.activeInHierarchy )
         {
-            if ( createStageCanvas.activeInHierarchy )
-                return;
-
-            optionCanvas.SetActive( false );
-
+            createStageCanvas.SetActive( true );
             title.ActivateInputField();
             SetPersonnel( 4 );
             SetTargetKillCount( 40 );
             AudioManager.Inst.Play( SFX.MenuEntry );
+            createStageGroup.alpha = 0f;
+            createStageGroup.DOFade( 1f, .25f );
         }
         else
         {
             title.text = string.Empty;
             title.DeactivateInputField();
             AudioManager.Inst.Play( SFX.MenuExit );
+            createStageGroup.DOFade( 0f, .25f ).OnComplete( () => createStageCanvas.SetActive( false ) );
         }
-
-        createStageCanvas.SetActive( _active );
     }
 
     public void SetPersonnel( int _max )
