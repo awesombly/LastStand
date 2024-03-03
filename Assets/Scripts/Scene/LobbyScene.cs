@@ -16,8 +16,8 @@ public class LobbyScene : SceneBase
     private Tween createStageGroupEffect;
     public TMP_InputField title;
 
-    public List<Outline> personnelOutlines  = new List<Outline>();
-    public List<Outline> targetKillOutlines = new List<Outline>();
+    public List<ButtonActivator> personnels  = new List<ButtonActivator>();
+    public List<ButtonActivator> targetKills = new List<ButtonActivator>();
     private int maxPersonnel;
     private int targetKillCount;
     private bool canCreateStage = true;
@@ -279,8 +279,8 @@ public class LobbyScene : SceneBase
             title.ActivateInputField();
             SetPersonnel( 4 );
             SetTargetKillCount( 40 );
-            personnelOutlines[3].enabled  = true;
-            targetKillOutlines[3].enabled = true;
+            personnels[3].Enabled  = true;
+            targetKills[3].Enabled = true;
 
             AudioManager.Inst.Play( SFX.MenuEntry );
             createStageGroup.alpha = 0f;
@@ -298,15 +298,15 @@ public class LobbyScene : SceneBase
     public void SetPersonnel( int _max )
     {
         maxPersonnel = _max;
-        for ( int i = 0; i < personnelOutlines.Count; i++ )
-              personnelOutlines[i].enabled = false;
+        for ( int i = 0; i < personnels.Count; i++ )
+              personnels[i].Enabled = false;
     }
 
     public void SetTargetKillCount( int _killCount )
     {
         targetKillCount = _killCount;
-        for ( int i = 0; i < targetKillOutlines.Count; i++ )
-              targetKillOutlines[i].enabled = false;
+        for ( int i = 0; i < targetKills.Count; i++ )
+              targetKills[i].Enabled = false;
     }
 
     public void CreateStage()
