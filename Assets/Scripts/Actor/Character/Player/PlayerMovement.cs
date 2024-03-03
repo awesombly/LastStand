@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
         receiver = GetComponent<ActionReceiver>();
         rigid2D = GetComponent<Rigidbody2D>();
 
-        receiver.OnDodgeEvent += OnDodge;
+        receiver.OnDodgeEvent += TryDodge;
         dodgeInfo.duration.OnChangeCurrent += OnChangeDodgeDuration;
     }
 
@@ -163,9 +163,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnDodge()
+    private void TryDodge()
     {
-        if ( !dodgeInfo.cooldown.IsZero )
+        if ( !dodgeInfo.cooldown.IsZero || player.UnactionableCount > 0 )
         {
             return;
         }

@@ -66,6 +66,7 @@ public class PlayerAnimator : MonoBehaviour
     {
         float actionAngle = Global.GetAngle( Vector3.zero, _direction );
         player.ApplyLookAngle( actionAngle );
+        handRight.gameObject.SetActive( !_isActive );
 
         animator.SetInteger( AnimatorParameters.ActionDirection, ( int )GetAnimatorDirection( actionAngle ) );
         animator.SetBool( AnimatorParameters.DodgeAction, _isActive );

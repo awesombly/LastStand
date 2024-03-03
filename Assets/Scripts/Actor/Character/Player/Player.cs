@@ -198,7 +198,7 @@ public class Player : Character
                 continue;
             }
 
-            interactable.OnInteraction( this );
+            interactable.TryInteraction( this );
         }
     }
 

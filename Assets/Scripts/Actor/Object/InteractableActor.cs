@@ -30,7 +30,7 @@ public class InteractableActor : DestroyableActor
         StartCoroutine( UpdatePhysicsShape( .5f ) );
     }
 
-    public void OnInteraction( Player _player )
+    public void TryInteraction( Player _player )
     {
         if ( isInteracted || !_player.IsLocal )
         {
