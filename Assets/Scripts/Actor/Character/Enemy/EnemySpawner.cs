@@ -44,6 +44,7 @@ public class EnemySpawner : MonoBehaviour
         protocol.pos = new VECTOR2( player.Rigid2D.position + delta * 25f );
         protocol.vel = new VECTOR2( Vector2.zero );
         protocol.hp = prefab.data.maxHp;
+        protocol.index = 0;
         Network.Inst.Send( PacketType.SPAWN_ACTOR_REQ, protocol );
     }
 }

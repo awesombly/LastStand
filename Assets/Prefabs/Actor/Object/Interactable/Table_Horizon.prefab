@@ -133,7 +133,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 1599
   m_Interpolate: 2
-  m_SleepingMode: 1
+  m_SleepingMode: 2
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &6960456545833537443

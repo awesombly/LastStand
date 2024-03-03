@@ -17,6 +17,11 @@ public class InteractableActor : DestroyableActor
 
     public void InteractionAction( int _direction )
     {
+        if ( _direction < 0 )
+        {
+            return;
+        }
+
         // 테이블 뒤집기
         isInteracted = true;
         if ( ( ActionDirection )_direction == ActionDirection.Left )

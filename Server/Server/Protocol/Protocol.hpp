@@ -302,6 +302,7 @@ public:
 	Vector2 pos;
 	Vector2 vel;
 	float hp;
+	int index;
 
 	// 서버에서만 사용
 	ActorType type;
@@ -315,6 +316,7 @@ public:
 		ar( CEREAL_NVP( pos ) );
 		ar( CEREAL_NVP( vel ) );
 		ar( CEREAL_NVP( hp ) );
+		ar( CEREAL_NVP( index ) );
 	}
 } ACTOR_INFO;
 typedef struct ActorsInfo

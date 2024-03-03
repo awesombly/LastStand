@@ -10,7 +10,9 @@ public class DestroyableActor : Actor
     private float deadDuration;
     [SerializeField]
     private int penetrationResist;
+
     private bool isDead;
+    private bool prevIsSleep = true;
     protected Animator animator;
 
     protected override void Awake()
@@ -21,7 +23,25 @@ public class DestroyableActor : Actor
         PenetrationResist = penetrationResist;
     }
 
-    public override void SetMovement( Vector3 _position, Vector3 _velocity ) { }
+    protected virtual void FixedUpdate()
+    {
+        if ( !GameManager.Inst.IsHost() )
+        {
+            return;
+        }
+
+        bool isStopped = !prevIsSleep && Rigid2D.IsSleeping();
+        if ( isStopped )
+        {
+            MOVEMENT_INFO protocol;
+            protocol.serial = Serial;
+            protocol.pos = new VECTOR2( Rigid2D.position );
+            protocol.vel = new VECTOR2( Vector2.zero );
+            Network.Inst.Send( PacketType.SYNC_MOVEMENT_REQ, protocol );
+        }
+
+        prevIsSleep = Rigid2D.IsSleeping();
+    }
 
     public override void OnHit( Actor _attacker, Bullet _bullet ) 
     {

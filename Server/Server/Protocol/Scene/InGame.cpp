@@ -174,6 +174,12 @@ void InGame::AckInitSceneActors( const Packet& _packet )
 		return;
 	}
 
+	if ( _packet.session != _packet.session->stage->host )
+	{
+		Debug.LogError( "Is not host. socket:", _packet.session->GetSocket(), ", nick:", _packet.session->loginInfo.nickname);
+		return;
+	}
+
 	for ( ACTOR_INFO& actorInfo : data.actors )
 	{
 		if ( actorInfo.serial == 0 )
@@ -281,6 +287,14 @@ void InGame::AckSyncInteraction( const Packet& _packet )
 		return;
 	}
 
+	ActorInfo* actor = _packet.session->stage->GetActor( data.serial );
+	if ( actor == nullptr )
+	{
+		Debug.LogError( "Actor is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	actor->index = data.index;
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_INTERACTION_ACK, data ) );
 }
 

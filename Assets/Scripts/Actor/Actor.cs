@@ -51,10 +51,7 @@ public class Actor : Poolable
     public virtual void SetMovement( Vector3 _position, Vector3 _velocity )
     {
         transform.position = _position;
-        if ( Rigid2D != null )
-        {
-            Rigid2D.velocity = _velocity;
-        }
+        Rigid2D.velocity = _velocity;
     }
 
     public virtual void SetHp( float _hp, Actor _attacker, Bullet _bullet )

@@ -97,6 +97,30 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
+    public bool IsHost()
+    {
+        if ( !ReferenceEquals( StageInfo, null )
+            && StageInfo.Value.personnel.current == 1 )
+        {
+            return true;
+        }
+
+        if ( ReferenceEquals( LocalPlayer, null ) || Players.Count <= 0 )
+        {
+            return false;
+        }
+
+        foreach( Player player in Players )
+        {
+            if ( LocalPlayer.Serial > player.Serial )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     #region Player
     public void PlayerDead( Player _dead, Actor _attacker, Bullet _bullet )
     {
@@ -139,6 +163,7 @@ public class GameManager : Singleton<GameManager>
         protocol.actorInfo.pos = new VECTOR2( scene.GetSpawnPosition() );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.actorInfo.hp = _player.Hp.Max;
+        protocol.actorInfo.index = 0;
         protocol.nickname = _player.Nickname;
         protocol.isDead = false;
         protocol.angle = _player.LookAngle;

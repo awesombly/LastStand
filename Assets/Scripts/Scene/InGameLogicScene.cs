@@ -43,8 +43,7 @@ public class InGameLogicScene : SceneBase
         base.Start();
         InitLocalPlayer();
 
-        // is Host
-        if ( GameManager.StageInfo.Value.personnel.current == 1 )
+        if ( GameManager.Inst.IsHost() )
         {
             ReqInitSceneActors();
         }
@@ -83,6 +82,7 @@ public class InGameLogicScene : SceneBase
         protocol.actorInfo.pos = new VECTOR2( GetSpawnPosition() );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.actorInfo.hp = playerPrefab.data.maxHp;
+        protocol.actorInfo.index = 0;
         protocol.nickname = string.Empty;
         protocol.isDead = false;
         protocol.angle = 0f;
@@ -102,7 +102,7 @@ public class InGameLogicScene : SceneBase
         Actor[] actors = sceneActors.GetComponentsInChildren<Actor>();
         foreach ( Actor actor in actors )
         {
-            actor.IsLocal = false;
+            actor.IsLocal = true;
 
             ACTOR_INFO actorInfo;
             actorInfo.isLocal = true;
@@ -112,6 +112,7 @@ public class InGameLogicScene : SceneBase
             actorInfo.pos = new VECTOR2( actor.transform.position );
             actorInfo.vel = new VECTOR2( actor.Rigid2D.velocity );
             actorInfo.hp = actor.Hp.Current;
+            actorInfo.index = -1;
             protocol.actors.Add( actorInfo );
             
             // 너무 많으면 패킷 사이즈를 초과해서 나눠보낸다
@@ -244,6 +245,11 @@ public class InGameLogicScene : SceneBase
                 actor.Rigid2D.velocity = actorInfo.vel.To();
             }
             actor.SetHp( actorInfo.hp, null, null );
+            if ( !actor.Hp.IsZero && actor is InteractableActor )
+            {
+                var interactable = actor as InteractableActor;
+                interactable.InteractionAction( actorInfo.index );
+            }
         }
     }
 
