@@ -23,9 +23,7 @@ public class SceneBase : MonoBehaviour
     public static event Action OnAfterSceneLoad;
 
     private SpriteRenderer fadeSprite;
-    private static readonly float FadeTime = .65f;
-    private static readonly float FadeWaitTime = .025f;
-    private static readonly float FadeDuration = FadeTime + ( FadeWaitTime * 2f );
+    private static readonly float FadeTime = .5f;
 
     public SceneType SceneType { get; protected set; }
     public bool IsSending { get; protected set; }
@@ -42,6 +40,7 @@ public class SceneBase : MonoBehaviour
     {
         FadeOut( () =>
         {
+            DOTween.KillAll();
             OnBeforeSceneLoad?.Invoke();
             SceneManager.LoadScene( _sceneType.ToString(), _loadMode );
         } );
@@ -102,8 +101,13 @@ public class SceneBase : MonoBehaviour
         fadeSprite.color = Color.black;
         fadeSprite.enabled = true;
 
-        fadeSprite.DOFade( 0f, FadeTime );
-        yield return YieldCache.WaitForSeconds( FadeDuration );
+        float alpha = 1f;
+        while ( alpha >= 0f )
+        {
+            yield return null;
+            fadeSprite.color = new Color( 0f, 0f, 0f, alpha -= Time.deltaTime / FadeTime );
+        }
+
         fadeSprite.color = Color.clear;
         EnabledInputSystem( true, true );
         fadeSprite.enabled = false;
@@ -116,12 +120,15 @@ public class SceneBase : MonoBehaviour
         fadeSprite.color = Color.clear;
         fadeSprite.enabled = true;
 
-        fadeSprite.DOFade( 1f, FadeTime );
-        yield return YieldCache.WaitForSeconds( FadeDuration );
+        float alpha = 0f;
+        while ( alpha <= 1f )
+        {
+            yield return null;
+            fadeSprite.color = new Color( 0f, 0f, 0f, alpha += Time.deltaTime / FadeTime );
+        }
+
         fadeSprite.color = Color.black;
         _onCompleted?.Invoke();
-
-        DOTween.KillAll();
     }
     #endregion
 
