@@ -176,6 +176,8 @@ public class InGameLogicScene : SceneBase
         {
             GameManager.Inst.AddPlayer( player );
         }
+
+        player?.OnRespawn();
     }
 
     private void AckSpawnBullet( Packet _packet )

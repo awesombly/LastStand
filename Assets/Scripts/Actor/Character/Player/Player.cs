@@ -50,6 +50,8 @@ public class Player : Character
     [SerializeField]
     private PlayerChatMessage chatMessage;
     private PlayerBoard board;
+
+    public event Action OnPlayerDead, OnPlayerRespawn;
     #endregion
 
     public Vector2 Direction { get; set; }
@@ -222,6 +224,13 @@ public class Player : Character
         Vector3 direction = !ReferenceEquals( _bullet, null ) ? _bullet.transform.up : Vector3.zero;
         playerAnimator.OnDead( direction );
         GameManager.Inst.PlayerDead( this, _attacker, _bullet );
+
+        OnPlayerDead?.Invoke();
+    }
+
+    public void OnRespawn()
+    {
+        OnPlayerRespawn?.Invoke();
     }
 
     protected override void OnChangeLocal( bool _isLocal )

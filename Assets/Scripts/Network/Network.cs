@@ -57,7 +57,7 @@ public sealed class Network : Singleton<Network>
         var packetSystem   = PacketSystem.Inst;
         var audioManager   = AudioManager.Inst;
 
-        StartCoroutine( ConfirmDisconnect() );
+        //StartCoroutine( ConfirmDisconnect() );
         StartCoroutine( ReconnectProcess() );
 
         Connect();
