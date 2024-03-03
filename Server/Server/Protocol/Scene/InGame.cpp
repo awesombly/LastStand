@@ -78,7 +78,7 @@ void InGame::AckSpawnActor( const Packet& _packet )
 	}
 
 	ActorInfo* actor = new ActorInfo( data );
-	actor->type = ActorType::Default;
+	actor->type = ActorType::Actor;
 	_packet.session->stage->RegistActor( actor );
 
 	_packet.session->stage->Broadcast( UPacket( SPAWN_ACTOR_ACK, data ) );
@@ -113,6 +113,7 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	}
 	else
 	{
+		_packet.session->player->actorInfo.type = ActorType::Player;
 		_packet.session->player->actorInfo = data.actorInfo;
 		_packet.session->player->isDead = false;
 		_packet.session->player->angle = data.angle;
@@ -323,7 +324,7 @@ void InGame::AckHitActors( const Packet& _packet )
 		{
 			switch ( defender->type )
 			{
-			case ActorType::Default:
+			case ActorType::Actor:
 			case ActorType::Bullet:
 			{
 				_packet.session->stage->UnregistActor( defender );
@@ -358,6 +359,7 @@ void InGame::AckHitActors( const Packet& _packet )
 			{
 				// 미리 배치된 Actor는 동기화 용도로 놔둔다
 			} break;
+			case ActorType::None:
 			default:
 			{
 				Debug.LogWarning( "Not processed type. type:", defender->type );
@@ -446,7 +448,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 
 			switch ( actorPair.second->type )
 			{
-			case ActorType::Default:
+			case ActorType::Actor:
 			{
 				/// TODO
 			} break;
@@ -467,6 +469,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 					sceneActors.actors.clear();
 				}
 			} break;
+			case ActorType::None:
 			default:
 			{
 				Debug.LogWarning( "Not processed type. type:", actorPair.second->type );
@@ -483,6 +486,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 	// 기존 Actor들 처리후 등록
 	{
 		PlayerInfo* player = new PlayerInfo( data );
+		player->actorInfo.type = ActorType::Player;
 		_packet.session->player = player;
 		_packet.session->stage->RegistActor( &player->actorInfo );
 	}

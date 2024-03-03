@@ -291,7 +291,7 @@ public:
 #pragma region Actor
 enum ActorType : u_short
 { 
-	Default, Player, Bullet, SceneActor,
+	None, Player, Bullet, SceneActor, Actor,
 };
 typedef struct ActorInfo
 {
