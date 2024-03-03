@@ -34,7 +34,7 @@ public class LobbyScene : SceneBase
     [Header( "< Option >" )]
     public GameObject optionCanvas;
     public RectTransform optionMovement;
-    private Tween curOptionMoveTween;
+    private bool isOptionMovePlaying;
 
     [Header( "< UserInfo >" )]
     public GameObject userInfoCanvas;
@@ -169,13 +169,18 @@ public class LobbyScene : SceneBase
 
     public void ActiveOptionPanel()
     {
-        if ( curOptionMoveTween != null && curOptionMoveTween.IsPlaying() )
+        if ( isOptionMovePlaying )
              return;
 
         if ( optionCanvas.activeInHierarchy )
         {
             AudioManager.Inst.Play( SFX.MenuExit );
-            curOptionMoveTween = optionMovement.DOAnchorPosX( -325f, .5f ).OnComplete(() => optionCanvas.SetActive( false ) );
+            isOptionMovePlaying = true;
+            optionMovement.DOAnchorPosX( -325f, .5f ).OnComplete(() =>
+            {
+                optionCanvas.SetActive( false );
+                isOptionMovePlaying = false;
+            } );
         }
         else
         {
@@ -185,7 +190,8 @@ public class LobbyScene : SceneBase
             if ( password != null )
                  password.contentType = TMP_InputField.ContentType.Password;
 
-            curOptionMoveTween = optionMovement.DOAnchorPosX( 325f, .5f );
+            isOptionMovePlaying = true;
+            optionMovement.DOAnchorPosX( 325f, .5f ).OnComplete( () => isOptionMovePlaying = false );
             AudioManager.Inst.Play( SFX.MenuEntry );
         }
     }

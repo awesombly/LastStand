@@ -23,8 +23,9 @@ public class InGameUIScene : SceneBase
 
     [Header( "< Player Board >" )]
     public GameObject playerBoardCanvas;
+    public RectTransform playerBoardHintTf;
     public List<PlayerBoard> boards = new List<PlayerBoard>();
-    private Tween boardMoveTween;
+    private bool isBoardMovePlaying;
 
     [Header( "< Result >" )]
     public GameObject gameResult;
@@ -99,21 +100,30 @@ public class InGameUIScene : SceneBase
     {
         if ( Input.GetKeyDown( KeyCode.Tab ) )
         {
-            RectTransform boardTf = playerBoardCanvas.transform as RectTransform;
-            if ( boardMoveTween != null && boardMoveTween.IsPlaying() )
+            if ( isBoardMovePlaying )
                  return;
 
+            RectTransform boardTf = playerBoardCanvas.transform as RectTransform;
             if ( playerBoardCanvas.activeInHierarchy )
             {
                 AudioManager.Inst.Play( SFX.MenuExit );
-                boardMoveTween = boardTf.DOAnchorPosX( -1125f, .5f )
-                                        .OnComplete( () => playerBoardCanvas.SetActive( false ) );
+                isBoardMovePlaying = true;
+                boardTf.DOAnchorPosX( -1125f, .5f )
+                       .OnComplete( () => 
+                       {
+                           playerBoardCanvas.SetActive( false );
+                           isBoardMovePlaying = false;
+                       } );
+
+                playerBoardHintTf.DOAnchorPosX( -1050f, .5f );
             }
             else
             {
                 AudioManager.Inst.Play( SFX.MenuEntry );
                 playerBoardCanvas.SetActive( true );
-                boardMoveTween = boardTf.DOAnchorPosX( -800f, .5f );
+                isBoardMovePlaying = true;
+                boardTf.DOAnchorPosX( -800f, .5f ).OnComplete( () => { isBoardMovePlaying = false; } );
+                playerBoardHintTf.DOAnchorPosX( -830f, .5f );
             }
         }
     }
