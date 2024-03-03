@@ -46,14 +46,16 @@ enum PacketType : u_short
 
 	SYNC_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
-	SYNC_RELOAD_REQ,               // 재장전 동기화 요청
-	SYNC_RELOAD_ACK,               // 재장전 동기화 응답
+	SYNC_RELOAD_REQ,               // Player 재장전 동기화 요청
+	SYNC_RELOAD_ACK,               // Player 재장전 동기화 응답
 	SYNC_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
 	SYNC_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
 	SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
 	SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
 	SYNC_SWAP_WEAPON_REQ,          // Player 무기 교체 동기화 요청
 	SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
+	SYNC_INTERACTION_REQ,          // InteractableActor 상호작용 요청
+	SYNC_INTERACTION_ACK,          // InteractableActor 상호작용 응답
 	HIT_ACTORS_REQ,                // 피격된 Actor들 동기화 요청
 	HIT_ACTORS_ACK,                // 피격된 Actor들 동기화 응답
 
@@ -286,6 +288,7 @@ public:
 } STAGE_INFO;
 #pragma endregion
 
+#pragma region Actor
 enum ActorType : u_short
 { 
 	Default, Player, Bullet, SceneActor,
@@ -452,6 +455,8 @@ public:
 		ar( CEREAL_NVP( dur ) );
 	}
 } DODGE_INFO;
+#pragma endregion
+
 typedef struct ChatMessage
 {
 public:

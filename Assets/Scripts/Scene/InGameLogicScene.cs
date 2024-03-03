@@ -26,12 +26,15 @@ public class InGameLogicScene : SceneBase
         ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,       AckSpawnBullet );
         ProtocolSystem.Inst.Regist( REMOVE_ACTORS_ACK,      AckRemoveActors );
         ProtocolSystem.Inst.Regist( INIT_SCENE_ACTORS_ACK,  AckInitSceneActors );
+
         ProtocolSystem.Inst.Regist( SYNC_MOVEMENT_ACK,      AckSyncMovement );
         ProtocolSystem.Inst.Regist( SYNC_RELOAD_ACK,        AckSyncReload );
         ProtocolSystem.Inst.Regist( SYNC_LOOK_ANGLE_ACK,    AckSyncLookAngle );
         ProtocolSystem.Inst.Regist( SYNC_DODGE_ACTION_ACK,  AckSyncDodgeAction );
         ProtocolSystem.Inst.Regist( SYNC_SWAP_WEAPON_ACK,   AckSyncSwapWeapon );
+        ProtocolSystem.Inst.Regist( SYNC_INTERACTION_ACK,   AckSyncInteraction );
         ProtocolSystem.Inst.Regist( HIT_ACTORS_ACK,         AckHitActors );
+
         ProtocolSystem.Inst.Regist( GAME_OVER_ACK,          AckGameOver );
     }
 
@@ -110,9 +113,19 @@ public class InGameLogicScene : SceneBase
             actorInfo.vel = new VECTOR2( actor.Rigid2D.velocity );
             actorInfo.hp = actor.Hp.Current;
             protocol.actors.Add( actorInfo );
+            
+            // 너무 많으면 패킷 사이즈를 초과해서 나눠보낸다
+            if ( protocol.actors.Count >= 20 )
+            {
+                Network.Inst.Send( INIT_SCENE_ACTORS_REQ, protocol );
+                protocol.actors.Clear();
+            }
         }
 
-        Network.Inst.Send( INIT_SCENE_ACTORS_REQ, protocol );
+        if ( protocol.actors.Count > 0 )
+        {
+            Network.Inst.Send( INIT_SCENE_ACTORS_REQ, protocol );
+        }
     }
     #endregion
 
@@ -219,7 +232,6 @@ public class InGameLogicScene : SceneBase
             ACTOR_INFO actorInfo;
             if ( !actorHashs.TryGetValue( actor.MyHashCode, out actorInfo ) )
             {
-                actor.Release();
                 continue;
             }
 
@@ -229,7 +241,7 @@ public class InGameLogicScene : SceneBase
             {
                 actor.Rigid2D.velocity = actorInfo.vel.To();
             }
-            actor.Hp.Current = actorInfo.hp;
+            actor.SetHp( actorInfo.hp, null, null );
         }
     }
 
@@ -286,6 +298,18 @@ public class InGameLogicScene : SceneBase
             return;
         }
         player.SwapWeapon( data.index );
+    }
+
+    private void AckSyncInteraction( Packet _packet )
+    {
+        var data = Global.FromJson<INDEX_INFO>( _packet );
+        InteractableActor actor = GameManager.Inst.GetActor( data.serial ) as InteractableActor;
+        if ( actor == null )
+        {
+            Debug.LogWarning( "Actor is null. serial:" + data.serial );
+            return;
+        }
+        actor.InteractionAction( data.index );
     }
 
     private void AckHitActors( Packet _packet )

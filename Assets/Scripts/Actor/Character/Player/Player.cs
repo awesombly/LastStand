@@ -198,7 +198,7 @@ public class Player : Character
                 continue;
             }
 
-            interactable.Interaction( this );
+            interactable.OnInteraction( this );
         }
     }
 
@@ -219,7 +219,8 @@ public class Player : Character
             ++attacker.KillScore;
         }
 
-        playerAnimator.OnDead( _bullet.transform.up );
+        Vector3 direction = !ReferenceEquals( _bullet, null ) ? _bullet.transform.up : Vector3.zero;
+        playerAnimator.OnDead( direction );
         GameManager.Inst.PlayerDead( this, _attacker, _bullet );
     }
 

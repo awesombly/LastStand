@@ -12,14 +12,16 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,		AckSpawnBullet );
 	ProtocolSystem::Inst().Regist( REMOVE_ACTORS_REQ,		AckRemoveActors );
 	ProtocolSystem::Inst().Regist( INIT_SCENE_ACTORS_REQ,	AckInitSceneActors );
+
 	ProtocolSystem::Inst().Regist( SYNC_MOVEMENT_REQ,		AckSyncMovement );
 	ProtocolSystem::Inst().Regist( SYNC_RELOAD_REQ,			AckSyncReload );
 	ProtocolSystem::Inst().Regist( SYNC_LOOK_ANGLE_REQ,		AckSyncLook );
 	ProtocolSystem::Inst().Regist( SYNC_DODGE_ACTION_REQ,	AckSyncDodgeAction );
 	ProtocolSystem::Inst().Regist( SYNC_SWAP_WEAPON_REQ,	AckSyncSwapWeapon );
+	ProtocolSystem::Inst().Regist( SYNC_INTERACTION_REQ,	AckSyncInteraction );
 	ProtocolSystem::Inst().Regist( HIT_ACTORS_REQ,			AckHitActors );
-	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ,	AckInGameLoadData );
 
+	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ,	AckInGameLoadData );
 	ProtocolSystem::Inst().Regist( UPDATE_RESULT_INFO_REQ,  AckUpdateResultData );
 }
 
@@ -183,7 +185,7 @@ void InGame::AckInitSceneActors( const Packet& _packet )
 		_packet.session->stage->RegistActor( actor );
 	}
 
-	_packet.session->stage->Broadcast( UPacket( INIT_SCENE_ACTORS_ACK, data ) );
+	// 클라 응답은 AckInGameLoadData에서 한다
 }
 
 void InGame::AckSyncMovement( const Packet& _packet )
@@ -270,6 +272,18 @@ void InGame::AckSyncSwapWeapon( const Packet& _packet )
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_SWAP_WEAPON_ACK, data ) );
 }
 
+void InGame::AckSyncInteraction( const Packet& _packet )
+{
+	const INDEX_INFO& data = FromJson<INDEX_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_INTERACTION_ACK, data ) );
+}
+
 void InGame::AckHitActors( const Packet& _packet )
 {
 	const HITS_INFO& data = FromJson<HITS_INFO>( _packet );
@@ -290,17 +304,25 @@ void InGame::AckHitActors( const Packet& _packet )
 		}
 		
 		defender->hp = hit.hp;
+		// 사망처리
 		if ( defender->hp <= 0 )
 		{
-			// 사망처리
-			PlayerInfo* player = _packet.session->stage->FindPlayer( defender->serial );
-			if ( player == nullptr )
+			switch ( defender->type )
+			{
+			case ActorType::Default:
+			case ActorType::Bullet:
 			{
 				_packet.session->stage->UnregistActor( defender );
 				Global::Memory::SafeDelete( defender );
-			}
-			else if ( !player->isDead )
+			} break;
+			case ActorType::Player:
 			{
+				PlayerInfo* player = _packet.session->stage->FindPlayer( defender->serial );
+				if ( player == nullptr || player->isDead )
+				{
+					break;
+				}
+
 				// Player라면 실제로 없애진 않는다
 				player->isDead = true;
 				++( player->death );
@@ -309,7 +331,7 @@ void InGame::AckHitActors( const Packet& _packet )
 				if ( attacker == nullptr )
 				{
 					Debug.LogError( "attacker is null. serial:", hit.attacker, ", nick:", _packet.session->loginInfo.nickname );
-					return;
+					break;
 				}
 
 				++( attacker->kill );
@@ -317,9 +339,19 @@ void InGame::AckHitActors( const Packet& _packet )
 				{
 					winner = attacker;
 				}
+			} break;
+			case ActorType::SceneActor:
+			{
+				// 미리 배치된 Actor는 동기화 용도로 놔둔다
+			} break;
+			default:
+			{
+				Debug.LogWarning( "Not processed type. type:", defender->type );
+			} break;
 			}
 		}
 
+		// Bullet 제거
 		if ( hit.needRelease )
 		{
 			ActorInfo* bullet = _packet.session->stage->GetActor( hit.bullet );
@@ -333,9 +365,9 @@ void InGame::AckHitActors( const Packet& _packet )
 			Global::Memory::SafeDelete( bullet );
 		}
 	}
-
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTORS_ACK, data ) );
 
+	// 게임 종료
 	if ( winner != nullptr )
 	{
 		SERIAL_INFO protocol;
@@ -413,6 +445,13 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 			case ActorType::SceneActor:
 			{
 				sceneActors.actors.push_back( *actorPair.second );
+
+				// 너무 많으면 패킷 사이즈를 초과해 나눠보낸다
+				if ( sceneActors.actors.size() >= 20 )
+				{
+					_packet.session->Send( UPacket( INIT_SCENE_ACTORS_ACK, sceneActors ) );
+					sceneActors.actors.clear();
+				}
 			} break;
 			default:
 			{
@@ -421,7 +460,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 			}
 		}
 
-		if ( _packet.session != _packet.session->stage->host && sceneActors.actors.size() > 0 )
+		if ( sceneActors.actors.size() > 0 )
 		{
 			_packet.session->Send( UPacket( INIT_SCENE_ACTORS_ACK, sceneActors ) );
 		}

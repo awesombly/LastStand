@@ -15,26 +15,38 @@ public class InteractableActor : DestroyableActor
         spriter = GetComponent<SpriteRenderer>();
     }
 
-    public void Interaction( Player _player )
+    public void InteractionAction( int _direction )
     {
-        if ( isInteracted )
-        {
-            return;
-        }
-        isInteracted = true;
-        float angle =  Global.GetAngle( _player.transform.position, transform.position );
-        ActionDirection direction = GetActionDirection( angle );
-
         // 테이블 뒤집기
-        if ( direction == ActionDirection.Left )
+        isInteracted = true;
+        if ( ( ActionDirection )_direction == ActionDirection.Left )
         {
             transform.localScale = new Vector3( -1f, 1f, 1f );
         }
         Rigid2D.excludeLayers &= ~( int )Global.LayerFlag.PlayerAttack;
-        animator.SetInteger( AnimatorParameters.ActionDirection, ( int )direction );
+        animator.SetInteger( AnimatorParameters.ActionDirection, _direction );
         animator.SetTrigger( AnimatorParameters.Interaction );
 
         StartCoroutine( UpdatePhysicsShape( .5f ) );
+    }
+
+    public void OnInteraction( Player _player )
+    {
+        if ( isInteracted || !_player.IsLocal )
+        {
+            return;
+        }
+        
+        float angle =  Global.GetAngle( _player.transform.position, transform.position );
+        ActionDirection direction = GetActionDirection( angle );
+
+        InteractionAction( ( int )direction );
+
+        // Req Protocol
+        INDEX_INFO protocol;
+        protocol.serial = Serial;
+        protocol.index = ( int )direction;
+        Network.Inst.Send( PacketType.SYNC_INTERACTION_REQ, protocol );
     }
 
     private IEnumerator UpdatePhysicsShape( float _duration )

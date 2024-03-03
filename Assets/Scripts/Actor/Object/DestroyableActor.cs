@@ -38,7 +38,10 @@ public class DestroyableActor : Actor
         isDead = true;
         gameObject.layer = Global.Layer.Invincible;
         Rigid2D.excludeLayers = ~( int )Global.LayerFlag.Wall;
-        Rigid2D.AddForce( _bullet.transform.up * _bullet.data.pushingPower * 2f );
+        if ( !ReferenceEquals( _bullet, null ) )
+        {
+            Rigid2D.AddForce( _bullet.transform.up * _bullet.data.pushingPower * 2f );
+        }
         animator.SetBool( AnimatorParameters.IsDestroy, true );
         StartCoroutine( RemoveDead( deadDuration ) );
     }
