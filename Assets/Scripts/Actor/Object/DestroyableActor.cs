@@ -14,11 +14,14 @@ public class DestroyableActor : Actor
     private bool isDead;
     private bool prevIsSleep = true;
     protected Animator animator;
+    protected SpriteRenderer spriter;
 
     protected override void Awake()
     {
         base.Awake();
         animator = GetComponent<Animator>();
+        spriter = GetComponent<SpriteRenderer>();
+
         Hp.Current = Hp.Max = maxHp;
         PenetrationResist = penetrationResist;
     }
@@ -62,6 +65,7 @@ public class DestroyableActor : Actor
         {
             Rigid2D.AddForce( _bullet.transform.up * _bullet.data.pushingPower * 2f );
         }
+        spriter.sortingOrder = -2;
         animator.SetBool( AnimatorParameters.IsDestroy, true );
         StartCoroutine( RemoveDead( deadDuration ) );
     }

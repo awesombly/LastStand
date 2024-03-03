@@ -6,13 +6,11 @@ public class InteractableActor : DestroyableActor
 {
     private bool isInteracted = false;
     private PolygonCollider2D collide2D;
-    private SpriteRenderer spriter;
 
     protected override void Awake()
     {
         base.Awake();
         collide2D = GetComponent<PolygonCollider2D>();
-        spriter = GetComponent<SpriteRenderer>();
     }
 
     public void InteractionAction( int _direction )

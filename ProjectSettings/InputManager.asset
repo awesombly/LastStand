@@ -225,24 +225,8 @@ MonoBehaviour:
       m_Action: AttackPress
       m_Flags: 0
     - m_Name: 
-      m_Id: b3c1c7f0-bd20-4ee7-a0f1-899b24bca6d7
-      m_Path: <Keyboard>/space
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: Keyboard&Mouse
-      m_Action: AttackPress
-      m_Flags: 0
-    - m_Name: 
       m_Id: 27cab697-63a0-4ea4-9290-fb2dbffce1d1
       m_Path: <Mouse>/leftButton
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: AttackRelease
-      m_Flags: 0
-    - m_Name: 
-      m_Id: 5128592c-4949-4c47-9889-9704a1c9063e
-      m_Path: <Keyboard>/space
       m_Interactions: 
       m_Processors: 
       m_Groups: ;Keyboard&Mouse
@@ -275,6 +259,14 @@ MonoBehaviour:
     - m_Name: 
       m_Id: 118a6c07-bcb8-4b9d-985f-bbd1a7e11cbd
       m_Path: <Keyboard>/e
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Keyboard&Mouse
+      m_Action: Interaction
+      m_Flags: 0
+    - m_Name: 
+      m_Id: d29948b3-976e-4f22-9d79-d576ebfad1c6
+      m_Path: <Keyboard>/space
       m_Interactions: 
       m_Processors: 
       m_Groups: ;Keyboard&Mouse
