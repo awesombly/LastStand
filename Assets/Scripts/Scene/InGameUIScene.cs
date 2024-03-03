@@ -105,11 +105,13 @@ public class InGameUIScene : SceneBase
 
             if ( playerBoardCanvas.activeInHierarchy )
             {
+                AudioManager.Inst.Play( SFX.MenuExit );
                 boardMoveTween = boardTf.DOAnchorPosX( -1125f, .5f )
                                         .OnComplete( () => playerBoardCanvas.SetActive( false ) );
             }
             else
             {
+                AudioManager.Inst.Play( SFX.MenuEntry );
                 playerBoardCanvas.SetActive( true );
                 boardMoveTween = boardTf.DOAnchorPosX( -800f, .5f );
             }
