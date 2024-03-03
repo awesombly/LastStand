@@ -52,6 +52,8 @@ public class Player : Character
     private PlayerBoard board;
 
     public event Action OnPlayerDead, OnPlayerRespawn;
+    public event Action<Player/* 처치 플레이어 */> OnPlayerKill;
+
     #endregion
 
     public Vector2 Direction { get; set; }
@@ -219,6 +221,8 @@ public class Player : Character
         if ( !ReferenceEquals( attacker, null ) )
         {
             ++attacker.KillScore;
+            if ( attacker == GameManager.LocalPlayer )
+                 attacker.OnPlayerKill?.Invoke( this );
         }
 
         Vector3 direction = !ReferenceEquals( _bullet, null ) ? _bullet.transform.up : Vector3.zero;

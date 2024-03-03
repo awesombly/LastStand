@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerDeadUI : MonoBehaviour, WNS.IObjectPool<PlayerDeadUI>
 {
     public WNS.ObjectPool<PlayerDeadUI> pool { get; set; } 
-    public float waitTime = 3f;
+    public float waitTime = 5f;
     public float fadeSpeed = 10f;
     public TextMeshProUGUI nickname;
     private CanvasGroup group;
