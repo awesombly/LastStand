@@ -279,6 +279,9 @@ public class LobbyScene : SceneBase
             title.ActivateInputField();
             SetPersonnel( 4 );
             SetTargetKillCount( 40 );
+            personnelOutlines[3].enabled  = true;
+            targetKillOutlines[3].enabled = true;
+
             AudioManager.Inst.Play( SFX.MenuEntry );
             createStageGroup.alpha = 0f;
             createStageGroup.DOFade( 1f, .25f );
@@ -296,18 +299,14 @@ public class LobbyScene : SceneBase
     {
         maxPersonnel = _max;
         for ( int i = 0; i < personnelOutlines.Count; i++ )
-        {
-            personnelOutlines[i].enabled = i == _max - 1 ? true : false;
-        }
+              personnelOutlines[i].enabled = false;
     }
 
     public void SetTargetKillCount( int _killCount )
     {
         targetKillCount = _killCount;
         for ( int i = 0; i < targetKillOutlines.Count; i++ )
-        {
-            targetKillOutlines[i].enabled = i == WNS.Math.Round( _killCount * .1f ) - 1 ? true : false;
-        }
+              targetKillOutlines[i].enabled = false;
     }
 
     public void CreateStage()
