@@ -43,7 +43,7 @@ public class PlayerBoard : MonoBehaviour
         _player.InitBoardUI( this );
     }
 
-    public void PlayerDead()
+    public void PlayerDead( Player _attacker )
     {
         deadBackground.gameObject.SetActive( true );
         deadBackground.color = PlayerDeadBGStartColor;

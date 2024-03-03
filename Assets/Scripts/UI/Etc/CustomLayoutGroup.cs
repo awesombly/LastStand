@@ -33,7 +33,7 @@ public abstract class CustomLayoutGroup : MonoBehaviour, ILayoutController
     protected List<RectTransform> rectChildren = new List<RectTransform>();
     public bool ShouldIncludeDisabledObject { get; private set; }
 
-    public virtual void Initialize( bool _shouldIncludeDisabledObject = false )
+    public virtual void UpdateGroup( bool _shouldIncludeDisabledObject = false )
     {
         ShouldIncludeDisabledObject = _shouldIncludeDisabledObject;
         SetAlignment();
@@ -53,7 +53,7 @@ public abstract class CustomLayoutGroup : MonoBehaviour, ILayoutController
     {
         if ( Application.isPlaying )
         {
-            Initialize();
+            UpdateGroup();
             SetLayoutHorizontal();
             SetLayoutVertical();
         }
@@ -68,7 +68,7 @@ public abstract class CustomLayoutGroup : MonoBehaviour, ILayoutController
             rectChildren?.Clear();
 
             SetAlignment();
-            Initialize();
+            UpdateGroup();
             SetLayoutHorizontal();
             SetLayoutVertical();
         }

@@ -51,7 +51,8 @@ public class Player : Character
     private PlayerChatMessage chatMessage;
     private PlayerBoard board;
 
-    public event Action OnPlayerDead, OnPlayerRespawn;
+    public event Action OnPlayerRespawn;
+    public event Action<Player/* 공격한 플레이어 */> OnPlayerDead;
     public event Action<Player/* 처치 플레이어 */> OnPlayerKill;
 
     #endregion
@@ -229,7 +230,7 @@ public class Player : Character
         playerAnimator.OnDead( direction );
         GameManager.Inst.PlayerDead( this, _attacker, _bullet );
 
-        OnPlayerDead?.Invoke();
+        OnPlayerDead?.Invoke( attacker );
     }
 
     public void OnRespawn()

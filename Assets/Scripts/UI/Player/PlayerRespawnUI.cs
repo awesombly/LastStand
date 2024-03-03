@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class PlayerRespawnUI : MonoBehaviour
 {
     public TextMeshProUGUI respawnTime;
+    public TextMeshProUGUI attackerName;
     public Slider respawnBar;
     public Image backGround;
     private Color bgColor;
@@ -22,26 +23,31 @@ public class PlayerRespawnUI : MonoBehaviour
     private void OnChangeLocalPlayer( Player _old, Player _new )
     {
         if ( _old == _new )
-        {
-            return;
-        }
+             return;
 
         if ( !ReferenceEquals( _old, null ) )
         {
             _old.PlayerUI.respawnDelay.OnChangeCurrent -= OnChangeRespawnDelay;
+            _old.OnPlayerDead -= OnPlayerDead;
         }
 
         if ( !ReferenceEquals( _new, null ) )
         {
             _new.PlayerUI.respawnDelay.OnChangeCurrent += OnChangeRespawnDelay;
+            _new.OnPlayerDead += OnPlayerDead;
         }
     }
 
     private void OnChangeRespawnDelay( float _old, float _new, float _max )
     {
         gameObject.SetActive( _new > 0f );
-        respawnTime.text = System.MathF.Round( _new, 2 ).ToString();
+        respawnTime.text = System.MathF.Round( _new, 2 ).ToString( "F2" );
         respawnBar.value = _new / _max;
         backGround.color = bgColor;
+    }
+
+    private void OnPlayerDead( Player _attacker )
+    {
+        attackerName.text = _attacker.Nickname;
     }
 }

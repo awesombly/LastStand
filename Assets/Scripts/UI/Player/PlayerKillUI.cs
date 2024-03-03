@@ -16,10 +16,14 @@ public class PlayerKillUI : MonoBehaviour
     {
         GameManager.OnChangeLocalPlayer += ( Player _old, Player _new ) =>
         {
+            if ( _old == _new )
+                 return;
+
             if ( !ReferenceEquals( _old, null ) )
                  _old.OnPlayerKill -= OnKill;
 
-            _new.OnPlayerKill += OnKill;
+            if ( !ReferenceEquals( _new, null ) )
+                 _new.OnPlayerKill += OnKill;
         };
 
         effectSeq = DOTween.Sequence().SetAutoKill( false ).Pause();
