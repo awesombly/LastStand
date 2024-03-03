@@ -37,6 +37,7 @@ public class Stage : MonoBehaviour
 
     public void OnPointerEnter()
     {
+        AudioManager.Inst.Play( SFX.MenuHover );
         rt.DOSizeDelta( new Vector2( 800f, 125f ), .35f );
     }
 

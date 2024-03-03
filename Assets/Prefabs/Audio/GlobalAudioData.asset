@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: c9cfc3c7dedde4c44aecc2ff855a77db, type: 2}
   channel: {fileID: 9116064787317401852, guid: 72c602f1e0d397746bb557006016cfef, type: 3}
-  bgmLogin: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
   bgmLobby: {fileID: 8300000, guid: 91399eba7a9150e418d57855b331fce3, type: 3}
   bgmInGame: {fileID: 8300000, guid: 4559935c00ef8e94b846e2e03e39f0d0, type: 3}
   sfxMouseClick: {fileID: 8300000, guid: e6ce75a3530ffa64f82bd24c915029c2, type: 3}
+  sfxMenuHover: {fileID: 8300000, guid: 12e3879fdfb1f944499f5d9275e678fe, type: 3}
   sfxMenuEntry: {fileID: 8300000, guid: cd70e1cc9202f594cb0e12e64e36ca08, type: 3}
   sfxMenuExit: {fileID: 8300000, guid: 7b85574f75a077c4885fc4a353ce3849, type: 3}

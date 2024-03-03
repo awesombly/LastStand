@@ -18,6 +18,7 @@ public enum BGM : ushort
 public enum SFX : ushort
 {
     MouseClick,
+    MenuHover,
     MenuEntry,
     MenuExit,
 }
@@ -85,6 +86,7 @@ public sealed class AudioManager : Singleton<AudioManager>
             clips.Add( BGM.InGame, _data.bgmInGame );
 
             clips.Add( SFX.MouseClick, _data.sfxMouseClick );
+            clips.Add( SFX.MenuHover,  _data.sfxMenuHover  );
             clips.Add( SFX.MenuEntry,  _data.sfxMenuEntry  );
             clips.Add( SFX.MenuExit,   _data.sfxMenuExit   );
         } );

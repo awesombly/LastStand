@@ -120,6 +120,8 @@ public class SceneBase : MonoBehaviour
         yield return YieldCache.WaitForSeconds( FadeDuration );
         fadeSprite.color = Color.black;
         _onCompleted?.Invoke();
+
+        DOTween.KillAll();
     }
     #endregion
 

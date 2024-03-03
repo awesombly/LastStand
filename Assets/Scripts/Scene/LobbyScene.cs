@@ -323,7 +323,6 @@ public class LobbyScene : SceneBase
         protocol.personnel = new Personnel { current = 0, maximum = maxPersonnel };
 
         Network.Inst.Send( new Packet( CREATE_STAGE_REQ, protocol ) );
-        AudioManager.Inst.Play( SFX.MouseClick );
     }
 
     public void ExitGame() => Application.Quit();
@@ -333,6 +332,7 @@ public class LobbyScene : SceneBase
     private void AckEntryStage( Packet _packet )
     {
         IsSending = canCreateStage = false;
+        AudioManager.Inst.Play( SFX.MouseClick );
         GameManager.StageInfo = Global.FromJson<STAGE_INFO>( _packet );
         LoadScene( SceneType.InGame_UI );
         LoadScene( SceneType.InGame_Logic, LoadSceneMode.Additive );

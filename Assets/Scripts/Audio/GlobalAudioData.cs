@@ -15,6 +15,7 @@ public class GlobalAudioData : ScriptableObject
 
     [Header( "SFX" )]
     public AudioClip sfxMouseClick;
+    public AudioClip sfxMenuHover;
     public AudioClip sfxMenuEntry;
     public AudioClip sfxMenuExit;
 }
