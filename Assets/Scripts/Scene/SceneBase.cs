@@ -41,6 +41,8 @@ public class SceneBase : MonoBehaviour
         FadeOut( () =>
         {
             DOTween.KillAll();
+            DOTween.ClearCachedTweens();
+            DOTween.Clear();
             OnBeforeSceneLoad?.Invoke();
             SceneManager.LoadScene( _sceneType.ToString(), _loadMode );
         } );
