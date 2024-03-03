@@ -1,14 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
+using TMPro;
 
 using static PacketType;
-using DG.Tweening;
-using UnityEditor;
-using UnityEngine.InputSystem;
 
 public class LobbyScene : SceneBase
 {
@@ -65,7 +63,6 @@ public class LobbyScene : SceneBase
     public TextMeshProUGUI signUpMessage;
 
     public Transform cursor;
-    public TrailRenderer cusorTrail;
 
     #region Unity Callback
     protected override void Awake()

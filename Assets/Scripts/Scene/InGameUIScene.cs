@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using DG.Tweening;
+using TMPro;
 
 using static PacketType;
 public class InGameUIScene : SceneBase
@@ -21,7 +22,9 @@ public class InGameUIScene : SceneBase
     public TextMeshProUGUI targetKillCount;
 
     [Header( "< Player Board >" )]
+    public GameObject playerBoardCanvas;
     public List<PlayerBoard> boards = new List<PlayerBoard>();
+    private Tween boardMoveTween;
 
     [Header( "< Result >" )]
     public GameObject gameResult;
@@ -86,6 +89,29 @@ public class InGameUIScene : SceneBase
                 InputSystem.DisableDevice( Keyboard.current );
                 pause.SetActive( true );
                 AudioManager.Inst.Play( SFX.MenuEntry );
+            }
+        }
+
+        PlayerBoardMoveEffect();
+    }
+
+    private void PlayerBoardMoveEffect()
+    {
+        if ( Input.GetKeyDown( KeyCode.Tab ) )
+        {
+            RectTransform boardTf = playerBoardCanvas.transform as RectTransform;
+            if ( boardMoveTween != null && boardMoveTween.IsPlaying() )
+                 return;
+
+            if ( playerBoardCanvas.activeInHierarchy )
+            {
+                boardMoveTween = boardTf.DOAnchorPosX( -1125f, .5f )
+                                        .OnComplete( () => playerBoardCanvas.SetActive( false ) );
+            }
+            else
+            {
+                playerBoardCanvas.SetActive( true );
+                boardMoveTween = boardTf.DOAnchorPosX( -800f, .5f );
             }
         }
     }
