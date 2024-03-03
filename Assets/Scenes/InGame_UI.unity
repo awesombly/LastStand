@@ -3476,15 +3476,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1019220159001728233, guid: e098065b93f72d3498181d9c33485804, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4764421277825433074, guid: e098065b93f72d3498181d9c33485804, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4764421277825433074, guid: e098065b93f72d3498181d9c33485804, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8045,7 +8045,6 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 850513177}
   - {fileID: 753622110}
   - {fileID: 546839804}
   - {fileID: 1185948131}
@@ -8057,6 +8056,7 @@ RectTransform:
   - {fileID: 998032616}
   - {fileID: 1458620160}
   - {fileID: 719998809}
+  - {fileID: 850513177}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

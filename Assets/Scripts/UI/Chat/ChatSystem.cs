@@ -24,7 +24,10 @@ public class ChatSystem : MonoBehaviour
         obj.Initialize( data );
 
         var player = GameManager.Inst.GetActor( data.serial ) as Player;
-        player.ReceiveMessage( data.message );
+        if ( !ReferenceEquals( player, null ) )
+        {
+            player.ReceiveMessage( data.message );
+        }
     }
 
     private void Update()

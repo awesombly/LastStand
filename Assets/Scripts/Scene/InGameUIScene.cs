@@ -73,7 +73,8 @@ public class InGameUIScene : SceneBase
 
     private void Update()
     {
-        mouseCursor.anchoredPosition = Mouse.current.position.value;
+        Vector3 pos = Input.mousePosition;
+        mouseCursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
 
         if ( Input.GetKeyDown( KeyCode.Escape ) )
         {
