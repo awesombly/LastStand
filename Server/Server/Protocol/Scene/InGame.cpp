@@ -100,7 +100,14 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 		data.actorInfo.serial = Global::GetNewSerial();
 	}
 
-	data.nickname = _packet.session->loginInfo.nickname;
+	if ( _packet.session->loginInfo.nickname.empty() )
+	{
+		data.nickname = std::to_string( data.actorInfo.serial );
+	}
+	else
+	{
+		data.nickname = _packet.session->loginInfo.nickname;
+	}
 	data.actorInfo.isLocal = true;
 	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
 	data.actorInfo.isLocal = false;
@@ -116,8 +123,8 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	else
 	{
 		// 리스폰시
-		_packet.session->player->actorInfo.type = ActorType::Player;
 		_packet.session->player->actorInfo = data.actorInfo;
+		_packet.session->player->actorInfo.type = ActorType::Player;
 		_packet.session->player->isDead = false;
 		_packet.session->player->angle = data.angle;
 	}
@@ -311,6 +318,7 @@ void InGame::AckHitActors( const Packet& _packet )
 				PlayerInfo* player = _packet.session->stage->FindPlayer( defender->serial );
 				if ( player == nullptr || player->isDead )
 				{
+					Debug.LogError( "player is dead. serial:", hit.attacker, ", nick:", _packet.session->loginInfo.nickname );
 					break;
 				}
 
