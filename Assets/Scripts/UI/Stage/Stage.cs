@@ -32,6 +32,10 @@ public class Stage : MonoBehaviour
 
     public void EntryStage()
     {
+        if ( SceneBase.IsLock )
+             return;
+
+        SceneBase.IsLock = true;
         Network.Inst.Send( new Packet( ENTRY_STAGE_REQ, info ) );
     }
 

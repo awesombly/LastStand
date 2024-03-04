@@ -22,7 +22,7 @@ public class SceneBase : MonoBehaviour
     public static event Action OnAfterSceneLoad;
 
     public SceneType SceneType { get; protected set; }
-    public bool IsSending { get; protected set; }
+    public static bool IsLock { get; set; }
 
     // 게임 시작시 자동 실행
     [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
@@ -37,8 +37,7 @@ public class SceneBase : MonoBehaviour
         GlobalEffect.Inst.FadeOut( () =>
         {
             DOTween.KillAll();
-            DOTween.ClearCachedTweens();
-            DOTween.Clear();
+            DOTween.Clear( true );
             OnBeforeSceneLoad?.Invoke();
             SceneManager.LoadScene( _sceneType.ToString(), _loadMode );
         } );
@@ -46,6 +45,7 @@ public class SceneBase : MonoBehaviour
 
     protected virtual void Awake()
     {
+        IsLock    = false;
         SceneType = SceneType.None;
         EnabledInputSystem( true, true );
     }

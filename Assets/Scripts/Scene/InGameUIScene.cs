@@ -108,10 +108,10 @@ public class InGameUIScene : SceneBase
 
     public void ReqExitStage()
     {
-        if ( IsSending || !canExitStage || GameManager.StageInfo == null )
-            return;
+        if ( IsLock || !canExitStage || GameManager.StageInfo == null )
+             return;
 
-        IsSending = true;
+        IsLock = true;
         Network.Inst.Send( EXIT_STAGE_REQ, GameManager.StageInfo.Value );
         AudioManager.Inst.Play( SFX.MouseClick );
     }
@@ -198,7 +198,7 @@ public class InGameUIScene : SceneBase
 
     private void AckExitStage( Packet _packet )
     {
-        IsSending = canExitStage = false;
+        IsLock = canExitStage = false;
         GameManager.StageInfo = null;
         LoadScene( SceneType.Lobby );
     }

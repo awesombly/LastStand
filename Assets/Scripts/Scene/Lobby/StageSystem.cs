@@ -19,8 +19,6 @@ public class StageSystem : MonoBehaviour
     public List<ButtonActivator> targetKills = new List<ButtonActivator>();
     private int maxPersonnel;
     private int targetKillCount;
-    private bool canCreateStage = true;
-    private bool isSending;
 
     [Header( "< Current Stage List >" )]
     public List<Stage> stages = new List<Stage>();
@@ -104,10 +102,10 @@ public class StageSystem : MonoBehaviour
 
     public void CreateStage()
     {
-        if ( isSending || !canCreateStage )
+        if ( SceneBase.IsLock )
              return;
 
-        isSending = true;
+        SceneBase.IsLock = true;
         STAGE_INFO protocol;
         protocol.serial = 0;
         protocol.title = title.text;
@@ -123,7 +121,6 @@ public class StageSystem : MonoBehaviour
     #region Response Protocols
     private void AckEntryStage( Packet _packet )
     {
-        isSending = canCreateStage = false;
         AudioManager.Inst.Play( SFX.MouseClick );
         GameManager.StageInfo = Global.FromJson<STAGE_INFO>( _packet );
         scene.LoadScene( SceneType.InGame_UI );
