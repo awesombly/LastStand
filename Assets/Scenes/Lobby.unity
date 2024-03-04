@@ -552,8 +552,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: ShowCreateStagePanel
         m_Mode: 1
         m_Arguments:
@@ -972,8 +972,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: ShowCreateStagePanel
         m_Mode: 1
         m_Arguments:
@@ -1240,8 +1240,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: SetPersonnel
         m_Mode: 3
         m_Arguments:
@@ -2870,7 +2870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &334415595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3729,8 +3729,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099036}
+        m_TargetAssemblyTypeName: LoginSystem, Assembly-CSharp
         m_MethodName: ReqConfirmLoginInfo
         m_Mode: 1
         m_Arguments:
@@ -5363,8 +5363,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: SetPersonnel
         m_Mode: 3
         m_Arguments:
@@ -6577,8 +6577,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: SetTargetKillCount
         m_Mode: 3
         m_Arguments:
@@ -6788,8 +6788,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: SetTargetKillCount
         m_Mode: 3
         m_Arguments:
@@ -6986,8 +6986,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: SetTargetKillCount
         m_Mode: 3
         m_Arguments:
@@ -7522,8 +7522,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099036}
+        m_TargetAssemblyTypeName: LoginSystem, Assembly-CSharp
         m_MethodName: ReqConfirmDuplicateEmail
         m_Mode: 1
         m_Arguments:
@@ -9564,8 +9564,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: SetPersonnel
         m_Mode: 3
         m_Arguments:
@@ -11433,8 +11433,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: SetTargetKillCount
         m_Mode: 3
         m_Arguments:
@@ -11603,6 +11603,9 @@ GameObject:
   - component: {fileID: 1554099032}
   - component: {fileID: 1554099031}
   - component: {fileID: 1554099033}
+  - component: {fileID: 1554099036}
+  - component: {fileID: 1554099035}
+  - component: {fileID: 1554099034}
   m_Layer: 0
   m_Name: Scene
   m_TagString: Untagged
@@ -11623,42 +11626,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCamera: {fileID: 249464727}
-  createStageCanvas: {fileID: 1906665259}
-  createStageGroup: {fileID: 1906665264}
-  title: {fileID: 1258207594}
-  personnels:
-  - {fileID: 595915768}
-  - {fileID: 95381016}
-  - {fileID: 1321051177}
-  - {fileID: 1801139184}
-  targetKills:
-  - {fileID: 811711758}
-  - {fileID: 860736687}
-  - {fileID: 852004216}
-  - {fileID: 1543362645}
-  stages: []
-  contents: {fileID: 1436240422}
-  prefab: {fileID: 6763503459492760473, guid: 5e930bbabfcdf0c49b4575d4a53c0cc5, type: 3}
-  optionCanvas: {fileID: 1372104375}
-  optionMovement: {fileID: 2085791887}
-  userInfoCanvas: {fileID: 223403813}
-  userInfoNickname: {fileID: 1735033637}
-  level: {fileID: 927352180}
-  exp: {fileID: 1723871297}
-  playCount: {fileID: 198846383}
-  kill: {fileID: 6326249}
-  death: {fileID: 459050009}
-  killDeathAverage: {fileID: 1040313845}
-  bestKill: {fileID: 1945085865}
-  bestDeath: {fileID: 279085776}
-  loginCanvas: {fileID: 351586226}
-  email: {fileID: 2072268686}
-  password: {fileID: 466124603}
-  nickname: {fileID: 22824093}
-  errorPanel: {fileID: 9913813}
-  errorMessage: {fileID: 1793570036}
-  signUpPanel: {fileID: 334415594}
-  signUpMessage: {fileID: 408067444}
   cursor: {fileID: 2146961822}
 --- !u!4 &1554099032
 Transform:
@@ -11727,6 +11694,78 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1554099034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554099030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73291ec5f6eb43249a8078e89787181c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createStageCanvas: {fileID: 1906665259}
+  createStageGroup: {fileID: 1906665264}
+  title: {fileID: 1258207594}
+  personnels:
+  - {fileID: 595915768}
+  - {fileID: 95381016}
+  - {fileID: 1321051177}
+  - {fileID: 1801139184}
+  targetKills:
+  - {fileID: 811711758}
+  - {fileID: 860736687}
+  - {fileID: 852004216}
+  - {fileID: 1543362645}
+  stages: []
+  contents: {fileID: 1436240422}
+  prefab: {fileID: 6763503459492760473, guid: 5e930bbabfcdf0c49b4575d4a53c0cc5, type: 3}
+--- !u!114 &1554099035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554099030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66f97926f267c994691ee7f8417779f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optionCanvas: {fileID: 1372104375}
+  optionMovement: {fileID: 2085791887}
+  userInfoCanvas: {fileID: 223403813}
+  userInfoNickname: {fileID: 1735033637}
+  level: {fileID: 927352180}
+  exp: {fileID: 1723871297}
+  playCount: {fileID: 198846383}
+  kill: {fileID: 6326249}
+  death: {fileID: 459050009}
+  killDeathAverage: {fileID: 1040313845}
+  bestKill: {fileID: 1945085865}
+  bestDeath: {fileID: 279085776}
+--- !u!114 &1554099036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554099030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0708df516cf3a54e9b5e6434882fa80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginCanvas: {fileID: 351586226}
+  email: {fileID: 2072268686}
+  password: {fileID: 466124603}
+  nickname: {fileID: 22824093}
+  errorPanel: {fileID: 9913813}
+  errorMessage: {fileID: 1793570036}
+  signUpPanel: {fileID: 334415594}
+  signUpMessage: {fileID: 408067444}
 --- !u!1 &1554288442
 GameObject:
   m_ObjectHideFlags: 0
@@ -12095,8 +12134,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099036}
+        m_TargetAssemblyTypeName: LoginSystem, Assembly-CSharp
         m_MethodName: ReqConfirmAccountInfo
         m_Mode: 1
         m_Arguments:
@@ -13233,8 +13272,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: SetPersonnel
         m_Mode: 3
         m_Arguments:
@@ -13467,8 +13506,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099036}
+        m_TargetAssemblyTypeName: LoginSystem, Assembly-CSharp
         m_MethodName: ActiveErrorPanel
         m_Mode: 6
         m_Arguments:
@@ -14608,8 +14647,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099035}
+        m_TargetAssemblyTypeName: OptionSystem, Assembly-CSharp
         m_MethodName: ActiveOptionPanel
         m_Mode: 1
         m_Arguments:
@@ -15579,8 +15618,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1554099031}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
+      - m_Target: {fileID: 1554099034}
+        m_TargetAssemblyTypeName: StageSystem, Assembly-CSharp
         m_MethodName: CreateStage
         m_Mode: 1
         m_Arguments:
