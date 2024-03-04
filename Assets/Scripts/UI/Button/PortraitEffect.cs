@@ -11,13 +11,15 @@ public class PortraitEffect : MonoBehaviour
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
-        rdr = GetComponent<SpriteRenderer>();
+        anim   = GetComponent<Animator>();
+
+        rdr    = GetComponent<SpriteRenderer>();
         rdr.color = Color.gray;
     }
 
     public void OnPointerEnter()
     {
+        AudioManager.Inst.Play( SFX.MenuHover );
         anim.SetBool( "IsHover", true );
         rdr.DOColor( Color.white, .35f );
         transform.DOScale( 1.25f, .35f );
