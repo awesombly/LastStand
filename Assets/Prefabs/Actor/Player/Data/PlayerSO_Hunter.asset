@@ -16,3 +16,5 @@ MonoBehaviour:
   playerAC: {fileID: 22100000, guid: 56430d50caa15a249852750d0898b2d5, type: 2}
   dodgeActionEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
   dodgeHitEffect: {fileID: 9222338147210068352, guid: eb67646278733d84aa3c4239011f7145, type: 3}
+  dodgeActionSound: {fileID: 8300000, guid: 14f24de2a9a70154e96297de25e2184c, type: 3}
+  dodgeHitSound: {fileID: 8300000, guid: 6f0c572d865b4664db7a460972bc4768, type: 3}

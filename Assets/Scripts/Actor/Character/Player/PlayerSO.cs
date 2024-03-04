@@ -11,4 +11,8 @@ public class PlayerSO : ScriptableObject
     [Header( "< Effect >" )]
     public Poolable dodgeActionEffect;
     public Poolable dodgeHitEffect;
+
+    [Header( "< Sound >" )]
+    public AudioClip dodgeActionSound;
+    public AudioClip dodgeHitSound;
 }

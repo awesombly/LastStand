@@ -27,7 +27,7 @@ public class PlayerEffect : EffectSpawner
 {
     private Player player;
 
-    void Start()
+    private void Awake()
     {
         player = GetComponent<Player>();
 
