@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+public enum PlayerType
+{
+    None = 0, Pilot, Hunter, Convict,
+}
 
 public class Player : Character
 {
@@ -54,9 +58,24 @@ public class Player : Character
     public event Action OnPlayerRespawn;
     public event Action<Player/* 공격한 플레이어 */> OnPlayerDead;
     public event Action<Player/* 처치 플레이어 */> OnPlayerKill;
-
     #endregion
 
+    public PlayerType playerType;
+    public PlayerType PlayerType
+    {
+        get => playerType;
+        set
+        {
+            if ( playerType == value )
+            {
+                return;
+            }
+
+            playerType = value;
+            Animator anim = GetComponent<Animator>();
+            anim.runtimeAnimatorController = GameManager.Inst.GetPlayerTypeAC( playerType );
+        }
+    }
     public Vector2 Direction { get; set; }
     private List<Weapon> Weapons { get; set; } = null;
 

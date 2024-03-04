@@ -39,6 +39,9 @@ public class InGameUIScene : SceneBase
     [Header( "< Pause >" )]
     public GameObject pause;
 
+    [Header( "< Player Select >" )]
+    public GameObject selectPlayer;
+
     [Header( "< Player Dead >" )]
     public PlayerDeadUI deadPrefab;
     public Transform deadContents;
@@ -69,6 +72,8 @@ public class InGameUIScene : SceneBase
     protected override void Start()
     {
         base.Start();
+
+        selectPlayer.SetActive( true );
     }
 
     private void Update()
@@ -168,6 +173,31 @@ public class InGameUIScene : SceneBase
         IsSending = true;
         Network.Inst.Send( EXIT_STAGE_REQ, GameManager.StageInfo.Value );
         AudioManager.Inst.Play( SFX.MouseClick );
+    }
+
+    public void ReqSelectPlayer( int _type )
+    {
+        selectPlayer.SetActive( false );
+        Player playerPrefab = GameManager.Inst.GetPlayerPrefab();
+        var logicScene = GameManager.Inst.GetActiveScene( SceneType.InGame_Logic ) as InGameLogicScene;
+
+        PLAYER_INFO protocol;
+        protocol.actorInfo.isLocal = true;
+        protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
+        protocol.actorInfo.serial = 0;
+        protocol.actorInfo.pos = new VECTOR2( logicScene.GetSpawnPosition() );
+        protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
+        protocol.actorInfo.hp = playerPrefab.data.maxHp;
+        protocol.actorInfo.index = 0;
+        protocol.nickname = string.Empty;
+        protocol.isDead = false;
+        protocol.angle = 0f;
+        protocol.weapon = 1;
+        protocol.kill = 0;
+        protocol.death = 0;
+        protocol.type = ( PlayerType )_type;
+
+        Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
     }
 
     private void AckUpdateResultInfo( Packet _packet )

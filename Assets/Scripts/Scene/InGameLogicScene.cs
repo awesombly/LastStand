@@ -67,6 +67,8 @@ public class InGameLogicScene : SceneBase
 
         player.IsLocal = true;
         GameManager.LocalPlayer = player;
+        // 플레이어 선택후 활성화
+        GameManager.LocalPlayer.gameObject.SetActive( false );
     }
 
     #region Req Protocols
@@ -108,26 +110,7 @@ public class InGameLogicScene : SceneBase
 
     private void ReqInGameLoadData()
     {
-        Player playerPrefab = GameManager.Inst.GetPlayerPrefab();
-
-        // 접속시 생성할 Player 정보
-        PLAYER_INFO protocol;
-        protocol.actorInfo.isLocal = true;
-        protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
-        protocol.actorInfo.serial = 0;
-        protocol.actorInfo.pos = new VECTOR2( GetSpawnPosition() );
-        protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
-        protocol.actorInfo.hp = playerPrefab.data.maxHp;
-        protocol.actorInfo.index = 0;
-        protocol.nickname = string.Empty;
-        protocol.isDead = false;
-        protocol.angle = 0f;
-        protocol.weapon = 1;
-        protocol.kill = 0;
-        protocol.death = 0;
-        protocol.type = PlayerType.None;
-
-        Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
+        Network.Inst.Send( INGAME_LOAD_DATA_REQ, new EMPTY() );
     }
     #endregion
 
@@ -165,6 +148,7 @@ public class InGameLogicScene : SceneBase
         player.IsDead = data.isDead;
         player.KillScore = data.kill;
         player.DeathScore = data.death;
+        player.PlayerType = data.type;
         player.SwapWeapon( data.weapon );
         player.ApplyLookAngle( data.angle );
         player.ResetExcludeLayers();

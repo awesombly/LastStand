@@ -169,6 +169,8 @@ public class GameManager : Singleton<GameManager>
         protocol.angle = _player.LookAngle;
         protocol.weapon = 1;
         protocol.kill = _player.KillScore;
+        protocol.death = _player.DeathScore;
+        protocol.type = _player.PlayerType;
         Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
     }
 
@@ -260,6 +262,30 @@ public class GameManager : Singleton<GameManager>
     public Player GetPlayerPrefab()
     {
         return data.playerPrefab;
+    }
+
+    public RuntimeAnimatorController GetPlayerTypeAC( PlayerType _type )
+    {
+        switch ( _type )
+        {
+            case PlayerType.Pilot:
+            {
+                return data.pilotAC;
+            }
+            case PlayerType.Hunter:
+            {
+                return data.hunterAC;
+            }
+            case PlayerType.Convict:
+            {
+                return data.convictAC;
+            }
+            default:
+            {
+                Debug.LogError( $"Not processed type. type:{_type}" );
+                return null;
+            }
+        }
     }
     #endregion
 

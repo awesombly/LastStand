@@ -280,7 +280,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 147307909}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 691157875}
+        m_TargetAssemblyTypeName: InGameUIScene, Assembly-CSharp
+        m_MethodName: ReqSelectPlayer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &147307909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2117,6 +2129,7 @@ MonoBehaviour:
   resultExp: {fileID: 1266513267}
   resultBackButton: {fileID: 1850122988}
   pause: {fileID: 546839803}
+  selectPlayer: {fileID: 719998808}
   deadPrefab: {fileID: 2724251974762178410, guid: 63a0784d4f15e3f4a985de17166dbb07, type: 3}
   deadContents: {fileID: 277175275}
 --- !u!212 &691157876
@@ -2900,7 +2913,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 847967516}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 691157875}
+        m_TargetAssemblyTypeName: InGameUIScene, Assembly-CSharp
+        m_MethodName: ReqSelectPlayer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &847967516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3175,7 +3200,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 903997847}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 691157875}
+        m_TargetAssemblyTypeName: InGameUIScene, Assembly-CSharp
+        m_MethodName: ReqSelectPlayer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &903997847
 MonoBehaviour:
   m_ObjectHideFlags: 0

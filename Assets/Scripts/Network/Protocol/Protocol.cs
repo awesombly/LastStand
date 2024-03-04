@@ -194,6 +194,7 @@ public struct PLAYER_INFO : IProtocol
     public int weapon;
     public int kill;
     public int death;
+    public PlayerType type;
 }
 
 public struct BULLET_INFO

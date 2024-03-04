@@ -115,6 +115,7 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	}
 	else
 	{
+		// 리스폰시
 		_packet.session->player->actorInfo.type = ActorType::Player;
 		_packet.session->player->actorInfo = data.actorInfo;
 		_packet.session->player->isDead = false;
@@ -405,21 +406,6 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 		return;
 	}
 
-	PLAYER_INFO data = FromJson<PLAYER_INFO>( _packet );
-	if ( data.actorInfo.serial == 0 )
-	{
-		data.actorInfo.serial = Global::GetNewSerial();
-	}
-
-	// 접속시 플레이어 생성
-	{
-		data.nickname = _packet.session->loginInfo.nickname;
-		data.actorInfo.isLocal = true;
-		_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
-		data.actorInfo.isLocal = false;
-		_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, data ) );
-	}
-
 	// 기존에 있던 Player들 스폰
 	std::list<Session*> sessions = _packet.session->stage->GetSessions();
 	for ( auto session : sessions )
@@ -486,14 +472,6 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 		{
 			_packet.session->Send( UPacket( INIT_SCENE_ACTORS_ACK, sceneActors ) );
 		}
-	}
-
-	// 기존 Actor들 처리후 등록
-	{
-		PlayerInfo* player = new PlayerInfo( data );
-		player->actorInfo.type = ActorType::Player;
-		_packet.session->player = player;
-		_packet.session->stage->RegistActor( &player->actorInfo );
 	}
 }
 

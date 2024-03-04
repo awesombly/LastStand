@@ -341,6 +341,12 @@ public:
 	int kill;
 	int death;
 
+	enum class PlayerType
+	{
+		None = 0, Pilot, Hunter, Convict,
+	};
+	PlayerType type;
+
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
@@ -351,6 +357,7 @@ public:
 		ar( CEREAL_NVP( weapon ) );
 		ar( CEREAL_NVP( kill ) );
 		ar( CEREAL_NVP( death ) );
+		ar( CEREAL_NVP( type ) );
 	}
 } PLAYER_INFO;
 typedef struct BulletInfo
