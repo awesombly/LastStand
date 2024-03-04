@@ -21,12 +21,6 @@ public class InGameUIScene : SceneBase
     [Header( "< Target Kill >" )]
     public TextMeshProUGUI targetKillCount;
 
-    [Header( "< Player Board >" )]
-    public GameObject playerBoardCanvas;
-    public RectTransform playerBoardHintTf;
-    public List<PlayerBoard> boards = new List<PlayerBoard>();
-    private bool isBoardMovePlaying;
-
     [Header( "< Result >" )]
     public GameObject gameResult;
     public TextMeshProUGUI resultText;
@@ -61,9 +55,8 @@ public class InGameUIScene : SceneBase
         if ( !ReferenceEquals( GameManager.StageInfo, null ) ) 
              targetKillCount.text = $"{GameManager.StageInfo.Value.targetKill}";
 
-        GameManager.OnChangePlayers += UpdatePlayerBoard;
-        GameManager.OnGameOver      += OnGameOver;
-        GameManager.OnDead          += OnPlayerDead;
+        GameManager.OnGameOver += OnGameOver;
+        GameManager.OnDead     += OnPlayerDead;
 
         ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK,         AckExitStage );
         ProtocolSystem.Inst.Regist( UPDATE_RESULT_INFO_ACK, AckUpdateResultInfo );
@@ -98,66 +91,14 @@ public class InGameUIScene : SceneBase
                 AudioManager.Inst.Play( SFX.MenuEntry );
             }
         }
-
-        PlayerBoardMoveEffect();
     }
 
     private void OnDestroy()
     {
-        GameManager.OnChangePlayers -= UpdatePlayerBoard;
         GameManager.OnGameOver      -= OnGameOver;
         GameManager.OnDead          -= OnPlayerDead;
     }
     #endregion
-
-    private void UpdatePlayerBoard()
-    {
-        var players = GameManager.Players;
-        for ( int i = 0; i < 4; i++ )
-        {
-            if ( i < players.Count )
-            {
-                boards[i].gameObject.SetActive( true );
-                boards[i].Initialize( players[i] );
-            }
-            else
-            {
-                boards[i].gameObject.SetActive( false );
-            }
-        }
-    }
-
-    private void PlayerBoardMoveEffect()
-    {
-        if ( Input.GetKeyDown( KeyCode.Tab ) )
-        {
-            if ( isBoardMovePlaying )
-                 return;
-
-            RectTransform boardTf = playerBoardCanvas.transform as RectTransform;
-            if ( playerBoardCanvas.activeInHierarchy )
-            {
-                AudioManager.Inst.Play( SFX.MenuExit );
-                isBoardMovePlaying = true;
-                boardTf.DOAnchorPosX( -1125f, .5f )
-                       .OnComplete( () => 
-                       {
-                           playerBoardCanvas.SetActive( false );
-                           isBoardMovePlaying = false;
-                       } );
-
-                playerBoardHintTf.DOAnchorPosX( -1050f, .5f );
-            }
-            else
-            {
-                AudioManager.Inst.Play( SFX.MenuEntry );
-                playerBoardCanvas.SetActive( true );
-                isBoardMovePlaying = true;
-                boardTf.DOAnchorPosX( -800f, .5f ).OnComplete( () => { isBoardMovePlaying = false; } );
-                playerBoardHintTf.DOAnchorPosX( -830f, .5f );
-            }
-        }
-    }
 
     public void MoveToLobby()
     {
