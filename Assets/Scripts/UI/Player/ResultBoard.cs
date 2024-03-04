@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ResultBoard : MonoBehaviour
 {
@@ -17,18 +16,11 @@ public class ResultBoard : MonoBehaviour
         animatior.runtimeAnimatorController = playerData.playerAC;
         animatior.SetBool( AnimatorParameters.IsActionBlocked, true );
 
-        if ( _isWinner )
-        {
-            animatior.SetTrigger( AnimatorParameters.DanceAction );
-            nickname.text = $"~ {_player.Nickname} ~";
+        if ( _isWinner ) animatior.SetTrigger( AnimatorParameters.DanceAction );
+        else             animatior.SetTrigger( AnimatorParameters.DefeatAction );
 
-        }
-        else
-        {
-            animatior.SetTrigger( AnimatorParameters.DefeatAction );
-            nickname.text = _player.Nickname;
-        }
-        killCount.text = $"{_player.KillScore}";
+        nickname.text   = _player.Nickname;
+        killCount.text  = $"{_player.KillScore}";
         deathCount.text = $"{_player.DeathScore}";
     }
 }

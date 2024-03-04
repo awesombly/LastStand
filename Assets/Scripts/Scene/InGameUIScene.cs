@@ -21,15 +21,6 @@ public class InGameUIScene : SceneBase
     [Header( "< Target Kill >" )]
     public TextMeshProUGUI targetKillCount;
 
-    [Header( "< Result >" )]
-    public GameObject gameResult;
-    public TextMeshProUGUI resultText;
-    public List<ResultBoard> resultBoards;
-
-    public TextMeshProUGUI resultLevel;
-    public Slider          resultExp;
-    public GameObject      resultBackButton;
-
     [Header( "< Pause >" )]
     public GameObject pause;
 
@@ -56,11 +47,9 @@ public class InGameUIScene : SceneBase
         if ( !ReferenceEquals( GameManager.StageInfo, null ) ) 
              targetKillCount.text = $"{GameManager.StageInfo.Value.targetKill}";
 
-        GameManager.OnGameOver += OnGameOver;
         GameManager.OnDead     += OnPlayerDead;
 
-        ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK,         AckExitStage );
-        ProtocolSystem.Inst.Regist( UPDATE_RESULT_INFO_ACK, AckUpdateResultInfo );
+        ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK, AckExitStage );
     }
 
     protected override void Start()
@@ -99,8 +88,7 @@ public class InGameUIScene : SceneBase
 
     private void OnDestroy()
     {
-        GameManager.OnGameOver      -= OnGameOver;
-        GameManager.OnDead          -= OnPlayerDead;
+        GameManager.OnDead -= OnPlayerDead;
     }
     #endregion
 
@@ -146,61 +134,6 @@ public class InGameUIScene : SceneBase
         Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
     }
 
-    private void AckUpdateResultInfo( Packet _packet )
-    {
-        var prevInfo = GameManager.UserInfo.Value;
-        GameManager.UserInfo = Global.FromJson<USER_INFO>( _packet );
-        var curInfo = GameManager.UserInfo.Value;
-
-        StartCoroutine( SmoothLevelUp( prevInfo, curInfo ) );
-    }
-
-    private IEnumerator SmoothLevelUp( USER_INFO _prev, USER_INFO _cur )
-    {
-        float time = 0f;
-        float prevExp = ( _prev.exp / Global.GetTotalEXP( _prev.level ) );
-        float curExp  = ( _cur.exp  / Global.GetTotalEXP( _cur.level ) );
-        bool isLevelUp = false;
-
-        while ( true )
-        {
-
-            if ( _prev.level < _cur.level )
-            {
-                resultExp.value = WNS.Math.Lerp( prevExp, 1f, time );
-                time += ( 1f + ( _cur.level - _prev.level ) ) * Time.deltaTime;
-
-                if ( time >= 1f )
-                {
-                    isLevelUp = true;
-
-                    time             = 0f;
-                    _prev.level     += 1;
-                    _prev.exp        = 0f;
-                    prevExp          = ( _prev.exp / Global.GetTotalEXP( _prev.level ) );
-                    resultExp.value  = 0f;
-                    resultLevel.text = $"{_prev.level}";
-                }
-            }
-            else
-            {
-                resultExp.value = isLevelUp ? WNS.Math.Lerp( 0f,      curExp, time ) :
-                                              WNS.Math.Lerp( prevExp, curExp, time );
-
-                time += Time.deltaTime;
-                if ( time >= 1f )
-                {
-                    resultExp.value = curExp;
-                    break;
-                }
-            }
-
-            yield return null;
-        }
-
-        resultBackButton.SetActive( true );
-    }
-
     private void AckExitStage( Packet _packet )
     {
         IsLock = canExitStage = false;
@@ -212,41 +145,5 @@ public class InGameUIScene : SceneBase
     {
         PlayerDeadUI deadUI = deadUIPool.Spawn();
         deadUI.Initialize( _player );
-    }
-
-    private void OnGameOver( Player _winner )
-    {
-        gameResult.SetActive( true );
-        bool isWinner = ReferenceEquals( GameManager.LocalPlayer, _winner );
-        resultText.text = isWinner ? "- ½Â¸® -" : "- ÆÐ¹è -";
-
-        var players = GameManager.Players;
-        for ( int i = 0; i < resultBoards.Count; ++i )
-        {
-            if ( players.Count <= i )
-            {
-                resultBoards[i].gameObject.SetActive( false );
-                continue;
-            }
-
-            resultBoards[i].gameObject.SetActive( true );
-            resultBoards[i].Initialize( players[i], ReferenceEquals( players[i], _winner ) );
-        }
-
-        if ( GameManager.UserInfo != null )
-        {
-            var userInfo = GameManager.UserInfo.Value;
-            resultLevel.text = $"{userInfo.level}";
-            resultExp.value  = userInfo.exp / Global.GetTotalEXP( userInfo.level );
-        }
-
-        if ( GameManager.LoginInfo != null )
-        {
-            RESULT_INFO protocol;
-            protocol.uid   = GameManager.LoginInfo.Value.uid;
-            protocol.kill  = GameManager.LocalPlayer.KillScore;
-            protocol.death = GameManager.LocalPlayer.DeathScore;
-            Network.Inst.Send( new Packet( UPDATE_RESULT_INFO_REQ, protocol ) );
-        }
     }
 }

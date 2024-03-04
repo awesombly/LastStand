@@ -14,14 +14,6 @@ public abstract class CustomLayoutGroup : MonoBehaviour, ILayoutController
     protected struct RectOffset
     {
         public float left, right, top, bottom;
-
-        public RectOffset( float _left, float _right, float _top, float _bottom )
-        {
-            left = _left;
-            right = _right;
-            top = _top;
-            bottom = _bottom;
-        }
     }
     [SerializeField]
     protected RectOffset padding;
