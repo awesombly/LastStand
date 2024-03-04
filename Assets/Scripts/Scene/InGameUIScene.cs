@@ -235,10 +235,13 @@ public class InGameUIScene : SceneBase
             resultExp.value  = userInfo.exp / Global.GetTotalEXP( userInfo.level );
         }
 
-        RESULT_INFO protocol;
-        protocol.uid   = GameManager.LoginInfo.Value.uid;
-        protocol.kill  = GameManager.LocalPlayer.KillScore;
-        protocol.death = GameManager.LocalPlayer.DeathScore;
-        Network.Inst.Send( new Packet( UPDATE_RESULT_INFO_REQ, protocol ) );
+        if ( GameManager.LoginInfo != null )
+        {
+            RESULT_INFO protocol;
+            protocol.uid   = GameManager.LoginInfo.Value.uid;
+            protocol.kill  = GameManager.LocalPlayer.KillScore;
+            protocol.death = GameManager.LocalPlayer.DeathScore;
+            Network.Inst.Send( new Packet( UPDATE_RESULT_INFO_REQ, protocol ) );
+        }
     }
 }
