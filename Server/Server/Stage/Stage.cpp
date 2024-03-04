@@ -32,8 +32,8 @@ bool Stage::Exit( Session* _session )
 	{
 		SERIALS_INFO protocol;
 		protocol.serials.push_back( _session->player->actorInfo.serial );
-		_session->stage->BroadcastWithoutSelf( _session, UPacket( REMOVE_ACTORS_ACK, protocol ) );
-		_session->stage->UnregistActor( &_session->player->actorInfo );
+		BroadcastWithoutSelf( _session, UPacket( REMOVE_ACTORS_ACK, protocol ) );
+		UnregistActor( &_session->player->actorInfo );
 		Global::Memory::SafeDelete( _session->player );
 	}
 
@@ -49,6 +49,17 @@ bool Stage::Exit( Session* _session )
 	_session->stage = nullptr;
 
 	return sessions.size() > 0;
+}
+
+void Stage::Clear()
+{
+	//ClearActors();
+	auto iter = sessions.begin();
+	while ( iter != sessions.end() )
+	{
+		Exit( *iter );
+		iter = sessions.begin();
+	}
 }
 
 bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )

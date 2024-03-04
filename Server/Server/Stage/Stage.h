@@ -21,6 +21,8 @@ public:
 	bool Entry( Session* _session );
 	bool Exit( Session* _session );
 
+	void Clear();
+
 	bool DeadActor( ActorInfo* _dead, const HitInfo& _hit );
 	PlayerInfo* FindWinner() const;
 

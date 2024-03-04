@@ -22,8 +22,10 @@ void StageManager::Erase( Stage* _stage )
 	std::lock_guard<std::mutex> lock( mtx );
 	for ( std::list<Stage*>::const_iterator iter = stages.begin(); iter != stages.end(); iter++ )
 	{
-		if ( ( *iter )->info.serial == _stage->info.serial )
+		Stage* stage = *iter;
+		if ( stage->info.serial == _stage->info.serial )
 		{
+			stage->Clear();
 			stages.erase( iter );
 			break;
 		}
