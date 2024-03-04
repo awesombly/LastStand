@@ -80,7 +80,7 @@ void InGame::AckSpawnActor( const Packet& _packet )
 	}
 
 	ActorInfo* actor = new ActorInfo( data );
-	actor->type = ActorType::Actor;
+	actor->actorType = ActorType::Actor;
 	_packet.session->stage->RegistActor( actor );
 
 	_packet.session->stage->Broadcast( UPacket( SPAWN_ACTOR_ACK, data ) );
@@ -116,7 +116,7 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	if ( _packet.session->player == nullptr )
 	{
 		PlayerInfo* player = new PlayerInfo( data );
-		player->actorInfo.type = ActorType::Player;
+		player->actorInfo.actorType = ActorType::Player;
 		_packet.session->player = player;
 		_packet.session->stage->RegistActor( &player->actorInfo );
 	}
@@ -124,7 +124,7 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	{
 		// 리스폰시
 		_packet.session->player->actorInfo = data.actorInfo;
-		_packet.session->player->actorInfo.type = ActorType::Player;
+		_packet.session->player->actorInfo.actorType = ActorType::Player;
 		_packet.session->player->isDead = false;
 		_packet.session->player->angle = data.angle;
 	}
@@ -147,7 +147,7 @@ void InGame::AckSpawnBullet( const Packet& _packet )
 		actor->prefab = data.prefab;
 		actor->isLocal = data.isLocal;
 		actor->serial = data.bullets[i].serial;
-		actor->type = ActorType::Bullet;
+		actor->actorType = ActorType::Bullet;
 		_packet.session->stage->RegistActor( actor );
 	}
 
@@ -291,7 +291,7 @@ void InGame::AckHitActors( const Packet& _packet )
 		return;
 	}
 
-	PlayerInfo* winner = nullptr;
+	bool isPlayerKill = false;
 	for ( const HitInfo& hit : data.hits )
 	{
 		ActorInfo* defender = _packet.session->stage->GetActor( hit.defender );
@@ -302,63 +302,19 @@ void InGame::AckHitActors( const Packet& _packet )
 		}
 		
 		defender->hp = hit.hp;
-		// 사망처리
-		if ( defender->hp <= 0 )
+		if ( defender->hp <= 0.0f )
 		{
-			switch ( defender->type )
-			{
-			case ActorType::Actor:
-			case ActorType::Bullet:
-			{
-				_packet.session->stage->UnregistActor( defender );
-				Global::Memory::SafeDelete( defender );
-			} break;
-			case ActorType::Player:
-			{
-				PlayerInfo* player = _packet.session->stage->FindPlayer( defender->serial );
-				if ( player == nullptr || player->isDead )
-				{
-					Debug.LogError( "player is dead. serial:", hit.attacker, ", nick:", _packet.session->loginInfo.nickname );
-					break;
-				}
-
-				// Player라면 실제로 없애진 않는다
-				player->isDead = true;
-				++( player->death );
-
-				PlayerInfo* attacker = _packet.session->stage->FindPlayer( hit.attacker );
-				if ( attacker == nullptr )
-				{
-					Debug.LogError( "attacker is null. serial:", hit.attacker, ", nick:", _packet.session->loginInfo.nickname );
-					break;
-				}
-
-				++( attacker->kill );
-				if ( winner == nullptr && attacker->kill == _packet.session->stage->info.targetKill )
-				{
-					winner = attacker;
-				}
-			} break;
-			case ActorType::SceneActor:
-			{
-				// 미리 배치된 Actor는 동기화 용도로 놔둔다
-			} break;
-			case ActorType::None:
-			default:
-			{
-				Debug.LogWarning( "Not processed type. type:", defender->type );
-			} break;
-			}
+			isPlayerKill = _packet.session->stage->DeadActor( defender, hit );
 		}
 
-		// Bullet 제거
+		// Hitable 제거
 		if ( hit.needRelease )
 		{
 			ActorInfo* hiter = _packet.session->stage->GetActor( hit.hiter );
 			if ( hiter == nullptr )
 			{
 				Debug.LogError( "Hitable is null. serial:", hit.hiter, ", nick:", _packet.session->loginInfo.nickname );
-				return;
+				continue;
 			}
 
 			_packet.session->stage->UnregistActor( hiter );
@@ -367,9 +323,15 @@ void InGame::AckHitActors( const Packet& _packet )
 	}
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTORS_ACK, data ) );
 
-	// 게임 종료
-	if ( winner != nullptr )
+	// 종료 목표 체크
+	if ( isPlayerKill )
 	{
+		PlayerInfo* winner = _packet.session->stage->FindWinner();
+		if ( winner == nullptr )
+		{
+			return;
+		}
+
 		SERIAL_INFO protocol;
 		protocol.serial = winner->actorInfo.serial;
 		_packet.session->stage->Broadcast( UPacket( GAME_OVER_ACK, protocol ) );
@@ -399,7 +361,7 @@ void InGame::AckInitSceneActors( const Packet& _packet )
 			actorInfo.serial = Global::GetNewSerial();
 		}
 		ActorInfo* actor = new ActorInfo( actorInfo );
-		actor->type = ActorType::SceneActor;
+		actor->actorType = ActorType::SceneActor;
 		_packet.session->stage->RegistActor( actor );
 	}
 
@@ -445,7 +407,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 				continue;
 			}
 
-			switch ( actorPair.second->type )
+			switch ( actorPair.second->actorType )
 			{
 			case ActorType::Actor:
 			{
@@ -471,7 +433,8 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 			case ActorType::None:
 			default:
 			{
-				Debug.LogWarning( "Not processed type. type:", actorPair.second->type );
+				Debug.LogError( "Not processed type. type:", actorPair.second->actorType );
+				throw std::exception( "# Not processed type." );
 			} break;
 			}
 		}

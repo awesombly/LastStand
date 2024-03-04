@@ -12,12 +12,17 @@ public:
 private:
 	std::list<Session*> sessions;
 	ActorContainer actors;
+
+	int totalKill;
 public:
 	Stage( Session* _host, const STAGE_INFO& _info );
 	virtual ~Stage() = default;
 
 	bool Entry( Session* _session );
 	bool Exit( Session* _session );
+
+	bool DeadActor( ActorInfo* _dead, const HitInfo& _hit );
+	PlayerInfo* FindWinner() const;
 
 	void RegistActor( ActorInfo* _actor );
 	void UnregistActor( const ActorInfo* _actor );

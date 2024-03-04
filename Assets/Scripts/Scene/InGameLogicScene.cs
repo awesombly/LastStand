@@ -142,7 +142,7 @@ public class InGameLogicScene : SceneBase
         else
         {
             // 리스폰일시 기존 Player를 재사용한다
-            player = GameManager.Players.Find( ( player ) => player.Serial == data.actorInfo.serial );
+            player = GameManager.Inst.FindPlayer( data.actorInfo.serial );
             if ( player == null )
             {
                 player = PoolManager.Inst.Get( data.actorInfo.prefab ) as Player;
@@ -356,7 +356,7 @@ public class InGameLogicScene : SceneBase
     {
         var data = Global.FromJson<SERIAL_INFO>( _packet );
 
-        Player winner = GameManager.Inst.GetActor( data.serial ) as Player;
+        Player winner = GameManager.Inst.FindPlayer( data.serial );
         if ( ReferenceEquals( winner, null ) )
         {
             Debug.LogWarning( $"Player is null. serial:{data.serial}" );

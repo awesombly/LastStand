@@ -1,7 +1,7 @@
 #include "Stage.h"
 #include "Management/SessionManager.h"
 
-Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info )
+Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info ), totalKill( 0 )
 {
 	Debug.Log( "# Stage ", info.serial, " The host has been changed< ", host->loginInfo.nickname, " >" );
 	sessions.push_back( host );
@@ -49,6 +49,85 @@ bool Stage::Exit( Session* _session )
 	_session->stage = nullptr;
 
 	return sessions.size() > 0;
+}
+
+bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
+{
+	if ( _dead == nullptr )
+	{
+		Debug.LogError( "Actor is null. serial:", _hit.defender );
+		return false;
+	}
+
+	bool isPlayerKill = false;
+	switch ( _dead->actorType )
+	{
+	case ActorType::Actor:
+	case ActorType::Bullet:
+	{
+		UnregistActor( _dead );
+		Global::Memory::SafeDelete( _dead );
+	} break;
+	case ActorType::Player:
+	{
+		PlayerInfo* player = FindPlayer( _dead->serial );
+		if ( player == nullptr || player->isDead )
+		{
+			Debug.LogError( "player is dead. serial:", _hit.attacker );
+			break;
+		}
+
+		// Player라면 실제로 없애진 않는다
+		player->isDead = true;
+		++( player->death );
+		PlayerInfo* attacker = FindPlayer( _hit.attacker );
+		if ( attacker == nullptr )
+		{
+			Debug.LogError( "attacker is null. serial:", _hit.attacker );
+			break;
+		}
+
+		++( attacker->kill );
+		++totalKill;
+		isPlayerKill = true;
+	} break;
+	case ActorType::SceneActor:
+	{
+		// 미리 배치된 Actor는 동기화 용도로 놔둔다
+	} break;
+	case ActorType::None:
+	default:
+	{
+		Debug.LogError( "Not processed type. type:", _dead->actorType );
+		throw std::exception( "# Not processed type." );
+	} break;
+	}
+
+	return isPlayerKill;
+}
+
+PlayerInfo* Stage::FindWinner() const
+{
+	if ( totalKill < info.targetKill )
+	{
+		return nullptr;
+	}
+
+	PlayerInfo* winner = nullptr;
+	for ( Session* session : sessions )
+	{
+		if ( session == nullptr || session->player == nullptr )
+		{
+			continue;
+		}
+
+		if ( winner == nullptr || winner->kill < session->player->kill )
+		{
+			winner = session->player;
+		}
+	}
+
+	return winner;
 }
 
 void Stage::RegistActor( ActorInfo* _actor )

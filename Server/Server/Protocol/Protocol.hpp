@@ -305,7 +305,7 @@ public:
 	int index;
 
 	// 서버에서만 사용
-	ActorType type;
+	ActorType actorType;
 
 	template <class Archive>
 	void serialize( Archive& ar )

@@ -181,6 +181,11 @@ public class GameManager : Singleton<GameManager>
         Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
     }
 
+    public Player FindPlayer( uint _serial )
+    {
+        return Players.Find( ( _player ) => _player.Serial == _serial );
+    }
+
     public void AddPlayer( Player _player )
     {
         if ( _player == null || Players.Contains( _player ) )
