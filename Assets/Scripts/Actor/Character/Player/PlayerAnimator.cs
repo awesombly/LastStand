@@ -9,9 +9,9 @@ public class PlayerAnimator : MonoBehaviour
     private Poolable deadPrefab;
 
     [SerializeField]
-    private GameObject handLeft;
+    private SpriteRenderer handLeft;
     [SerializeField]
-    private GameObject handRight;
+    private SpriteRenderer handRight;
     private Vector3 handLeftPosition;
     private Vector3 handRightPosition;
     private float elapsedTimeForHand;
@@ -29,6 +29,7 @@ public class PlayerAnimator : MonoBehaviour
         movement = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
 
+        player.OnChangePlayerType += OnChangePlayerType;
         player.OnChangeEquipWeapon += OnChangeEquipWeapon;
         movement.OnDodgeAction += OnDodgeAction;
 
@@ -138,6 +139,15 @@ public class PlayerAnimator : MonoBehaviour
         }
     }
 
+    private void OnChangePlayerType( PlayerType _type )
+    {
+        PlayerSO data = GameManager.Inst.GetPlayerSO( _type );
+
+        animator.runtimeAnimatorController = data.playerAC;
+        handLeft.sprite = data.handSprite;
+        handRight.sprite = data.handSprite;
+    }
+
     private void OnChangeEquipWeapon( Weapon _old, Weapon _new )
     {
         if ( _old == _new )
@@ -174,9 +184,10 @@ public class PlayerAnimator : MonoBehaviour
         Poolable poolable = PoolManager.Inst.Get( deadPrefab );
         poolable.transform.position = transform.position;
 
-        Animator anim = poolable.GetComponent<Animator>();
-        animator.SetBool( AnimatorParameters.IsActionBlocked, true );
-        anim.SetTrigger( AnimatorParameters.DeathAction );
+        Animator deadAnimator = poolable.GetComponent<Animator>();
+        deadAnimator.runtimeAnimatorController = animator.runtimeAnimatorController;
+        deadAnimator.SetBool( AnimatorParameters.IsActionBlocked, true );
+        deadAnimator.SetTrigger( AnimatorParameters.DeathAction );
 
         Rigidbody2D rigid = poolable.GetComponent<Rigidbody2D>();
         rigid.AddForce( _direction * 700f );

@@ -60,7 +60,7 @@ public class Player : Character
     public event Action<Player/* 처치 플레이어 */> OnPlayerKill;
     #endregion
 
-    public PlayerType playerType;
+    private PlayerType playerType;
     public PlayerType PlayerType
     {
         get => playerType;
@@ -72,8 +72,7 @@ public class Player : Character
             }
 
             playerType = value;
-            Animator anim = GetComponent<Animator>();
-            anim.runtimeAnimatorController = GameManager.Inst.GetPlayerTypeAC( playerType );
+            OnChangePlayerType?.Invoke( playerType );
         }
     }
     public Vector2 Direction { get; set; }
@@ -86,6 +85,8 @@ public class Player : Character
     private ActionReceiver receiver;
     private PlayerMovement movement;
     #endregion
+
+    public event Action<PlayerType> OnChangePlayerType;
 
     #region Unity Callback
     protected override void Awake()

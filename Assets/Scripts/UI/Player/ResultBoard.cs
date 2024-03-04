@@ -13,7 +13,10 @@ public class ResultBoard : MonoBehaviour
 
     public void Initialize( Player _player, bool _isWinner )
     {
+        PlayerSO playerData = GameManager.Inst.GetPlayerSO( _player.PlayerType );
+        animatior.runtimeAnimatorController = playerData.playerAC;
         animatior.SetBool( AnimatorParameters.IsActionBlocked, true );
+
         if ( _isWinner )
         {
             animatior.SetTrigger( AnimatorParameters.DanceAction );

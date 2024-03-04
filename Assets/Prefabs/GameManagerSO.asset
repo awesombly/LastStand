@@ -15,9 +15,9 @@ MonoBehaviour:
   respawnDelay: 5
   respawnInvincibleTime: 3
   playerPrefab: {fileID: 2518964481862004779, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
-  pilotAC: {fileID: 9100000, guid: 52a00a158079c3843a4eb47946ae6c09, type: 2}
-  hunterAC: {fileID: 22100000, guid: 56430d50caa15a249852750d0898b2d5, type: 2}
-  convictAC: {fileID: 22100000, guid: a6e377d813f5b284f99dd49840aa7330, type: 2}
+  pilotSO: {fileID: 11400000, guid: 71336f44ad3e9f946a51706573167632, type: 2}
+  hunterSO: {fileID: 11400000, guid: 2f9a43d7208e2f84f8e97fefae4ec0cd, type: 2}
+  convictSO: {fileID: 11400000, guid: 0d5efc25da5c22c498d995576c97308a, type: 2}
   prefabList:
   - {fileID: 2518964481862004779, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
   - {fileID: 610666648289893438, guid: 2162c34e08d1f424793d3cd0dc0b8141, type: 3}

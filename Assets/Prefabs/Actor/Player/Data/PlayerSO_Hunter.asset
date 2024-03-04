@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e5af6769b6f7b7429e10c0a85ab9e35, type: 3}
+  m_Name: PlayerSO_Hunter
+  m_EditorClassIdentifier: 
+  handSprite: {fileID: -1190135626, guid: 8a92f61c36f137e48bab530678689d23, type: 3}
+  playerAC: {fileID: 22100000, guid: 56430d50caa15a249852750d0898b2d5, type: 2}

@@ -1798,8 +1798,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deadPrefab: {fileID: 610666648289893438, guid: 2162c34e08d1f424793d3cd0dc0b8141, type: 3}
-  handLeft: {fileID: 2908879931573615755}
-  handRight: {fileID: 4111294106419656854}
+  handLeft: {fileID: 3290442563622379927}
+  handRight: {fileID: 5718272808632113031}
 --- !u!1 &7976187742649946540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1826,7 +1826,7 @@ Transform:
   m_GameObject: {fileID: 7976187742649946540}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalPosition: {x: 0, y: -0.551, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

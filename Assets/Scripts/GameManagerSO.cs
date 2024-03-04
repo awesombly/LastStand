@@ -11,9 +11,10 @@ public class GameManagerSO : ScriptableObject
 
     [Header( "< Prefab >" )]
     public Player playerPrefab;
-    public RuntimeAnimatorController pilotAC;
-    public RuntimeAnimatorController hunterAC;
-    public RuntimeAnimatorController convictAC;
+
+    public PlayerSO pilotSO;
+    public PlayerSO hunterSO;
+    public PlayerSO convictSO;
 
     // PoolManager를 사용할 모든 프리팹들
     public List<Poolable/*Prefab*/> prefabList;

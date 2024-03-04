@@ -1879,7 +1879,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_83
+      name: ConvictHand
       rect:
         serializedVersion: 2
         x: 427
@@ -23729,6 +23729,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      ConvictHand: -764454748
       Convict_Dance0: -1983544099
       Convict_Dance1: -434845795
       Convict_Dance10: 990549771
@@ -24664,7 +24665,6 @@ TextureImporter:
       The Convict_827: 146071263
       The Convict_828: -1573196911
       The Convict_829: -371496953
-      The Convict_83: -1648044680
       The Convict_830: -755229955
       The Convict_831: 112430224
       The Convict_832: 249320721

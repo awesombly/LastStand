@@ -264,21 +264,21 @@ public class GameManager : Singleton<GameManager>
         return data.playerPrefab;
     }
 
-    public RuntimeAnimatorController GetPlayerTypeAC( PlayerType _type )
+    public PlayerSO GetPlayerSO( PlayerType _type )
     {
         switch ( _type )
         {
             case PlayerType.Pilot:
             {
-                return data.pilotAC;
+                return data.pilotSO;
             }
             case PlayerType.Hunter:
             {
-                return data.hunterAC;
+                return data.hunterSO;
             }
             case PlayerType.Convict:
             {
-                return data.convictAC;
+                return data.convictSO;
             }
             default:
             {
