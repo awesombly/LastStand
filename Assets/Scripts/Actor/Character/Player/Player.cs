@@ -60,6 +60,8 @@ public class Player : Character
     public event Action<Player/* 처치 플레이어 */> OnPlayerKill;
     #endregion
 
+    [HideInInspector]
+    public PlayerSO playerData;
     private PlayerType playerType;
     public PlayerType PlayerType
     {
@@ -72,6 +74,7 @@ public class Player : Character
             }
 
             playerType = value;
+            playerData = GameManager.Inst.GetPlayerSO( playerType );
             OnChangePlayerType?.Invoke( playerType );
         }
     }
@@ -80,11 +83,11 @@ public class Player : Character
 
     #region Components
     public PlayerUI PlayerUI { get; private set; }
+    public PlayerDodgeAttack DodgeAttack { get; private set; }
     private PlayerInput playerInput;
     private PlayerAnimator playerAnimator;
     private ActionReceiver receiver;
     private PlayerMovement movement;
-    private PlayerDodgeAttack dodgeAttack;
     #endregion
 
     public event Action<PlayerType> OnChangePlayerType;
@@ -94,11 +97,11 @@ public class Player : Character
     {
         base.Awake();
         PlayerUI = GetComponent<PlayerUI>();
+        DodgeAttack = GetComponentInChildren<PlayerDodgeAttack>();
         playerInput = GetComponent<PlayerInput>();
         playerAnimator = GetComponent<PlayerAnimator>();
         receiver = GetComponent<ActionReceiver>();
         movement = GetComponent<PlayerMovement>();
-        dodgeAttack = GetComponentInChildren<PlayerDodgeAttack>();
         Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
 
         receiver.OnSwapWeaponEvent += SwapWeapon;
@@ -198,11 +201,6 @@ public class Player : Character
     public void AckDodgeAction( bool _useCollision, Vector2 _direction, float _duration )
     {
         movement.DodgeAction( _useCollision, _direction, _duration );
-    }
-
-    public IHitable GetHitable()
-    {
-        return dodgeAttack;
     }
 
     private void Interaction()

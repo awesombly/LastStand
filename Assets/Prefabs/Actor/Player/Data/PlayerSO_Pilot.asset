@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handSprite: {fileID: -677256595, guid: b3ded2fa830d0544f8107c8c5e0cd4da, type: 3}
   playerAC: {fileID: 9100000, guid: 52a00a158079c3843a4eb47946ae6c09, type: 2}
+  dodgeActionEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
+  dodgeHitEffect: {fileID: 9222338147210068352, guid: eb67646278733d84aa3c4239011f7145, type: 3}

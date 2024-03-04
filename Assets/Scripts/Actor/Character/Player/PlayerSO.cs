@@ -7,4 +7,8 @@ public class PlayerSO : ScriptableObject
 {
     public Sprite handSprite;
     public RuntimeAnimatorController playerAC;
+
+    [Header( "< Effect >" )]
+    public Poolable dodgeActionEffect;
+    public Poolable dodgeHitEffect;
 }

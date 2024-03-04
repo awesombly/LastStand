@@ -1517,6 +1517,7 @@ GameObject:
   - component: {fileID: 7511455465289832573}
   - component: {fileID: 9185096530725094759}
   - component: {fileID: 5403955393062696307}
+  - component: {fileID: 1665563659194531766}
   m_Layer: 6
   m_Name: PlayerM
   m_TagString: Untagged
@@ -1678,6 +1679,7 @@ MonoBehaviour:
   healthBar: {fileID: 2624294410744986534}
   healthLerpBar: {fileID: 3799612106825202292}
   chatMessage: {fileID: 8483795741768461811}
+  playerData: {fileID: 0}
 --- !u!95 &5448611838002548329
 Animator:
   serializedVersion: 5
@@ -1883,6 +1885,18 @@ MonoBehaviour:
   deadPrefab: {fileID: 610666648289893438, guid: 2162c34e08d1f424793d3cd0dc0b8141, type: 3}
   handLeft: {fileID: 3290442563622379927}
   handRight: {fileID: 5718272808632113031}
+--- !u!114 &1665563659194531766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487538481690052668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05650dbf129de71438a9db3dff03ae07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7976187742649946540
 GameObject:
   m_ObjectHideFlags: 0

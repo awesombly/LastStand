@@ -312,9 +312,8 @@ public class InGameLogicScene : SceneBase
             Player attacker = GameManager.Inst.GetActor( hit.attacker ) as Player;
             if ( !ReferenceEquals ( attacker, null ) )
             {
-                IHitable hitable = attacker.GetHitable();
-                hitable.HitTarget( defender );
-                defender.SetHp( hit.hp, attacker, hitable );
+                attacker.DodgeAttack.HitTarget( defender );
+                defender.SetHp( hit.hp, attacker, attacker.DodgeAttack );
             }
         }
     }

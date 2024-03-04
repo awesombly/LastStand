@@ -143,7 +143,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnChangePlayerType( PlayerType _type )
     {
-        PlayerSO data = GameManager.Inst.GetPlayerSO( _type );
+        PlayerSO data = player.playerData;
 
         animator.runtimeAnimatorController = data.playerAC;
         handLeft.sprite = data.handSprite;

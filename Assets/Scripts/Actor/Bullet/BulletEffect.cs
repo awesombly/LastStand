@@ -3,30 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletEffect : MonoBehaviour
+public class BulletEffect : EffectSpawner
 {
     private void Awake()
     {
         Bullet bullet = GetComponent<Bullet>();
         bullet.OnHitEvent += OnHit;
         bullet.OnFireEvent += OnFire;
-    }
-
-    private void SpawnEffect( Poolable _effect, Transform _transform )
-    {
-        if ( ReferenceEquals( _effect, null ) )
-        {
-            return;
-        }
-
-        Poolable poolable = PoolManager.Inst.Get( _effect );
-        var particle = poolable.GetComponent<ParticleSystem>();
-        if ( ReferenceEquals( particle, null ) )
-        {
-            return;
-        }
-        particle.transform.SetPositionAndRotation( _transform.position, _transform.rotation );
-        particle.Play( true );
     }
 
     private void OnFire( Bullet _bullet )
