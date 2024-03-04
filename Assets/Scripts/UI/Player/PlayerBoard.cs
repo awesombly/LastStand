@@ -19,8 +19,8 @@ public class PlayerBoard : MonoBehaviour
 
     [Header( "< Effect >" )]
     public Image deadBackground;
-    public static readonly Color PlayerDeadBGStartColor = new Color( 1f, 0f, 0f, .9f );
-    public static readonly Color PlayerDeadBGEndColor   = new Color( 0f, 0f, 0f, .9f );
+    private readonly Color StartColor = new Color( 1f, 0f, 0f, .9f );
+    private readonly Color EndColor   = new Color( 0f, 0f, 0f, .9f );
 
     private Image image;
     private RectTransform rt;
@@ -63,8 +63,8 @@ public class PlayerBoard : MonoBehaviour
     public void PlayerDead( Player _attacker )
     {
         deadBackground.gameObject.SetActive( true );
-        deadBackground.color = PlayerDeadBGStartColor;
-        deadBackground.DOColor( PlayerDeadBGEndColor, .5f );
+        deadBackground.color = StartColor;
+        deadBackground.DOColor( EndColor, .5f );
     }
 
     public void PlayerRespawn()

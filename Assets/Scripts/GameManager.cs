@@ -31,6 +31,7 @@ public class GameManager : Singleton<GameManager>
 
     public static List<Player> Players = new List<Player>();
     public static event Action OnChangePlayers;
+    public static event Action OnBeginRespawn, OnEndRespawn;
     public static event Action<Player/*winner*/> OnGameOver;
     public static event Action<Player/* Dead Player */> OnDead;
 
@@ -143,6 +144,7 @@ public class GameManager : Singleton<GameManager>
 
     private IEnumerator PlayerRespawn( Player _player )
     {
+        OnBeginRespawn?.Invoke();
         _player.PlayerUI.respawnDelay.Max = data.respawnDelay;
         _player.PlayerUI.respawnDelay.SetMax();
         while ( !_player.PlayerUI.respawnDelay.IsZero )
@@ -150,6 +152,7 @@ public class GameManager : Singleton<GameManager>
             _player.PlayerUI.respawnDelay.Current -= Time.deltaTime;
             yield return null;
         }
+        OnEndRespawn?.Invoke();
 
         if ( _player == null )
         {
