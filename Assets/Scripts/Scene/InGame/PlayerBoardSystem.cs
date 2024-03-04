@@ -32,6 +32,9 @@ public class PlayerBoardSystem : MonoBehaviour
 
     private void Update()
     {
+        if ( SceneBase.IsLock )
+             return;
+
         if ( Input.GetKeyDown( KeyCode.Tab ) )
         {
             if ( isMovePlaying )

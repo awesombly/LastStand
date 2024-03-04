@@ -11,9 +11,8 @@ public class PortraitEffect : MonoBehaviour
 
     private void Awake()
     {
-        anim   = GetComponent<Animator>();
-
-        rdr    = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+        rdr  = GetComponent<SpriteRenderer>();
         rdr.color = Color.gray;
     }
 

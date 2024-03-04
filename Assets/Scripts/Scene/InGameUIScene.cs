@@ -47,8 +47,9 @@ public class InGameUIScene : SceneBase
     protected override void Awake()
     {
         base.Awake();
-        SceneType = SceneType.InGame_UI;
+        SceneType           = SceneType.InGame_UI;
         uiCamera.clearFlags = CameraClearFlags.Depth;
+        IsLock              = true;
 
         deadUIPool = new WNS.ObjectPool<PlayerDeadUI>( deadPrefab, deadContents );
 
@@ -73,6 +74,9 @@ public class InGameUIScene : SceneBase
     {
         Vector3 pos = Input.mousePosition;
         cursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
+
+        if ( IsLock )
+             return;
 
         if ( Input.GetKeyDown( KeyCode.Escape ) )
         {
@@ -118,6 +122,7 @@ public class InGameUIScene : SceneBase
 
     public void ReqSelectPlayer( int _type )
     {
+        IsLock = false;
         selectPlayer.SetActive( false );
         Player playerPrefab = GameManager.Inst.GetPlayerPrefab();
         var logicScene = GameManager.Inst.GetActiveScene( SceneType.InGame_Logic ) as InGameLogicScene;

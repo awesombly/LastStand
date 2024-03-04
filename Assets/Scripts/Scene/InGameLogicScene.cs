@@ -18,6 +18,7 @@ public class InGameLogicScene : SceneBase
     protected override void Awake()
     {
         base.Awake();
+        IsLock = true;
         SceneType = SceneType.InGame_Logic;
         if ( spawnTransforms.Count == 0 )
         {
