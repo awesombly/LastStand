@@ -70,29 +70,6 @@ public class InGameLogicScene : SceneBase
     }
 
     #region Req Protocols
-    private void ReqInGameLoadData()
-    {
-        Player playerPrefab = GameManager.Inst.GetPlayerPrefab();
-
-        // 立加矫 积己且 Player 沥焊
-        PLAYER_INFO protocol;
-        protocol.actorInfo.isLocal = true;
-        protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
-        protocol.actorInfo.serial = 0;
-        protocol.actorInfo.pos = new VECTOR2( GetSpawnPosition() );
-        protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
-        protocol.actorInfo.hp = playerPrefab.data.maxHp;
-        protocol.actorInfo.index = 0;
-        protocol.nickname = string.Empty;
-        protocol.isDead = false;
-        protocol.angle = 0f;
-        protocol.weapon = 1;
-        protocol.kill = 0;
-        protocol.death = 0;
-
-        Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
-    }
-
     private void ReqInitSceneActors()
     {
         ACTORS_INFO protocol;
@@ -128,10 +105,34 @@ public class InGameLogicScene : SceneBase
             Network.Inst.Send( INIT_SCENE_ACTORS_REQ, protocol );
         }
     }
+
+    private void ReqInGameLoadData()
+    {
+        Player playerPrefab = GameManager.Inst.GetPlayerPrefab();
+
+        // 立加矫 积己且 Player 沥焊
+        PLAYER_INFO protocol;
+        protocol.actorInfo.isLocal = true;
+        protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
+        protocol.actorInfo.serial = 0;
+        protocol.actorInfo.pos = new VECTOR2( GetSpawnPosition() );
+        protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
+        protocol.actorInfo.hp = playerPrefab.data.maxHp;
+        protocol.actorInfo.index = 0;
+        protocol.nickname = string.Empty;
+        protocol.isDead = false;
+        protocol.angle = 0f;
+        protocol.weapon = 1;
+        protocol.kill = 0;
+        protocol.death = 0;
+        protocol.type = PlayerType.None;
+
+        Network.Inst.Send( INGAME_LOAD_DATA_REQ, protocol );
+    }
     #endregion
 
     #region Ack Protocols
-
+    #region Spawn, Remove
     private void AckSpawnPlayer( Packet _packet )
     {
         var data = Global.FromJson<PLAYER_INFO>( _packet );
@@ -219,40 +220,9 @@ public class InGameLogicScene : SceneBase
             actor?.Release();
         }
     }
+    #endregion
 
-    private void AckInitSceneActors( Packet _packet )
-    {
-        var data = Global.FromJson<ACTORS_INFO>( _packet );
-        Dictionary<int/*HashCode*/, ACTOR_INFO> actorHashs = new Dictionary<int, ACTOR_INFO>();
-        foreach ( ACTOR_INFO actorInfo in data.actors )
-        {
-            actorHashs.Add( actorInfo.prefab, actorInfo );
-        }
-
-        Actor[] actors = sceneActors.GetComponentsInChildren<Actor>();
-        foreach ( Actor actor in actors )
-        {
-            ACTOR_INFO actorInfo;
-            if ( !actorHashs.TryGetValue( actor.MyHashCode, out actorInfo ) )
-            {
-                continue;
-            }
-
-            actor.Serial = actorInfo.serial;
-            actor.transform.position = actorInfo.pos.To();
-            if ( !actor.gameObject.isStatic )
-            {
-                actor.Rigid2D.velocity = actorInfo.vel.To();
-            }
-            actor.SetHp( actorInfo.hp, null, null );
-            if ( !actor.Hp.IsZero && actor is InteractableActor )
-            {
-                var interactable = actor as InteractableActor;
-                interactable.InteractionAction( actorInfo.index );
-            }
-        }
-    }
-
+    #region Sync
     private void AckSyncMovement( Packet _packet )
     {
         var data = Global.FromJson<ACTOR_INFO>( _packet );
@@ -336,6 +306,40 @@ public class InGameLogicScene : SceneBase
             bullet.transform.position = hit.pos.To();
             bullet.HitTarget( defender );
             defender.SetHp( hit.hp, GameManager.Inst.GetActor( hit.attacker ), bullet );
+        }
+    }
+    #endregion
+
+    private void AckInitSceneActors( Packet _packet )
+    {
+        var data = Global.FromJson<ACTORS_INFO>( _packet );
+        Dictionary<int/*HashCode*/, ACTOR_INFO> actorHashs = new Dictionary<int, ACTOR_INFO>();
+        foreach ( ACTOR_INFO actorInfo in data.actors )
+        {
+            actorHashs.Add( actorInfo.prefab, actorInfo );
+        }
+
+        Actor[] actors = sceneActors.GetComponentsInChildren<Actor>();
+        foreach ( Actor actor in actors )
+        {
+            ACTOR_INFO actorInfo;
+            if ( !actorHashs.TryGetValue( actor.MyHashCode, out actorInfo ) )
+            {
+                continue;
+            }
+
+            actor.Serial = actorInfo.serial;
+            actor.transform.position = actorInfo.pos.To();
+            if ( !actor.gameObject.isStatic )
+            {
+                actor.Rigid2D.velocity = actorInfo.vel.To();
+            }
+            actor.SetHp( actorInfo.hp, null, null );
+            if ( !actor.Hp.IsZero && actor is InteractableActor )
+            {
+                var interactable = actor as InteractableActor;
+                interactable.InteractionAction( actorInfo.index );
+            }
         }
     }
 

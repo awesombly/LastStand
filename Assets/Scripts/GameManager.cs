@@ -84,14 +84,14 @@ public class GameManager : Singleton<GameManager>
         // Send Remove Actor
         if ( removeActorsToSend.serials.Count >= 1 )
         {
-            Network.Inst.Send( PacketType.REMOVE_ACTORS_REQ, removeActorsToSend );
+            Network.Inst.Send( REMOVE_ACTORS_REQ, removeActorsToSend );
             removeActorsToSend.serials.Clear();
         }
 
         // Send Hit Actor
         if ( hitsInfoToSend.hits.Count >= 1 )
         {
-            Network.Inst.Send( PacketType.HIT_ACTORS_REQ, hitsInfoToSend );
+            Network.Inst.Send( HIT_ACTORS_REQ, hitsInfoToSend );
             hitsInfoToSend.hits.Clear();
         }
     }
@@ -110,7 +110,7 @@ public class GameManager : Singleton<GameManager>
             return false;
         }
 
-        foreach( Player player in Players )
+        foreach ( Player player in Players )
         {
             if ( LocalPlayer.Serial > player.Serial )
             {
@@ -169,8 +169,7 @@ public class GameManager : Singleton<GameManager>
         protocol.angle = _player.LookAngle;
         protocol.weapon = 1;
         protocol.kill = _player.KillScore;
-        protocol.death = _player.DeathScore;
-        Network.Inst.Send( PacketType.SPAWN_PLAYER_REQ, protocol );
+        Network.Inst.Send( SPAWN_PLAYER_REQ, protocol );
     }
 
     public void AddPlayer( Player _player )
@@ -300,7 +299,7 @@ public class GameManager : Singleton<GameManager>
         // 양이 많으면 바로 Send. (패킷 4096 바이트 기준, 34개 정도면 사이즈를 벗어난다)
         if ( hitsInfoToSend.hits.Count >= 20 )
         {
-            Network.Inst.Send( PacketType.HIT_ACTORS_REQ, hitsInfoToSend );
+            Network.Inst.Send( HIT_ACTORS_REQ, hitsInfoToSend );
             hitsInfoToSend.hits.Clear();
         }
     }

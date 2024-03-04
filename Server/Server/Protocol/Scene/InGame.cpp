@@ -7,11 +7,11 @@ void InGame::Bind()
 {
 	ProtocolSystem::Inst().Regist( PACKET_CHAT_MSG,			AckChatMessage );
 	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,			AckExitStage );
+
 	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,			AckSpawnActor );
 	ProtocolSystem::Inst().Regist( SPAWN_PLAYER_REQ,		AckSpawnPlayer );
 	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,		AckSpawnBullet );
 	ProtocolSystem::Inst().Regist( REMOVE_ACTORS_REQ,		AckRemoveActors );
-	ProtocolSystem::Inst().Regist( INIT_SCENE_ACTORS_REQ,	AckInitSceneActors );
 
 	ProtocolSystem::Inst().Regist( SYNC_MOVEMENT_REQ,		AckSyncMovement );
 	ProtocolSystem::Inst().Regist( SYNC_RELOAD_REQ,			AckSyncReload );
@@ -21,6 +21,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SYNC_INTERACTION_REQ,	AckSyncInteraction );
 	ProtocolSystem::Inst().Regist( HIT_ACTORS_REQ,			AckHitActors );
 
+	ProtocolSystem::Inst().Regist( INIT_SCENE_ACTORS_REQ,	AckInitSceneActors );
 	ProtocolSystem::Inst().Regist( INGAME_LOAD_DATA_REQ,	AckInGameLoadData );
 	ProtocolSystem::Inst().Regist( UPDATE_RESULT_INFO_REQ,  AckUpdateResultData );
 }
@@ -63,6 +64,7 @@ void InGame::AckExitStage( const Packet& _packet )
 	}
 }
 
+#pragma region Spawn, Remove
 void InGame::AckSpawnActor( const Packet& _packet )
 {
 	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
@@ -165,36 +167,9 @@ void InGame::AckRemoveActors( const Packet& _packet )
 		Global::Memory::SafeDelete( actor );
 	}
 }
+#pragma endregion
 
-void InGame::AckInitSceneActors( const Packet& _packet )
-{
-	ACTORS_INFO data = FromJson<ACTORS_INFO>( _packet );
-	if ( _packet.session->stage == nullptr )
-	{
-		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
-		return;
-	}
-
-	if ( _packet.session != _packet.session->stage->host )
-	{
-		Debug.LogError( "Is not host. socket:", _packet.session->GetSocket(), ", nick:", _packet.session->loginInfo.nickname);
-		return;
-	}
-
-	for ( ACTOR_INFO& actorInfo : data.actors )
-	{
-		if ( actorInfo.serial == 0 )
-		{
-			actorInfo.serial = Global::GetNewSerial();
-		}
-		ActorInfo* actor = new ActorInfo( actorInfo );
-		actor->type = ActorType::SceneActor;
-		_packet.session->stage->RegistActor( actor );
-	}
-
-	// 클라 응답은 AckInGameLoadData에서 한다
-}
-
+#pragma region Sync
 void InGame::AckSyncMovement( const Packet& _packet )
 {
 	const MOVEMENT_INFO& data = FromJson<MOVEMENT_INFO>( _packet );
@@ -390,6 +365,36 @@ void InGame::AckHitActors( const Packet& _packet )
 		protocol.serial = winner->actorInfo.serial;
 		_packet.session->stage->Broadcast( UPacket( GAME_OVER_ACK, protocol ) );
 	}
+}
+#pragma endregion
+
+void InGame::AckInitSceneActors( const Packet& _packet )
+{
+	ACTORS_INFO data = FromJson<ACTORS_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	if ( _packet.session != _packet.session->stage->host )
+	{
+		Debug.LogError( "Is not host. socket:", _packet.session->GetSocket(), ", nick:", _packet.session->loginInfo.nickname);
+		return;
+	}
+
+	for ( ACTOR_INFO& actorInfo : data.actors )
+	{
+		if ( actorInfo.serial == 0 )
+		{
+			actorInfo.serial = Global::GetNewSerial();
+		}
+		ActorInfo* actor = new ActorInfo( actorInfo );
+		actor->type = ActorType::SceneActor;
+		_packet.session->stage->RegistActor( actor );
+	}
+
+	// 클라 응답은 AckInGameLoadData에서 한다
 }
 
 void InGame::AckInGameLoadData( const Packet& _packet )

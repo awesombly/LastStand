@@ -41,8 +41,6 @@ enum PacketType : u_short
 	SPAWN_BULLET_ACK,              // Bullet 스폰 응답
 	REMOVE_ACTORS_REQ,             // Actor들 제거 요청
 	REMOVE_ACTORS_ACK,             // Actor들 제거 응답
-	INIT_SCENE_ACTORS_REQ,         // 씬에 배치된 Actor들 초기화 요청
-	INIT_SCENE_ACTORS_ACK,         // 씬에 배치된 Actor들 초기화 응답
 
 	SYNC_MOVEMENT_REQ,             // Actor 이동 동기화 요청
 	SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
@@ -59,6 +57,8 @@ enum PacketType : u_short
 	HIT_ACTORS_REQ,                // 피격된 Actor들 동기화 요청
 	HIT_ACTORS_ACK,                // 피격된 Actor들 동기화 응답
 
+	INIT_SCENE_ACTORS_REQ,         // 씬에 배치된 Actor들 초기화 요청
+	INIT_SCENE_ACTORS_ACK,         // 씬에 배치된 Actor들 초기화 응답
 	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
 	GAME_OVER_ACK,                 // 게임 종료 응답
 	UPDATE_RESULT_INFO_REQ,        // 게임 결과 갱신 요청

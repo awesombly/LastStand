@@ -97,6 +97,31 @@ public class InGameUIScene : SceneBase
         PlayerBoardMoveEffect();
     }
 
+    private void OnDestroy()
+    {
+        GameManager.OnChangePlayers -= UpdatePlayerBoard;
+        GameManager.OnGameOver      -= OnGameOver;
+        GameManager.OnDead          -= OnPlayerDead;
+    }
+    #endregion
+
+    private void UpdatePlayerBoard()
+    {
+        var players = GameManager.Players;
+        for ( int i = 0; i < 4; i++ )
+        {
+            if ( i < players.Count )
+            {
+                boards[i].gameObject.SetActive( true );
+                boards[i].Initialize( players[i] );
+            }
+            else
+            {
+                boards[i].gameObject.SetActive( false );
+            }
+        }
+    }
+
     private void PlayerBoardMoveEffect()
     {
         if ( Input.GetKeyDown( KeyCode.Tab ) )
@@ -129,13 +154,21 @@ public class InGameUIScene : SceneBase
         }
     }
 
-    private void OnDestroy()
+    public void MoveToLobby()
     {
-        GameManager.OnChangePlayers -= UpdatePlayerBoard;
-        GameManager.OnGameOver      -= OnGameOver;
-        GameManager.OnDead          -= OnPlayerDead;
+        AudioManager.Inst.Play( SFX.MouseClick );
+        LoadScene( SceneType.Lobby );
     }
-    #endregion
+
+    public void ReqExitStage()
+    {
+        if ( IsSending || !canExitStage || GameManager.StageInfo == null )
+            return;
+
+        IsSending = true;
+        Network.Inst.Send( EXIT_STAGE_REQ, GameManager.StageInfo.Value );
+        AudioManager.Inst.Play( SFX.MouseClick );
+    }
 
     private void AckUpdateResultInfo( Packet _packet )
     {
@@ -192,9 +225,10 @@ public class InGameUIScene : SceneBase
         resultBackButton.SetActive( true );
     }
 
-    public void MoveToLobby()
+    private void AckExitStage( Packet _packet )
     {
-        AudioManager.Inst.Play( SFX.MouseClick );
+        IsSending = canExitStage = false;
+        GameManager.StageInfo = null;
         LoadScene( SceneType.Lobby );
     }
 
@@ -202,40 +236,6 @@ public class InGameUIScene : SceneBase
     {
         PlayerDeadUI deadUI = deadUIPool.Spawn();
         deadUI.Initialize( _player );
-    }
-
-    private void UpdatePlayerBoard()
-    {
-        var players = GameManager.Players;
-        for ( int i = 0; i < 4; i++ )
-        {
-            if ( i < players.Count )
-            {
-                boards[i].gameObject.SetActive( true );
-                boards[i].Initialize( players[i] );
-            }
-            else
-            {
-                boards[i].gameObject.SetActive( false );
-            }
-        }
-    }
-
-    public void ReqExitStage()
-    {
-        if ( IsSending || !canExitStage || GameManager.StageInfo == null )
-            return;
-
-        IsSending = true;
-        Network.Inst.Send( EXIT_STAGE_REQ, GameManager.StageInfo.Value );
-        AudioManager.Inst.Play( SFX.MouseClick );
-    }
-
-    private void AckExitStage( Packet _packet )
-    {
-        IsSending = canExitStage = false;
-        GameManager.StageInfo = null;
-        LoadScene( SceneType.Lobby );
     }
 
     private void OnGameOver( Player _winner )
@@ -247,7 +247,7 @@ public class InGameUIScene : SceneBase
         var players = GameManager.Players;
         for ( int i = 0; i < resultBoards.Count; ++i )
         {
-            if ( i >= players.Count )
+            if ( players.Count <= i )
             {
                 resultBoards[i].gameObject.SetActive( false );
                 continue;
