@@ -125,6 +125,16 @@ PlayerInfo* Stage::FindPlayer( SerialType _serial ) const
 	return nullptr;
 }
 
+void Stage::ClearActors()
+{
+	for ( auto actorPair : actors )
+	{
+		Global::Memory::SafeDelete( actorPair.second );
+	}
+
+	actors.clear();
+}
+
 void Stage::Broadcast( const UPacket& _packet ) const
 {
 	for ( auto iter = sessions.begin(); iter != sessions.end(); iter++ )

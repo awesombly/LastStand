@@ -235,7 +235,6 @@ public class GameManager : Singleton<GameManager>
     {
         if ( !actors.ContainsKey( _serial ) )
         {
-            Debug.LogWarning( "Invalid Serial : " + _serial );
             return null;
         }
 

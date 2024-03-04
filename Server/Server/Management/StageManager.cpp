@@ -29,6 +29,7 @@ void StageManager::Erase( Stage* _stage )
 		}
 	}
 
+	_stage->ClearActors();
 	Global::Memory::SafeDelete( _stage );
 }
 
