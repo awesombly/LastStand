@@ -12,7 +12,7 @@ public class InGameUIScene : SceneBase
     public Camera uiCamera;
 
     [Header( "< Mouse >" )]
-    public RectTransform mouseCursor;
+    public Transform cursor;
 
     [Header( "< Magaginze >" )]
     public TextMeshProUGUI magazineText;
@@ -72,7 +72,7 @@ public class InGameUIScene : SceneBase
     private void Update()
     {
         Vector3 pos = Input.mousePosition;
-        mouseCursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
+        cursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
 
         if ( Input.GetKeyDown( KeyCode.Escape ) )
         {
