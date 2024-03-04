@@ -13,7 +13,7 @@ public class PlayerBoardSystem : MonoBehaviour
     
     private void Awake()
     {
-        boards.AddRange( contents.GetComponentsInChildren<PlayerBoard>() );
+        boards.AddRange( contents.GetComponentsInChildren<PlayerBoard>( true ) );
         foreach ( var board in boards )
             points.Add( ( board.transform as RectTransform ).anchoredPosition );
 

@@ -12,7 +12,6 @@ public class LobbyScene : SceneBase
         base.Awake();
         SceneType = SceneType.Lobby;
 
-        var net = Network.Inst;
         StartCoroutine( WaitForAudioLoad() );
     }
 

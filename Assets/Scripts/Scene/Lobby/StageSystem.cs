@@ -33,6 +33,7 @@ public class StageSystem : MonoBehaviour
     {
         TryGetComponent( out scene );
 
+        var net = Network.Inst;
         pool = new WNS.ObjectPool<Stage>( prefab, contents );
         
         // Protocols
@@ -42,7 +43,10 @@ public class StageSystem : MonoBehaviour
         ProtocolSystem.Inst.Regist( ENTRY_STAGE_ACK,   AckEntryStage );
         ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
         ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
+    }
 
+    private void Start()
+    {
         if ( Network.Inst.IsConnected )
              Network.Inst.Send( new Packet( STAGE_INFO_REQ, new EMPTY() ) );
     }
