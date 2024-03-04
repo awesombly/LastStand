@@ -20,6 +20,11 @@ public class PlayerRespawnUI : MonoBehaviour
         gameObject.SetActive( false );
     }
 
+    private void OnDestroy()
+    {
+        GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
+    }
+
     private void OnChangeLocalPlayer( Player _old, Player _new )
     {
         if ( _old == _new )

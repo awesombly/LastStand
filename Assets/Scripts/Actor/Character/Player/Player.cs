@@ -53,11 +53,13 @@ public class Player : Character
     private UnityEngine.UI.Slider healthLerpBar;
     [SerializeField]
     private PlayerChatMessage chatMessage;
-    public PlayerBoard Board { get; private set; }
+    public PlayerBoard Board { get; set; }
+    public float Health     => healthBar.value;
+    public float HealthLerp => healthLerpBar.value;
 
     public event Action OnPlayerRespawn;
     public event Action<Player/* 공격한 플레이어 */> OnPlayerDead;
-    public event Action<Player/* 처치 플레이어 */> OnPlayerKill;
+    public event Action<Player/* 처치 플레이어 */>   OnPlayerKill;
     #endregion
 
     [HideInInspector]
@@ -117,14 +119,6 @@ public class Player : Character
         base.Start();
     }
     #endregion
-
-    public void InitBoardUI( PlayerBoard _board )
-    {
-        Board = _board;
-        Board?.UpdateHealth( healthBar.value );
-        Board?.UpdateKillCount( KillScore );
-        Board?.UpdateDeathCount( DeathScore );
-    }
 
     public void UpdateUI()
     {

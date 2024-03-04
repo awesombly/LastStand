@@ -7,6 +7,8 @@ using TMPro;
 
 public class PlayerBoard : MonoBehaviour
 {
+    public Player Target { get; private set; }
+
     [Header( "< Infomagtion >" )]
     public TextMeshProUGUI nickname;
     public TextMeshProUGUI killCount;
@@ -29,19 +31,33 @@ public class PlayerBoard : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    public void UpdateInfomation( in Player _player )
+    public void AddEvents( Player _player )
     {
-        nickname.text   = _player.Nickname;
-        killCount.text  = $"{_player.KillScore}";
-        deathCount.text = $"{_player.DeathScore}";
+        Target = _player;
+        Target.Board = this;
 
-        _player.OnPlayerDead    += PlayerDead;
-        _player.OnPlayerRespawn += PlayerRespawn;
+        Target.OnPlayerDead    += PlayerDead;
+        Target.OnPlayerRespawn += PlayerRespawn;
 
-        if ( _player.IsLocal ) image.color = new Color( .5f, 1f, .5f );
-        else                   image.color = new Color( 1f, .5f, .5f );
+        nickname.text   = Target.Nickname;
+        killCount.text  = $"{Target.KillScore}";
+        deathCount.text = $"{Target.DeathScore}";
 
-        _player.InitBoardUI( this );
+        if ( Target.IsLocal ) image.color = new Color( .5f, 1f, .5f );
+        else                  image.color = new Color( 1f, .5f, .5f );
+
+        UpdateHealth( Target.Health );
+        UpdateHealthLerp( Target.HealthLerp );
+    }
+
+    public void RemoveEvents()
+    {
+        if ( Target == null )
+             return;
+
+        Target.OnPlayerDead    -= PlayerDead;
+        Target.OnPlayerRespawn -= PlayerRespawn;
+        Target = null;
     }
 
     public void PlayerDead( Player _attacker )
@@ -67,9 +83,9 @@ public class PlayerBoard : MonoBehaviour
         {
             healthFill.SetActive( false );
             healthLerpFill.SetActive( false );
-
         }
     }
+
     public void MoveToPosition( Vector2 _pos ) => rt.DOAnchorPos( _pos, .5f );
 
     public void UpdateHealthLerp( float _healthLerp ) => healthLerp.value = _healthLerp;

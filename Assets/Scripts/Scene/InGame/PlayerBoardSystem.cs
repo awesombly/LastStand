@@ -17,8 +17,17 @@ public class PlayerBoardSystem : MonoBehaviour
         foreach ( var board in boards )
             points.Add( ( board.transform as RectTransform ).anchoredPosition );
 
-        GameManager.OnChangePlayers += UpdatePlayerBoard;
+        GameManager.OnChangePlayers += OnChangePlayers;
         GameManager.OnDead          += UpdateOrderByKill;
+    }
+
+    private void OnDestroy()
+    {
+        for ( int i = 0; i < 4; i++ )
+              boards[i].RemoveEvents();
+
+        GameManager.OnChangePlayers -= OnChangePlayers;
+        GameManager.OnDead          -= UpdateOrderByKill;
     }
 
     private void Update()
@@ -53,29 +62,22 @@ public class PlayerBoardSystem : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        GameManager.OnChangePlayers -= UpdatePlayerBoard;
-    }
-
-    private void UpdatePlayerBoard()
+    private void OnChangePlayers()
     {
         var players = GameManager.Players;
-
         for ( int i = 0; i < 4; i++ )
         {
+            boards[i].RemoveEvents();
+
             if ( i < players.Count )
             {
                 boards[i].gameObject.SetActive( true );
-                boards[i].UpdateInfomation( players[i] );
+                boards[i].AddEvents( players[i] );
             }
-            else
-            {
-                boards[i].gameObject.SetActive( false );
-            }
+            else boards[i].gameObject.SetActive( false );
         }
 
-        UpdateOrderByKill( null ) ;
+        UpdateOrderByKill( null );
     }
 
     private void UpdateOrderByKill( Player _p )
