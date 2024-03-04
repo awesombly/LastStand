@@ -17,7 +17,7 @@ public class GameManager : Singleton<GameManager>
         get => localPlayer;
         set
         {
-            if ( localPlayer == value )
+            if ( ReferenceEquals( localPlayer, value ) )
             {
                 return;
             }

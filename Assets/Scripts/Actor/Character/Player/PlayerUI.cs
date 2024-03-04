@@ -15,15 +15,16 @@ public class PlayerUI : MonoBehaviour
 
     private void Awake()
     {
+        uiScene = GameManager.Inst.GetActiveScene( SceneType.InGame_UI ) as InGameUIScene;
+        if ( uiScene == null )
+        {
+            Debug.LogError( "Not found UIScene." );
+        }
+
         reloadBar.gameObject.SetActive( false );
         player = GetComponent<Player>();
         player.OnChangeEquipWeapon += OnChangeEquipWeapon;
         OnChangeEquipWeapon( null, player.EquipWeapon );
-    }
-
-    private void Start()
-    {
-        uiScene = GameManager.Inst.GetActiveScene( SceneType.InGame_UI ) as InGameUIScene;
     }
 
     private void OnChangeAmmo( int _old, int _new, int _max )

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ public class InGameLogicScene : SceneBase
     private List<Transform> spawnTransforms;
     [SerializeField]
     private Transform sceneActors;
+    [SerializeField]
+    private CinemachineVirtualCamera virtualCamera;
 
     #region Unity Callback
     protected override void Awake()
@@ -20,6 +23,8 @@ public class InGameLogicScene : SceneBase
         {
             spawnTransforms.Add( transform );
         }
+
+        GameManager.OnChangeLocalPlayer += OnChangeLocalPlayer;
 
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,        AckSpawnEnemy );
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,       AckSpawnPlayer );
@@ -41,13 +46,17 @@ public class InGameLogicScene : SceneBase
     protected override void Start()
     {
         base.Start();
-        InitLocalPlayer();
 
         if ( GameManager.Inst.IsHost() )
         {
             ReqInitSceneActors();
         }
         ReqInGameLoadData();
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
     }
     #endregion
 
@@ -57,18 +66,12 @@ public class InGameLogicScene : SceneBase
         return spawnTransforms[index].position;
     }
 
-    private void InitLocalPlayer()
+    private void OnChangeLocalPlayer( Player _old, Player _new )
     {
-        Player player = FindObjectOfType<Player>();
-        if ( player == null )
+        if ( _new != null )
         {
-            return;
+            virtualCamera.Follow = _new.transform;
         }
-
-        player.IsLocal = true;
-        GameManager.LocalPlayer = player;
-        // 플레이어 선택후 활성화
-        GameManager.LocalPlayer.gameObject.SetActive( false );
     }
 
     #region Req Protocols
@@ -120,12 +123,21 @@ public class InGameLogicScene : SceneBase
     {
         var data = Global.FromJson<PLAYER_INFO>( _packet );
         Player player = null;
-        if ( GameManager.LocalPlayer != null &&
-            ( GameManager.LocalPlayer.Serial == data.actorInfo.serial || data.actorInfo.isLocal ) )
+        if ( data.actorInfo.isLocal )
         {
-            player = GameManager.LocalPlayer;
+            if ( !ReferenceEquals( GameManager.LocalPlayer, null )
+                && GameManager.LocalPlayer.Serial == data.actorInfo.serial )
+            {
+                // 리스폰시
+                player = GameManager.LocalPlayer;
+            }
+            else
+            {
+                player = PoolManager.Inst.Get( data.actorInfo.prefab ) as Player;
+            }
             player.IsLocal = true;
             player.gameObject.layer = Global.Layer.Player;
+            GameManager.LocalPlayer = player;
         }
         else
         {
