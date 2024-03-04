@@ -162,21 +162,7 @@ public class Player : Character
 
     public void ResetExcludeLayers()
     {
-        if ( gameObject.layer == Global.Layer.Player )
-        {
-            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
-                | Global.LayerFlag.EnemyAttack
-                | Global.LayerFlag.Wall
-                | Global.LayerFlag.Misc );
-        }
-        else
-        {
-            Rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Player
-                | Global.LayerFlag.Enemy
-                | Global.LayerFlag.PlayerAttack
-                | Global.LayerFlag.Wall
-                | Global.LayerFlag.Misc );
-        }
+        movement.ResetExcludeLayers();
     }
 
     public void SetInvincibleTime( float _time )

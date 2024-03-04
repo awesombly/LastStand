@@ -63,12 +63,14 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetBool( AnimatorParameters.IsActionBlocked, player.UnactionableCount > 0 );
     }
 
-    private void OnDodgeAction( bool _isActive, Vector2 _direction )
+    private void OnDodgeAction( bool _isActive, Vector2 _direction, float _duration )
     {
         float actionAngle = Global.GetAngle( Vector3.zero, _direction );
         player.ApplyLookAngle( actionAngle );
         handRight.gameObject.SetActive( !_isActive );
 
+        float clipLength = 0.75f;
+        animator.SetFloat( AnimatorParameters.DodgeSpeed, clipLength / _duration );
         animator.SetInteger( AnimatorParameters.ActionDirection, ( int )GetAnimatorDirection( actionAngle ) );
         animator.SetBool( AnimatorParameters.DodgeAction, _isActive );
     }
@@ -179,7 +181,7 @@ public class PlayerAnimator : MonoBehaviour
             .OnKill( () => fireSequence = null );
     }
 
-    public void OnDead( Vector3 _direction )
+    public void OnDead( Vector2 _direction )
     {
         Poolable poolable = PoolManager.Inst.Get( deadPrefab );
         poolable.transform.position = transform.position;
@@ -216,6 +218,7 @@ public static partial class AnimatorParameters
 
     public static int IsActionBlocked = Animator.StringToHash( "IsActionBlocked" );
     public static int DodgeAction = Animator.StringToHash( "DodgeAction" );
+    public static int DodgeSpeed = Animator.StringToHash( "DodgeSpeed" );
     public static int ReviveAction = Animator.StringToHash( "ReviveAction" );
     public static int DeathAction = Animator.StringToHash( "DeathAction" );
     public static int DanceAction = Animator.StringToHash( "DanceAction" );

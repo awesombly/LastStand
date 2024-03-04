@@ -17,10 +17,14 @@ public class PlayerDodgeAttack : MonoBehaviour, IHitable
     private Player player;
     private PlayerMovement movement;
 
+    public event Action<Player/*attacker*/, Actor/*defender*/> OnHitEvent;
+
     private void Awake()
     {
         player = GetComponentInParent<Player>();
         movement = GetComponentInParent<PlayerMovement>();
+
+        movement.OnDodgeAction += OnDodgeAction;
 
         gameObject.SetActive( false );
     }
@@ -40,6 +44,18 @@ public class PlayerDodgeAttack : MonoBehaviour, IHitable
         }
 
         HitTarget( defender );
+    }
+
+    private void OnDodgeAction( bool _isActive, Vector2 _direction, float _duration )
+    {
+        direction = _direction;
+
+        if ( !player.IsLocal )
+        {
+            return;
+        }
+        gameObject.SetActive( _isActive );
+        alreadyHitActors.Clear();
     }
 
     #region Implement IHitable

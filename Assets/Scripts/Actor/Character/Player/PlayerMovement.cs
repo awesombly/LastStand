@@ -40,12 +40,13 @@ public class PlayerMovement : MonoBehaviour
     }
     [SerializeField]
     private DodgeInfo dodgeInfo;
-    public event Action<bool, Vector2/*direction*/> OnDodgeAction;
+    public event Action<bool, Vector2/*direction*/, float/*duration*/> OnDodgeAction;
 
     #region Components
     private Player player;
     private ActionReceiver receiver;
     private Rigidbody2D rigid2D;
+    private Collider2D collide2D;
     #endregion
 
     #region Unity Callback
@@ -54,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         player = GetComponent<Player>();
         receiver = GetComponent<ActionReceiver>();
         rigid2D = GetComponent<Rigidbody2D>();
+        collide2D = GetComponent<Collider2D>();
 
         receiver.OnDodgeEvent += TryDodge;
         dodgeInfo.duration.OnChangeCurrent += OnChangeDodgeDuration;
@@ -138,9 +140,28 @@ public class PlayerMovement : MonoBehaviour
         #endregion
     }
 
+    public void ResetExcludeLayers()
+    {
+        if ( gameObject.layer == Global.Layer.Player )
+        {
+            collide2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
+                | Global.LayerFlag.EnemyAttack
+                | Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
+        }
+        else
+        {
+            collide2D.excludeLayers = ~( int )( Global.LayerFlag.Player
+                | Global.LayerFlag.Enemy
+                | Global.LayerFlag.PlayerAttack
+                | Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
+        }
+    }
+
     public void DodgeAction( bool _useCollision, Vector2 _direction, float _duration )
     {
-        OnDodgeAction?.Invoke( true, _direction );
+        OnDodgeAction?.Invoke( true, _direction, _duration );
 
         ++player.UnactionableCount;
         dodgeInfo.cooldown.SetMax();
@@ -152,14 +173,15 @@ public class PlayerMovement : MonoBehaviour
 
         if ( _useCollision )
         {
-            rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Player
+            collide2D.excludeLayers = ~( int )( Global.LayerFlag.Player
                 | Global.LayerFlag.Enemy
                 | Global.LayerFlag.Wall
                 | Global.LayerFlag.Misc );
         }
         else
         {
-            rigid2D.excludeLayers = ~( int )( Global.LayerFlag.Wall );
+            collide2D.excludeLayers = ~( int )( Global.LayerFlag.Wall
+                | Global.LayerFlag.Misc );
         }
     }
 
@@ -199,9 +221,9 @@ public class PlayerMovement : MonoBehaviour
         // Dodge Finish
         if ( dodgeInfo.duration.IsZero )
         {
-            OnDodgeAction?.Invoke( false, Vector2.zero );
+            OnDodgeAction?.Invoke( false, Vector2.zero, 0f );
             --player.UnactionableCount;
-            player.ResetExcludeLayers();
+            ResetExcludeLayers();
         }
     }
 }
