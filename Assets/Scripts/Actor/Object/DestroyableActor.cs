@@ -46,12 +46,12 @@ public class DestroyableActor : Actor
         prevIsSleep = Rigid2D.IsSleeping();
     }
 
-    public override void OnHit( Actor _attacker, Bullet _bullet ) 
+    public override void OnHit( Actor _attacker, IHitable _hitable ) 
     {
-        base.OnHit( _attacker, _bullet );
+        base.OnHit( _attacker, _hitable );
     }
 
-    protected override void OnDead( Actor _attacker, Bullet _bullet ) 
+    protected override void OnDead( Actor _attacker, IHitable _hitable ) 
     {
         if ( isDead )
         {
@@ -61,9 +61,9 @@ public class DestroyableActor : Actor
         isDead = true;
         gameObject.layer = Global.Layer.Invincible;
         Rigid2D.excludeLayers = ~( int )Global.LayerFlag.Wall;
-        if ( !ReferenceEquals( _bullet, null ) )
+        if ( !ReferenceEquals( _hitable, null ) )
         {
-            Rigid2D.AddForce( _bullet.transform.up * _bullet.data.pushingPower * 2f );
+            Rigid2D.AddForce( _hitable.GetPushingForce() * 2f );
         }
         spriter.sortingOrder = -2;
         animator.SetBool( AnimatorParameters.IsDestroy, true );

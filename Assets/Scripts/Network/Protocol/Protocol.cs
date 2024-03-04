@@ -218,7 +218,7 @@ public struct BULLET_SHOT_INFO : IProtocol
 public struct HIT_INFO
 {
     public bool needRelease;
-    public uint bullet;
+    public uint hiter;
     public uint attacker;
     public uint defender;
     public VECTOR2 pos;

@@ -122,7 +122,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     #region Player
-    public void PlayerDead( Player _dead, Actor _attacker, Bullet _bullet )
+    public void PlayerDead( Player _dead, Actor _attacker, IHitable _hitable )
     {
         Players.Sort( delegate ( Player _left, Player _right )
         {

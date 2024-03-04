@@ -1,0 +1,81 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class PlayerDodgeAttack : MonoBehaviour, IHitable
+{
+    [SerializeField]
+    private float damage;
+    [SerializeField]
+    private float pushingPower;
+
+    private Vector2 direction;
+    private List<uint/*Serial*/> alreadyHitActors = new List<uint>();
+
+    private Player player;
+    private PlayerMovement movement;
+
+    private void Awake()
+    {
+        player = GetComponentInParent<Player>();
+        movement = GetComponentInParent<PlayerMovement>();
+
+        gameObject.SetActive( false );
+    }
+
+    private void OnTriggerEnter2D( Collider2D _other )
+    {
+        Actor defender = _other.GetComponent<Actor>();
+        if ( defender == null )
+        {
+            Debug.LogWarning( $"Actor is null. other:{_other.name}" );
+            return;
+        }
+
+        if ( alreadyHitActors.Contains( defender.Serial ) )
+        {
+            return;
+        }
+
+        HitTarget( defender );
+    }
+
+    #region Implement IHitable
+    public void HitTarget( Actor _defender )
+    {
+        OnHitEvent?.Invoke( player, _defender );
+        _defender?.OnHit( player, this );
+
+        if ( player.IsLocal )
+        {
+            alreadyHitActors.Add( _defender.Serial );
+
+            HIT_INFO hit;
+            hit.needRelease = false;
+            hit.hiter = 0;
+            hit.attacker = player.Serial;
+            hit.defender = _defender.Serial;
+            hit.pos = new VECTOR2( transform.position );
+            hit.hp = _defender.Hp.Current;
+            GameManager.Inst.PushHitInfoToSend( hit );
+        }
+    }
+
+    public float GetDamage()
+    {
+        return damage * player.data.attackRate;
+    }
+
+    public Vector2 GetUpDirection()
+    {
+        return direction;
+    }
+
+    public Vector2 GetPushingForce()
+    {
+        return direction * pushingPower;
+    }
+    #endregion
+}

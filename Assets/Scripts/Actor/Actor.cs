@@ -54,30 +54,29 @@ public class Actor : Poolable
         Rigid2D.velocity = _velocity;
     }
 
-    public virtual void SetHp( float _hp, Actor _attacker, Bullet _bullet )
+    public virtual void SetHp( float _hp, Actor _attacker, IHitable _hitable )
     {
         Hp.Current = _hp;
         if ( Hp.IsZero && gameObject.activeSelf )
         {
-            OnDead( _attacker, _bullet );
+            OnDead( _attacker, _hitable );
         }
     }
 
-    public virtual void OnHit( Actor _attacker, Bullet _bullet )
+    public virtual void OnHit( Actor _attacker, IHitable _hitable )
     {
-        if ( _attacker == null || _bullet == null )
+        if ( _attacker == null || _hitable == null )
         {
-            Debug.LogWarning( $"Actor is null. attacker:{_attacker}, bullet:{_bullet}" );
+            Debug.LogWarning( $"Actor is null. attacker:{_attacker}, hitable:{_hitable}" );
             return;
         }
 
-        Vector2 force = _bullet.data.pushingPower * _bullet.transform.up;
-        Rigid2D.AddForce( force );
+        Rigid2D.AddForce( _hitable.GetPushingForce() );
 
-        SetHp( Hp.Current - _bullet.GetDamage(), _attacker, _bullet );
+        SetHp( Hp.Current - _hitable.GetDamage(), _attacker, _hitable );
     }
 
-    protected virtual void OnDead( Actor _attacker, Bullet _bullet )
+    protected virtual void OnDead( Actor _attacker, IHitable _hitable )
     {
         Release();
     }

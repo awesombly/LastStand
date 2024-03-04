@@ -291,17 +291,31 @@ public class InGameLogicScene : SceneBase
         var data = Global.FromJson<HITS_INFO>( _packet );
         foreach ( HIT_INFO hit in data.hits )
         {
-            Bullet bullet = GameManager.Inst.GetActor( hit.bullet ) as Bullet;
             Actor defender = GameManager.Inst.GetActor( hit.defender );
-            if ( bullet == null || defender == null )
+            if ( ReferenceEquals( defender, null ) )
             {
-                Debug.LogWarning( $"Actor is null. {bullet}, {defender}" );
+                Debug.LogWarning( $"Defender is null. {defender}" );
                 return;
             }
 
-            bullet.transform.position = hit.pos.To();
-            bullet.HitTarget( defender );
-            defender.SetHp( hit.hp, GameManager.Inst.GetActor( hit.attacker ), bullet );
+            // Bullet일 경우
+            Bullet bullet = GameManager.Inst.GetActor( hit.hiter ) as Bullet;
+            if ( !ReferenceEquals( bullet, null ) )
+            {
+                bullet.transform.position = hit.pos.To();
+                bullet.HitTarget( defender );
+                defender.SetHp( hit.hp, GameManager.Inst.GetActor( hit.attacker ), bullet );
+                return;
+            }
+
+            // 구르기에 맞은 경우
+            Player attacker = GameManager.Inst.GetActor( hit.attacker ) as Player;
+            if ( !ReferenceEquals ( attacker, null ) )
+            {
+                IHitable hitable = attacker.GetHitable();
+                hitable.HitTarget( defender );
+                defender.SetHp( hit.hp, attacker, hitable );
+            }
         }
     }
     #endregion

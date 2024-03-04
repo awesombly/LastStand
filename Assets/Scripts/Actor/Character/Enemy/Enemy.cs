@@ -107,7 +107,7 @@ public class Enemy : Character
         ChangeState( EnemyState.Idle );
     }
 
-    protected override void OnDead( Actor _attacker, Bullet _bullet )
+    protected override void OnDead( Actor _attacker, IHitable _hitable )
     {
         if ( !ReferenceEquals( coroutine, null ) )
         {

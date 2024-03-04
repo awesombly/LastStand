@@ -4,7 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : Actor
+public interface IHitable
+{
+    public void HitTarget( Actor _defender );
+    public float GetDamage();
+    public Vector2 GetUpDirection();
+    public Vector2 GetPushingForce();
+}
+
+public class Bullet : Actor, IHitable
 {
     public BulletSO data;
     private float lifeTime;
@@ -51,7 +59,6 @@ public class Bullet : Actor
         Actor defender = _other.GetComponent<Actor>();
         if ( defender == null )
         {
-            Debug.LogWarning( $"Actor is null. other:{_other.name}, owner:{owner}" );
             return;
         }
 
@@ -106,6 +113,17 @@ public class Bullet : Actor
         OnFireEvent?.Invoke( this );
     }
 
+    public override void OnHit( Actor _attacker, IHitable _hitable )
+    {
+        base.OnHit( _attacker, _hitable );
+    }
+
+    protected override void OnDead( Actor _attacker, IHitable _hitable )
+    {
+        Release();
+    }
+    
+    #region Implement IHitable
     public void HitTarget( Actor _defender )
     {
         if ( !( _defender is Bullet ) )
@@ -122,7 +140,7 @@ public class Bullet : Actor
 
             HIT_INFO hit;
             hit.needRelease = penetrateCount.IsZero;
-            hit.bullet = Serial;
+            hit.hiter = Serial;
             hit.attacker = owner.Serial;
             hit.defender = _defender.Serial;
             hit.pos = new VECTOR2( transform.position );
@@ -141,13 +159,14 @@ public class Bullet : Actor
         return totalDamage;
     }
 
-    public override void OnHit( Actor _attacker, Bullet _bullet )
+    public Vector2 GetUpDirection()
     {
-        base.OnHit( _attacker, _bullet );
+        return transform.up;
     }
 
-    protected override void OnDead( Actor _attacker, Bullet _bullet )
+    public Vector2 GetPushingForce()
     {
-        Release();
+        return transform.up * data.pushingPower;
     }
+    #endregion
 }

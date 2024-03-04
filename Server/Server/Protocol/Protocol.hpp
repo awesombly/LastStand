@@ -402,7 +402,7 @@ typedef struct HitInfo
 {
 public:
 	bool needRelease;
-	SerialType bullet;
+	SerialType hiter;
 	SerialType attacker;
 	SerialType defender;
 	Vector2 pos;
@@ -412,7 +412,7 @@ public:
 	void serialize( Archive& ar )
 	{
 		ar( CEREAL_NVP( needRelease ) );
-		ar( CEREAL_NVP( bullet ) );
+		ar( CEREAL_NVP( hiter ) );
 		ar( CEREAL_NVP( attacker ) );
 		ar( CEREAL_NVP( defender ) );
 		ar( CEREAL_NVP( pos ) );

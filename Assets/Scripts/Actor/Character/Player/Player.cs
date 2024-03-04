@@ -84,6 +84,7 @@ public class Player : Character
     private PlayerAnimator playerAnimator;
     private ActionReceiver receiver;
     private PlayerMovement movement;
+    private PlayerDodgeAttack dodgeAttack;
     #endregion
 
     public event Action<PlayerType> OnChangePlayerType;
@@ -97,6 +98,7 @@ public class Player : Character
         playerAnimator = GetComponent<PlayerAnimator>();
         receiver = GetComponent<ActionReceiver>();
         movement = GetComponent<PlayerMovement>();
+        dodgeAttack = GetComponentInChildren<PlayerDodgeAttack>();
         Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
 
         receiver.OnSwapWeaponEvent += SwapWeapon;
@@ -212,6 +214,11 @@ public class Player : Character
         movement.DodgeAction( _useCollision, _direction, _duration );
     }
 
+    public IHitable GetHitable()
+    {
+        return dodgeAttack;
+    }
+
     private void Interaction()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll( transform.position, 1f, ( int )Global.LayerFlag.Misc );
@@ -227,7 +234,7 @@ public class Player : Character
         }
     }
 
-    protected override void OnDead( Actor _attacker, Bullet _bullet )
+    protected override void OnDead( Actor _attacker, IHitable _hitable )
     {
         if ( IsDead )
         {
@@ -246,9 +253,9 @@ public class Player : Character
                  attacker.OnPlayerKill?.Invoke( this );
         }
 
-        Vector3 direction = !ReferenceEquals( _bullet, null ) ? _bullet.transform.up : Vector3.zero;
+        Vector3 direction = !ReferenceEquals( _hitable, null ) ? _hitable.GetUpDirection() : Vector3.zero;
         playerAnimator.OnDead( direction );
-        GameManager.Inst.PlayerDead( this, _attacker, _bullet );
+        GameManager.Inst.PlayerDead( this, _attacker, _hitable );
 
         OnPlayerDead?.Invoke( attacker );
     }

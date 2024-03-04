@@ -346,15 +346,15 @@ void InGame::AckHitActors( const Packet& _packet )
 		// Bullet Á¦°Å
 		if ( hit.needRelease )
 		{
-			ActorInfo* bullet = _packet.session->stage->GetActor( hit.bullet );
-			if ( bullet == nullptr )
+			ActorInfo* hiter = _packet.session->stage->GetActor( hit.hiter );
+			if ( hiter == nullptr )
 			{
-				Debug.LogError( "Bullet is null. serial:", hit.bullet, ", nick:", _packet.session->loginInfo.nickname );
+				Debug.LogError( "Hitable is null. serial:", hit.hiter, ", nick:", _packet.session->loginInfo.nickname );
 				return;
 			}
 
-			_packet.session->stage->UnregistActor( bullet );
-			Global::Memory::SafeDelete( bullet );
+			_packet.session->stage->UnregistActor( hiter );
+			Global::Memory::SafeDelete( hiter );
 		}
 	}
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTORS_ACK, data ) );
