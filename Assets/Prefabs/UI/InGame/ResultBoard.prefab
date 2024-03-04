@@ -263,6 +263,7 @@ MonoBehaviour:
   nickname: {fileID: 3229720189392354754}
   killCount: {fileID: 2831217155030033739}
   deathCount: {fileID: 8665804147627285909}
+  rdr: {fileID: 3716948298702901407}
 --- !u!1 &4531559518458669735
 GameObject:
   m_ObjectHideFlags: 0
