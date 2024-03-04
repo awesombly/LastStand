@@ -1,10 +1,9 @@
-using DG.Tweening;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using TMPro;
 
 public class PlayerBoard : MonoBehaviour
 {
@@ -22,13 +21,15 @@ public class PlayerBoard : MonoBehaviour
     public static readonly Color PlayerDeadBGEndColor   = new Color( 0f, 0f, 0f, .9f );
 
     private Image image;
+    private RectTransform rt;
 
     private void Awake()
     {
+        rt    = transform as RectTransform;
         image = GetComponent<Image>();
     }
 
-    public void Initialize( in Player _player )
+    public void UpdateInfomation( in Player _player )
     {
         nickname.text   = _player.Nickname;
         killCount.text  = $"{_player.KillScore}";
@@ -69,6 +70,7 @@ public class PlayerBoard : MonoBehaviour
 
         }
     }
+    public void MoveToPosition( Vector2 _pos ) => rt.DOAnchorPos( _pos, .5f );
 
     public void UpdateHealthLerp( float _healthLerp ) => healthLerp.value = _healthLerp;
 

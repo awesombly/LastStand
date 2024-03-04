@@ -31,7 +31,7 @@ public class Player : Character
         set
         {
             killScore = value;
-            board?.UpdateKillCount( killScore );
+            Board?.UpdateKillCount( killScore );
         }
     }
     private int deathScore;
@@ -41,7 +41,7 @@ public class Player : Character
         set
         {
             deathScore = value;
-            board?.UpdateDeathCount( deathScore );
+            Board?.UpdateDeathCount( deathScore );
         }
     }
 
@@ -53,7 +53,7 @@ public class Player : Character
     private UnityEngine.UI.Slider healthLerpBar;
     [SerializeField]
     private PlayerChatMessage chatMessage;
-    private PlayerBoard board;
+    public PlayerBoard Board { get; private set; }
 
     public event Action OnPlayerRespawn;
     public event Action<Player/* 공격한 플레이어 */> OnPlayerDead;
@@ -115,17 +115,17 @@ public class Player : Character
 
     public void InitBoardUI( PlayerBoard _board )
     {
-        board = _board;
-        board?.UpdateHealth( healthBar.value );
-        board?.UpdateKillCount( KillScore );
-        board?.UpdateDeathCount( DeathScore );
+        Board = _board;
+        Board?.UpdateHealth( healthBar.value );
+        Board?.UpdateKillCount( KillScore );
+        Board?.UpdateDeathCount( DeathScore );
     }
 
     public void UpdateUI()
     {
         healthLerpBar.value = Mathf.Max( healthLerpBar.value - 0.1f * Time.deltaTime, healthBar.value );
         healthLerpBar.value = Mathf.Lerp( healthLerpBar.value, healthBar.value, 2f * Time.deltaTime );
-        board?.UpdateHealthLerp( healthLerpBar.value );
+        Board?.UpdateHealthLerp( healthLerpBar.value );
     }
 
     public void ReceiveMessage( string _message )
@@ -272,7 +272,7 @@ public class Player : Character
             healthLerpBar.value = healthBar.value;
         }
 
-        board?.UpdateHealth( healthBar.value );
+        Board?.UpdateHealth( healthBar.value );
     }
 
     public override void Release()

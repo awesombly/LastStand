@@ -7,13 +7,10 @@ public class PlayerBoardSystem : MonoBehaviour
 {
     public GameObject contents;
     public RectTransform hintRT;
-    [SerializeField]
-    private List<PlayerBoard> boards = new List<PlayerBoard>();
-    [SerializeField]
-    private List<Vector2> points = new List<Vector2>();
+    [SerializeField] List<PlayerBoard> boards = new List<PlayerBoard>();
+    [SerializeField] List<Vector2>     points = new List<Vector2>();
     private bool isMovePlaying;
-
-
+    
     private void Awake()
     {
         boards.AddRange( contents.GetComponentsInChildren<PlayerBoard>() );
@@ -21,6 +18,7 @@ public class PlayerBoardSystem : MonoBehaviour
             points.Add( ( board.transform as RectTransform ).anchoredPosition );
 
         GameManager.OnChangePlayers += UpdatePlayerBoard;
+        GameManager.OnDead          += UpdateOrderByKill;
     }
 
     private void Update()
@@ -63,17 +61,31 @@ public class PlayerBoardSystem : MonoBehaviour
     private void UpdatePlayerBoard()
     {
         var players = GameManager.Players;
+
         for ( int i = 0; i < 4; i++ )
         {
             if ( i < players.Count )
             {
                 boards[i].gameObject.SetActive( true );
-                boards[i].Initialize( players[i] );
+                boards[i].UpdateInfomation( players[i] );
             }
             else
             {
                 boards[i].gameObject.SetActive( false );
             }
+        }
+
+        UpdateOrderByKill( null ) ;
+    }
+
+    private void UpdateOrderByKill( Player _p )
+    {
+        var players = GameManager.Players;
+        for ( int i = 0; i < players.Count; i++ )
+        {
+            var board = players[i].Board;
+            board.MoveToPosition( points[i] );
+            board.transform.SetAsFirstSibling();
         }
     }
 }

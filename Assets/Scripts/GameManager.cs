@@ -124,6 +124,13 @@ public class GameManager : Singleton<GameManager>
     #region Player
     public void PlayerDead( Player _dead, Actor _attacker, Bullet _bullet )
     {
+        Players.Sort( delegate ( Player _left, Player _right )
+        {
+            if      ( _left.KillScore < _right.KillScore ) return 1;
+            else if ( _left.KillScore > _right.KillScore ) return -1;
+            else                                           return 0;
+        } );
+
         // 플레이어 사망시, 같은 객체를 재사용한다.
         _dead.gameObject.SetActive( false );
         OnDead?.Invoke( _dead );
