@@ -20,6 +20,10 @@ public class ButtonActivator : MonoBehaviour
         image  = GetComponent<Image>();
         button = GetComponent<Button>();
 
-        button.onClick.AddListener( () => Enabled = true );
+        button.onClick.AddListener( () =>
+        {
+            Enabled = true;
+            AudioManager.Inst.Play( SFX.MouseClick );
+        } );
     }
 }

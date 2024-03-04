@@ -28,6 +28,7 @@ public class StageSystem : MonoBehaviour
     public Transform contents;
     public Stage prefab;
 
+    #region Unity Callback
     private void Awake()
     {
         TryGetComponent( out scene );
@@ -45,6 +46,7 @@ public class StageSystem : MonoBehaviour
         if ( Network.Inst.IsConnected )
              Network.Inst.Send( new Packet( STAGE_INFO_REQ, new EMPTY() ) );
     }
+    #endregion
 
     #region Button Events
     public void ShowCreateStagePanel()

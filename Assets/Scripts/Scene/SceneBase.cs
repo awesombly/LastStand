@@ -60,7 +60,6 @@ public class SceneBase : MonoBehaviour
         OnAfterSceneLoad?.Invoke();
     }
 
-
     #region Input
     public static void EnabledInputSystem( bool _keyboard, bool _mouse )
     {
@@ -69,13 +68,6 @@ public class SceneBase : MonoBehaviour
 
         if ( _mouse ) InputSystem.EnableDevice(  Mouse.current );
         else          InputSystem.DisableDevice( Mouse.current );
-    }
-    #endregion
-
-    #region Sound
-    public void MenuSelectSound()
-    {
-        AudioManager.Inst.Play( SFX.MouseClick );
     }
     #endregion
 }
