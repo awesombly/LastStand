@@ -27,4 +27,6 @@ public class LobbyScene : SceneBase
         yield return new WaitUntil( () => !AudioManager.Inst.IsLoading );
         AudioManager.Inst.Play( BGM.Lobby, 0f, .5f, 5f );
     }
+
+    public void ExitGame() => Application.Quit();
 }
