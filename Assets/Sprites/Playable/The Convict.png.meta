@@ -19813,7 +19813,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_937
+      name: Convict_Select0
       rect:
         serializedVersion: 2
         x: 396
@@ -20002,7 +20002,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_946
+      name: Convict_Select1
       rect:
         serializedVersion: 2
         x: 413
@@ -20023,7 +20023,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_947
+      name: Convict_Select2
       rect:
         serializedVersion: 2
         x: 432
@@ -20044,7 +20044,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_948
+      name: Convict_Select3
       rect:
         serializedVersion: 2
         x: 452
@@ -20065,7 +20065,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_949
+      name: Convict_Select4
       rect:
         serializedVersion: 2
         x: 468
@@ -20086,7 +20086,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_950
+      name: Convict_Select5
       rect:
         serializedVersion: 2
         x: 484
@@ -20107,7 +20107,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_951
+      name: Convict_Select6
       rect:
         serializedVersion: 2
         x: 503
@@ -20128,7 +20128,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_952
+      name: Convict_Select7
       rect:
         serializedVersion: 2
         x: 520
@@ -20149,7 +20149,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_953
+      name: Convict_Select8
       rect:
         serializedVersion: 2
         x: 537
@@ -23819,6 +23819,15 @@ TextureImporter:
       Convict_Revive4: 1075245716
       Convict_Revive5: 2146296182
       Convict_Revive6: 244755394
+      Convict_Select0: -1967278103
+      Convict_Select1: 2035122482
+      Convict_Select2: 1465771539
+      Convict_Select3: -1512092003
+      Convict_Select4: -1570444717
+      Convict_Select5: -649340864
+      Convict_Select6: -1597177821
+      Convict_Select7: 1477842645
+      Convict_Select8: -541119087
       Convict_Walking_Back0: 988047658
       Convict_Walking_Back1: -712415490
       Convict_Walking_Back2: 111987705
@@ -24783,7 +24792,6 @@ TextureImporter:
       The Convict_934: 146586362
       The Convict_935: 50058549
       The Convict_936: 1661018872
-      The Convict_937: -1842313989
       The Convict_938: -138411419
       The Convict_939: -510137303
       The Convict_94: -83642113
@@ -24793,15 +24801,7 @@ TextureImporter:
       The Convict_943: -1570444717
       The Convict_944: -1870988705
       The Convict_945: -649340864
-      The Convict_946: -1597177821
-      The Convict_947: 1477842645
-      The Convict_948: -541119087
-      The Convict_949: 301831133
       The Convict_95: 144920292
-      The Convict_950: 1850821958
-      The Convict_951: -1571456879
-      The Convict_952: 125680205
-      The Convict_953: -344641241
       The Convict_954: 1288598789
       The Convict_955: 288159508
       The Convict_956: 1118177256

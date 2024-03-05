@@ -20,7 +20,7 @@ public class Actor : Poolable
         set
         {
             serial = value;
-            name = name + ":" + serial;
+            name = serial.ToString();
             // Serial을 부여받아야 등록가능
             GameManager.Inst.RegistActor( this );
         }

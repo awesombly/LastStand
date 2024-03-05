@@ -102,12 +102,10 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 
 	if ( _packet.session->loginInfo.nickname.empty() )
 	{
-		data.nickname = std::to_string( data.actorInfo.serial );
+		_packet.session->loginInfo.nickname = std::to_string( data.actorInfo.serial );
 	}
-	else
-	{
-		data.nickname = _packet.session->loginInfo.nickname;
-	}
+	data.nickname = _packet.session->loginInfo.nickname;
+
 	data.actorInfo.isLocal = true;
 	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
 	data.actorInfo.isLocal = false;
