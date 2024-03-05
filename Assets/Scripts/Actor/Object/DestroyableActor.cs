@@ -46,11 +46,6 @@ public class DestroyableActor : Actor
         prevIsSleep = Rigid2D.IsSleeping();
     }
 
-    public override void OnHit( Actor _attacker, IHitable _hitable ) 
-    {
-        base.OnHit( _attacker, _hitable );
-    }
-
     protected override void OnDead( Actor _attacker, IHitable _hitable ) 
     {
         if ( isDead )

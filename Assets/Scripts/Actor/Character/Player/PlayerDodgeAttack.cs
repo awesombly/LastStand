@@ -43,7 +43,7 @@ public class PlayerDodgeAttack : MonoBehaviour, IHitable
             return;
         }
 
-        HitTarget( defender );
+        HitTarget( defender, SyncType.LocalFirst );
     }
 
     private void OnDodgeAction( bool _isActive, Vector2 _direction, float _duration )
@@ -59,12 +59,15 @@ public class PlayerDodgeAttack : MonoBehaviour, IHitable
     }
 
     #region Implement IHitable
-    public void HitTarget( Actor _defender )
+    public void HitTarget( Actor _defender, SyncType _syncType, float _serverHp = 0f )
     {
-        OnHitEvent?.Invoke( player, _defender );
-        _defender?.OnHit( player, this );
+        if ( _syncType != SyncType.LocalEcho )
+        {
+            OnHitEvent?.Invoke( player, _defender );
+        }
+        _defender?.OnHit( player, this, _syncType, _serverHp );
 
-        if ( player.IsLocal )
+        if ( _syncType == SyncType.LocalFirst )
         {
             alreadyHitActors.Add( _defender.Serial );
 
@@ -74,7 +77,8 @@ public class PlayerDodgeAttack : MonoBehaviour, IHitable
             hit.attacker = player.Serial;
             hit.defender = _defender.Serial;
             hit.pos = new VECTOR2( transform.position );
-            hit.hp = _defender.Hp.Current;
+            // Client->Server == Damage, Server->Client == Hp
+            hit.hp = GetDamage();
             GameManager.Inst.PushHitInfoToSend( hit );
         }
     }

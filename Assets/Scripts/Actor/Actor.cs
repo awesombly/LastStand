@@ -54,16 +54,21 @@ public class Actor : Poolable
         Rigid2D.velocity = _velocity;
     }
 
-    public virtual void SetHp( float _hp, Actor _attacker, IHitable _hitable )
+    public virtual void SetHp( float _hp, Actor _attacker, IHitable _hitable, SyncType _syncType )
     {
         Hp.Current = _hp;
+        if ( _syncType == SyncType.LocalFirst )
+        {
+            return;
+        }
+
         if ( Hp.IsZero && gameObject.activeSelf )
         {
             OnDead( _attacker, _hitable );
         }
     }
 
-    public virtual void OnHit( Actor _attacker, IHitable _hitable )
+    public virtual void OnHit( Actor _attacker, IHitable _hitable, SyncType _syncType, float _serverHp = 0f )
     {
         if ( _attacker == null || _hitable == null )
         {
@@ -71,9 +76,15 @@ public class Actor : Poolable
             return;
         }
 
-        Rigid2D.AddForce( _hitable.GetPushingForce() );
+        if ( _syncType != SyncType.LocalEcho )
+        {
+            Rigid2D.AddForce( _hitable.GetPushingForce() );
+        }
 
-        SetHp( Hp.Current - _hitable.GetDamage(), _attacker, _hitable );
+        float hp = _syncType == SyncType.LocalFirst 
+            ? Hp.Current - _hitable.GetDamage() 
+            : _serverHp;
+        SetHp( hp, _attacker, _hitable, _syncType );
     }
 
     protected virtual void OnDead( Actor _attacker, IHitable _hitable )

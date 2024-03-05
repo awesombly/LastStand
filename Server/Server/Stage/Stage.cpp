@@ -84,7 +84,7 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 		PlayerInfo* player = FindPlayer( _dead->serial );
 		if ( player == nullptr || player->isDead )
 		{
-			Debug.LogError( "player is dead. serial:", _hit.attacker );
+			Debug.LogWarning( "Already dead player. serial:", _hit.attacker );
 			break;
 		}
 
@@ -94,7 +94,7 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 		PlayerInfo* attacker = FindPlayer( _hit.attacker );
 		if ( attacker == nullptr )
 		{
-			Debug.LogError( "attacker is null. serial:", _hit.attacker );
+			Debug.LogError( "Attacker is null. serial:", _hit.attacker );
 			break;
 		}
 
@@ -145,7 +145,7 @@ void Stage::RegistActor( ActorInfo* _actor )
 {
 	if ( _actor == nullptr )
 	{
-		Debug.LogWarning( "Actor is null." );
+		Debug.LogWarning( "Actor is null.(Regist)" );
 		return;
 	}
 
@@ -162,25 +162,28 @@ void Stage::UnregistActor( const ActorInfo* _actor )
 {
 	if ( _actor == nullptr )
 	{
-		Debug.LogWarning( "Actor is null." );
+		Debug.LogWarning( "Actor is null.(Unregist)" );
 		return;
 	}
 
 	if ( !actors.contains( _actor->serial ) )
 	{
-		Debug.LogWarning( "Actor not found. serial:", _actor->serial );
+		Debug.LogWarning( "Actor not found.(Unregist ) serial:", _actor->serial );
 		return;
 	}
 
 	actors.erase( _actor->serial );
 }
 
-ActorInfo* Stage::GetActor( SerialType _serial ) const
+ActorInfo* Stage::GetActor( SerialType _serial, bool _useLoging ) const
 {
 	auto findItr = actors.find( _serial );
 	if ( findItr == actors.cend() )
 	{
-		Debug.LogWarning( "Actor not found. serial:", _serial );
+		if ( _useLoging )
+		{
+			Debug.LogWarning( "Actor not found. serial:", _serial );
+		}
 		return nullptr;
 	}
 

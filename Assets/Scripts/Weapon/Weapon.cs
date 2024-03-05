@@ -171,6 +171,7 @@ public class Weapon : MonoBehaviour
         protocol.look = GameManager.LookAngle;
         protocol.owner = owner.Serial;
         protocol.damage = owner.data.attackRate * data.bulletPrefab.data.damage;
+        protocol.hp = data.bulletPrefab.data.penetratePower * 20f;
         protocol.bullets = new List<BULLET_INFO>();
 
         for ( int i = 0; i < data.shotInfo.bulletPerShot; ++i )

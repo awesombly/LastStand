@@ -295,26 +295,41 @@ public class InGameLogicScene : SceneBase
             Actor defender = GameManager.Inst.GetActor( hit.defender );
             if ( ReferenceEquals( defender, null ) )
             {
-                Debug.LogWarning( $"Defender is null. {defender}" );
-                return;
+                if ( hit.needRelease )
+                {
+                    Bullet bul = GameManager.Inst.GetActor( hit.hiter ) as Bullet;
+                    bul?.Release();
+                }
+                continue;
             }
 
             // Bullet일 경우
             Bullet bullet = GameManager.Inst.GetActor( hit.hiter ) as Bullet;
             if ( !ReferenceEquals( bullet, null ) )
             {
-                bullet.transform.position = hit.pos.To();
-                bullet.HitTarget( defender );
-                defender.SetHp( hit.hp, GameManager.Inst.GetActor( hit.attacker ), bullet );
-                return;
+                if ( bullet.IsLocal )
+                {
+                    bullet.HitTarget( defender, SyncType.LocalEcho, hit.hp );
+                }
+                else
+                {
+                    bullet.transform.position = hit.pos.To();
+                    bullet.HitTarget( defender, SyncType.FromServer, hit.hp );
+                }
+
+                if ( hit.needRelease )
+                {
+                    bullet.Release();
+                }
+                continue;
             }
 
             // 구르기에 맞은 경우
             Player attacker = GameManager.Inst.GetActor( hit.attacker ) as Player;
             if ( !ReferenceEquals ( attacker, null ) )
             {
-                attacker.DodgeAttack.HitTarget( defender );
-                defender.SetHp( hit.hp, attacker, attacker.DodgeAttack );
+                SyncType syncType = attacker.IsLocal ? SyncType.LocalEcho : SyncType.FromServer;
+                attacker.DodgeAttack.HitTarget( defender, syncType, hit.hp );
             }
         }
     }
@@ -344,7 +359,7 @@ public class InGameLogicScene : SceneBase
             {
                 actor.Rigid2D.velocity = actorInfo.vel.To();
             }
-            actor.SetHp( actorInfo.hp, null, null );
+            actor.SetHp( actorInfo.hp, null, null, SyncType.FromServer );
             if ( !actor.Hp.IsZero && actor is InteractableActor )
             {
                 var interactable = actor as InteractableActor;

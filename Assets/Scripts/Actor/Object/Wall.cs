@@ -13,9 +13,9 @@ public class Wall : Actor
 
     public override void SetMovement( Vector3 _position, Vector3 _velocity ) { }
 
-    public override void SetHp( float _hp, Actor _attacker, IHitable _hitable ) { }
+    public override void SetHp( float _hp, Actor _attacker, IHitable _hitable, SyncType _syncType ) { }
 
-    public override void OnHit( Actor _attacker, IHitable _hitable ) { }
+    public override void OnHit( Actor _attacker, IHitable _hitable, SyncType _syncType, float _serverHp = 0f ) { }
 
     protected override void OnDead( Actor _attacker, IHitable _hitable ) { }
 

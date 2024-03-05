@@ -212,6 +212,7 @@ public struct BULLET_SHOT_INFO : IProtocol
     public VECTOR2 pos;
     public float look;
     public float damage;
+    public float hp;
     public List<BULLET_INFO> bullets;
 }
 

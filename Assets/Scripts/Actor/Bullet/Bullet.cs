@@ -4,9 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum SyncType
+{
+    LocalFirst,     // 로컬 클라에서 사전처리
+    LocalEcho,      // 서버를 거쳐서, 로컬 클라가 다시 받아서 처리
+    FromServer,     // 다른 클라에서 보낸 동기화 처리
+}
+
 public interface IHitable
 {
-    public void HitTarget( Actor _defender );
+    public void HitTarget( Actor _defender, SyncType _syncType , float _serverHp = 0f );
     public float GetDamage();
     public Vector2 GetUpDirection();
     public Vector2 GetPushingForce();
@@ -30,12 +38,12 @@ public class Bullet : Actor, IHitable
     {
         base.Awake();
         penetrateCount.Max = data.penetratePower;
-        Hp.Max = penetrateCount.Max * 10f;  // Bullet끼리 충돌했을 때 사용
+        Hp.Max = penetrateCount.Max * 20f;  // Bullet끼리 충돌했을 때 사용
     }
 
     private void Update()
     {
-        if( !IsLocal )
+        if( !IsLocal || !Rigid2D.simulated )
         {
             return;
         }
@@ -44,8 +52,8 @@ public class Bullet : Actor, IHitable
         if ( lifeTime <= 0)
         {
             GameManager.Inst.PushRemoveActorToSend( Serial );
-
-            Release();
+            // 실제 Release는 서버 응답을 받고 한다
+            Rigid2D.simulated = false;
         }
     }
 
@@ -62,24 +70,24 @@ public class Bullet : Actor, IHitable
             return;
         }
 
-        if ( alreadyHitActors.Contains( defender.Serial ) )
+        if ( penetrateCount.IsZero || alreadyHitActors.Contains( defender.Serial ) )
         {
             return;
         }
 
+        // Bullet끼리 충돌시
         Bullet bullet = defender as Bullet;
         if ( !ReferenceEquals( bullet, null ) )
         {
-            // Bullet끼리 충돌했을 때, 각자 클라가 처리시
-            // 중복처리 및 동기화 이슈가 생길 수 있어 Serial이 높은 쪽에서 Hit시킴
+            // 각자 클라가 처리시, 중복처리가 되어서 Serial이 높은 쪽에서 Hit시킴
             if ( bullet.Serial > Serial )
             {
                 return;
             }
-            bullet.HitTarget( this );
+            bullet.HitTarget( this, SyncType.LocalFirst );
         }
 
-        HitTarget( defender );
+        HitTarget( defender, SyncType.LocalFirst );
     }
     #endregion
 
@@ -106,37 +114,35 @@ public class Bullet : Actor, IHitable
         penetrateCount.SetMax();
         Hp.SetMax();
         alreadyHitActors.Clear();
+        Rigid2D.simulated = true;
 
         transform.SetPositionAndRotation( _shotInfo.pos.To(), Quaternion.Euler( 0, 0, _bulletInfo.angle - 90 ) );
         Rigid2D.velocity = transform.up * ( data.moveSpeed * _bulletInfo.rate );
 
         OnFireEvent?.Invoke( this );
     }
-
-    public override void OnHit( Actor _attacker, IHitable _hitable )
-    {
-        base.OnHit( _attacker, _hitable );
-    }
-
-    protected override void OnDead( Actor _attacker, IHitable _hitable )
-    {
-        Release();
-    }
     
     #region Implement IHitable
-    public void HitTarget( Actor _defender )
+    public void HitTarget( Actor _defender, SyncType _syncType, float _serverHp = 0f )
     {
-        if ( !( _defender is Bullet ) )
+        if ( _syncType != SyncType.LocalEcho )
         {
-            penetrateCount.Current -= _defender.PenetrationResist;
+            OnHitEvent?.Invoke( this );
         }
+        _defender?.OnHit( owner, this, _syncType, _serverHp );
 
-        OnHitEvent?.Invoke( this );
-        _defender?.OnHit( owner, this );
-
-        if ( IsLocal )
+        if ( _syncType == SyncType.LocalFirst )
         {
             alreadyHitActors.Add( _defender.Serial );
+            if ( !( _defender is Bullet ) )
+            {
+                penetrateCount.Current -= _defender.PenetrationResist;
+                if ( penetrateCount.IsZero )
+                {
+                    // 실제 Release는 서버 응답(LocalEcho)을 받고 한다
+                    Rigid2D.simulated = false;
+                }
+            }
 
             HIT_INFO hit;
             hit.needRelease = penetrateCount.IsZero;
@@ -144,13 +150,9 @@ public class Bullet : Actor, IHitable
             hit.attacker = owner.Serial;
             hit.defender = _defender.Serial;
             hit.pos = new VECTOR2( transform.position );
-            hit.hp = _defender.Hp.Current;
+            // Client->Server == Damage, Server->Client == Hp
+            hit.hp = GetDamage();
             GameManager.Inst.PushHitInfoToSend( hit );
-        }
-
-        if ( penetrateCount.IsZero )
-        {
-            Release();
         }
     }
 

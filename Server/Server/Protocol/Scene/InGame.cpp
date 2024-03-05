@@ -147,6 +147,7 @@ void InGame::AckSpawnBullet( const Packet& _packet )
 		actor->prefab = data.prefab;
 		actor->isLocal = data.isLocal;
 		actor->serial = data.bullets[i].serial;
+		actor->hp = data.hp;
 		actor->actorType = ActorType::Bullet;
 		_packet.session->stage->RegistActor( actor );
 	}
@@ -166,7 +167,7 @@ void InGame::AckRemoveActors( const Packet& _packet )
 		return;
 	}
 
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( REMOVE_ACTORS_ACK, data ) );
+	_packet.session->stage->Broadcast( UPacket( REMOVE_ACTORS_ACK, data ) );
 
 	for ( SerialType serial : data.serials )
 	{
@@ -284,7 +285,7 @@ void InGame::AckSyncInteraction( const Packet& _packet )
 
 void InGame::AckHitActors( const Packet& _packet )
 {
-	const HITS_INFO& data = FromJson<HITS_INFO>( _packet );
+	HITS_INFO data = FromJson<HITS_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Session is null. nick:", _packet.session->loginInfo.nickname );
@@ -292,21 +293,8 @@ void InGame::AckHitActors( const Packet& _packet )
 	}
 
 	bool isPlayerKill = false;
-	for ( const HitInfo& hit : data.hits )
+	for ( HitInfo& hit : data.hits )
 	{
-		ActorInfo* defender = _packet.session->stage->GetActor( hit.defender );
-		if ( defender == nullptr )
-		{
-			Debug.LogError( "defender is null. serial:", hit.defender, ", nick:", _packet.session->loginInfo.nickname );
-			return;
-		}
-		
-		defender->hp = hit.hp;
-		if ( defender->hp <= 0.0f )
-		{
-			isPlayerKill = _packet.session->stage->DeadActor( defender, hit );
-		}
-
 		// Hitable 제거
 		if ( hit.needRelease )
 		{
@@ -320,8 +308,26 @@ void InGame::AckHitActors( const Packet& _packet )
 			_packet.session->stage->UnregistActor( hiter );
 			Global::Memory::SafeDelete( hiter );
 		}
+
+		ActorInfo* defender = _packet.session->stage->GetActor( hit.defender, false );
+		if ( defender == nullptr )
+		{
+			return;
+		}
+		
+		// 샷건 같은걸 맞았으면 이미 죽은 상태일 수 있다
+		if ( defender->hp > 0.0f )
+		{
+			// Client->Server == Damage, Server->Client == Hp
+			defender->hp -= hit.hp;
+			if ( defender->hp <= 0.0f )
+			{
+				isPlayerKill = _packet.session->stage->DeadActor( defender, hit );
+			}
+		}
+		hit.hp = defender->hp;
 	}
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( HIT_ACTORS_ACK, data ) );
+	_packet.session->stage->Broadcast( UPacket( HIT_ACTORS_ACK, data ) );
 
 	// 종료 목표 체크
 	if ( isPlayerKill )

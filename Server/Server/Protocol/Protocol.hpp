@@ -384,6 +384,7 @@ public:
 	VECTOR2 pos;
 	float look;
 	float damage;
+	float hp;
 	std::vector<BULLET_INFO> bullets;
 
 	template <class Archive>
@@ -395,6 +396,7 @@ public:
 		ar( CEREAL_NVP( pos ) );
 		ar( CEREAL_NVP( look ) );
 		ar( CEREAL_NVP( damage ) );
+		ar( CEREAL_NVP( hp ) );
 		ar( CEREAL_NVP( bullets ) );
 	}
 } BULLET_SHOT_INFO;

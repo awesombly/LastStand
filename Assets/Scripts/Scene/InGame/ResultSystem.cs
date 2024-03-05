@@ -41,7 +41,10 @@ public class ResultSystem : MonoBehaviour
     private void OnGameOver( Player _winner )
     {
         winner   = _winner;
-        prevInfo = GameManager.UserInfo.Value;
+        if ( GameManager.UserInfo != null )
+        {
+            prevInfo = GameManager.UserInfo.Value;
+        }
 
         //SceneBase.EnabledInputSystem( false, false );
         SceneBase.IsLock = true;

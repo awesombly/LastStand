@@ -28,7 +28,7 @@ public:
 
 	void RegistActor( ActorInfo* _actor );
 	void UnregistActor( const ActorInfo* _actor );
-	ActorInfo* GetActor( SerialType _serial ) const;
+	ActorInfo* GetActor( SerialType _serial, bool _useLoging = true ) const;
 	ActorContainer& GetActors();
 	std::list<Session*>& GetSessions();
 	PlayerInfo* FindPlayer( SerialType _serial ) const;
