@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CustomVerticalLayoutGroup : CustomLayoutGroup
 {
-    public override void UpdateGroup( bool _shouldIncludeDisabledObject = false )
+    public override void Initialize( bool _shouldIncludeDisabledObject = false )
     {
-        base.UpdateGroup( _shouldIncludeDisabledObject );
+        base.Initialize( _shouldIncludeDisabledObject );
         rectChildren.Reverse();
     }
 
-    public override void SetLayoutVertical()
+    public override void UpdateLayoutGroup()
     {
         if ( rectChildren.Count < 1 )
             return;
@@ -47,6 +47,4 @@ public class CustomVerticalLayoutGroup : CustomLayoutGroup
                 heightOffset += ( rectChildren[i + 1].sizeDelta.y * .5f );
         }
     }
-
-    public override void SetLayoutHorizontal() { }
 }

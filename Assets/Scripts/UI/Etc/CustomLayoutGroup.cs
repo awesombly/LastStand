@@ -7,7 +7,7 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 [ExecuteAlways]
 [RequireComponent( typeof( RectTransform ) )]
-public abstract class CustomLayoutGroup : MonoBehaviour, ILayoutController
+public abstract class CustomLayoutGroup : MonoBehaviour
 {
     public float spacing;
     [Serializable]
@@ -25,7 +25,7 @@ public abstract class CustomLayoutGroup : MonoBehaviour, ILayoutController
     protected List<RectTransform> rectChildren = new List<RectTransform>();
     public bool ShouldIncludeDisabledObject { get; private set; }
 
-    public virtual void UpdateGroup( bool _shouldIncludeDisabledObject = false )
+    public virtual void Initialize( bool _shouldIncludeDisabledObject = false )
     {
         ShouldIncludeDisabledObject = _shouldIncludeDisabledObject;
         SetAlignment();
@@ -45,9 +45,8 @@ public abstract class CustomLayoutGroup : MonoBehaviour, ILayoutController
     {
         if ( Application.isPlaying )
         {
-            UpdateGroup();
-            SetLayoutHorizontal();
-            SetLayoutVertical();
+            Initialize();
+            UpdateLayoutGroup();
         }
     }
 
@@ -60,15 +59,13 @@ public abstract class CustomLayoutGroup : MonoBehaviour, ILayoutController
             rectChildren?.Clear();
 
             SetAlignment();
-            UpdateGroup();
-            SetLayoutHorizontal();
-            SetLayoutVertical();
+            Initialize();
+            UpdateLayoutGroup();
         }
     }
 #endif
 
-    public abstract void SetLayoutHorizontal();
-    public abstract void SetLayoutVertical();
+    public abstract void UpdateLayoutGroup();
 
     private void SetAlignment()
     {

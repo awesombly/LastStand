@@ -40,14 +40,11 @@ public class ResultSystem : MonoBehaviour
 
     private void OnGameOver( Player _winner )
     {
-        winner   = _winner;
-        if ( GameManager.UserInfo != null )
-        {
-            prevInfo = GameManager.UserInfo.Value;
-        }
-
-        //SceneBase.EnabledInputSystem( false, false );
         SceneBase.IsLock = true;
+        winner           = _winner;
+
+        if ( GameManager.UserInfo != null )
+             prevInfo = GameManager.UserInfo.Value;
 
         if ( GameManager.LoginInfo != null )
         {
@@ -81,7 +78,7 @@ public class ResultSystem : MonoBehaviour
             boards[i].Initialize( players[i], ReferenceEquals( players[i], winner ), FadeTime );
         }
 
-        layoutGroup.SetLayoutHorizontal();
+        layoutGroup.UpdateLayoutGroup();
 
         if ( GameManager.UserInfo != null )
         {

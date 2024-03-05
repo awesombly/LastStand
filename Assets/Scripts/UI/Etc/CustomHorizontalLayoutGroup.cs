@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomHorizontalLayoutGroup : CustomLayoutGroup
 {
-    public override void SetLayoutHorizontal()
+    public override void UpdateLayoutGroup()
     {
         if ( rectChildren.Count < 1 )
             return;
@@ -41,6 +41,4 @@ public class CustomHorizontalLayoutGroup : CustomLayoutGroup
                 widthOffset += ( rectChildren[i + 1].sizeDelta.x * .5f );
         }
     }
-
-    public override void SetLayoutVertical() { }
 }

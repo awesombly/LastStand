@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
+using TMPro;
 
 public class WeaponScreenUI : MonoBehaviour
 {
@@ -18,11 +20,57 @@ public class WeaponScreenUI : MonoBehaviour
 
     private Weapon equipWeapon;
 
+    // Ammo Effect
+    public GameObject ammo;
+    private Transform ammoTF;
+    private RectTransform ammoRT;
+
+    private Sequence moveEffectSeq;
+    private Vector2 startPos, endPos;
+
+    private Sequence scaleEffectSeq;
+    private Vector3 startScl, endScl;
+
+
     private void Awake()
     {
         bulletIconPool = new WNS.ObjectPool<Image>( bulletIconPrefab, magazinePanel.transform );
 
         GameManager.OnChangeLocalPlayer += OnChangeLocalPlayer;
+    }
+
+    private void Start()
+    {
+        AmmoEffectInitialize();
+    }
+
+    private void AmmoEffectInitialize()
+    {
+        // Scale Effect
+        ammoTF   = ammo.transform;
+        startScl = ammoTF.localScale;
+        endScl   = startScl * 1.15f;
+
+        scaleEffectSeq = DOTween.Sequence().Pause().SetAutoKill( false );
+        scaleEffectSeq.AppendCallback( () => ammoTF.localScale = startScl )
+                      .Append( ammoTF.DOScale( endScl, .15f ) )
+                      .OnComplete( () => ammoTF.DOScale( startScl, .15f ) );
+
+        // Move Effect
+        ammoRT   = ammoTF as RectTransform;
+        startPos = ammoRT.anchoredPosition;
+        endPos   = new Vector2( startPos.x, startPos.y + 5f );
+
+        moveEffectSeq = DOTween.Sequence().Pause().SetAutoKill( false );
+        moveEffectSeq.AppendCallback( () => ammoRT.anchoredPosition = startPos )
+                     .Append( ammoRT.DOAnchorPos( endPos, .1f ) )
+                     .OnComplete( () => ammoRT.DOAnchorPos( startPos, .1f ) );
+    }
+
+    private void PlayEffect( Weapon _w )
+    {
+        moveEffectSeq.Restart();
+        scaleEffectSeq.Restart();
     }
 
     private void OnDestroy()
@@ -78,14 +126,15 @@ public class WeaponScreenUI : MonoBehaviour
 
         if ( !ReferenceEquals( _old, null ) )
         {
+            _old.OnFireEvent -= PlayEffect;
             _old.myStat.magazine.OnChangeCurrent -= OnChangeMagazine;
         }
 
         if ( ReferenceEquals( _new, null ) )
-        {
-            return;
-        }
+             return;
+
         equipWeapon = _new;
+        equipWeapon.OnFireEvent                     += PlayEffect;
         equipWeapon.myStat.magazine.OnChangeCurrent += OnChangeMagazine;
 
         // Weapon Image
