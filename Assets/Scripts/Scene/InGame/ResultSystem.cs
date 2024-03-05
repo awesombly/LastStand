@@ -108,7 +108,7 @@ public class ResultSystem : MonoBehaviour
             if ( _prev.level < _cur.level )
             {
                 expSlider.value = WNS.Math.Lerp( prevExp, 1f, time );
-                time += ( 1f + ( _cur.level - _prev.level ) ) * Time.deltaTime;
+                time += ( 1f + ( _cur.level - _prev.level ) ) * Time.deltaTime * .5f;
 
                 if ( time >= 1f )
                 {
@@ -127,7 +127,7 @@ public class ResultSystem : MonoBehaviour
                 expSlider.value = isLevelUp ? WNS.Math.Lerp( 0f, curExp, time ) :
                                               WNS.Math.Lerp( prevExp, curExp, time );
 
-                time += Time.deltaTime;
+                time += Time.deltaTime * .75f;
                 if ( time >= 1f )
                 {
                     expSlider.value = curExp;
