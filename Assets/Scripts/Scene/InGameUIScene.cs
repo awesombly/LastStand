@@ -71,15 +71,19 @@ public class InGameUIScene : SceneBase
         {
             if ( pause.activeInHierarchy )
             {
-                InputSystem.EnableDevice( Mouse.current );
-                InputSystem.EnableDevice( Keyboard.current );
+                if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
+                {
+                    GameManager.LocalPlayer.UnmoveableCount--;
+                }
                 pause.SetActive( false );
                 AudioManager.Inst.Play( SFX.MenuExit );
             }
             else
             {
-                InputSystem.DisableDevice( Mouse.current );
-                InputSystem.DisableDevice( Keyboard.current );
+                if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
+                {
+                    GameManager.LocalPlayer.UnmoveableCount++;
+                }
                 pause.SetActive( true );
                 AudioManager.Inst.Play( SFX.MenuEntry );
             }

@@ -50,8 +50,6 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
-        InputSystem.EnableDevice( Mouse.current );
-        InputSystem.EnableDevice( Keyboard.current );
 
         removeActorsToSend.serials = new List<uint>();
         hitsInfoToSend.hits = new List<HIT_INFO>();
@@ -347,11 +345,10 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver( Player _winner )
     {
-        foreach ( Player player in Players )
+        if ( !ReferenceEquals( LocalPlayer, null ) )
         {
-            player.GetComponent<ActionReceiver>().enabled = false;
+            LocalPlayer.UnmoveableCount++;
         }
-
         OnGameOver?.Invoke( _winner );
     }
 

@@ -80,6 +80,22 @@ public class Player : Character
             OnChangePlayerType?.Invoke( playerType );
         }
     }
+    // 0일때만 입력 가능
+    private int unmoveableCount;
+    public int UnmoveableCount
+    {
+        get => unmoveableCount;
+        set
+        {
+            unmoveableCount = value;
+
+            bool isMoveable = unmoveableCount <= 0;
+            receiver.enabled = isMoveable;
+            movement.IsMoveable = isMoveable;
+            movement.moveInfo.moveVector = Vector2.zero;
+            SceneBase.EnabledInputSystem( isMoveable, isMoveable );
+        }
+    }
     public Vector2 Direction { get; set; }
     private List<Weapon> Weapons { get; set; } = null;
 

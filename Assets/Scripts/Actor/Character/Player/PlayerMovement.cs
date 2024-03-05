@@ -6,6 +6,8 @@ using UnityEngine.SocialPlatforms;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public bool IsMoveable { get; set; }
+
     [Serializable]
     public struct AllowSyncInfo
     {
@@ -64,11 +66,12 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         moveInfo.moveVector = Vector2.zero;
+        IsMoveable = true;
     }
 
     private void Update()
     {
-        if ( !player.IsLocal )
+        if ( !player.IsLocal || !IsMoveable )
         {
             return;
         }
@@ -86,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         }
         dodgeInfo.cooldown.Current -= Time.deltaTime;
 
-        if ( player.IsLocal )
+        if ( player.IsLocal && IsMoveable )
         {
             moveInfo.moveVector = receiver.InputVector * player.data.moveSpeed;
             ReqSyncMovement();

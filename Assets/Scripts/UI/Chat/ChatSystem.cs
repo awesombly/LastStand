@@ -38,6 +38,10 @@ public class ChatSystem : MonoBehaviour
             {
                 input.interactable = false;
                 input.DeactivateInputField();
+                if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
+                {
+                    GameManager.LocalPlayer.UnmoveableCount--;
+                }
 
                 CHAT_MESSAGE message;
                 message.serial   = GameManager.LocalPlayer.Serial;
@@ -51,6 +55,10 @@ public class ChatSystem : MonoBehaviour
             {
                 input.interactable = true;
                 input.ActivateInputField();
+                if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
+                {
+                    GameManager.LocalPlayer.UnmoveableCount++;
+                }
             }
         }
     }
