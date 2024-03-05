@@ -1,27 +1,38 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 using static PacketType;
 public class ChatSystem : MonoBehaviour
 {
-    public ChatMsg prefab;
+    public ChatMessage prefab;
+    private WNS.ObjectPool<ChatMessage> pool;
+
     public TMP_InputField  input;
     public Transform       contents;
-    public WNS.ObjectPool<ChatMsg> pool;
+    private LinkedList<ChatMessage> msgList = new LinkedList<ChatMessage>();
+    private readonly int MaxMesaageCount = 8;
 
     private void Awake()
     {
-        ProtocolSystem.Inst.Regist( PACKET_CHAT_MSG, PrintMessage );
+        ProtocolSystem.Inst.Regist( PACKET_CHAT_MSG, AckBroadcastMessage );
 
-        pool = new WNS.ObjectPool<ChatMsg>( prefab, contents );
+        pool = new WNS.ObjectPool<ChatMessage>( prefab, contents );
         input.interactable = false;
     }
 
-    private void PrintMessage( Packet _packet )
+    private void AckBroadcastMessage( Packet _packet )
     {
-        var data = Global.FromJson<CHAT_MESSAGE>( _packet );
-        var obj  = pool.Spawn();
-        obj.Initialize( data );
+        CHAT_MESSAGE data = Global.FromJson<CHAT_MESSAGE>( _packet );
+
+        ChatMessage msg  = pool.Spawn();
+        msg.Initialize( data );
+        msgList.AddLast( msg );
+        if ( msgList.Count > MaxMesaageCount )
+        {
+            pool.Despawn( msgList.First.Value );
+            msgList.RemoveFirst();
+        }
 
         var player = GameManager.Inst.GetActor( data.serial ) as Player;
         if ( !ReferenceEquals( player, null ) )
