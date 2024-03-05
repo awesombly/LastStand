@@ -54,6 +54,11 @@ public class PlayerAnimator : MonoBehaviour
     {
         UpdateAnimatorParameters();
     }
+
+    private void OnDestroy()
+    {
+        fireSequence?.Kill();
+    }
     #endregion
 
     private void UpdateAnimatorParameters()

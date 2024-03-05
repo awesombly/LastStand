@@ -1,8 +1,8 @@
-using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using DG.Tweening;
+using TMPro;
 
 public class PlayerKillUI : MonoBehaviour
 {
@@ -32,6 +32,11 @@ public class PlayerKillUI : MonoBehaviour
             if ( !ReferenceEquals( _new, null ) )
                  _new.OnPlayerKill += OnKill;
         };
+    }
+
+    private void OnDestroy()
+    {
+        effectSeq?.Kill();
     }
 
     private void OnKill( Player _player )

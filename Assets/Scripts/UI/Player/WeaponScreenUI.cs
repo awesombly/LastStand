@@ -44,6 +44,13 @@ public class WeaponScreenUI : MonoBehaviour
         AmmoEffectInitialize();
     }
 
+    private void OnDestroy()
+    {
+        moveEffectSeq?.Kill();
+        scaleEffectSeq?.Kill();
+        GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
+    }
+
     private void AmmoEffectInitialize()
     {
         // Scale Effect
@@ -71,11 +78,6 @@ public class WeaponScreenUI : MonoBehaviour
     {
         moveEffectSeq.Restart();
         scaleEffectSeq.Restart();
-    }
-
-    private void OnDestroy()
-    {
-        GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
     }
 
     private void UpdateBulletIcons()

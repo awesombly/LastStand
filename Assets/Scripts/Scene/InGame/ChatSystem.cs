@@ -49,6 +49,12 @@ public class ChatSystem : MonoBehaviour
         area.sizeDelta = disabledSize;
     }
 
+    private void OnDestroy()
+    {
+        enabledEffect?.Kill();
+        disabledEffect?.Kill();
+    }
+
     private void Update()
     {
         if ( Input.GetKeyDown( KeyCode.Return ) )
