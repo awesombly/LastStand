@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 using static PacketType;
 public class ChatSystem : MonoBehaviour
@@ -12,11 +13,17 @@ public class ChatSystem : MonoBehaviour
     public TMP_InputField  input;
     public Transform       contents;
 
-    // Effect
+    [Header( "< Area >" )]
     public RectTransform area;
+    public TextMeshProUGUI placeHold;
     private Sequence enabledEffect, disabledEffect;
     private Vector2 enabledSize, disabledSize;
 
+    [Header( "< Maximize, Minimize >" )]
+    public Image  icon;
+    public Sprite maxIcon;
+    public Sprite minIcon;
+    private bool isMaximize = false;
 
     private LinkedList<ChatMessage> msgList = new LinkedList<ChatMessage>();
     private readonly int MaxMesaageCount = 8;
@@ -42,44 +49,6 @@ public class ChatSystem : MonoBehaviour
         area.sizeDelta = disabledSize;
     }
 
-    private void EnableArea( bool _isEnabled )
-    {
-        if ( enabledEffect.IsPlaying()  ) enabledEffect.Pause();
-        if ( disabledEffect.IsPlaying() ) disabledEffect.Pause();
-
-        if ( _isEnabled )
-        {
-            input.interactable = true;
-            input.ActivateInputField();
-            enabledEffect.Restart();
-        }
-        else
-        {
-            input.text         = string.Empty;
-            input.interactable = false;
-            input.DeactivateInputField();
-            disabledEffect.Restart();
-        }
-    }
-
-    private void AckBroadcastMessage( Packet _packet )
-    {
-        CHAT_MESSAGE data = Global.FromJson<CHAT_MESSAGE>( _packet );
-
-        ChatMessage msg  = pool.Spawn();
-        msg.Initialize( data );
-        msgList.AddLast( msg );
-        if ( msgList.Count > MaxMesaageCount )
-        {
-            pool.Despawn( msgList.First.Value );
-            msgList.RemoveFirst();
-        }
-
-        var player = GameManager.Inst.GetActor( data.serial ) as Player;
-        if ( !ReferenceEquals( player, null ) )
-             player.ReceiveMessage( data.message );
-    }
-
     private void Update()
     {
         if ( Input.GetKeyDown( KeyCode.Return ) )
@@ -98,15 +67,65 @@ public class ChatSystem : MonoBehaviour
                     Network.Inst.Send( PACKET_CHAT_MSG, message );
                 }
 
-                EnableArea( false );
+                input.text = string.Empty;
+                input.interactable = false;
+                placeHold.enabled  = true;
+                input.DeactivateInputField();
             }
             else // 채팅 활성화
             {
                 if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
                      GameManager.LocalPlayer.UnmoveableCount++;
 
-                EnableArea( true );
+                input.interactable = true;
+                placeHold.enabled  = false;
+                input.ActivateInputField();
             }
         }
+    }
+
+    public void AreaSizeControl()
+    {
+        if ( Input.GetKeyDown( KeyCode.Return ) )
+             return;
+
+        isMaximize = !isMaximize;
+        if ( isMaximize )
+        {
+            icon.sprite = minIcon;
+            EnabledArea( true );
+        }
+        else
+        {
+            icon.sprite = maxIcon;
+            EnabledArea( false );
+        }
+    }
+
+    private void EnabledArea( bool _isEnabled )
+    {
+        if ( enabledEffect.IsPlaying()  ) enabledEffect.Pause();
+        if ( disabledEffect.IsPlaying() ) disabledEffect.Pause();
+
+        if ( _isEnabled ) enabledEffect.Restart();
+        else              disabledEffect.Restart();
+    }
+
+    private void AckBroadcastMessage( Packet _packet )
+    {
+        CHAT_MESSAGE data = Global.FromJson<CHAT_MESSAGE>( _packet );
+
+        ChatMessage msg  = pool.Spawn();
+        msg.Initialize( data );
+        msgList.AddLast( msg );
+        if ( msgList.Count > MaxMesaageCount )
+        {
+            pool.Despawn( msgList.First.Value );
+            msgList.RemoveFirst();
+        }
+
+        var player = GameManager.Inst.GetActor( data.serial ) as Player;
+        if ( !ReferenceEquals( player, null ) )
+             player.ReceiveMessage( data.message );
     }
 }

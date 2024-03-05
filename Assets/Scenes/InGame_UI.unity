@@ -1384,7 +1384,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 486461294}
   m_TextViewport: {fileID: 873613936}
   m_TextComponent: {fileID: 480916959}
-  m_Placeholder: {fileID: 2000210868}
+  m_Placeholder: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
@@ -2636,6 +2636,10 @@ MonoBehaviour:
   input: {fileID: 486461293}
   contents: {fileID: 630672175}
   area: {fileID: 982285270}
+  placeHold: {fileID: 2000210868}
+  icon: {fileID: 449137438}
+  maxIcon: {fileID: 21300000, guid: de55d192820492c468eda5abadbae737, type: 3}
+  minIcon: {fileID: 21300000, guid: 0d6339a096021af458dae4bbe3de6503, type: 3}
 --- !u!1 &719998808
 GameObject:
   m_ObjectHideFlags: 0
@@ -3614,7 +3618,7 @@ GameObject:
   - component: {fileID: 868014956}
   - component: {fileID: 868014954}
   m_Layer: 5
-  m_Name: max / min
+  m_Name: max / min Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3683,7 +3687,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 691157877}
+        m_TargetAssemblyTypeName: ChatSystem, Assembly-CSharp
+        m_MethodName: AreaSizeControl
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &868014956
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4192,8 +4208,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 868014953}
   - {fileID: 1635098786}
+  - {fileID: 868014953}
   m_Father: {fileID: 753622110}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
@@ -7174,7 +7190,7 @@ GameObject:
   - component: {fileID: 1878222659}
   - component: {fileID: 1878222658}
   m_Layer: 5
-  m_Name: ' Temp Image'
+  m_Name: Temp Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
