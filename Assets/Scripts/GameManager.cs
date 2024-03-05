@@ -347,6 +347,11 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver( Player _winner )
     {
+        foreach ( Player player in Players )
+        {
+            player.GetComponent<ActionReceiver>().enabled = false;
+        }
+
         OnGameOver?.Invoke( _winner );
     }
 

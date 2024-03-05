@@ -17,6 +17,12 @@ public class ActionReceiver : MonoBehaviour
     public event Action<int/*index*/> OnSwapWeaponEvent;
     public event Action OnInteractionEvent;
 
+    private void OnDisable()
+    {
+        IsAttackHolded = false;
+        InputVector = Vector2.zero;
+    }
+
     #region InputSystem Callback
     private void OnMove( InputValue _value )
     {
