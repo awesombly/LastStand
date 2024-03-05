@@ -1,7 +1,7 @@
 #include "Stage.h"
 #include "Management/SessionManager.h"
 
-Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info ), totalKill( 0 )
+Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info )
 {
 	Debug.Log( "# Stage ", info.serial, " The host has been changed< ", host->loginInfo.nickname, " >" );
 	sessions.push_back( host );
@@ -99,7 +99,7 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 		}
 
 		++( attacker->kill );
-		++totalKill;
+		++info.currentKill;
 		isPlayerKill = true;
 	} break;
 	case ActorType::SceneActor:
@@ -119,7 +119,7 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 
 PlayerInfo* Stage::FindWinner() const
 {
-	if ( totalKill < info.targetKill )
+	if ( info.currentKill < info.targetKill )
 	{
 		return nullptr;
 	}

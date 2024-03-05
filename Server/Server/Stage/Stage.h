@@ -13,7 +13,6 @@ private:
 	std::list<Session*> sessions;
 	ActorContainer actors;
 
-	int totalKill;
 public:
 	Stage( Session* _host, const STAGE_INFO& _info );
 	virtual ~Stage() = default;

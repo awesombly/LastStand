@@ -274,6 +274,7 @@ public:
 	SerialType serial;
 	std::string title;
 	int targetKill;
+	int currentKill;
 	Personnel personnel;
 
 public:
@@ -283,6 +284,7 @@ public:
 		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( title ) );
 		ar( CEREAL_NVP( targetKill ) );
+		ar( CEREAL_NVP( currentKill ) );
 		ar( CEREAL_NVP( personnel ) );
 	}
 } STAGE_INFO;

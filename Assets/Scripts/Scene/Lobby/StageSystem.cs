@@ -110,6 +110,7 @@ public class StageSystem : MonoBehaviour
         protocol.serial = 0;
         protocol.title = title.text;
         protocol.targetKill = targetKillCount;
+        protocol.currentKill = 0;
         protocol.personnel = new Personnel { current = 0, maximum = maxPersonnel };
 
         Network.Inst.Send( new Packet( CREATE_STAGE_REQ, protocol ) );

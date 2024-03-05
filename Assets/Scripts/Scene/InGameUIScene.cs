@@ -20,6 +20,7 @@ public class InGameUIScene : SceneBase
 
     [Header( "< Target Kill >" )]
     public TextMeshProUGUI targetKillCount;
+    private int remainedKillCount;
 
     [Header( "< Pause >" )]
     public GameObject pause;
@@ -44,8 +45,11 @@ public class InGameUIScene : SceneBase
 
         deadUIPool = new WNS.ObjectPool<PlayerDeadUI>( deadPrefab, deadContents );
 
-        if ( !ReferenceEquals( GameManager.StageInfo, null ) ) 
-             targetKillCount.text = $"{GameManager.StageInfo.Value.targetKill}";
+        if ( !ReferenceEquals( GameManager.StageInfo, null ) )
+        {
+            remainedKillCount = GameManager.StageInfo.Value.targetKill - GameManager.StageInfo.Value.currentKill;
+            targetKillCount.text = $"{remainedKillCount}";
+        }
 
         GameManager.OnDead     += OnPlayerDead;
 
@@ -147,6 +151,8 @@ public class InGameUIScene : SceneBase
 
     private void OnPlayerDead( Player _player )
     {
+        targetKillCount.text = $"{--remainedKillCount}";
+
         PlayerDeadUI deadUI = deadUIPool.Spawn();
         deadUI.Initialize( _player );
     }
