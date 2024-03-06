@@ -46,7 +46,7 @@ public class StageSystem : MonoBehaviour
     private void Start()
     {
         if ( Network.Inst.IsConnected )
-             Network.Inst.Send( new Packet( STAGE_INFO_REQ, new EMPTY() ) );
+             Network.Inst.Send( new Packet( STAGE_INFO_REQ ) );
     }
     #endregion
 

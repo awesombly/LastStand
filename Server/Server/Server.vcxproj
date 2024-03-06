@@ -152,6 +152,7 @@ if not exist "$(SolutionDir)Log" mkdir "$(SolutionDir)Log"
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Global\Error.hpp" />
     <ClInclude Include="Global\LogText.hpp" />
     <ClInclude Include="Network\Acceptor.h" />
     <ClInclude Include="Network\Session.h" />

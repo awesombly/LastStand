@@ -16,64 +16,64 @@ void Login::ConfirmMatchData( const Packet& _packet )
 	try
 	{
 		if ( Global::String::Trim( data.email ).empty() )
-			 throw std::exception( "# The email is empty" );
+		{
+			Debug.LogWarning( "# The email is empty" );
+			throw Result::DB_ERR_INVALID_DATA;
+		}
 
 		LOGIN_DATA info = Database::Inst().GetLoginData( data.email );
 		if ( data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
-			 throw std::exception( "# Login information does not match" );
+		{
+			Debug.LogWarning( "# Login information does not match" );
+			throw Result::DB_ERR_INVALID_DATA;
+		}
+
+		ACCOUNT_INFO ret;
+		ret.result    = Result::OK;
+		ret.loginInfo = session->loginInfo = info;
+		ret.userInfo  = Database::Inst().GetUserData( info.uid );
+		session->Send( UPacket( CONFIRM_LOGIN_ACK, ret ) );
 
 		Debug.Log( "# < ", info.nickname, " > login completed" );
-		
-		ACCOUNT_INFO ret;
-		ret.loginInfo = session->loginInfo = info;
-
-		ret.userInfo = Database::Inst().GetUserData( info.uid );
-		session->Send( UPacket( CONFIRM_LOGIN_ACK, ret ) );
 	}
-	catch ( const std::exception& _error )
+	catch ( Result _error )
 	{
-		Debug.LogWarning( "# DB Exception < ", _error.what(), " >" );
-		session->Send( UPacket( CONFIRM_LOGIN_ACK, ACCOUNT_INFO() ) );
+		_packet.session->Send( UPacket( _error, CONFIRM_LOGIN_ACK ) );
+		Debug.LogError( "# DB Exception < ", Error::String( _error ), " >" );
 	}
 }
 
 void Login::ConfirmDuplicateInfo( const Packet& _packet )
 {
-	const auto& data = FromJson<LOGIN_DATA>( _packet );
-	CONFIRM protocol;
-
 	try
 	{
-		LOGIN_DATA user = Database::Inst().GetLoginData( data.email );
-		protocol.isCompleted = false;
-	}
-	catch ( const std::exception& )
-	{
-		protocol.isCompleted = true;
-	}
+		const auto& data = FromJson<LOGIN_DATA>( _packet );
 
-	_packet.session->Send( UPacket( DUPLICATE_EMAIL_ACK, protocol ) );
+		// 데이터가 존재하면 실패
+		LOGIN_DATA user = Database::Inst().GetLoginData( data.email );
+		_packet.session->Send( UPacket( DUPLICATE_EMAIL_ACK ) );
+	}
+	catch ( Result _error )
+	{
+		_packet.session->Send( UPacket( _error, DUPLICATE_EMAIL_ACK ) );
+		Debug.LogError( "# DB Exception < ", Error::String( _error ), " >" );
+	}
 }
 
 void Login::AddToDatabase( const Packet& _packet )
 {
-	auto data = FromJson<LOGIN_DATA>( _packet );
-	Session* session = _packet.session;
-	
-	CONFIRM confirm;
 	try
 	{
+		auto data = FromJson<LOGIN_DATA>( _packet );
 		if ( Global::String::Trim( data.nickname ).empty() )
-			 throw std::exception( "# The email is empty" );
+			 throw Result::DB_ERR_INVALID_DATA;
 
-		confirm.isCompleted = Database::Inst().CreateUserData( data.nickname, data.email, data.password );
-		//confirm.isCompleted = Database::Inst().Insert( LOGIN_INFO{ data.nickname, data.email, data.password } );
+		Database::Inst().CreateUserData( data.nickname, data.email, data.password );
+		_packet.session->Send( UPacket( CONFIRM_ACCOUNT_ACK ) );
 	}
-	catch ( const std::exception& _error )
+	catch ( Result _error )
 	{
-		confirm.isCompleted = false;
-		Debug.LogError( "# DB Exception < ", _error.what(), " >" );
+		_packet.session->Send( UPacket( _error, CONFIRM_ACCOUNT_ACK ) );
+		Debug.LogError( "# DB Exception < ", Error::String( _error ), " >" );
 	}
-
-	session->Send( UPacket( CONFIRM_ACCOUNT_ACK, confirm ) );
 }

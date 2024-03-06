@@ -70,5 +70,6 @@
 
 // Global Variables and Function
 #include "Global.hpp"
+#include "Error.hpp"
 
 #pragma comment( lib, "ws2_32.lib" )

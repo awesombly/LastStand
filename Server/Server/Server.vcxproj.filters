@@ -104,5 +104,6 @@
     <ClInclude Include="Stage\Stage.h" />
     <ClInclude Include="Global\LogText.hpp" />
     <ClInclude Include="Management\StageManager.h" />
+    <ClInclude Include="Global\Error.hpp" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public static partial class Global
 {
-    public const int HeaderSize  = 4;
+    public const int HeaderSize  = 6;
     public const int MaxDataSize = 4096;
     public const int PacketSize  = HeaderSize + MaxDataSize;
 

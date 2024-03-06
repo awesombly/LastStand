@@ -4,13 +4,11 @@
 using SerialType = u_int;
 namespace Global
 {
-	static const u_short HeaderSize = 4;
+	static const u_short HeaderSize = 6;
 	static const u_short MaxDataSize = 4096;
 
 	static const u_short MaxStagePersonnel = 4;
 	const static int     WorkerThreadCount = 5;
-
-	static HANDLE KillEvent = nullptr;
 
 	inline SerialType GetNewSerial()
 	{
@@ -19,7 +17,6 @@ namespace Global
 		std::lock_guard<std::mutex> lock( mtx );
 		return ++serial;
 	}
-
 
 	namespace Result
 	{

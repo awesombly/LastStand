@@ -114,7 +114,7 @@ public class InGameLogicScene : SceneBase
 
     private void ReqInGameLoadData()
     {
-        Network.Inst.Send( INGAME_LOAD_DATA_REQ, new EMPTY() );
+        Network.Inst.Send( INGAME_LOAD_DATA_REQ );
     }
     #endregion
 

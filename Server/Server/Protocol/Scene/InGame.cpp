@@ -56,7 +56,7 @@ void InGame::AckExitStage( const Packet& _packet )
 			SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
 		}
 
-		session->Send( UPacket( EXIT_STAGE_ACK, EMPTY() ) );
+		session->Send( UPacket( EXIT_STAGE_ACK ) );
 	}
 	catch ( std::exception _error )
 	{

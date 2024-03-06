@@ -5,14 +5,25 @@
 #pragma pack( push, 1 )
 struct UPacket
 {
+	Result     result;
 	PacketType type;
-	u_short size;
+	u_short    size;
 	byte data[Global::MaxDataSize];
 
-	UPacket() : type( PacketType::NONE ), size( 0 ), data{} {}
+	// 기본 생성자
+	UPacket() : result( Result::OK ), type( PacketType::NONE ), size( Global::HeaderSize ), data{} { }
+	UPacket( Result _result, PacketType _type, u_short _size ) : 
+		     result( _result ), type( _type ), size( _size ), data{} { }
 
+	// 데이터가 포함되지않은 패킷 ( 결과만 확인하고 싶은 경우 )
+	UPacket(                 PacketType _type ) : UPacket( Result::OK, _type, Global::HeaderSize ) { }
+	UPacket( Result _result, PacketType _type ) : UPacket( _result,    _type, Global::HeaderSize ) { }
+
+	// 데이터가 포함된 패킷
 	template<typename Type>
-	UPacket( const PacketType& _type, Type _protocol )
+	UPacket( PacketType _type, Type _protocol ) : UPacket( Result::OK, _type, _protocol ) { }
+	template<typename Type>
+	UPacket( Result _result, PacketType _type, Type _protocol )
 	{
 		// Json 직렬화
 		std::ostringstream stream;
@@ -27,13 +38,14 @@ struct UPacket
 		// Json 크기 축소
 		Global::String::RemoveAll( json, '\n' );
 		Global::String::ReplaceAll( json, "\": ", "\":" );
-		
+
 		// data 초기화
 		::memset( data, 0, sizeof( byte ) * Global::MaxDataSize );
 		::memcpy( data, json.c_str(), json.length() );
 
-		type = _type;
-		size = ( u_short )json.length() + Global::HeaderSize;
+		result = _result;
+		type   = _type;
+		size   = ( u_short )json.length() + Global::HeaderSize;
 	}
 };
 #pragma pack( pop )

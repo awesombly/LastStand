@@ -65,12 +65,6 @@ enum PacketType : u_short
 	UPDATE_RESULT_INFO_ACK,        // 게임 결과 갱신 응답
 };
 
-typedef struct Empty
-{
-public:
-	template <class Archive>
-	void serialize( Archive& ar ) {	}
-} EMPTY;
 typedef struct SingleString
 {
 public:
@@ -92,7 +86,7 @@ public:
 	{
 		ar( CEREAL_NVP( isCompleted ) );
 	}
-} CONFIRM, CHECK;
+} CHECK;
 typedef struct SingleSerialType
 {
 public:
@@ -240,12 +234,14 @@ typedef struct ResultInfo
 typedef struct AccountInfo
 {
 public:
+	Result result;
 	LOGIN_INFO loginInfo;
 	USER_INFO userInfo;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
+		ar( CEREAL_NVP( result ) );
 		ar( CEREAL_NVP( loginInfo ) );
 		ar( CEREAL_NVP( userInfo ) );
 	}

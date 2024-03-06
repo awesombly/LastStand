@@ -6,7 +6,8 @@
 
 Server::Server( const int _port, const char* _address )
 {
-	Global::KillEvent = ::CreateEvent( NULL, FALSE, FALSE, _T( "GlobalKillEvent" ) );
+	killEvent = ::CreateEvent( NULL, FALSE, FALSE, _T( "KillEvent" ) );
+
 	if ( !Database::Inst().Initialize() )
 	{
 		std::cout << "MySQL connect failed" << std::endl;
@@ -32,7 +33,7 @@ Server::Server( const int _port, const char* _address )
 		std::cout << "Accept failed" << std::endl;
 	}
 
-	if ( ::WaitForSingleObject( Global::KillEvent, INFINITE ) == WAIT_FAILED )
+	if ( ::WaitForSingleObject( killEvent, INFINITE ) == WAIT_FAILED )
 	{
 
 	}

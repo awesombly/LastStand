@@ -67,8 +67,8 @@ public class LoginSystem : MonoBehaviour
     public void ReqConfirmLoginInfo()
     {
         LOGIN_INFO protocol;
-        protocol.uid = -1;
-        protocol.email = email.text;
+        protocol.uid      = -1;
+        protocol.email    = email.text;
         protocol.password = password.text;
         protocol.nickname = string.Empty;
         Network.Inst.Send( new Packet( CONFIRM_LOGIN_REQ, protocol ) );
@@ -77,8 +77,8 @@ public class LoginSystem : MonoBehaviour
     public void ReqConfirmDuplicateEmail()
     {
         LOGIN_INFO protocol;
-        protocol.uid = -1;
-        protocol.email = email.text;
+        protocol.uid      = -1;
+        protocol.email    = email.text;
         protocol.password = password.text;
         protocol.nickname = string.Empty;
         Network.Inst.Send( new Packet( DUPLICATE_EMAIL_REQ, protocol ) );
@@ -90,10 +90,10 @@ public class LoginSystem : MonoBehaviour
             return;
 
         LOGIN_INFO protocol;
-        protocol.uid = -1;
-        protocol.nickname = nickname.text;
-        protocol.email = email.text;
+        protocol.uid      = -1;
+        protocol.email    = email.text;
         protocol.password = password.text;
+        protocol.nickname = nickname.text;
 
         Network.Inst.Send( new Packet( CONFIRM_ACCOUNT_REQ, protocol ) );
     }
@@ -103,23 +103,29 @@ public class LoginSystem : MonoBehaviour
     #region Response Protocols
     private void AckConfirmDuplicateEmail( Packet _packet )
     {
-        var data = Global.FromJson<CONFIRM>( _packet );
-        if ( data.isCompleted )
+        switch ( _packet.result )
         {
-            ActiveSignUpPanel( true );
-            signUpMessage.text = string.Empty;
-            nickname.text = string.Empty;
-        }
-        else
-        {
-            ActiveErrorPanel( true );
-            errorMessage.text = "중복된 아이디 입니다.";
+            case Result.DB_ERR_DISCONNECTED: break;
+            case Result.OK:
+            {
+                ActiveSignUpPanel( true );
+                signUpMessage.text = string.Empty;
+                nickname.text = string.Empty;
+            }
+            break;
+
+            default:
+            {
+                ActiveErrorPanel( true );
+                errorMessage.text = "중복된 아이디 입니다.";
+            }
+            break;
         }
     }
 
     public void AckAddAccountInfoToDB( Packet _packet )
     {
-        if ( Global.FromJson<CONFIRM>( _packet ).isCompleted )
+        if ( _packet.result == Result.OK )
         {
             signUpPanel.SetActive( false );
             AudioManager.Inst.Play( SFX.MenuExit );
@@ -129,22 +135,25 @@ public class LoginSystem : MonoBehaviour
 
     private void AckConfirmMatchData( Packet _packet )
     {
-        var data = Global.FromJson<ACCOUNT_INFO>( _packet );
-        if ( data.loginInfo.nickname == string.Empty )
+        switch( _packet.result )
         {
-            ActiveErrorPanel( true );
-            errorMessage.text = "아이디 또는 비밀번호가 일치하지 않습니다.";
-        }
-        else
-        {
-            GameManager.LoginInfo = data.loginInfo;
-            GameManager.UserInfo = data.userInfo;
+            case Result.DB_ERR_DISCONNECTED: break;
 
-            loginCanvas.SetActive( false );
-            OnLoginCompleted?.Invoke();
+            case Result.OK:
+            {
+                var data = Global.FromJson<ACCOUNT_INFO>( _packet );
+                GameManager.LoginInfo = data.loginInfo;
+                GameManager.UserInfo  = data.userInfo;
 
-            //userInfoCanvas.SetActive( true );
-            //UpdateUserInfo();
+                loginCanvas.SetActive( false );
+                OnLoginCompleted?.Invoke();
+            } break;
+
+            default:
+            {
+                ActiveErrorPanel( true );
+                errorMessage.text = "아이디 또는 비밀번호가 일치하지 않습니다.";
+            } break;
         }
     }
     #endregion

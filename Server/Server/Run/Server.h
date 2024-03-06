@@ -5,6 +5,8 @@ class Server
 {
 private:
 	Acceptor acceptor;
+	HANDLE killEvent;
+
 
 public:
 	Server( const int _port, const char* _address = 0 );

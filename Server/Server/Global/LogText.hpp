@@ -72,12 +72,12 @@ private:
 
 			case LogType::_Warning:
 			{
-				os << "# Warning < " << info << " > #" << std::endl;
+				os << "### Warning < " << info << " > ###" << std::endl;
 			} break;
 
 			case LogType::_Error:
 			{
-				os << "### Error < " << info << " > ###" << std::endl;
+				os << "##### Error < " << info << " > #####" << std::endl;
 			} break;
 		}
 

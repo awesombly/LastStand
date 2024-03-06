@@ -65,7 +65,7 @@ public sealed class Network : Singleton<Network>
 
     private void Start()
     {
-        ProtocolSystem.Inst.Regist( PACKET_HEARTBEAT, ( Packet ) => { Send( new Packet( PACKET_HEARTBEAT, new EMPTY() ) ); } );
+        ProtocolSystem.Inst.Regist( PACKET_HEARTBEAT, ( Packet ) => { Send( new Packet( PACKET_HEARTBEAT ) ); } );
     }
 
     private void OnDestroy()
@@ -147,21 +147,23 @@ public sealed class Network : Singleton<Network>
             writePos += recvSize;
             readPos  += recvSize;
 
-            ushort size = BitConverter.ToUInt16( buffer, startPos + 2 );
+            ushort size = BitConverter.ToUInt16( buffer, startPos + 4 );
             if ( readPos >= size )
             {
                 do
                 {
                     byte[] copy = new byte[size - Global.HeaderSize];
                     Buffer.BlockCopy( buffer, startPos + Global.HeaderSize, copy, 0, size - Global.HeaderSize );
-                    PacketSystem.Inst.Push( new Packet( ( PacketType )BitConverter.ToUInt16( buffer, startPos ), size, copy ) );
+                    PacketSystem.Inst.Push( new Packet(
+                        ( Result     )BitConverter.ToUInt16( buffer, startPos ),
+                        ( PacketType )BitConverter.ToUInt16( buffer, startPos + 2 ), size, copy ) );
 
                     startPos += size;
                     readPos  -= size;
                     if ( readPos <= 0 || readPos < Global.HeaderSize )
                          break;
 
-                    size = BitConverter.ToUInt16( buffer, startPos + 2 );
+                    size = BitConverter.ToUInt16( buffer, startPos + 4 );
                 } while ( readPos >= size );
             }
 
@@ -213,10 +215,9 @@ public sealed class Network : Singleton<Network>
              OnSendCompleted( null, sendArgs );
     }
 
-    public void Send( PacketType _type, in IProtocol _protocol )
-    {
-        Send( new Packet( _type, _protocol ) );
-    }
+    public void Send( PacketType _type, in IProtocol _protocol ) => Send( new Packet( _type, _protocol ) );
+
+    public void Send( PacketType _type ) => Send( new Packet( _type ) );
 
     #region KeepAlive Server
     private IEnumerator ReconnectProcess()

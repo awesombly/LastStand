@@ -33,8 +33,8 @@ void IOCP::WaitCompletionStatus() const
 	
 	while ( true )
 	{
-		if ( ::WaitForSingleObject( Global::KillEvent, 0 ) == WAIT_OBJECT_0 )
-			 break;
+		//if ( ::WaitForSingleObject( Global::KillEvent, 0 ) == WAIT_OBJECT_0 )
+		//	 break;
 
 		if ( ::GetQueuedCompletionStatus( handle, &transferred, &key, &ov, INFINITE ) == TRUE )
 		{

@@ -120,7 +120,6 @@ public struct QUATERNION
 
 public interface IProtocol { }
 // Both 
-public struct EMPTY : IProtocol { }
 public struct MESSAGE : IProtocol { public string message; }
 public struct CONFIRM : IProtocol { public bool isCompleted; }
 public struct SERIAL_INFO : IProtocol { public uint serial; }
@@ -164,6 +163,7 @@ public struct RESULT_INFO : IProtocol
 
 public struct ACCOUNT_INFO : IProtocol
 {
+    public Result result;
     public LOGIN_INFO loginInfo;
     public USER_INFO userInfo;
 }
