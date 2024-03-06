@@ -70,7 +70,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void OnDodgeAction( bool _isActive, Vector2 _direction, float _duration )
     {
-        float actionAngle = Global.GetAngle( Vector3.zero, _direction );
+        float actionAngle = Global.GetAngle( Vector2.zero, _direction );
         player.ApplyLookAngle( actionAngle );
         handRight.gameObject.SetActive( !_isActive );
 

@@ -46,9 +46,9 @@ public static partial class Global
         return JsonConvert.DeserializeObject<Type>( System.Text.Encoding.UTF8.GetString( _packet.data ) );
     }
 
-    public static float GetAngle( Vector3 _from, Vector3 _to )
+    public static float GetAngle( Vector2 _from, Vector2 _to )
     {
-        Vector3 dir = ( _to - _from ).normalized;
+        Vector2 dir = ( _to - _from ).normalized;
         return Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
     }
 

@@ -5,13 +5,11 @@ using UnityEngine.Events;
 
 public class InteractableActor : DestroyableActor
 {
+    public bool useLookAngle;
     [SerializeField]
     private UnityEvent<float, bool> interactionEvent;
-    [SerializeField]
-    private UnityEvent targetAngleEvent;
 
-    private float targetAngle;
-    private bool isInteracted = false;
+    public bool IsInteracted { get; private set; } = false;
     private PolygonCollider2D polygon2D;
 
     private enum ActionDirection
@@ -35,31 +33,21 @@ public class InteractableActor : DestroyableActor
         interactionEvent?.Invoke( _angle, _isInit );
     }
 
-    public void TryInteraction( Player _player )
+    public void TryInteraction( Player _player, float _angle )
     {
-        if ( isInteracted || !_player.IsLocal )
+        if ( IsInteracted || !_player.IsLocal )
         {
             return;
         }
 
-        targetAngleEvent?.Invoke();
-        InteractionAction( targetAngle );
+
+        InteractionAction( _angle );
 
         // Req Protocol
         LOOK_INFO protocol;
         protocol.serial = Serial;
-        protocol.angle = targetAngle;
+        protocol.angle = _angle;
         Network.Inst.Send( PacketType.SYNC_INTERACTION_REQ, protocol );
-    }
-
-    public void UpdatePlayerAngle()
-    {
-        targetAngle = Global.GetAngle( GameManager.LocalPlayer.transform.position, transform.position );
-    }
-
-    public void UpdateMouseAngle()
-    {
-        targetAngle = GameManager.LookAngle;
     }
 
     private ActionDirection GetActionDirection( float angle )
@@ -94,7 +82,7 @@ public class InteractableActor : DestroyableActor
     public void InteractionFlipTable( float _angle, bool _isInit = false )
     {
         // 테이블 뒤집기
-        isInteracted = true;
+        IsInteracted = true;
         ActionDirection direction = GetActionDirection( _angle );
         if ( direction == ActionDirection.Left )
         {

@@ -149,12 +149,40 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: useLookAngle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: penetrationResist
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 840653536579177666}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: InteractionKickObject
       objectReference: {fileID: 0}
     - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: targetAngleEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: UpdateMouseAngle
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InteractableActor, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8433639796225493239, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: m_Mass
@@ -177,6 +205,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -5271279884139303932}
   m_SourcePrefab: {fileID: 100100000, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+--- !u!114 &840653536579177666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+  m_PrefabInstance: {fileID: 7724266726544180065}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4093836985042153741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 515e2f5f7726f644380d24468e407be2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4093836985042153741 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6044429545338188396, guid: 96ad564d2f7ff784da8151387c493169, type: 3}

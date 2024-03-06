@@ -99,6 +99,9 @@ public class Player : Character
     public Vector2 Direction { get; set; }
     private List<Weapon> Weapons { get; set; } = null;
 
+    private InteractableActor nearestInteractable = null;
+    private float interactableAngle = 0f;
+
     #region Components
     public PlayerUI PlayerUI { get; private set; }
     public PlayerDodgeAttack DodgeAttack { get; private set; }
@@ -129,7 +132,12 @@ public class Player : Character
         healthLerpBar.value = healthBar.value;
         Hp.OnChangeCurrent += OnChangeHp;
     }
-    
+
+    protected void FixedUpdate()
+    {
+        UpdateNearestInteractable();
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -213,19 +221,49 @@ public class Player : Character
         movement.DodgeAction( _useCollision, _direction, _duration );
     }
 
-    private void Interaction()
+    private void UpdateNearestInteractable()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll( transform.position, 1f, ( int )Global.LayerFlag.Misc );
-        foreach ( Collider2D col in colliders )
+        nearestInteractable = null;
+        float nearestDistance = float.MaxValue;
+
+        RaycastHit2D[] hits = Physics2D.CircleCastAll( transform.position, 1.5f, Vector2.zero, 0f, ( int )Global.LayerFlag.Misc );
+        foreach ( RaycastHit2D hit in hits )
         {
-            InteractableActor interactable = col.GetComponent<InteractableActor>();
-            if ( ReferenceEquals( interactable, null ) )
+            InteractableActor interactable = hit.transform.GetComponent<InteractableActor>();
+            if ( interactable is null || interactable.IsInteracted )
             {
                 continue;
             }
 
-            interactable.TryInteraction( this );
+            float distance = Vector2.Distance( transform.position, interactable.transform.position );
+            if ( nearestDistance < distance )
+            {
+                continue;
+            }
+
+            // LookAngle 사용시 각도에 제한을 둠.(등에 있는 물체를 날리는 등 방지)
+            float angle = Global.GetAngle( transform.position, hit.point );
+            if ( interactable.useLookAngle )
+            {
+                if ( Mathf.Abs( Mathf.DeltaAngle( angle, GameManager.LookAngle ) ) > 90f )
+                {
+                    continue;
+                }
+                interactableAngle = GameManager.LookAngle;
+            }
+            else
+            {
+                interactableAngle = angle;
+            }
+
+            nearestDistance = distance;
+            nearestInteractable = interactable;
         }
+    }
+
+    private void Interaction()
+    {
+        nearestInteractable?.TryInteraction( this, interactableAngle );
     }
 
     protected override void OnDead( Actor _attacker, IHitable _hitable )
