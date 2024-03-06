@@ -20,7 +20,14 @@ public class Actor : Poolable
         set
         {
             serial = value;
-            name = serial.ToString();
+
+            if ( PrefabIndex >= 0 )
+            {
+                Poolable prefab = GameManager.Inst.GetPrefab( PrefabIndex );
+                name = prefab?.name;
+            }
+            name += $":{serial.ToString()}";
+
             // Serial을 부여받아야 등록가능
             GameManager.Inst.RegistActor( this );
         }
