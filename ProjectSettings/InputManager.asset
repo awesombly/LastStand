@@ -87,6 +87,14 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
+    - m_Name: CameraZoom
+      m_Type: 0
+      m_ExpectedControlType: Axis
+      m_Id: 4c5dec8a-06c2-45ad-93d6-5ac21bb517f3
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
     m_Bindings:
     - m_Name: 
       m_Id: 978bfe49-cc26-4a3d-ab7b-7d7a29327403
@@ -320,6 +328,30 @@ MonoBehaviour:
       m_Groups: ;Keyboard&Mouse
       m_Action: SwapWeapon
       m_Flags: 0
+    - m_Name: 1D Axis
+      m_Id: d15d32dc-4f8e-49cc-8408-af002f5d063e
+      m_Path: 1DAxis
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: CameraZoom
+      m_Flags: 4
+    - m_Name: Negative
+      m_Id: e0785ea9-cdd4-4a31-a4dc-8f5b43d42ef8
+      m_Path: <Mouse>/scroll/up
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Keyboard&Mouse
+      m_Action: CameraZoom
+      m_Flags: 8
+    - m_Name: Positive
+      m_Id: b38c333d-faa6-450b-af63-5e6aff4e7379
+      m_Path: <Mouse>/scroll/down
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Keyboard&Mouse
+      m_Action: CameraZoom
+      m_Flags: 8
   - m_Name: UI
     m_Id: 272f6d14-89ba-496f-b7ff-215263d3219f
     m_Asset: {fileID: -8346226380518104943}
