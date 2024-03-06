@@ -16,11 +16,12 @@ MonoBehaviour:
   stat:
     ammo: 999
     magazine: 24
-    repeatDelay: 0.35
+    repeatDelay: 0.38
     reloadDelay: 1
     swapDelay: 0.5
     isAllowKeyHold: 0
     shakeShotAngle: 6
+    reactionPower: 0
   shotInfo:
     bulletPerShot: 1
     spreadAngle: 3

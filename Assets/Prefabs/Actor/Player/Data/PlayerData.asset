@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   maxHp: 100
-  moveSpeed: 12
+  moveSpeed: 10
   attackRate: 1
+  Attack: {fileID: 0}
+  Hit: {fileID: 0}
+  Dead: {fileID: 0}
