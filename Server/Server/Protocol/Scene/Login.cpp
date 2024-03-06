@@ -11,7 +11,7 @@ void Login::Bind()
 
 void Login::ConfirmMatchData( const Packet& _packet )
 {
-	auto data = FromJson<LOGIN_DATA>( _packet );
+	LOGIN_DATA data = FromJson<LOGIN_DATA>( _packet );
 	Session* session = _packet.session;
 	try
 	{
@@ -48,9 +48,9 @@ void Login::ConfirmDuplicateInfo( const Packet& _packet )
 	try
 	{
 		const auto& data = FromJson<LOGIN_DATA>( _packet );
-
-		// 데이터가 존재하면 실패
-		LOGIN_DATA user = Database::Inst().GetLoginData( data.email );
+		if ( Database::Inst().ExistLoginData( data ) )
+			 throw Result::DB_ERR_DUPLICATE_DATA;
+		
 		_packet.session->Send( UPacket( DUPLICATE_EMAIL_ACK ) );
 	}
 	catch ( Result _error )

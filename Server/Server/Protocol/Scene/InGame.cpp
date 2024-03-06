@@ -456,10 +456,9 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 
 void InGame::AckUpdateResultData( const Packet& _packet )
 {
-	RESULT_INFO data = FromJson<RESULT_INFO>( _packet );
-
 	try
 	{
+		RESULT_INFO data   = FromJson<RESULT_INFO>( _packet );
 		USER_DATA userData = Database::Inst().GetUserData( data.uid );
 
 		userData.exp += 1000.0f;
@@ -480,8 +479,8 @@ void InGame::AckUpdateResultData( const Packet& _packet )
 		Database::Inst().UpdateUserData( data.uid, userData );
 		_packet.session->Send( UPacket( UPDATE_RESULT_INFO_ACK, userData ) );
 	}
-	catch ( std::exception _error )
+	catch ( Result _error )
 	{
-
+		_packet.session->Send( UPacket( _error, UPDATE_RESULT_INFO_ACK ) );
 	}
 }

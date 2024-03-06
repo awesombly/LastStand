@@ -2,6 +2,7 @@
 #include "Server.h"
 #include "Protocol/Protocol.hpp"
 #include "Global/LogText.hpp"
+#include "Database/Database.h"
 
 int main()
 {
@@ -11,5 +12,6 @@ int main()
 	LogText::Inst().ignoreData = true;
 
 	Server server( 10000 );
+
 	return 0;
 }

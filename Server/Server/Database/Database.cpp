@@ -30,47 +30,116 @@ bool Database::Initialize()
 	return true;
 }
 
-void Database::Query( const char* _sentence )
+void Database::Query( const char* _sentence, ... )
 {
-	Debug.Log( "# Query < ", sentence, " >" );
 	if ( conn == nullptr )
 		 throw Result::DB_ERR_DISCONNECTED;
 
+	char sentence[1024] { 0, };
+	size_t pos = 0;
+
+	va_list vl;
+	va_start( vl, _sentence );
+	for ( int i = 0; _sentence[i] != '\0'; i++ )
+	{
+		if ( _sentence[i] == '%' )
+		{
+			switch ( _sentence[++i] )
+			{
+				default: 
+				{
+					sentence[pos]     = '%';
+					sentence[pos + 1] = _sentence[i];
+					pos += 2;
+				} break;
+
+				case 'd': 
+				{
+					std::string str = std::to_string( va_arg( vl, int ) );
+					size_t size     = str.size();
+
+					std::copy( &str[0], &str[size], &sentence[pos] );
+					pos += size;
+				} break;
+
+				case 'f': 
+				{
+					std::string str = std::to_string( va_arg( vl, double ) );
+					size_t size = str.size();
+
+					std::copy( &str[0], &str[size], &sentence[pos] );
+					pos += size;
+				}
+				break;
+
+				case 'c': 
+				{
+					char* str = va_arg( vl, char* );
+					size_t size = ::strlen( str );
+
+					std::copy( &str[0], &str[size], &sentence[pos] );
+					pos += size;
+				}
+				break;
+
+				case 's':
+				{
+					std::string str = va_arg( vl, std::string );
+					size_t size = str.size();
+					
+					std::copy( &str[0], &str[size], &sentence[pos] );
+					pos += size;
+				}
+				break;
+			}
+		}
+		else
+		{
+			sentence[pos] = _sentence[i];
+			pos += 1;
+		}
+	}
+	va_end( vl );
+
+	Debug.Log( "# Query < ", sentence, " >" );
 	if ( ::mysql_query( conn, sentence ) != NULL )
 	{
 		std::cout << ::mysql_error( conn ) << std::endl;
 		throw Result::DB_ERR_INVALID_QUERY;
 	}
-
-	::memset( sentence, 0, MaxSentenceSize );
 }
 
+bool Database::ExistLoginData( const LOGIN_DATA& _data )
+{
+	Query( R"Q( SELECT * FROM LoginData WHERE Email = '%s'; )Q", _data.email );
+	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
+	{
+		std::cout << ::mysql_error( conn ) << std::endl;
+		return false;
+	}
+
+	return ::mysql_fetch_row( result ) != nullptr;
+}
 
 void Database::CreateUserData( const std::string& _nickname, const std::string& _email, const std::string& _password )
 {
-	::sprintf( sentence, R"Q( Call CreateUser( '%s', '%s', '%s' ); )Q", _nickname.c_str(), _email.c_str(), _password.c_str() );
-	Query( sentence );
+	Query( R"Q( Call CreateUser( '%s', '%s', '%s' ); )Q", _nickname, _email, _password );
 }
 
 void Database::DeleteUserData( int _uid )
 {
-	::sprintf( sentence, R"Q( Call DeleteUser( %d ); )Q", _uid );
-	Query( sentence );
+	Query( R"Q( Call DeleteUser( %d ); )Q", _uid );
 }
 
-bool Database::ExistEmail( const std::string& _email )
+void Database::UpdateUserData( int _uid, const USER_DATA& _data )
 {
-	::sprintf( sentence, R"Q( SELECT * FROM LoginData WHERE Email = '%s'; )Q", _email.c_str() );
-	Query( sentence );
-
-	return ( result = ::mysql_store_result( conn ) ) == nullptr;
+	Query( R"Q( Call UpdateUserData( %d, %d, %f, %d, %d, %d, %d, %d ); )Q",
+							  _uid, _data.level, _data.exp, _data.playCount, _data.kill, _data.death, _data.bestKill, _data.bestDeath );
 }
 
 LOGIN_DATA Database::GetLoginData( const std::string& _email )
 {
-	::sprintf( sentence, R"Q( SELECT * FROM LoginData WHERE Email = '%s'; )Q", _email.c_str() );
-	Query( sentence );
-
+	Query( R"Q( SELECT * FROM LoginData WHERE Email = '%s'; )Q", _email );
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
 		std::cout << ::mysql_error( conn ) << std::endl;
@@ -86,9 +155,7 @@ LOGIN_DATA Database::GetLoginData( const std::string& _email )
 
 LOGIN_DATA Database::GetLoginData( int _uid )
 {
-	::sprintf( sentence, R"Q( SELECT * FROM LoginData WHERE uid = '%d'; )Q", _uid );
-	Query( sentence );
-
+	Query( R"Q( SELECT * FROM LoginData WHERE uid = '%d'; )Q", _uid );
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
 		std::cout << ::mysql_error( conn ) << std::endl;
@@ -104,8 +171,7 @@ LOGIN_DATA Database::GetLoginData( int _uid )
 
 USER_DATA Database::GetUserData( int _uid )
 {
-	::sprintf( sentence, R"Q( SELECT * FROM UserData WHERE uid = '%d'; )Q", _uid );
-	Query( sentence );
+	Query( R"Q( SELECT * FROM UserData WHERE uid = '%d'; )Q", _uid );
 
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
@@ -120,16 +186,10 @@ USER_DATA Database::GetUserData( int _uid )
 	return USER_DATA{ ::atoi( row[2] ), ( float )::atof(row[3]), ::atoi(row[4]), ::atoi(row[5]), ::atoi(row[6]), ::atoi(row[7]), ::atoi(row[8])};
 }
 
-void Database::UpdateUserData( int _uid, const USER_DATA& _data )
-{
-	::sprintf( sentence, R"Q( Call UpdateUserData( %d, %d, %f, %d, %d, %d, %d, %d ); )Q", 
-			                  _uid, _data.level, _data.exp, _data.playCount, _data.kill, _data.death, _data.bestKill, _data.bestDeath );
-	Query( sentence );
-}
 
 //LOGIN_DATA Database::Search( const std::string& _type, const std::string& _data )
 //{
-//	::sprintf( sentence, R"Q( SELECT * FROM userdata where %s = '%s';)Q", _type.c_str(), _data.c_str() );
+//	::sprintf( sentence, R"Q( SELECT * FROM userdata WHERE %s = '%s';)Q", _type.c_str(), _data.c_str() );
 //	if ( !Query( sentence ) || ( result = ::mysql_store_result( conn ) ) == nullptr )
 //	{
 //		std::cout << ::mysql_error( conn ) << std::endl;
@@ -161,7 +221,7 @@ void Database::UpdateUserData( int _uid, const USER_DATA& _data )
 //	::sprintf( sentence, R"Q(delete from userdata where email = '%s';)Q", _data.email.c_str() );
 //	return Query( sentence );
 //}
-//
+
 
 // Ã£±â
 // select * from userdata where nickname = 'wns';

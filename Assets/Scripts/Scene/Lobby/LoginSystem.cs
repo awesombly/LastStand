@@ -110,14 +110,20 @@ public class LoginSystem : MonoBehaviour
             {
                 ActiveSignUpPanel( true );
                 signUpMessage.text = string.Empty;
-                nickname.text = string.Empty;
+                nickname.text      = string.Empty;
+            }
+            break;
+
+            case Result.DB_ERR_DUPLICATE_DATA:
+            {
+                ActiveErrorPanel( true );
+                errorMessage.text = "중복된 아이디 입니다.";
             }
             break;
 
             default:
             {
-                ActiveErrorPanel( true );
-                errorMessage.text = "중복된 아이디 입니다.";
+                Debug.LogWarning( _packet.result.ToString() );
             }
             break;
         }

@@ -6,6 +6,7 @@ enum class Result : unsigned short
     DB_ERR_INVALID_QUERY,  // 쿼리 구문이 유효하지않음
     DB_ERR_INVALID_DATA,   // DB에 전달할 데이터가 유효하지않음
     DB_ERR_NOT_EXIST_DATA, // DB안에 데이터가 존재하지않음
+    DB_ERR_DUPLICATE_DATA, // UNIQUE 설정된 데이터가 존재함
 };
 
 class Error
