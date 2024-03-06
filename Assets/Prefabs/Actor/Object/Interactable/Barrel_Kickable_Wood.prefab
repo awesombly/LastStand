@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -5271279884139303932, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: m_Size.x
-      value: 1.2
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: -5271279884139303932, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: m_Offset.y
@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4093836985042153741, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: m_Name
-      value: Barrel_Kickable Wood
+      value: Barrel_Kickable_Wood
       objectReference: {fileID: 0}
     - target: {fileID: 6522741342298272625, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: m_Sprite

@@ -68,6 +68,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Vase
       objectReference: {fileID: 0}
+    - target: {fileID: 7073386992962715880, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
+      propertyPath: m_Size.x
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7073386992962715880, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
+      propertyPath: m_Size.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8433639796225493239, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: m_Mass
       value: 5
