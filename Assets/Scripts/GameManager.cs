@@ -171,7 +171,7 @@ public class GameManager : Singleton<GameManager>
         protocol.actorInfo.pos = new VECTOR2( scene.GetSpawnPosition() );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );
         protocol.actorInfo.hp = _player.Hp.Max;
-        protocol.actorInfo.index = 0;
+        protocol.actorInfo.inter = 0f;
         protocol.nickname = _player.Nickname;
         protocol.isDead = false;
         protocol.angle = _player.LookAngle;

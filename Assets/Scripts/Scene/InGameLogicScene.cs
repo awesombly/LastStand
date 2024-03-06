@@ -95,7 +95,7 @@ public class InGameLogicScene : SceneBase
             actorInfo.pos = new VECTOR2( actor.transform.position );
             actorInfo.vel = new VECTOR2( actor.Rigid2D.velocity );
             actorInfo.hp = actor.Hp.Current;
-            actorInfo.index = -1;
+            actorInfo.inter = 0f;
             protocol.actors.Add( actorInfo );
             
             // 너무 많으면 패킷 사이즈를 초과해서 나눠보낸다
@@ -277,14 +277,14 @@ public class InGameLogicScene : SceneBase
 
     private void AckSyncInteraction( Packet _packet )
     {
-        var data = Global.FromJson<INDEX_INFO>( _packet );
+        var data = Global.FromJson<LOOK_INFO>( _packet );
         InteractableActor actor = GameManager.Inst.GetActor( data.serial ) as InteractableActor;
         if ( actor == null )
         {
             Debug.LogWarning( "Actor is null. serial:" + data.serial );
             return;
         }
-        actor.InteractionAction( data.index );
+        actor.InteractionAction( data.angle );
     }
 
     private void AckHitActors( Packet _packet )
@@ -360,10 +360,9 @@ public class InGameLogicScene : SceneBase
                 actor.Rigid2D.velocity = actorInfo.vel.To();
             }
             actor.SetHp( actorInfo.hp, null, null, SyncType.FromServer );
-            if ( !actor.Hp.IsZero && actor is InteractableActor )
+            if ( actor is InteractableActor interactable && !actor.Hp.IsZero )
             {
-                var interactable = actor as InteractableActor;
-                interactable.InteractionAction( actorInfo.index );
+                interactable.InteractionAction( actorInfo.inter, true );
             }
         }
     }

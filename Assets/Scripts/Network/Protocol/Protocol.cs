@@ -178,7 +178,7 @@ public struct ACTOR_INFO : IProtocol
     public VECTOR2 pos;
     public VECTOR2 vel;
     public float hp;
-    public int index;
+    public float inter;
 }
 
 public struct ACTORS_INFO : IProtocol

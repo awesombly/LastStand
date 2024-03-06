@@ -76,8 +76,7 @@ public class Bullet : Actor, IHitable
         }
 
         // Bullet끼리 충돌시
-        Bullet bullet = defender as Bullet;
-        if ( !ReferenceEquals( bullet, null ) )
+        if ( defender is Bullet bullet )
         {
             // 각자 클라가 처리시, 중복처리가 되어서 Serial이 높은 쪽에서 Hit시킴
             if ( bullet.Serial > Serial )
