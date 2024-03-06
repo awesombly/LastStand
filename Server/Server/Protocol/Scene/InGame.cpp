@@ -36,31 +36,29 @@ void InGame::AckChatMessage( const Packet& _packet )
 
 void InGame::AckExitStage( const Packet& _packet )
 {
-	Session* session = _packet.session;
-	const STAGE_INFO& data  = FromJson<STAGE_INFO>( _packet );
 
 	try
 	{
-		Stage* stage = StageManager::Inst().Find( data.serial );
-		if ( stage == nullptr )
-			 throw std::exception( "# This stage does not exist" );
+		const STAGE_INFO& data  = FromJson<STAGE_INFO>( _packet );
+		Session* session        = _packet.session;
+		Stage* stage            = StageManager::Inst().Find( data.serial );
 
-		if ( !stage->Exit( session ) )
+		stage->Exit( session );
+		if ( stage->IsExist() )
 		{
-			// 방에 아무도 없을 때
-			SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( DELETE_STAGE_INFO, stage->info ) );
-			StageManager::Inst().Erase( stage );
+			SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
 		}
 		else
 		{
-			SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
+			SessionManager::Inst().BroadcastWaitingRoom( session, UPacket( DELETE_STAGE_INFO, stage->info ) );
+			StageManager::Inst().Erase( stage );
 		}
 
 		session->Send( UPacket( EXIT_STAGE_ACK ) );
 	}
-	catch ( std::exception _error )
+	catch ( Result )
 	{
-		Debug.LogWarning( _error.what() );
+
 	}
 }
 

@@ -3,30 +3,34 @@
 
 Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info )
 {
-	Debug.Log( "# Stage ", info.serial, " The host has been changed< ", host->loginInfo.nickname, " >" );
+	Debug.Log( "# Stage ", info.serial, " has been created" );
+	Debug.Log( "# < ", _host->loginInfo.nickname, " > has entered Stage ", info.serial );
+	Debug.Log( "# The host has been changed< Stage ", info.serial, " : ", host->loginInfo.nickname, " >" );
 	sessions.push_back( host );
 	_host->stage = this;
 }
 
-bool Stage::Entry( Session* _session )
+void Stage::Entry( Session* _session )
 {
 	if ( sessions.size() + 1 > info.personnel.maximum )
 	{
 		Debug.LogWarning( "# The stage is full of people" );
-		return false;
+		throw Result::ERR_UNABLE_PROCESS;
 	}
 
 	_session->stage = this;
 	sessions.push_back( _session );
 	info.personnel.current = ( int )sessions.size();
-
-	return true;
+	Debug.Log( "# < ", _session->loginInfo.nickname, " > has entered Stage ", info.serial );
 }
 
-bool Stage::Exit( Session* _session )
+void Stage::Exit( Session* _session )
 {
 	if ( sessions.size() <= 0 )
-		 throw std::exception( "There's no one in the stage" );
+	{
+		Debug.LogWarning( "There's no one in the stage" );
+		throw Result::ERR_UNABLE_PROCESS;
+	}
 
 	if ( _session->player != nullptr )
 	{
@@ -39,21 +43,19 @@ bool Stage::Exit( Session* _session )
 
 	sessions.erase( std::find( sessions.begin(), sessions.end(), _session ) );
 	info.personnel.current = ( int )sessions.size();
+	Debug.Log( "# The ", _session->loginInfo.nickname, " has left Stage ", info.serial );
 
 	if ( sessions.size() > 0 && host->GetSocket() == _session->GetSocket() )
 	{
 		 host = *sessions.begin();
-		 Debug.Log( "# Stage ", info.serial, " The host has been changed< ", host->loginInfo.nickname, " >" );
+		 Debug.Log( "# The host has been changed< Stage ", info.serial, " : ", host->loginInfo.nickname, " >" );
 	}
 
 	_session->stage = nullptr;
-
-	return sessions.size() > 0;
 }
 
 void Stage::Clear()
 {
-	//ClearActors();
 	auto iter = sessions.begin();
 	while ( iter != sessions.end() )
 	{

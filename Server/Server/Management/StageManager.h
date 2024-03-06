@@ -11,7 +11,7 @@ public:
 	StageManager()          = default;
 	virtual ~StageManager() = default;
 
-	void Push( Stage* _stage );
+	void Push(  Stage* _stage );
 	void Erase( Stage* _stage );
 
 	bool Contains( SerialType _serial ) const;

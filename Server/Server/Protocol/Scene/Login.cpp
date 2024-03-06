@@ -18,18 +18,17 @@ void Login::ConfirmMatchData( const Packet& _packet )
 		if ( Global::String::Trim( data.email ).empty() )
 		{
 			Debug.LogWarning( "# The email is empty" );
-			throw Result::DB_ERR_INVALID_DATA;
+			throw Result::ERR_INVALID_DATA;
 		}
 
 		LOGIN_DATA info = Database::Inst().GetLoginData( data.email );
 		if ( data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
 		{
 			Debug.LogWarning( "# Login information does not match" );
-			throw Result::DB_ERR_INVALID_DATA;
+			throw Result::ERR_INVALID_DATA;
 		}
 
 		ACCOUNT_INFO ret;
-		ret.result    = Result::OK;
 		ret.loginInfo = session->loginInfo = info;
 		ret.userInfo  = Database::Inst().GetUserData( info.uid );
 		session->Send( UPacket( CONFIRM_LOGIN_ACK, ret ) );
@@ -39,7 +38,6 @@ void Login::ConfirmMatchData( const Packet& _packet )
 	catch ( Result _error )
 	{
 		_packet.session->Send( UPacket( _error, CONFIRM_LOGIN_ACK ) );
-		Debug.LogError( "# DB Exception < ", Error::String( _error ), " >" );
 	}
 }
 
@@ -56,7 +54,6 @@ void Login::ConfirmDuplicateInfo( const Packet& _packet )
 	catch ( Result _error )
 	{
 		_packet.session->Send( UPacket( _error, DUPLICATE_EMAIL_ACK ) );
-		Debug.LogError( "# DB Exception < ", Error::String( _error ), " >" );
 	}
 }
 
@@ -66,7 +63,10 @@ void Login::AddToDatabase( const Packet& _packet )
 	{
 		auto data = FromJson<LOGIN_DATA>( _packet );
 		if ( Global::String::Trim( data.nickname ).empty() )
-			 throw Result::DB_ERR_INVALID_DATA;
+		{
+			Debug.LogWarning( "# The nickname is empty" );
+			throw Result::ERR_INVALID_DATA;
+		}
 
 		Database::Inst().CreateUserData( data.nickname, data.email, data.password );
 		_packet.session->Send( UPacket( CONFIRM_ACCOUNT_ACK ) );
@@ -74,6 +74,5 @@ void Login::AddToDatabase( const Packet& _packet )
 	catch ( Result _error )
 	{
 		_packet.session->Send( UPacket( _error, CONFIRM_ACCOUNT_ACK ) );
-		Debug.LogError( "# DB Exception < ", Error::String( _error ), " >" );
 	}
 }

@@ -234,14 +234,12 @@ typedef struct ResultInfo
 typedef struct AccountInfo
 {
 public:
-	Result result;
 	LOGIN_INFO loginInfo;
 	USER_INFO userInfo;
 
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
-		ar( CEREAL_NVP( result ) );
 		ar( CEREAL_NVP( loginInfo ) );
 		ar( CEREAL_NVP( userInfo ) );
 	}

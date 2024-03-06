@@ -34,25 +34,20 @@ void Lobby::AckCreateStage( const Packet& _packet )
 
 void Lobby::AckEntryStage( const Packet& _packet )
 {
-	Session* session = _packet.session;
-	const STAGE_INFO& data = FromJson<STAGE_INFO>( _packet );
-
 	try
 	{
-		Stage* stage = StageManager::Inst().Find( data.serial );
-		if ( stage == nullptr )
-			 throw std::exception( "# This stage does not exist" );
+		Session* session       = _packet.session;
+		const STAGE_INFO& data = FromJson<STAGE_INFO>( _packet );
 
-		if ( stage->Entry( session ) )
-		{
-			Debug.Log( "# < ", session->loginInfo.nickname, " > has entered stage ", data.serial );
-			session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
-			SessionManager::Inst().BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
-		}
+		Stage* stage = StageManager::Inst().Find( data.serial );
+		stage->Entry( session );
+	
+		session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
+		SessionManager::Inst().BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
 	}
-	catch ( std::exception _error )
+	catch ( Result )
 	{
-		Debug.LogWarning( _error.what() );
+		
 	}
 }
 

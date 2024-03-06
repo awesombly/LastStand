@@ -17,11 +17,13 @@ struct UPacket
 
 	// 데이터가 포함되지않은 패킷 ( 결과만 확인하고 싶은 경우 )
 	UPacket(                 PacketType _type ) : UPacket( Result::OK, _type, Global::HeaderSize ) { }
+	// 데이터가 포함되지않은 패킷 ( 결과만 확인하고 싶은 경우 )
 	UPacket( Result _result, PacketType _type ) : UPacket( _result,    _type, Global::HeaderSize ) { }
 
 	// 데이터가 포함된 패킷
 	template<typename Type>
 	UPacket( PacketType _type, Type _protocol ) : UPacket( Result::OK, _type, _protocol ) { }
+	// 데이터가 포함된 패킷
 	template<typename Type>
 	UPacket( Result _result, PacketType _type, Type _protocol )
 	{

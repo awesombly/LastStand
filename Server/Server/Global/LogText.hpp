@@ -93,8 +93,10 @@ private:
 			return;
 		}
 
-		if ( writeType != LogWriteType::Console ) os        << data << std::endl << std::endl;
-		if ( writeType != LogWriteType::File    )std::cout  << data << std::endl;
+		if ( writeType != LogWriteType::Console ) os         << data << std::endl << std::endl;
+		if ( writeType != LogWriteType::File    ) std::cout  << data << std::endl;
+
+
 		Clear();
 	}
 

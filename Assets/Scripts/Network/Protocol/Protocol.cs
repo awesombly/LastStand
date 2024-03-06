@@ -163,7 +163,6 @@ public struct RESULT_INFO : IProtocol
 
 public struct ACCOUNT_INFO : IProtocol
 {
-    public Result result;
     public LOGIN_INFO loginInfo;
     public USER_INFO userInfo;
 }

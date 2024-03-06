@@ -49,14 +49,16 @@ void SessionManager::ConfirmDisconnect()
 				if ( session->stage != nullptr )
 				{
 					Stage* stage = session->stage;
-					if ( !stage->Exit( session ) )
+					stage->Exit( session );
+
+					if ( stage->IsExist() )
 					{
-						BroadcastWaitingRoom( session, UPacket( DELETE_STAGE_INFO, stage->info ) );
-						StageManager::Inst().Erase( stage );
+						BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
 					}
 					else
 					{
-						BroadcastWaitingRoom( session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
+						BroadcastWaitingRoom( session, UPacket( DELETE_STAGE_INFO, stage->info ) );
+						StageManager::Inst().Erase( stage );
 					}
 				}
 
@@ -101,14 +103,16 @@ void SessionManager::Erase( Session* _session )
 	if ( _session->stage != nullptr )
 	{
 		Stage* stage = _session->stage;
-		if ( !stage->Exit( _session ) )
+		stage->Exit( _session );
+
+		if ( stage->IsExist() )
 		{
-			BroadcastWaitingRoom( _session, UPacket( DELETE_STAGE_INFO, stage->info ) );
-			StageManager::Inst().Erase( stage );
+			BroadcastWaitingRoom( _session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
 		}
 		else
 		{
-			BroadcastWaitingRoom( _session, UPacket( UPDATE_STAGE_INFO, stage->info ) );
+			BroadcastWaitingRoom( _session, UPacket( DELETE_STAGE_INFO, stage->info ) );
+			StageManager::Inst().Erase( stage );
 		}
 	}
 

@@ -101,10 +101,10 @@ void Database::Query( const char* _sentence, ... )
 	}
 	va_end( vl );
 
-	Debug.Log( "# Query < ", sentence, " >" );
+	Debug.Log( "# Query <", sentence, ">" );
 	if ( ::mysql_query( conn, sentence ) != NULL )
 	{
-		std::cout << ::mysql_error( conn ) << std::endl;
+		Debug.LogWarning( "# DB Exception < ", ::mysql_error( conn ), " >" );
 		throw Result::DB_ERR_INVALID_QUERY;
 	}
 }
@@ -114,7 +114,7 @@ bool Database::ExistLoginData( const LOGIN_DATA& _data )
 	Query( R"Q( SELECT * FROM LoginData WHERE Email = '%s'; )Q", _data.email );
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
-		std::cout << ::mysql_error( conn ) << std::endl;
+		Debug.LogWarning( "# DB Exception < ", ::mysql_error( conn ), " >" );
 		return false;
 	}
 
@@ -142,13 +142,13 @@ LOGIN_DATA Database::GetLoginData( const std::string& _email )
 	Query( R"Q( SELECT * FROM LoginData WHERE Email = '%s'; )Q", _email );
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
-		std::cout << ::mysql_error( conn ) << std::endl;
-		throw Result::DB_ERR_NOT_EXIST_DATA;
+		Debug.LogWarning( "# DB Exception < ", ::mysql_error( conn ), " >" );
+		throw Result::ERR_NOT_EXIST_DATA;
 	}
 
 	MYSQL_ROW row;
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
-		throw Result::DB_ERR_NOT_EXIST_DATA;
+		throw Result::ERR_NOT_EXIST_DATA;
 
 	return LOGIN_DATA{ ::atoi( row[0] ), row[1], row[2], row[3] };
 }
@@ -158,13 +158,13 @@ LOGIN_DATA Database::GetLoginData( int _uid )
 	Query( R"Q( SELECT * FROM LoginData WHERE uid = '%d'; )Q", _uid );
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
-		std::cout << ::mysql_error( conn ) << std::endl;
-		throw Result::DB_ERR_INVALID_QUERY;
+		Debug.LogWarning( "# DB Exception < ", ::mysql_error( conn ), " >" );
+		throw Result::ERR_NOT_EXIST_DATA;
 	}
 
 	MYSQL_ROW row;
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
-		throw Result::DB_ERR_INVALID_QUERY;
+		throw Result::ERR_NOT_EXIST_DATA;
 
 	return LOGIN_DATA{ ::atoi( row[0] ), row[1], row[2], row[3] };
 }
@@ -176,62 +176,12 @@ USER_DATA Database::GetUserData( int _uid )
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
 		std::cout << ::mysql_error( conn ) << std::endl;
-		throw Result::DB_ERR_INVALID_QUERY;
+		throw Result::ERR_NOT_EXIST_DATA;
 	}
 
 	MYSQL_ROW row;
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
-		throw std::exception( "The data was not found" );
+		throw Result::ERR_NOT_EXIST_DATA;
 
 	return USER_DATA{ ::atoi( row[2] ), ( float )::atof(row[3]), ::atoi(row[4]), ::atoi(row[5]), ::atoi(row[6]), ::atoi(row[7]), ::atoi(row[8])};
 }
-
-
-//LOGIN_DATA Database::Search( const std::string& _type, const std::string& _data )
-//{
-//	::sprintf( sentence, R"Q( SELECT * FROM userdata WHERE %s = '%s';)Q", _type.c_str(), _data.c_str() );
-//	if ( !Query( sentence ) || ( result = ::mysql_store_result( conn ) ) == nullptr )
-//	{
-//		std::cout << ::mysql_error( conn ) << std::endl;
-//		throw std::exception( "Invalid query statement" );
-//	}
-//
-//	MYSQL_ROW row;
-//	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
-//		throw std::exception( "The data was not found" );
-//
-//	return LOGIN_DATA{ ::atoi( row[0] ), row[1], row[2], row[3]};
-//}
-//
-//bool Database::Insert( const LOGIN_DATA& _data )
-//{
-//	::sprintf( sentence, R"Q( insert into userdata values( '%s', '%s', '%s' ); )Q", _data.nickname.c_str(), _data.email.c_str(), _data.password.c_str() );
-//	
-//	return Query( sentence );
-//}
-//
-//bool Database::Update( const LOGIN_DATA& _data )
-//{
-//	::sprintf( sentence, R"Q(update userdata set nickname = '%s', password = '%s' where email = '%s';)Q", _data.nickname.c_str(), _data.password.c_str(), _data.email.c_str() );
-//	return Query( sentence );
-//}
-//
-//bool Database::Delete( const LOGIN_DATA& _data )
-//{
-//	::sprintf( sentence, R"Q(delete from userdata where email = '%s';)Q", _data.email.c_str() );
-//	return Query( sentence );
-//}
-
-
-// 찾기
-// select * from userdata where nickname = 'wns';
-
-// 삽입
-// insert into UserData( nickname, email, password ) values( 'wns', 'wns', '0000' );
-// insert into userdata values( 'taehong', 'th', 1111 );
-
-// 수정
-// update userdata set password ='0000' where nickname = 'wns';
-
-// 삭제
-// delete from userdata where nickname = 'wns';

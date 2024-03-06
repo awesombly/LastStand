@@ -28,11 +28,6 @@ public:
 	LOGIN_DATA GetLoginData( int _uid );
 	USER_DATA  GetUserData( int _uid );
 
-	//LOGIN_DATA Search( const std::string& _type, const std::string& _data );
-	//bool Insert( const LOGIN_DATA& _data );
-	//bool Update( const LOGIN_DATA& _data );
-	//bool Delete( const LOGIN_DATA& _data );
-
 public:
 	Database() = default;
 	virtual ~Database();

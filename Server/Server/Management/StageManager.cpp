@@ -6,8 +6,6 @@ void StageManager::Push( Stage* _stage )
 	if ( _stage == nullptr )
 		 return;
 
-	Debug.Log( "# Stage ", _stage->info.serial, " has been created" );
-
 	std::lock_guard<std::mutex> lock( mtx );
 	stages.push_back( _stage );
 }
@@ -56,8 +54,9 @@ Stage* StageManager::Find( SerialType _serial ) const
 	for ( Stage* stage : stages )
 	{
 		if ( stage->info.serial == _serial )
-			return stage;
+		 	 return stage;
 	}
 
-	return nullptr;
+	Debug.LogWarning( "# The Stage ", _serial, " does not exist" );
+	throw Result::ERR_NOT_EXIST_DATA;
 }

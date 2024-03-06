@@ -17,8 +17,9 @@ public:
 	Stage( Session* _host, const STAGE_INFO& _info );
 	virtual ~Stage() = default;
 
-	bool Entry( Session* _session );
-	bool Exit( Session* _session );
+	inline bool IsExist() { return sessions.size() > 0; }
+	void Entry( Session* _session );
+	void Exit( Session* _session );
 
 	void Clear();
 

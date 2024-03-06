@@ -144,7 +144,6 @@ public class LoginSystem : MonoBehaviour
         switch( _packet.result )
         {
             case Result.DB_ERR_DISCONNECTED: break;
-
             case Result.OK:
             {
                 var data = Global.FromJson<ACCOUNT_INFO>( _packet );
