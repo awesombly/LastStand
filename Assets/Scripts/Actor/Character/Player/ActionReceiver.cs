@@ -30,15 +30,21 @@ public class ActionReceiver : MonoBehaviour
     private CinemachineConfiner2D confiner2D;
     #endregion
 
-    private void Awake()
+    private void Start()
     {
+        Player player = GetComponent<Player>();
+        if ( !player.IsLocal )
+        {
+            return;
+        }
+
         ppCamera = Camera.main.GetComponent<PixelPerfectCamera>();
         virtualCamera = Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera;
         pixelPerfect = virtualCamera.GetComponent<Cinemachine.CinemachinePixelPerfect>();
         confiner2D = virtualCamera.GetComponent<Cinemachine.CinemachineConfiner2D>();
-        if ( ppCamera is null || virtualCamera is null || pixelPerfect is null )
+        if ( ppCamera is null || virtualCamera is null || pixelPerfect is null || confiner2D is null )
         {
-            Debug.LogError( $"Not Exist Components. {ppCamera}, {virtualCamera}, {pixelPerfect}" );
+            Debug.LogError( $"Not Exist Components. {ppCamera}, {virtualCamera}, {pixelPerfect}, {confiner2D}" );
         }
 
         targetOrthoSize = virtualCamera.m_Lens.OrthographicSize;

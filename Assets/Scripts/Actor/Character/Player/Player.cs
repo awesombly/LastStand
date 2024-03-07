@@ -300,6 +300,7 @@ public class Player : Character
     {
         base.OnChangeLocal( _isLocal );
         playerInput.enabled = _isLocal;
+        receiver.enabled = _isLocal;
     }
 
     private void OnChangeHp( float _old, float _new, float _max )

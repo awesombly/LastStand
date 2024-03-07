@@ -213,6 +213,13 @@ public class InGameLogicScene : SceneBase
         var data = Global.FromJson<SERIALS_INFO>( _packet );
         foreach ( uint serial in data.serials )
         {
+            Player player = GameManager.Inst.FindPlayer( serial );
+            if ( player is not null )
+            {
+                player.Release();
+                continue;
+            }
+
             Actor actor = GameManager.Inst.GetActor( serial );
             actor?.Release();
         }
