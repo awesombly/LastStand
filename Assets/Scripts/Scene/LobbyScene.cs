@@ -13,6 +13,9 @@ public class LobbyScene : SceneBase
         SceneType = SceneType.Lobby;
 
         StartCoroutine( WaitForAudioLoad() );
+        #if !UNITY_EDITOR
+        Cursor.visible = false;
+        #endif
     }
 
     private void Update()

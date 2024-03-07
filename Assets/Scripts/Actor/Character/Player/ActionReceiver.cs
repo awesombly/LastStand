@@ -47,6 +47,7 @@ public class ActionReceiver : MonoBehaviour
             Debug.LogError( $"Not Exist Components. {ppCamera}, {virtualCamera}, {pixelPerfect}, {confiner2D}" );
         }
 
+        confiner2D.InvalidateCache();
         targetOrthoSize = virtualCamera.m_Lens.OrthographicSize;
         prevOrthoSize = Camera.main.orthographicSize;
     }
@@ -131,9 +132,13 @@ public class ActionReceiver : MonoBehaviour
         OnInteractionEvent?.Invoke();
     }
 
-    private void OnCameraZoom( InputValue _value )
+    private void OnCameraZoom()
     {
-        targetOrthoSize = Mathf.Clamp( targetOrthoSize + _value.Get<float>() * 0.01f, 1f, 15f );
+        Vector3 mousePos = Camera.main.ScreenToViewportPoint( Input.mousePosition );
+        if ( mousePos.x >= 0 && mousePos.x <= 1f && mousePos.y >= 0f && mousePos.y <= 1f )
+        {
+            targetOrthoSize = Mathf.Clamp( targetOrthoSize - Mouse.current.scroll.value.y * 0.005f, 1f, 10f );
+        }
     }
     #endregion
 }
