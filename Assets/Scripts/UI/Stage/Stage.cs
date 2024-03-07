@@ -10,6 +10,7 @@ public class Stage : MonoBehaviour
     public TextMeshProUGUI title;
     public TextMeshProUGUI curPersonnel;
     public TextMeshProUGUI maxPersonnel;
+    public TextMeshProUGUI targetKill;
 
     public STAGE_INFO info;
 
@@ -28,6 +29,7 @@ public class Stage : MonoBehaviour
         title.text        = info.title;
         maxPersonnel.text = $"{info.personnel.maximum}";
         curPersonnel.text = $"{info.personnel.current}";
+        targetKill.text   = $"{info.targetKill}";
     }
 
     public void EntryStage()
@@ -42,11 +44,11 @@ public class Stage : MonoBehaviour
     public void OnPointerEnter()
     {
         AudioManager.Inst.Play( SFX.MenuHover );
-        rt.DOSizeDelta( new Vector2( 800f, 125f ), .35f );
+        rt.DOSizeDelta( new Vector2( 775f, 125f ), .35f );
     }
 
     public void OnPointerExit()
     {
-        rt.DOSizeDelta( new Vector2( 750f, 100f ), .35f );
+        rt.DOSizeDelta( new Vector2( 725f, 100f ), .35f );
     }
 }
