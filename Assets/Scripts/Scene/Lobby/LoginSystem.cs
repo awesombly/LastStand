@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 using static PacketType;
 public class LoginSystem : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class LoginSystem : MonoBehaviour
     public TMP_InputField email;
     public TMP_InputField password;
     public TMP_InputField nickname;
+    public Toggle remember;
 
     [Header( "< Login Error >" )]
     public GameObject      errorPanel;
@@ -34,17 +35,35 @@ public class LoginSystem : MonoBehaviour
         {
             loginCanvas.SetActive( true );
 
-            if( TryGetComponent( out OptionSystem optionSys ) )
-                optionSys.OnActiveOption += () => email?.ActivateInputField();
+            // 이벤트 설정
+            if ( TryGetComponent( out OptionSystem optionSys ) )
+                optionSys.OnActiveOption += () =>
+                {
+                    if ( email.text == string.Empty ) email.ActivateInputField();
+                    else                              password.ActivateInputField();
+                };
 
+            // 패스워드 타입 설정( 코드로만 수정가능한 듯 )
             if ( password is not null )
                  password.contentType = TMP_InputField.ContentType.Password;
+
+            // 저장된 ini 정보 읽기
+            if ( bool.TryParse( Config.Inst.Read( ConfigLogin.isRemember ), out bool isRemember ) ) remember.isOn = isRemember;
+            else                                                                                    RememberLoginInfo( remember.isOn );
+
+            if ( remember.isOn )
+            {
+                email.text    = Config.Inst.Read( ConfigLogin.ID );
+                //password.text = Config.Inst.Read( ConfigLogin.PW );
+            }
         }
         else
         {
             loginCanvas.SetActive( false );
         }
     }
+
+    public void RememberLoginInfo( bool _isRemember ) => Config.Inst.Write( ConfigLogin.isRemember, _isRemember.ToString() );
 
     #region Button Events
     public void ActiveErrorPanel( bool _isActive )
@@ -152,6 +171,9 @@ public class LoginSystem : MonoBehaviour
                 var data = Global.FromJson<ACCOUNT_INFO>( _packet );
                 GameManager.LoginInfo = data.loginInfo;
                 GameManager.UserInfo  = data.userInfo;
+
+                Config.Inst.Write( ConfigLogin.ID, email.text );
+                Config.Inst.Write( ConfigLogin.PW, password.text );
 
                 loginCanvas.SetActive( false );
                 OnLoginCompleted?.Invoke();

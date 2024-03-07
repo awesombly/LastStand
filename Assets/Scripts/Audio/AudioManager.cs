@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -78,6 +77,17 @@ public sealed class AudioManager : Singleton<AudioManager>
         {
             mixer = _data.mixer;
             mixerGroup = mixer?.FindMatchingGroups( "Master" );
+            if ( mixer is not null && mixerGroup is not null )
+            {
+                if ( float.TryParse( Config.Inst.Read( MixerType.Master ), out float master ) )
+                     MixerDecibelControl( MixerType.Master, master );
+
+                if ( float.TryParse( Config.Inst.Read( MixerType.BGM ), out float bgm ) )
+                     MixerDecibelControl( MixerType.BGM, bgm );
+
+                if ( float.TryParse( Config.Inst.Read( MixerType.SFX ), out float sfx ) )
+                     MixerDecibelControl( MixerType.SFX, sfx );
+            }
 
             if ( _data.channel is not null )
                  channels = new WNS.ObjectPool<AudioChannel>( _data.channel, transform );
