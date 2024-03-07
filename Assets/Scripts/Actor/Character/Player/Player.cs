@@ -133,14 +133,18 @@ public class Player : Character
         Hp.OnChangeCurrent += OnChangeHp;
     }
 
-    protected void FixedUpdate()
-    {
-        UpdateNearestInteractable();
-    }
-
     protected override void Start()
     {
         base.Start();
+    }
+
+    protected void FixedUpdate()
+    {
+        if ( !IsLocal )
+        {
+            return;
+        }
+        UpdateNearestInteractable();
     }
     #endregion
 
@@ -222,7 +226,7 @@ public class Player : Character
 
     private void UpdateNearestInteractable()
     {
-        nearestInteractable = null;
+        InteractableActor target = null;
         float nearestDistance = float.MaxValue;
 
         RaycastHit2D[] hits = Physics2D.CircleCastAll( transform.position, 1.5f, Vector2.zero, 0f, ( int )Global.LayerFlag.Misc );
@@ -256,7 +260,21 @@ public class Player : Character
             }
 
             nearestDistance = distance;
-            nearestInteractable = interactable;
+            target = interactable;
+        }
+
+        if ( !ReferenceEquals( nearestInteractable, target ) )
+        {
+            if ( nearestInteractable is not null )
+            {
+                nearestInteractable.IsSelected = false;
+            }
+
+            if ( target is not null )
+            {
+                target.IsSelected = true;
+            }
+            nearestInteractable = target;
         }
     }
 

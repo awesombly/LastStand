@@ -5,11 +5,28 @@ using UnityEngine.Events;
 
 public class InteractableActor : DestroyableActor
 {
+    [SerializeField]
+    private SpriteRenderer outlineRenderer;
     public bool useLookAngle;
     [SerializeField]
     private UnityEvent<float, bool> interactionEvent;
 
     public bool IsInteracted { get; private set; } = false;
+    private bool isSelected = false;
+    public bool IsSelected 
+    {
+        get => isSelected;
+        set 
+        {
+            if ( isSelected == value )
+            {
+                return;
+            }
+
+            isSelected = value;
+            outlineRenderer.gameObject.SetActive( isSelected );
+        }
+    }
     private PolygonCollider2D polygon2D;
 
     private enum ActionDirection
@@ -21,6 +38,11 @@ public class InteractableActor : DestroyableActor
     {
         base.Awake();
         polygon2D = GetComponent<PolygonCollider2D>();
+    }
+
+    protected virtual void Start()
+    {
+        outlineRenderer.sprite = Spriter.sprite;
     }
 
     public void InteractionAction( float _angle, bool _isInit = false )
