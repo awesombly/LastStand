@@ -24,11 +24,21 @@ public class PlayerBoard : MonoBehaviour
 
     private Image image;
     private RectTransform rt;
+    private bool isFirstSpawn = true;
 
     private void Awake()
     {
         rt    = transform as RectTransform;
         image = GetComponent<Image>();
+    }
+
+    private void OnDestroy()
+    {
+        if ( Target is null )
+             return;
+
+        Target.OnPlayerDead    -= PlayerDead;
+        Target.OnPlayerRespawn -= PlayerRespawn;
     }
 
     public void AddEvents( Player _player )
@@ -43,6 +53,21 @@ public class PlayerBoard : MonoBehaviour
         killCount.text  = $"{Target.KillScore}";
         deathCount.text = $"{Target.DeathScore}";
 
+        if ( Target.IsDead )
+        {
+            deadBackground.gameObject.SetActive( true );
+            deadBackground.color = EndColor;
+            healthFill.SetActive( false );
+            healthLerpFill.SetActive( false );
+        }
+        else
+        {
+            deadBackground.color = Color.clear;
+            deadBackground.gameObject.SetActive( false );
+            healthFill.SetActive( true );
+            healthLerpFill.SetActive( true );
+        }
+
         if ( Target.IsLocal ) image.color = new Color( .5f, 1f, .5f );
         else                  image.color = new Color( 1f, .5f, .5f );
 
@@ -52,7 +77,7 @@ public class PlayerBoard : MonoBehaviour
 
     public void RemoveEvents()
     {
-        if ( Target == null )
+        if ( Target is null )
              return;
 
         Target.OnPlayerDead    -= PlayerDead;
@@ -69,11 +94,18 @@ public class PlayerBoard : MonoBehaviour
 
     public void PlayerRespawn()
     {
-        deadBackground.DOColor( Color.clear, .5f )
-                      .OnComplete( () => deadBackground.gameObject.SetActive( false ) );
+        if ( isFirstSpawn )
+        {
+            isFirstSpawn = false;
+            return;
+        }
 
         healthFill.SetActive( true );
         healthLerpFill.SetActive( true );
+
+        deadBackground.DOColor( Color.clear, .5f )
+                      .OnComplete( () => deadBackground.gameObject.SetActive( false ) );
+
     }
 
     public void UpdateHealth( float _health )

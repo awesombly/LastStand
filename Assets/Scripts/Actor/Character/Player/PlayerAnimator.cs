@@ -40,7 +40,7 @@ public class PlayerAnimator : MonoBehaviour
     private void Update()
     {
         // Hand Shaking
-        player.IsOnFire = !ReferenceEquals( fireSequence, null ) && ( fireSequence.IsActive() || fireSequence.IsPlaying() );
+        player.IsOnFire = fireSequence is not null && ( fireSequence.IsActive() || fireSequence.IsPlaying() );
         if ( !player.IsOnFire )
         {
             elapsedTimeForHand += Time.deltaTime;

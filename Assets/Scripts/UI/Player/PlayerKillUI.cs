@@ -10,6 +10,7 @@ public class PlayerKillUI : MonoBehaviour
     public TextMeshProUGUI deadPlayerName;
 
     private Sequence effectSeq;
+    private Player target;
 
     private void Start()
     {
@@ -21,27 +22,35 @@ public class PlayerKillUI : MonoBehaviour
                   AppendInterval( 2.5f ).
                   Append( canvasGroup.DOFade( 0f, .5f ) );
 
-        GameManager.OnChangeLocalPlayer += ( Player _old, Player _new ) =>
-        {
-            if ( _old == _new )
-                 return;
-
-            if ( !ReferenceEquals( _old, null ) )
-                 _old.OnPlayerKill -= OnKill;
-
-            if ( !ReferenceEquals( _new, null ) )
-                 _new.OnPlayerKill += OnKill;
-        };
+        GameManager.OnChangeLocalPlayer += AddEvents;
     }
 
     private void OnDestroy()
     {
+        GameManager.OnChangeLocalPlayer -= AddEvents;
         effectSeq?.Kill();
+        if ( target is not null )
+             target.OnPlayerKill -= OnKill;
+    }
+
+    private void AddEvents( Player _old, Player _new )
+    {
+        if ( _old == _new )
+             return;
+
+        if ( _old is not null )
+            _old.OnPlayerKill -= OnKill;
+
+        if ( _new is not null )
+        {
+            target = _new;
+            _new.OnPlayerKill += OnKill;
+        }
     }
 
     private void OnKill( Player _player )
     {
         deadPlayerName.text = _player.Nickname;
-        effectSeq.Restart();
+        effectSeq?.Restart();
     }
 }

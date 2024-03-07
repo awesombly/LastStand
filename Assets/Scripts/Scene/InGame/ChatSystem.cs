@@ -61,7 +61,7 @@ public class ChatSystem : MonoBehaviour
         {
             if ( input.interactable ) // 채팅 비활성화
             {
-                if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
+                if ( GameManager.LocalPlayer is not null )
                      GameManager.LocalPlayer.UnmoveableCount--;
 
                 if ( input.text.Trim() != string.Empty )
@@ -80,7 +80,7 @@ public class ChatSystem : MonoBehaviour
             }
             else // 채팅 활성화
             {
-                if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
+                if ( GameManager.LocalPlayer is not null )
                      GameManager.LocalPlayer.UnmoveableCount++;
 
                 input.interactable = true;
@@ -131,7 +131,7 @@ public class ChatSystem : MonoBehaviour
         }
 
         var player = GameManager.Inst.GetActor( data.serial ) as Player;
-        if ( !ReferenceEquals( player, null ) )
+        if ( player is not null )
              player.ReceiveMessage( data.message );
     }
 }

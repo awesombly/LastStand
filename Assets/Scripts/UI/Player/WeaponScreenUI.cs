@@ -30,7 +30,7 @@ public class WeaponScreenUI : MonoBehaviour
 
     private Sequence scaleEffectSeq;
     private Vector3 startScl, endScl;
-
+    private Player targetPlayer;
 
     private void Awake()
     {
@@ -49,6 +49,15 @@ public class WeaponScreenUI : MonoBehaviour
         moveEffectSeq?.Kill();
         scaleEffectSeq?.Kill();
         GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
+        
+        if ( targetPlayer is not null )
+             targetPlayer.OnChangeEquipWeapon -= OnChangeEquipWeapon;
+
+        if ( equipWeapon is not null )
+        {
+            equipWeapon.OnFireEvent                     -= PlayEffect;
+            equipWeapon.myStat.magazine.OnChangeCurrent -= OnChangeMagazine;
+        }
     }
 
     private void AmmoEffectInitialize()
@@ -82,10 +91,8 @@ public class WeaponScreenUI : MonoBehaviour
 
     private void UpdateBulletIcons()
     {
-        if ( ReferenceEquals( equipWeapon, null ) )
-        {
-            return;
-        }
+        if ( equipWeapon is null )
+             return;
 
         int usedMagazine = equipWeapon.myStat.magazine.Max - equipWeapon.myStat.magazine.Current;
         for ( int i = 0; i < bulletIcons.Count; ++i )
@@ -104,35 +111,32 @@ public class WeaponScreenUI : MonoBehaviour
     private void OnChangeLocalPlayer( Player _old, Player _new )
     {
         if ( _old == _new )
-        {
-            return;
-        }
+             return;
 
-        if ( !ReferenceEquals( _old, null ) )
+        if ( _old is not null )
         {
             _old.OnChangeEquipWeapon -= OnChangeEquipWeapon;
         }
 
-        if ( !ReferenceEquals( _new, null ) )
+        if ( _new is not null )
         {
-            _new.OnChangeEquipWeapon += OnChangeEquipWeapon;
+            targetPlayer = _new;
+            targetPlayer.OnChangeEquipWeapon += OnChangeEquipWeapon;
         }
     }
 
     private void OnChangeEquipWeapon( Weapon _old, Weapon _new )
     {
         if ( _old == _new )
-        {
-            return;
-        }
+             return;
 
-        if ( !ReferenceEquals( _old, null ) )
+        if ( _old is not null )
         {
             _old.OnFireEvent -= PlayEffect;
             _old.myStat.magazine.OnChangeCurrent -= OnChangeMagazine;
         }
 
-        if ( ReferenceEquals( _new, null ) )
+        if ( _new is null )
              return;
 
         equipWeapon = _new;

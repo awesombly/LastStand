@@ -18,6 +18,7 @@ public class PlayerRespawnUI : MonoBehaviour
     private readonly Color EndColor   = new Color( 0f, 0f, 0f, .9f );
 
     private CanvasGroup group;
+    private Player target;
 
     private void Awake()
     {
@@ -35,6 +36,12 @@ public class PlayerRespawnUI : MonoBehaviour
         GameManager.OnBeginRespawn      -= BeginRespawn;
         GameManager.OnEndRespawn        -= EndRespawn;
         GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
+
+        if ( target is not null )
+        {
+            target.PlayerUI.respawnDelay.OnChangeCurrent -= OnChangeRespawnDelay;
+            target.OnPlayerDead -= OnPlayerDead;
+        }
     }
 
     private void BeginRespawn()
@@ -58,14 +65,15 @@ public class PlayerRespawnUI : MonoBehaviour
         if ( _old == _new )
              return;
 
-        if ( !ReferenceEquals( _old, null ) )
+        if ( _old is not null )
         {
             _old.PlayerUI.respawnDelay.OnChangeCurrent -= OnChangeRespawnDelay;
             _old.OnPlayerDead -= OnPlayerDead;
         }
 
-        if ( !ReferenceEquals( _new, null ) )
+        if ( _new is not null )
         {
+            target = _new;
             _new.PlayerUI.respawnDelay.OnChangeCurrent += OnChangeRespawnDelay;
             _new.OnPlayerDead += OnPlayerDead;
         }

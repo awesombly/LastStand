@@ -45,7 +45,7 @@ public class InGameUIScene : SceneBase
 
         deadUIPool = new WNS.ObjectPool<PlayerDeadUI>( deadPrefab, deadContents );
 
-        if ( !ReferenceEquals( GameManager.StageInfo, null ) )
+        if ( GameManager.StageInfo is not null )
         {
             remainedKillCount = GameManager.StageInfo.Value.targetKill - GameManager.StageInfo.Value.currentKill;
             targetKillCount.text = $"{remainedKillCount}";
@@ -75,19 +75,17 @@ public class InGameUIScene : SceneBase
         {
             if ( pause.activeInHierarchy )
             {
-                if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
-                {
-                    GameManager.LocalPlayer.UnmoveableCount--;
-                }
+                if ( GameManager.LocalPlayer is not null )
+                     GameManager.LocalPlayer.UnmoveableCount--;
+
                 pause.SetActive( false );
                 AudioManager.Inst.Play( SFX.MenuExit );
             }
             else
             {
-                if ( !ReferenceEquals( GameManager.LocalPlayer, null ) )
-                {
-                    GameManager.LocalPlayer.UnmoveableCount++;
-                }
+                if ( GameManager.LocalPlayer is not null )
+                     GameManager.LocalPlayer.UnmoveableCount++;
+
                 pause.SetActive( true );
                 AudioManager.Inst.Play( SFX.MenuEntry );
             }

@@ -79,7 +79,7 @@ public sealed class AudioManager : Singleton<AudioManager>
             mixer = _data.mixer;
             mixerGroup = mixer?.FindMatchingGroups( "Master" );
 
-            if ( !ReferenceEquals( _data.channel, null ) )
+            if ( _data.channel is not null )
                  channels = new WNS.ObjectPool<AudioChannel>( _data.channel, transform );
 
             clips.Add( BGM.Lobby,  _data.bgmLobby  );
@@ -148,7 +148,7 @@ public sealed class AudioManager : Singleton<AudioManager>
 
     public void Play( AudioClip _clip, float _volume = 1f )
     {
-        if ( !ReferenceEquals( _clip, null ) )
+        if ( _clip is not null )
         {
             AudioChannel channel = GetChannel( _clip, MixerType.SFX, _volume, false );
             channel.Play();
@@ -157,7 +157,7 @@ public sealed class AudioManager : Singleton<AudioManager>
 
     public void Play( AudioClip _clip, Vector3 _pos, float _volume = 1f )
     {
-        if ( !ReferenceEquals( _clip, null ) )
+        if ( _clip is not null )
         {
             AudioChannel channel = GetChannel( _clip, MixerType.SFX, _volume, false );
             channel.transform.position = _pos;
