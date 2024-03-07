@@ -34,6 +34,9 @@ public class LoginSystem : MonoBehaviour
         {
             loginCanvas.SetActive( true );
 
+            if( TryGetComponent( out OptionSystem optionSys ) )
+                optionSys.OnActiveOption += () => email?.ActivateInputField();
+
             if ( password is not null )
                  password.contentType = TMP_InputField.ContentType.Password;
         }

@@ -29,7 +29,7 @@ public sealed class AudioManager : Singleton<AudioManager>
     {
         private Dictionary<System.Enum, AudioClip> datas = new Dictionary<System.Enum, AudioClip>();
 
-        public AudioClip this[System.Enum _type] => TryGetClip( out AudioClip _clip, _type ) ? _clip : null;
+        public AudioClip this[System.Enum _type] => TryGetClip( out AudioClip clip, _type ) ? clip : null;
 
         public bool TryGetClip<T>( out AudioClip _clip, T _type ) where T : System.Enum
         {

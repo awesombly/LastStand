@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,8 @@ public class OptionSystem : MonoBehaviour
     public TextMeshProUGUI kill, death;
     public TextMeshProUGUI killDeathAverage;
     public TextMeshProUGUI bestKill, bestDeath;
+
+    public event Action OnActiveOption;
 
     private void Awake()
     {
@@ -83,10 +86,7 @@ public class OptionSystem : MonoBehaviour
         else
         {
             optionCanvas.SetActive( true );
-
-            // email?.ActivateInputField();
-            // if ( password != null )
-            //      password.contentType = TMP_InputField.ContentType.Password;
+            OnActiveOption?.Invoke();
 
             isOptionMovePlaying = true;
             optionMovement.DOAnchorPosX( 325f, .5f ).OnComplete( () => isOptionMovePlaying = false );
