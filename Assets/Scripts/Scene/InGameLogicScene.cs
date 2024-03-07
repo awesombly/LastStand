@@ -69,7 +69,7 @@ public class InGameLogicScene : SceneBase
 
     private void OnChangeLocalPlayer( Player _old, Player _new )
     {
-        if ( _new != null )
+        if ( _new is not null )
         {
             virtualCamera.Follow = _new.transform;
         }
@@ -144,7 +144,7 @@ public class InGameLogicScene : SceneBase
         {
             // 리스폰일시 기존 Player를 재사용한다
             player = GameManager.Inst.FindPlayer( data.actorInfo.serial );
-            if ( player == null )
+            if ( player is null )
             {
                 player = PoolManager.Inst.Get( data.actorInfo.prefab ) as Player;
             }
@@ -238,7 +238,7 @@ public class InGameLogicScene : SceneBase
     {
         var data = Global.FromJson<SERIAL_INFO>( _packet );
         Player player = GameManager.Inst.GetActor( data.serial ) as Player;
-        if ( player == null )
+        if ( player is null )
         {
             Debug.LogWarning( "Player is null. serial:" + data.serial );
             return;
@@ -250,7 +250,7 @@ public class InGameLogicScene : SceneBase
     {
         var data = Global.FromJson<LOOK_INFO>( _packet );
         Player player = GameManager.Inst.GetActor( data.serial ) as Player;
-        if ( player == null )
+        if ( player is null )
         {
             return;
         }
@@ -261,7 +261,7 @@ public class InGameLogicScene : SceneBase
     {
         var data = Global.FromJson<DODGE_INFO>( _packet );
         Player player = GameManager.Inst.GetActor( data.serial ) as Player;
-        if ( player == null )
+        if ( player is null )
         {
             Debug.LogWarning( "Player is null. serial:" + data.serial );
             return;
@@ -274,7 +274,7 @@ public class InGameLogicScene : SceneBase
     {
         var data = Global.FromJson<INDEX_INFO>( _packet );
         Player player = GameManager.Inst.GetActor( data.serial ) as Player;
-        if ( player == null )
+        if ( player is null )
         {
             Debug.LogWarning( "Player is null. serial:" + data.serial );
             return;
@@ -286,7 +286,7 @@ public class InGameLogicScene : SceneBase
     {
         var data = Global.FromJson<LOOK_INFO>( _packet );
         InteractableActor actor = GameManager.Inst.GetActor( data.serial ) as InteractableActor;
-        if ( actor == null )
+        if ( actor is null )
         {
             Debug.LogWarning( "Actor is null. serial:" + data.serial );
             return;

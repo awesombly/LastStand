@@ -22,7 +22,7 @@ public class Poolable : MonoBehaviour
 
     public virtual void Release()
     {
-        if ( parentPool == null )
+        if ( parentPool is null )
         {
             Destroy( gameObject );
             return;

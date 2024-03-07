@@ -78,7 +78,7 @@ public class Actor : Poolable
 
     public virtual void OnHit( Actor _attacker, IHitable _hitable, SyncType _syncType, float _serverHp = 0f )
     {
-        if ( _attacker == null || _hitable == null )
+        if ( _attacker is null || _hitable is null )
         {
             Debug.LogWarning( $"Actor is null. attacker:{_attacker}, hitable:{_hitable}" );
             return;

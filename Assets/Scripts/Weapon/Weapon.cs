@@ -39,7 +39,7 @@ public class Weapon : MonoBehaviour
     #region Unity Callback
     private void Awake()
     {
-        if ( shotPoint == null )
+        if ( shotPoint is null )
         {
             shotPoint = transform;
         }

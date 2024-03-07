@@ -32,7 +32,7 @@ public class PlayerDodgeAttack : MonoBehaviour, IHitable
     private void OnTriggerEnter2D( Collider2D _other )
     {
         Actor defender = _other.GetComponent<Actor>();
-        if ( defender == null )
+        if ( defender is null )
         {
             Debug.LogWarning( $"Actor is null. other:{_other.name}" );
             return;

@@ -28,7 +28,7 @@ public class OptionSystem : MonoBehaviour
         if ( TryGetComponent( out LoginSystem login ) )
              login.OnLoginCompleted += LoginCompleted;
 
-        if ( GameManager.LoginInfo == null ) 
+        if ( GameManager.LoginInfo is null ) 
             userInfoCanvas.SetActive( false );
         else
         {
@@ -45,7 +45,7 @@ public class OptionSystem : MonoBehaviour
 
     private void UpdateUserInfo()
     {
-        if ( GameManager.LoginInfo == null || GameManager.UserInfo == null )
+        if ( GameManager.LoginInfo is null || GameManager.UserInfo is null )
              return;
 
         LOGIN_INFO loginData = GameManager.LoginInfo.Value;

@@ -88,7 +88,7 @@ public class PoolManager : Singleton<PoolManager>
     private Poolable OnCreate()
     {
         Poolable poolable = Instantiate( curPrefab, poolParents[curPrefab].transform );
-        if ( poolable == null )
+        if ( poolable is null )
         {
             Debug.LogError( "Not found Prefab : " + curPrefab );
             return null;

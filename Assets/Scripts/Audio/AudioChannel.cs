@@ -75,7 +75,7 @@ public sealed class AudioChannel : MonoBehaviour
             return;
         }
 
-        if ( audioSource.clip == null )
+        if ( audioSource.clip is null )
         {
             Debug.LogWarning( $"The SoundClip is not registered to the AudioSource" );
             return;

@@ -43,10 +43,10 @@ public class ResultSystem : MonoBehaviour
         SceneBase.IsLock = true;
         winner           = _winner;
 
-        if ( GameManager.UserInfo != null )
+        if ( GameManager.UserInfo is not null )
              prevInfo = GameManager.UserInfo.Value;
 
-        if ( GameManager.LoginInfo != null )
+        if ( GameManager.LoginInfo is not null )
         {
             RESULT_INFO protocol;
             protocol.uid   = GameManager.LoginInfo.Value.uid;
@@ -80,7 +80,7 @@ public class ResultSystem : MonoBehaviour
 
         layoutGroup.UpdateLayoutGroup();
 
-        if ( GameManager.UserInfo != null )
+        if ( GameManager.UserInfo is not null )
         {
             var userInfo = GameManager.UserInfo.Value;
             level.text = $"{userInfo.level}";

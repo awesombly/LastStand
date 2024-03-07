@@ -30,11 +30,11 @@ public class LoginSystem : MonoBehaviour
         ProtocolSystem.Inst.Regist( CONFIRM_ACCOUNT_ACK, AckAddAccountInfoToDB );
         ProtocolSystem.Inst.Regist( DUPLICATE_EMAIL_ACK, AckConfirmDuplicateEmail );
 
-        if ( GameManager.LoginInfo == null )
+        if ( GameManager.LoginInfo is null )
         {
             loginCanvas.SetActive( true );
 
-            if ( password != null )
+            if ( password is not null )
                  password.contentType = TMP_InputField.ContentType.Password;
         }
         else

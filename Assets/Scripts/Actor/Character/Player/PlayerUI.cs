@@ -16,7 +16,7 @@ public class PlayerUI : MonoBehaviour
     private void Awake()
     {
         uiScene = GameManager.Inst.GetActiveScene( SceneType.InGame_UI ) as InGameUIScene;
-        if ( uiScene == null )
+        if ( uiScene is null )
         {
             Debug.LogError( "Not found UIScene." );
         }
@@ -66,7 +66,7 @@ public class PlayerUI : MonoBehaviour
             return;
         }
 
-        if ( _old != null )
+        if ( _old is not null )
         {
             _old.myStat.ammo.OnChangeCurrent           -= OnChangeAmmo;
             _old.myStat.magazine.OnChangeCurrent       -= OnChangeMagazine;
@@ -74,7 +74,7 @@ public class PlayerUI : MonoBehaviour
             _old.myStat.swapDelay.OnChangeCurrent      -= OnChangeReloadDelay;
         }
 
-        if ( _new != null )
+        if ( _new is not null )
         {
             _new.myStat.ammo.OnChangeCurrent           += OnChangeAmmo;
             _new.myStat.magazine.OnChangeCurrent       += OnChangeMagazine;

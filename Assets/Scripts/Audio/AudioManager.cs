@@ -33,7 +33,7 @@ public sealed class AudioManager : Singleton<AudioManager>
 
         public bool TryGetClip<T>( out AudioClip _clip, T _type ) where T : System.Enum
         {
-            if ( !datas.ContainsKey( _type ) || datas[_type] == null )
+            if ( !datas.ContainsKey( _type ) || datas[_type] is null )
             {
                 Debug.LogWarning( $"Could not import {_type}" );
                 _clip = null;
@@ -46,7 +46,7 @@ public sealed class AudioManager : Singleton<AudioManager>
 
         public void Add<T>( T _type, AudioClip _clip ) where T : System.Enum
         {
-            if ( datas.ContainsKey( _type ) || _clip == null )
+            if ( datas.ContainsKey( _type ) || _clip is null )
             {
                 Debug.LogWarning( $"Unable to register {_type}" );
                 return;

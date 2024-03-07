@@ -65,7 +65,7 @@ public class Bullet : Actor, IHitable
         }
 
         Actor defender = _other.GetComponent<Actor>();
-        if ( defender == null )
+        if ( defender is null )
         {
             return;
         }

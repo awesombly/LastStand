@@ -108,7 +108,7 @@ public class InGameUIScene : SceneBase
 
     public void ReqExitStage()
     {
-        if ( IsLock || !canExitStage || GameManager.StageInfo == null )
+        if ( IsLock || !canExitStage || GameManager.StageInfo is null )
              return;
 
         IsLock = true;

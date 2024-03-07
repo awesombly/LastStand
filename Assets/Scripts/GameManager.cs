@@ -157,7 +157,7 @@ public class GameManager : Singleton<GameManager>
         }
         OnEndRespawn?.Invoke();
 
-        if ( _player == null )
+        if ( _player is null )
         {
             yield break;
         }
@@ -194,7 +194,7 @@ public class GameManager : Singleton<GameManager>
 
     public void AddPlayer( Player _player )
     {
-        if ( _player == null || Players.Contains( _player ) )
+        if ( _player is null || Players.Contains( _player ) )
         {
             Debug.LogWarning( $"Invalid Player. {_player}" );
             return;
@@ -206,7 +206,7 @@ public class GameManager : Singleton<GameManager>
 
     public void RemovePlayer( Player _player )
     {
-        if ( _player == null || !Players.Contains( _player ) )
+        if ( _player is null || !Players.Contains( _player ) )
         {
             Debug.LogWarning( $"Invalid Player. {_player}" );
             return;
@@ -220,7 +220,7 @@ public class GameManager : Singleton<GameManager>
     #region Actor
     public void RegistActor( Actor _actor )
     {
-        if ( _actor == null
+        if ( _actor is null
             || actors.ContainsKey( _actor.Serial ) )
         {
             Debug.LogWarning( "Invalid Actor : " + _actor );

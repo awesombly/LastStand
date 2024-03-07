@@ -162,12 +162,12 @@ public class PlayerAnimator : MonoBehaviour
             return;
         }
 
-        if ( _old != null )
+        if ( _old is not null )
         {
             _old.OnFireEvent -= OnFire;
         }
 
-        if ( _new != null )
+        if ( _new is not null )
         {
             _new.OnFireEvent += OnFire;
         }

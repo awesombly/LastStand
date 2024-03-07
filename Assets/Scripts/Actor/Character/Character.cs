@@ -25,7 +25,7 @@ public class Character : Actor
             }
 
             isFlipX = value;
-            if ( uiCanvas != null )
+            if ( uiCanvas is not null )
             {
                 // 快急 措面 贸府..
                 if ( isFlipX )

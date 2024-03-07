@@ -68,7 +68,7 @@ public class ChatSystem : MonoBehaviour
                 {
                     CHAT_MESSAGE message;
                     message.serial = GameManager.LocalPlayer.Serial;
-                    message.nickname = GameManager.LoginInfo == null ? string.Empty : GameManager.LoginInfo.Value.nickname;
+                    message.nickname = GameManager.LoginInfo is null ? string.Empty : GameManager.LoginInfo.Value.nickname;
                     message.message = input.text;
                     Network.Inst.Send( PACKET_CHAT_MSG, message );
                 }
