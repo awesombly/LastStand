@@ -126,7 +126,7 @@ public class InGameLogicScene : SceneBase
         Player player = null;
         if ( data.actorInfo.isLocal )
         {
-            if ( !ReferenceEquals( GameManager.LocalPlayer, null )
+            if ( GameManager.LocalPlayer is not null
                 && GameManager.LocalPlayer.Serial == data.actorInfo.serial )
             {
                 // 리스폰시
@@ -189,8 +189,8 @@ public class InGameLogicScene : SceneBase
         }
 
         Character owner = GameManager.Inst.GetActor( data.owner ) as Character;
-        if ( !ReferenceEquals( owner, null )
-            && !ReferenceEquals( owner.EquipWeapon, null ) )
+        if ( owner is not null
+            && owner.EquipWeapon is not null )
         {
             if ( !owner.IsLocal )
             {
@@ -300,7 +300,7 @@ public class InGameLogicScene : SceneBase
         foreach ( HIT_INFO hit in data.hits )
         {
             Actor defender = GameManager.Inst.GetActor( hit.defender );
-            if ( ReferenceEquals( defender, null ) )
+            if ( defender is null )
             {
                 if ( hit.needRelease )
                 {
@@ -312,7 +312,7 @@ public class InGameLogicScene : SceneBase
 
             // Bullet일 경우
             Bullet bullet = GameManager.Inst.GetActor( hit.hiter ) as Bullet;
-            if ( !ReferenceEquals( bullet, null ) )
+            if ( bullet is not null )
             {
                 if ( bullet.IsLocal )
                 {
@@ -333,7 +333,7 @@ public class InGameLogicScene : SceneBase
 
             // 구르기에 맞은 경우
             Player attacker = GameManager.Inst.GetActor( hit.attacker ) as Player;
-            if ( !ReferenceEquals ( attacker, null ) )
+            if ( attacker is not null )
             {
                 SyncType syncType = attacker.IsLocal ? SyncType.LocalEcho : SyncType.FromServer;
                 attacker.DodgeAttack.HitTarget( defender, syncType, hit.hp );
@@ -379,7 +379,7 @@ public class InGameLogicScene : SceneBase
         var data = Global.FromJson<SERIAL_INFO>( _packet );
 
         Player winner = GameManager.Inst.FindPlayer( data.serial );
-        if ( ReferenceEquals( winner, null ) )
+        if ( winner is null )
         {
             Debug.LogWarning( $"Player is null. serial:{data.serial}" );
         }

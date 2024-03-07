@@ -29,7 +29,7 @@ public class PlayerUI : MonoBehaviour
 
     private void OnChangeAmmo( int _old, int _new, int _max )
     {
-        if ( !ReferenceEquals( player, null ) && player.IsLocal )
+        if ( player is not null && player.IsLocal )
         {
             uiScene.ammoText?.SetText( _new.ToString() );
         }
@@ -37,7 +37,7 @@ public class PlayerUI : MonoBehaviour
 
     private void OnChangeMagazine( int _old, int _new, int _max )
     {
-        if ( !ReferenceEquals( player, null ) && player.IsLocal )
+        if ( player is not null && player.IsLocal )
         {
             uiScene.magazineText?.SetText( _new.ToString() );
         }

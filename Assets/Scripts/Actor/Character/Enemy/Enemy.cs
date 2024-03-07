@@ -38,7 +38,7 @@ public class Enemy : Character
     #region FSM
     private void ChangeState( EnemyState _state )
     {
-        if ( !ReferenceEquals( coroutine, null ) )
+        if ( coroutine is not null )
              StopCoroutine( coroutine );
 
         coroutine = StartCoroutine( _state.ToString() );
@@ -107,7 +107,7 @@ public class Enemy : Character
 
     protected override void OnDead( Actor _attacker, IHitable _hitable )
     {
-        if ( !ReferenceEquals( coroutine, null ) )
+        if ( coroutine is not null )
         {
             StopCoroutine( coroutine );
         }

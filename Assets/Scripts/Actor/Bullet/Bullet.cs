@@ -59,7 +59,7 @@ public class Bullet : Actor, IHitable
 
     private void OnTriggerEnter2D( Collider2D _other )
     {
-        if ( !IsLocal || !_other.gameObject.activeSelf || ReferenceEquals( owner, null ) )
+        if ( !IsLocal || !_other.gameObject.activeSelf || owner is null )
         {
             return;
         }

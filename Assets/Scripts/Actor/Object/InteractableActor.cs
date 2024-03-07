@@ -97,7 +97,7 @@ public class InteractableActor : DestroyableActor
 
     private IEnumerator UpdatePhysicsShape( float _duration )
     {
-        if ( ReferenceEquals( polygon2D, null ) )
+        if ( polygon2D is null )
         {
             yield break;
         }

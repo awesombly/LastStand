@@ -54,7 +54,7 @@ public class DestroyableActor : Actor
         isDead = true;
         gameObject.layer = Global.Layer.Invincible;
         Rigid2D.excludeLayers = ~( int )Global.LayerFlag.Wall;
-        if ( !ReferenceEquals( _hitable, null ) )
+        if ( _hitable is not null )
         {
             Rigid2D.AddForce( _hitable.GetPushingForce() * 2f );
         }

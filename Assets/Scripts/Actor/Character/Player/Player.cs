@@ -164,7 +164,7 @@ public class Player : Character
             return;
         }
 
-        if ( !ReferenceEquals( EquipWeapon, null )
+        if ( EquipWeapon is not null
             && !EquipWeapon.myStat.swapDelay.IsZero )
         {
             return;
@@ -277,14 +277,14 @@ public class Player : Character
         ++DeathScore;
 
         Player attacker = _attacker as Player;
-        if ( !ReferenceEquals( attacker, null ) )
+        if ( attacker is not null )
         {
             ++attacker.KillScore;
             if ( attacker == GameManager.LocalPlayer )
                  attacker.OnPlayerKill?.Invoke( this );
         }
 
-        Vector3 direction = !ReferenceEquals( _hitable, null ) ? _hitable.GetUpDirection() : Vector3.zero;
+        Vector3 direction = _hitable is not null ? _hitable.GetUpDirection() : Vector3.zero;
         playerAnimator.OnDead( direction );
         GameManager.Inst.PlayerDead( this, _attacker, _hitable );
 

@@ -206,7 +206,7 @@ public class Weapon : MonoBehaviour
         if ( myStat.magazine.IsMax
             || myStat.ammo.IsZero
             || myStat.reloadDelay.Current > 0f
-            || !ReferenceEquals( burstShotCoroutine, null ) )
+            || burstShotCoroutine is not null )
         {
             return;
         }

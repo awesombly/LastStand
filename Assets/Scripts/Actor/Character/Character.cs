@@ -32,7 +32,7 @@ public class Character : Actor
                 {
                     transform.localScale = new Vector3( -1f, 1f, 1f );
                     uiCanvas.transform.localScale = new Vector3( -Mathf.Abs( uiCanvas.transform.localScale.x ), uiCanvas.transform.localScale.y, uiCanvas.transform.localScale.z );
-                    if ( !ReferenceEquals( EquipWeapon, null ) )
+                    if ( EquipWeapon is not null )
                     {
                         EquipWeapon.transform.localScale = new Vector3( -1f, -1f, 1f );
                     }
@@ -41,7 +41,7 @@ public class Character : Actor
                 {
                     transform.localScale = Vector3.one;
                     uiCanvas.transform.localScale = new Vector3( Mathf.Abs( uiCanvas.transform.localScale.x ), uiCanvas.transform.localScale.y, uiCanvas.transform.localScale.z );
-                    if ( !ReferenceEquals( EquipWeapon, null ) )
+                    if ( EquipWeapon is not null )
                     {
                         EquipWeapon.transform.localScale = Vector3.one;
                     }
@@ -62,13 +62,13 @@ public class Character : Actor
             }
 
             Weapon oldWeapon = equipWeapon;
-            if ( !ReferenceEquals( oldWeapon, null ) )
+            if ( oldWeapon is not null )
             {
                 oldWeapon.SetActiveWeapon( false );
             }
 
             equipWeapon = value;
-            if ( !ReferenceEquals( equipWeapon, null ) )
+            if ( equipWeapon is not null )
             {
                 equipWeapon.SetActiveWeapon( true );
             }

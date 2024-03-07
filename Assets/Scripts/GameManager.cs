@@ -62,7 +62,7 @@ public class GameManager : Singleton<GameManager>
     {
         // Update Parameters
         MouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-        if ( !ReferenceEquals( LocalPlayer, null ) )
+        if ( LocalPlayer is not null )
         {
             LookAngle = Global.GetAngle( LocalPlayer.transform.position, MouseWorldPos );
             MouseDirection = ( MouseWorldPos - ( Vector2 )LocalPlayer.transform.position ).normalized;
@@ -71,7 +71,7 @@ public class GameManager : Singleton<GameManager>
         // Update Players
         foreach ( Player player in Players )
         {
-            if ( !ReferenceEquals( player, null ) )
+            if ( player is not null )
             {
                 player.UpdateUI();
             }
@@ -98,13 +98,13 @@ public class GameManager : Singleton<GameManager>
 
     public bool IsHost()
     {
-        if ( !ReferenceEquals( StageInfo, null )
+        if ( StageInfo is not null
             && StageInfo.Value.personnel.current == 1 )
         {
             return true;
         }
 
-        if ( ReferenceEquals( LocalPlayer, null ) || Players.Count <= 0 )
+        if ( LocalPlayer is null || Players.Count <= 0 )
         {
             return false;
         }
@@ -163,7 +163,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         var scene = GetActiveScene( SceneType.InGame_Logic ) as InGameLogicScene;
-        if ( ReferenceEquals( scene, null ) )
+        if ( scene is null )
         {
             Debug.LogError( "InGameLogicScene is null." );
             yield break;
@@ -350,7 +350,7 @@ public class GameManager : Singleton<GameManager>
 
     public void GameOver( Player _winner )
     {
-        if ( !ReferenceEquals( LocalPlayer, null ) )
+        if ( LocalPlayer is not null )
         {
             LocalPlayer.UnmoveableCount++;
         }

@@ -39,7 +39,7 @@ public class PoolManager : Singleton<PoolManager>
 
         curPrefab = prefab;
         Poolable poolable = pools[prefab].Get();
-        if ( ReferenceEquals( poolable, null ) )
+        if ( poolable is null )
         {
             Debug.LogError( $"Invalid prefab. prefab:{prefab}" );
             return null;

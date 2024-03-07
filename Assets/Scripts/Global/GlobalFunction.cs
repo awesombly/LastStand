@@ -142,7 +142,7 @@ namespace WNS
 
         public ObjectPool( T _prefab, Transform _parent )
         {
-            if ( ReferenceEquals( _prefab, null ) )
+            if ( _prefab is null )
             {
                 Debug.LogError( "Prefab is null" );
                 return;
@@ -156,7 +156,7 @@ namespace WNS
         {
             allocate = _allocate;
 
-            if ( ReferenceEquals( _prefab, null ) )
+            if ( _prefab is null )
             {
                 Debug.LogError( "Prefab is null" );
                 return;
@@ -165,7 +165,7 @@ namespace WNS
             prefab = _prefab;
             
             GameObject canvas = GameObject.Find( "Pools" );
-            if ( ReferenceEquals( canvas, null ) )
+            if ( canvas is null )
             {
                 canvas = new GameObject();
                 canvas.transform.localPosition = Vector3.zero;

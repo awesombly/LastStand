@@ -8,14 +8,14 @@ public class EffectSpawner : MonoBehaviour
 {
     protected virtual void SpawnEffect( Poolable _effect, Transform _transform )
     {
-        if ( ReferenceEquals( _effect, null ) )
+        if ( _effect is null )
         {
             return;
         }
 
         Poolable poolable = PoolManager.Inst.Get( _effect );
         var particle = poolable.GetComponent<ParticleSystem>();
-        if ( ReferenceEquals( particle, null ) )
+        if ( particle is null )
         {
             return;
         }

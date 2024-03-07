@@ -87,7 +87,7 @@ public class PlayerRespawnUI : MonoBehaviour
 
     private void OnPlayerDead( Player _attacker )
     {
-        if ( !ReferenceEquals( _attacker, null ) )
+        if ( _attacker is not null )
         {
             attackerName.text = _attacker.Nickname;
         }

@@ -7,12 +7,12 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         get
         {
-            if ( ReferenceEquals( null, instance ) )
+            if ( instance is null )
             {
                 T[] objs = FindObjectsOfType<T>();
                 if ( objs.Length > 1 ) Debug.LogError( string.Format( "create multiple singleton objects. #Name : {0}", typeof( T ) ) );
                 if ( objs.Length > 0 ) instance = objs[0];
-                if ( ReferenceEquals( null, instance ) )
+                if ( instance is null )
                 {
                     GameObject obj = new GameObject( typeof( T ).Name );
                     instance = obj.AddComponent<T>();
