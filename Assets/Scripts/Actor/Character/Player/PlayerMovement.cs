@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         public Vector2 direction;
     }
     [SerializeField]
-    private DodgeInfo dodgeInfo;
+    public DodgeInfo dodgeInfo;
     public event Action<bool, Vector2/*direction*/, float/*duration*/> OnDodgeAction;
 
     #region Components

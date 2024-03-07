@@ -194,7 +194,6 @@ public class Player : Character
     private IEnumerator UpdateInvincible( float _time )
     {
         int originLayer = gameObject.layer;
-        SpriteRenderer spriter = gameObject.GetComponent<SpriteRenderer>();
 
         playerAnimator.SetReviveAction( true );
         ++UnactionableCount;
@@ -203,10 +202,10 @@ public class Player : Character
         {
             _time -= Time.deltaTime;
             float alpha = Mathf.Max( .4f, .4f + ( 2f - _time ) * .2f );
-            spriter.color = new Color( 1f, 1f, 1f, alpha );
+            Spriter.color = new Color( 1f, 1f, 1f, alpha );
             yield return YieldCache.WaitForEndOfFrame;
         }
-        spriter.color = Color.white;
+        Spriter.color = Color.white;
         gameObject.layer = originLayer;
     }
 

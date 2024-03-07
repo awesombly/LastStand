@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,17 @@ public class PlayerSO : ScriptableObject
     public Sprite handSprite;
     public RuntimeAnimatorController playerAC;
 
+    [Serializable]
+    public struct DodgeInfo
+    {
+        public Poolable actionEffect;
+        public Poolable hitEffect;
+
+        public Poolable afeterImage;
+        public float afterImageDuration;
+    }
     [Header( "< Effect >" )]
-    public Poolable dodgeActionEffect;
-    public Poolable dodgeHitEffect;
+    public DodgeInfo dodge;
 
     [Header( "< Sound >" )]
     public AudioClip dodgeActionSound;

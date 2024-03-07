@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ public class EffectSpawner : MonoBehaviour
 
 public class PlayerEffect : EffectSpawner
 {
+    private Sprite curDodgeSprite = null;
+
     private Player player;
 
     private void Awake()
@@ -33,6 +36,7 @@ public class PlayerEffect : EffectSpawner
 
         var movement = GetComponent<PlayerMovement>();
         movement.OnDodgeAction += OnDodgeAction;
+        movement.dodgeInfo.duration.OnChangeCurrent += OnChangeDodgeDuration;
 
         player.DodgeAttack.OnHitEvent += OnDodgeHit;
     }
@@ -41,12 +45,31 @@ public class PlayerEffect : EffectSpawner
     {
         if ( _isActive )
         {
-            SpawnEffect( player.playerData.dodgeActionEffect, player.transform );
+            SpawnEffect( player.playerData.dodge.actionEffect, player.transform );
         }
     }
 
     private void OnDodgeHit( Player _attacker, Actor _defender )
     {
-        SpawnEffect( player.playerData.dodgeHitEffect, _defender.transform );
+        SpawnEffect( player.playerData.dodge.hitEffect, _defender.transform );
+    }
+
+    private void OnChangeDodgeDuration( float _old, float _new, float _max )
+    {
+        if ( !ReferenceEquals( curDodgeSprite, player.Spriter.sprite ) )
+        {
+            curDodgeSprite = player.Spriter.sprite;
+            Poolable afterImage = PoolManager.Inst.Get( player.playerData.dodge.afeterImage );
+            afterImage.transform.position = transform.position;
+
+            Color originColor = afterImage.Spriter.color;
+            afterImage.Spriter.sprite = curDodgeSprite;
+            afterImage.Spriter.DOFade( 0.5f, player.playerData.dodge.afterImageDuration )
+                .onComplete = () => 
+                {
+                    afterImage.Spriter.color = originColor;
+                    afterImage.Release(); 
+                };
+        }
     }
 }

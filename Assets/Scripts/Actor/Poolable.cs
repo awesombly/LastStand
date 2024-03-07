@@ -8,6 +8,13 @@ public class Poolable : MonoBehaviour
     public int PrefabIndex { get; set; } = -1;
     private IObjectPool<Poolable> parentPool = null;
 
+    public SpriteRenderer Spriter { get; private set; } = null;
+
+    protected virtual void Awake()
+    {
+        Spriter = GetComponent<SpriteRenderer>();
+    }
+
     private void OnParticleSystemStopped()
     {
         Release();

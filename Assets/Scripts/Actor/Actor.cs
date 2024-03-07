@@ -42,8 +42,9 @@ public class Actor : Poolable
     public Rigidbody2D Rigid2D { get; private set; }
 
     #region Unity Callback
-    protected virtual void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Rigid2D = GetComponent<Rigidbody2D>();
         MyHashCode = name.GetHashCode();
         PenetrationResist = 1;

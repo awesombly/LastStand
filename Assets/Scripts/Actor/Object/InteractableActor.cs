@@ -109,7 +109,7 @@ public class InteractableActor : DestroyableActor
             yield return YieldCache.WaitForEndOfFrame;
 
             List<Vector2> lists = new List<Vector2>();
-            spriter.sprite.GetPhysicsShape( 0, lists );
+            Spriter.sprite.GetPhysicsShape( 0, lists );
             polygon2D.SetPath( 0, lists );
         }
     }

@@ -10,7 +10,6 @@ public class Enemy : Character
 
     private Rigidbody2D rigid;
     private Rigidbody2D target;
-    private SpriteRenderer rdr;
 
     private readonly float EnemyAttackDelay = 1f;
     private float attackRange;
@@ -23,7 +22,6 @@ public class Enemy : Character
     protected override void Awake()
     {
         base.Awake();
-        rdr    = GetComponent<SpriteRenderer>();
         rigid  = GetComponent<Rigidbody2D>();
         target = GameManager.LocalPlayer.GetComponent<Rigidbody2D>();
     }
@@ -59,7 +57,7 @@ public class Enemy : Character
         {
             yield return null;
 
-            rdr.flipX = ( target.position.x - rigid.position.x ) < 0;
+            Spriter.flipX = ( target.position.x - rigid.position.x ) < 0;
 
             var distance = Vector2.Distance( target.position, rigid.position );
             if ( distance <= attackRange )
@@ -79,7 +77,7 @@ public class Enemy : Character
         {
             yield return null;
 
-            rdr.flipX = ( target.position.x - rigid.position.x ) < 0;
+            Spriter.flipX = ( target.position.x - rigid.position.x ) < 0;
             var distance = Vector2.Distance( target.position, rigid.position );
             if ( distance > attackRange )
             {

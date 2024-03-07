@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   handSprite: {fileID: -764454748, guid: 9daa5e6166ae6dd4893d081a9343a760, type: 3}
   playerAC: {fileID: 22100000, guid: a6e377d813f5b284f99dd49840aa7330, type: 2}
-  dodgeActionEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
-  dodgeHitEffect: {fileID: 9222338147210068352, guid: eb67646278733d84aa3c4239011f7145, type: 3}
+  dodge:
+    actionEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
+    hitEffect: {fileID: 9222338147210068352, guid: eb67646278733d84aa3c4239011f7145, type: 3}
+    afeterImage: {fileID: 4426623017737111305, guid: 973cb38dcf29b1f44965d7f1cf4b47e8, type: 3}
+    afterImageDuration: 2
   dodgeActionSound: {fileID: 8300000, guid: 14f24de2a9a70154e96297de25e2184c, type: 3}
   dodgeHitSound: {fileID: 8300000, guid: 6f0c572d865b4664db7a460972bc4768, type: 3}
