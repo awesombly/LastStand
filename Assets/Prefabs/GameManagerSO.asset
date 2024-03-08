@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   respawnDelay: 5
   respawnInvincibleTime: 3
-  playerPrefab: {fileID: 2518964481862004779, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
+  playerPrefab: {fileID: 2518964481862004779, guid: 3126fcbe84c11554f9c71784251033f3, type: 3}
   pilotSO: {fileID: 11400000, guid: 71336f44ad3e9f946a51706573167632, type: 2}
   hunterSO: {fileID: 11400000, guid: 2f9a43d7208e2f84f8e97fefae4ec0cd, type: 2}
   convictSO: {fileID: 11400000, guid: 0d5efc25da5c22c498d995576c97308a, type: 2}
   prefabList:
-  - {fileID: 2518964481862004779, guid: 7f02a854ed9a9644d8192993a75506b5, type: 3}
+  - {fileID: 2518964481862004779, guid: 3126fcbe84c11554f9c71784251033f3, type: 3}
   - {fileID: 610666648289893438, guid: 2162c34e08d1f424793d3cd0dc0b8141, type: 3}
   - {fileID: 4426623017737111305, guid: 973cb38dcf29b1f44965d7f1cf4b47e8, type: 3}
   - {fileID: 3801318815780965352, guid: 76c7fe3a5bcf0b342afd492467305667, type: 3}
