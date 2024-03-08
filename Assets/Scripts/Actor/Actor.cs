@@ -46,7 +46,7 @@ public class Actor : Poolable
     {
         base.Awake();
         Rigid2D = GetComponent<Rigidbody2D>();
-        MyHashCode = name.GetHashCode();
+        MyHashCode = ( transform.GetSiblingIndex() + name ).GetHashCode();
         PenetrationResist = 1;
     }
 

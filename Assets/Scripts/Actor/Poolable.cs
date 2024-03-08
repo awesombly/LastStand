@@ -15,7 +15,7 @@ public class Poolable : MonoBehaviour
         Spriter = GetComponent<SpriteRenderer>();
     }
 
-    private void OnParticleSystemStopped()
+    protected virtual void OnParticleSystemStopped()
     {
         Release();
     }

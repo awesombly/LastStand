@@ -188,9 +188,13 @@ public class InGameLogicScene : SceneBase
             bullet?.Fire( data, data.bullets[i] );
         }
 
+        if ( data.isExplode )
+        {
+            return;
+        }
+
         Character owner = GameManager.Inst.GetActor( data.owner ) as Character;
-        if ( owner is not null
-            && owner.EquipWeapon is not null )
+        if ( owner is not null && owner.EquipWeapon is not null )
         {
             if ( !owner.IsLocal )
             {

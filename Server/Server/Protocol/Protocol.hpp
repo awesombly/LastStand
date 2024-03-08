@@ -376,6 +376,7 @@ typedef struct BulletShotInfo
 public:
 	int prefab;
 	bool isLocal;
+	bool isExplode;
 	SerialType owner;
 	VECTOR2 pos;
 	float look;
@@ -388,6 +389,7 @@ public:
 	{
 		ar( CEREAL_NVP( prefab ) );
 		ar( CEREAL_NVP( isLocal ) );
+		ar( CEREAL_NVP( isExplode ) );
 		ar( CEREAL_NVP( owner ) );
 		ar( CEREAL_NVP( pos ) );
 		ar( CEREAL_NVP( look ) );

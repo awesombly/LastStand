@@ -109,6 +109,7 @@ public class Weapon : MonoBehaviour
         curLookAngle = transform.rotation.eulerAngles.z;
     }
 
+    #region Fire
     public void InvokeOnFire()
     {
         OnFireEvent?.Invoke( this );
@@ -166,17 +167,18 @@ public class Weapon : MonoBehaviour
 
         BULLET_SHOT_INFO protocol;
         protocol.isLocal = false;
+        protocol.isExplode = false;
         protocol.prefab = GameManager.Inst.GetPrefabIndex( data.bulletPrefab );
         protocol.pos = new VECTOR2( shotPoint.position );
         protocol.look = GameManager.LookAngle;
         protocol.owner = owner.Serial;
         protocol.damage = owner.data.attackRate * data.bulletPrefab.data.damage;
-        protocol.hp = data.bulletPrefab.data.penetratePower * 20f;
+        protocol.hp = data.bulletPrefab.GetInitHp();
         protocol.bullets = new List<BULLET_INFO>();
 
         for ( int i = 0; i < data.shotInfo.bulletPerShot; ++i )
         {
-            var bullet = new BULLET_INFO();
+            BULLET_INFO bullet;
             bullet.angle = GetRandomRange( angle, data.shotInfo.spreadAngle );
             bullet.angle = MathF.Round( bullet.angle, Global.RoundDigit );
             bullet.serial = 0;
@@ -200,7 +202,9 @@ public class Weapon : MonoBehaviour
             TryFire();
         }
     }
+    #endregion
 
+    #region Reload
     private void TryReload()
     {
         if ( myStat.magazine.IsMax
@@ -229,4 +233,5 @@ public class Weapon : MonoBehaviour
             myStat.ammo.Current -= ( myStat.magazine.Current - oldMag );
         }
     }
+    #endregion
 }

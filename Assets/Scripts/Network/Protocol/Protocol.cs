@@ -208,11 +208,12 @@ public struct BULLET_SHOT_INFO : IProtocol
 {
     public int prefab;
     public bool isLocal;
+    public bool isExplode;
     public uint owner;
     public VECTOR2 pos;
     public float look;
     public float damage;
-    public float hp;
+    public float hp;    // ¼­¹ö¿ë
     public List<BULLET_INFO> bullets;
 }
 

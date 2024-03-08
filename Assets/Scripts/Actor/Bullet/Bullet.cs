@@ -38,7 +38,7 @@ public class Bullet : Actor, IHitable
     {
         base.Awake();
         penetrateCount.Max = data.penetratePower;
-        Hp.Max = penetrateCount.Max * 20f;  // Bullet끼리 충돌했을 때 사용
+        Hp.Max = GetInitHp();  // Bullet끼리 충돌했을 때 사용
     }
 
     private void Update()
@@ -88,9 +88,15 @@ public class Bullet : Actor, IHitable
 
         HitTarget( defender, SyncType.LocalFirst );
     }
+
+    protected override void OnParticleSystemStopped()
+    {
+        GameManager.Inst.PushRemoveActorToSend( Serial );
+        Rigid2D.simulated = false;
+    }
     #endregion
 
-    public void Fire( BULLET_SHOT_INFO _shotInfo, BULLET_INFO _bulletInfo )
+    public void Fire( in BULLET_SHOT_INFO _shotInfo, BULLET_INFO _bulletInfo )
     {
         IsLocal = _shotInfo.isLocal;
         Serial = _bulletInfo.serial;
@@ -121,6 +127,11 @@ public class Bullet : Actor, IHitable
         OnFireEvent?.Invoke( this );
     }
     
+    public float GetInitHp()
+    {
+        return data.penetratePower * 20f;
+    }
+
     #region Implement IHitable
     public void HitTarget( Actor _defender, SyncType _syncType, float _serverHp = 0f )
     {

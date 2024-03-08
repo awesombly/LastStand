@@ -140,6 +140,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 1246109208, guid: f3883d8742fa4a54e9800c27d00c8ff7, type: 3}
+    - target: {fileID: 3582460777480089616, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: m_Color.b
+      value: 0.14173192
+      objectReference: {fileID: 0}
+    - target: {fileID: 3582460777480089616, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: m_Color.g
+      value: 0.14173192
+      objectReference: {fileID: 0}
+    - target: {fileID: 3582460777480089616, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: m_Color.r
+      value: 0.8584906
+      objectReference: {fileID: 0}
     - target: {fileID: 6044429545338188396, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: m_Name
       value: Barrel_Kickable_Golden
@@ -149,6 +161,10 @@ PrefabInstance:
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadObject
+      value: 
+      objectReference: {fileID: 5045623913936631130, guid: eed8689a548a5f34e826e279fca9a483, type: 3}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: useLookAngle
       value: 1
       objectReference: {fileID: 0}
@@ -157,8 +173,24 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 840653536579177666}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DeadExplode
       objectReference: {fileID: 0}
     - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -177,8 +209,16 @@ PrefabInstance:
       value: UpdateMouseAngle
       objectReference: {fileID: 0}
     - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DestroyableActor, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: InteractableActor, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: interactionEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

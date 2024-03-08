@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DestroyableActor : Actor
 {
@@ -10,6 +12,10 @@ public class DestroyableActor : Actor
     private float deadDuration;
     [SerializeField]
     private int penetrationResist;
+    [SerializeField]
+    private Bullet deadObject;
+    [SerializeField]
+    private UnityEvent<Actor/*attacker*/> deadEvent;
 
     private bool isDead;
     private bool prevIsSleep = true;
@@ -58,9 +64,11 @@ public class DestroyableActor : Actor
         {
             Rigid2D.AddForce( _hitable.GetPushingForce() * 2f );
         }
+
         Spriter.sortingOrder = -2;
         animator.SetBool( AnimatorParameters.IsDestroy, true );
         StartCoroutine( RemoveDead( deadDuration ) );
+        deadEvent?.Invoke( _attacker );
     }
 
     private IEnumerator RemoveDead( float _duration )
@@ -73,6 +81,35 @@ public class DestroyableActor : Actor
         yield return YieldCache.WaitForSeconds( _duration );
         Release();
     }
+
+    #region DeadEvents
+    public void DeadExplode( Actor _attacker )
+    {
+        if ( _attacker is null || !_attacker.IsLocal )
+        {
+            return;
+        }
+
+        BULLET_SHOT_INFO protocol;
+        protocol.isLocal = false;
+        protocol.isExplode = true;
+        protocol.prefab = GameManager.Inst.GetPrefabIndex( deadObject );
+        protocol.pos = new VECTOR2( transform.position );
+        protocol.look = 0f;
+        protocol.owner = _attacker.Serial;
+        protocol.damage = deadObject.data.damage;
+        protocol.hp = deadObject.GetInitHp();
+        protocol.bullets = new List<BULLET_INFO>();
+
+        float angle = Global.GetAngle( _attacker.transform.position, transform.position );
+        BULLET_INFO bulletInfo;
+        bulletInfo.angle = angle;
+        bulletInfo.serial = 0;
+        bulletInfo.rate = 1f;
+        protocol.bullets.Add( bulletInfo );
+        Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
+    }
+    #endregion
 }
 
 public static partial class AnimatorParameters
