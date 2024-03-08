@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 using static PacketType;
 public class LoginSystem : MonoBehaviour
 {
@@ -49,7 +50,7 @@ public class LoginSystem : MonoBehaviour
 
             // 저장된 ini 정보 읽기
             if ( bool.TryParse( Config.Inst.Read( ConfigType.isRemember ), out bool isRemember ) ) remember.isOn = isRemember;
-            else                                                                                    RememberLoginInfo( remember.isOn );
+            else                                                                                   RememberLoginInfo( remember.isOn );
 
             if ( remember.isOn )
             {
