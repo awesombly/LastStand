@@ -32,7 +32,7 @@ public sealed class AudioManager : Singleton<AudioManager>
 
         public bool TryGetClip<T>( out AudioClip _clip, T _type ) where T : System.Enum
         {
-            if ( !datas.ContainsKey( _type ) || datas[_type] is null )
+            if ( !datas.ContainsKey( _type ) || datas[_type] == null )
             {
                 Debug.LogWarning( $"Could not import {_type}" );
                 _clip = null;
@@ -45,7 +45,7 @@ public sealed class AudioManager : Singleton<AudioManager>
 
         public void Add<T>( T _type, AudioClip _clip ) where T : System.Enum
         {
-            if ( datas.ContainsKey( _type ) || _clip is null )
+            if ( datas.ContainsKey( _type ) || _clip == null )
             {
                 Debug.LogWarning( $"Unable to register {_type}" );
                 return;
@@ -158,7 +158,7 @@ public sealed class AudioManager : Singleton<AudioManager>
 
     public void Play( AudioClip _clip, float _volume = 1f )
     {
-        if ( _clip is not null )
+        if ( _clip != null )
         {
             AudioChannel channel = GetChannel( _clip, MixerType.SFX, _volume, false );
             channel.Play();
@@ -167,7 +167,7 @@ public sealed class AudioManager : Singleton<AudioManager>
 
     public void Play( AudioClip _clip, Vector3 _pos, float _volume = 1f )
     {
-        if ( _clip is not null )
+        if ( _clip != null )
         {
             AudioChannel channel = GetChannel( _clip, MixerType.SFX, _volume, false );
             channel.transform.position = _pos;
