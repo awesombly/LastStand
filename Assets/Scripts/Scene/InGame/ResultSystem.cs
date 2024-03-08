@@ -45,7 +45,13 @@ public class ResultSystem : MonoBehaviour
         winner           = _winner;
 
         if ( GameManager.UserInfo is not null )
-             prevInfo = GameManager.UserInfo.Value;
+        {
+            prevInfo = GameManager.UserInfo.Value;
+
+            level.text      = $"{prevInfo.level}";
+            expSlider.value = prevInfo.exp / Global.GetTotalEXP( prevInfo.level );
+            exp.text        = $"( {Mathf.RoundToInt( expSlider.value * 100f )}% )";
+        }
 
         if ( GameManager.LoginInfo is not null )
         {
@@ -77,14 +83,6 @@ public class ResultSystem : MonoBehaviour
         }
 
         layoutGroup.UpdateLayoutGroup();
-
-        if ( GameManager.UserInfo is not null )
-        {
-            var userInfo = GameManager.UserInfo.Value;
-            level.text = $"{userInfo.level}";
-            expSlider.value = userInfo.exp / Global.GetTotalEXP( userInfo.level );
-            exp.text = $"( {Mathf.RoundToInt( expSlider.value * 100f )}% )";
-        }
 
         canvasGroup.alpha = 0f;
         canvasGroup.DOFade( 1f, FadeTime ).OnComplete( () => StartCoroutine( SmoothLevelUp( prevInfo, curInfo ) ) );
