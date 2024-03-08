@@ -284,14 +284,16 @@ public class InGameLogicScene : SceneBase
 
     private void AckSyncInteraction( Packet _packet )
     {
-        var data = Global.FromJson<LOOK_INFO>( _packet );
-        InteractableActor actor = GameManager.Inst.GetActor( data.serial ) as InteractableActor;
-        if ( actor is null )
+        var data = Global.FromJson<INTERACTION_INFO>( _packet );
+        InteractableActor target = GameManager.Inst.GetActor( data.target ) as InteractableActor;
+        if ( target is null )
         {
-            Debug.LogWarning( "Actor is null. serial:" + data.serial );
+            Debug.LogWarning( "Target is null. serial:" + data.serial );
             return;
         }
-        actor.InteractionAction( data.angle );
+        Player player = GameManager.Inst.FindPlayer( data.serial );
+        target.transform.position = data.pos.To();
+        target.InteractionAction( data.angle, player );
     }
 
     private void AckHitActors( Packet _packet )
@@ -369,7 +371,7 @@ public class InGameLogicScene : SceneBase
             actor.SetHp( actorInfo.hp, null, null, SyncType.FromServer );
             if ( actor is InteractableActor interactable && !actor.Hp.IsZero )
             {
-                interactable.InteractionAction( actorInfo.inter, true );
+                interactable.InteractionAction( actorInfo.inter, null, true );
             }
         }
     }

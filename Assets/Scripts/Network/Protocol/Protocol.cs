@@ -246,6 +246,14 @@ public struct DODGE_INFO : IProtocol
     public VECTOR2 dir;
     public float dur;
 }
+
+public struct INTERACTION_INFO : IProtocol
+{
+    public uint serial;
+    public uint target;
+    public float angle;
+    public VECTOR2 pos;
+}
 #endregion
 
 public struct CHAT_MESSAGE : IProtocol

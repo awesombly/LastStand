@@ -462,6 +462,23 @@ public:
 		ar( CEREAL_NVP( dur ) );
 	}
 } DODGE_INFO;
+typedef struct InteractionInfo
+{
+public:
+	SerialType serial;
+	SerialType target;
+	float angle;
+	Vector2 pos;
+
+	template <class Archive>
+	void serialize( Archive& ar )
+	{
+		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( target ) );
+		ar( CEREAL_NVP( angle ) );
+		ar( CEREAL_NVP( pos ) );
+	}
+} INTERACTION_INFO;
 #pragma endregion
 
 typedef struct ChatMessage

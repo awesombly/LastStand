@@ -261,21 +261,22 @@ void InGame::AckSyncSwapWeapon( const Packet& _packet )
 
 void InGame::AckSyncInteraction( const Packet& _packet )
 {
-	const LOOK_INFO& data = FromJson<LOOK_INFO>( _packet );
+	const INTERACTION_INFO& data = FromJson<INTERACTION_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
 		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
-	ActorInfo* actor = _packet.session->stage->GetActor( data.serial );
-	if ( actor == nullptr )
+	ActorInfo* target = _packet.session->stage->GetActor( data.target );
+	if ( target == nullptr )
 	{
-		Debug.LogError( "Actor is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		Debug.LogError( "Actor is null. serial:", data.target, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
-	actor->inter = data.angle;
+	target->inter = data.angle;
+	target->pos = data.pos;
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_INTERACTION_ACK, data ) );
 }
 

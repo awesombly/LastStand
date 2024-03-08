@@ -45,7 +45,7 @@ public class InteractableActor : DestroyableActor
         outlineRenderer.sprite = Spriter.sprite;
     }
 
-    public void InteractionAction( float _angle, bool _isInit = false )
+    public void InteractionAction( float _angle, Player _player, bool _isInit = false )
     {
         // InGame 입장때 Interaction 여부 구별용도
         if ( _angle == 0f )
@@ -53,6 +53,12 @@ public class InteractableActor : DestroyableActor
             return;
         }
         interactionEvent?.Invoke( _angle, _isInit );
+
+        if ( _player is not null )
+        {
+            ++_player.UnactionableCount;
+            _player.OnInteractionAction?.Invoke( _angle );
+        }
     }
 
     public void TryInteraction( Player _player, float _angle )
@@ -61,14 +67,14 @@ public class InteractableActor : DestroyableActor
         {
             return;
         }
-
-
-        InteractionAction( _angle );
+        InteractionAction( _angle, _player );
 
         // Req Protocol
-        LOOK_INFO protocol;
-        protocol.serial = Serial;
+        INTERACTION_INFO protocol;
+        protocol.serial = _player.Serial;
+        protocol.target = Serial;
         protocol.angle = _angle;
+        protocol.pos = new VECTOR2( transform.position );
         Network.Inst.Send( PacketType.SYNC_INTERACTION_REQ, protocol );
     }
 
