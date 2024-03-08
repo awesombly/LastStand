@@ -34,9 +34,9 @@ void Lobby::AckCreateStage( const Packet& _packet )
 
 void Lobby::AckEntryStage( const Packet& _packet )
 {
+	Session* session       = _packet.session;
 	try
 	{
-		Session* session       = _packet.session;
 		const STAGE_INFO& data = FromJson<STAGE_INFO>( _packet );
 
 		Stage* stage = StageManager::Inst().Find( data.serial );
@@ -45,9 +45,9 @@ void Lobby::AckEntryStage( const Packet& _packet )
 		session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
 		SessionManager::Inst().BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
 	}
-	catch ( Result )
+	catch ( Result _error )
 	{
-		
+		session->Send( UPacket( _error, ENTRY_STAGE_ACK ) );
 	}
 }
 

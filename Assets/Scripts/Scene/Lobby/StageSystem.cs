@@ -122,10 +122,21 @@ public class StageSystem : MonoBehaviour
     #region Response Protocols
     private void AckEntryStage( Packet _packet )
     {
-        AudioManager.Inst.Play( SFX.MouseClick );
-        GameManager.StageInfo = Global.FromJson<STAGE_INFO>( _packet );
-        scene.LoadScene( SceneType.InGame_UI );
-        scene.LoadScene( SceneType.InGame_Logic, LoadSceneMode.Additive );
+        switch ( _packet.result )
+        {
+            case Result.OK:
+            {
+                GameManager.StageInfo = Global.FromJson<STAGE_INFO>( _packet );
+                scene.LoadScene( SceneType.InGame_UI );
+                scene.LoadScene( SceneType.InGame_Logic, LoadSceneMode.Additive );
+                AudioManager.Inst.Play( SFX.MouseClick );
+            } break;
+
+            default:
+            {
+                SceneBase.IsLock = false;
+            } break;
+        }
     }
 
     private void AckUpdateStageInfo( Packet _packet )
