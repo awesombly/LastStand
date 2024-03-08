@@ -479,10 +479,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8435572756180317070}
   - component: {fileID: 335204842324141559}
+  - component: {fileID: 5586128223038743478}
   - component: {fileID: 5598022193996622589}
   - component: {fileID: 3379560767883121578}
   - component: {fileID: 6763503459492760473}
-  - component: {fileID: 5418516870949259578}
   m_Layer: 5
   m_Name: Stage Button
   m_TagString: Untagged
@@ -519,6 +519,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4888042951248655769}
   m_CullTransparentMesh: 1
+--- !u!114 &5586128223038743478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4888042951248655769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669e8fe23138e6c40b9dac3365bb108e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiplier: 1.15
+  duration: 0.25
 --- !u!114 &5598022193996622589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,51 +635,6 @@ MonoBehaviour:
   curPersonnel: {fileID: 5465971324969061607}
   maxPersonnel: {fileID: 7608674659581998759}
   targetKill: {fileID: 9007933576813389066}
---- !u!114 &5418516870949259578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4888042951248655769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6763503459492760473}
-          m_TargetAssemblyTypeName: Stage, Assembly-CSharp
-          m_MethodName: OnPointerEnter
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-  - eventID: 1
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 6763503459492760473}
-          m_TargetAssemblyTypeName: Stage, Assembly-CSharp
-          m_MethodName: OnPointerExit
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!1 &6430950330916288435
 GameObject:
   m_ObjectHideFlags: 0

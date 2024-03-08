@@ -14,13 +14,6 @@ public class Stage : MonoBehaviour
 
     public STAGE_INFO info;
 
-    private RectTransform rt;
-
-    private void Awake()
-    {
-        rt = transform as RectTransform;
-    }
-
     public void Initialize( STAGE_INFO _info )
     {
         info = _info;
@@ -39,16 +32,5 @@ public class Stage : MonoBehaviour
 
         SceneBase.IsLock = true;
         Network.Inst.Send( new Packet( ENTRY_STAGE_REQ, info ) );
-    }
-
-    public void OnPointerEnter()
-    {
-        AudioManager.Inst.Play( SFX.MenuHover );
-        rt.DOSizeDelta( new Vector2( 775f, 125f ), .35f );
-    }
-
-    public void OnPointerExit()
-    {
-        rt.DOSizeDelta( new Vector2( 725f, 100f ), .35f );
     }
 }
