@@ -9523,7 +9523,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Hunter_459
+      name: Hunter_Kick_Front0
       rect:
         serializedVersion: 2
         x: 99
@@ -9544,13 +9544,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Hunter_460
+      name: Hunter_Kick_Front1
       rect:
         serializedVersion: 2
         x: 115
         y: 391
         width: 14
-        height: 20
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -10636,13 +10636,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Hunter_512
+      name: Hunter_Kick_Right0
       rect:
         serializedVersion: 2
         x: 99
         y: 363
         width: 13
-        height: 21
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -10657,13 +10657,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Hunter_513
+      name: Hunter_Kick_Right1
       rect:
         serializedVersion: 2
         x: 114
         y: 363
         width: 14
-        height: 20
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -11371,13 +11371,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Hunter_547
+      name: Hunter_Kick_Back0
       rect:
         serializedVersion: 2
         x: 99
-        y: 337
+        y: 336
         width: 13
-        height: 20
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -11392,13 +11392,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Hunter_548
+      name: Hunter_Kick_Back1
       rect:
         serializedVersion: 2
         x: 114
-        y: 337
+        y: 336
         width: 14
-        height: 18
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -18717,6 +18717,12 @@ TextureImporter:
       Hunter_Idle_Right1: 1208251468
       Hunter_Idle_Right2: 1570964093
       Hunter_Idle_Right3: -204381696
+      Hunter_Kick_Back0: 11557464
+      Hunter_Kick_Back1: -1419662721
+      Hunter_Kick_Front0: -49523395
+      Hunter_Kick_Front1: -999170104
+      Hunter_Kick_Right0: 505178791
+      Hunter_Kick_Right1: -1000575766
       Hunter_Respawn0: 298862753
       Hunter_Revive0: 891514694
       Hunter_Revive1: -1502273511
@@ -19085,9 +19091,7 @@ TextureImporter:
       The Hunter_456: -446169349
       The Hunter_457: 853547139
       The Hunter_458: -1752919650
-      The Hunter_459: -49523395
       The Hunter_46: 894220582
-      The Hunter_460: -999170104
       The Hunter_461: 1174356473
       The Hunter_462: -1421911991
       The Hunter_463: 547612130
@@ -19144,8 +19148,6 @@ TextureImporter:
       The Hunter_509: 873544760
       The Hunter_510: -1910618263
       The Hunter_511: 1281270913
-      The Hunter_512: 505178791
-      The Hunter_513: -1000575766
       The Hunter_514: 1900460372
       The Hunter_515: 1800794268
       The Hunter_516: 843957368
@@ -19179,8 +19181,6 @@ TextureImporter:
       The Hunter_544: -931284601
       The Hunter_545: -1161675766
       The Hunter_546: 1047176655
-      The Hunter_547: 11557464
-      The Hunter_548: -1419662721
       The Hunter_549: 850057687
       The Hunter_55: -1112531542
       The Hunter_550: 1077863763

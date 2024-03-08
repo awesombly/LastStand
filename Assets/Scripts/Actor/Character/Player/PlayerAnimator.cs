@@ -31,6 +31,7 @@ public class PlayerAnimator : MonoBehaviour
 
         player.OnChangePlayerType += OnChangePlayerType;
         player.OnChangeEquipWeapon += OnChangeEquipWeapon;
+        player.OnInteractionAction += OnInteractionAction;
         movement.OnDodgeAction += OnDodgeAction;
 
         handLeftPosition = handLeft.transform.localPosition;
@@ -93,11 +94,6 @@ public class PlayerAnimator : MonoBehaviour
     public void SetDanceAction( bool _isActive )
     {
         animator.SetTrigger( AnimatorParameters.DanceAction );
-    }
-
-    private void OnEndAnimation()
-    {
-        --player.UnactionableCount;
     }
 
     private LookDirection GetAnimatorDirection( float angle )
@@ -186,6 +182,13 @@ public class PlayerAnimator : MonoBehaviour
             .OnKill( () => fireSequence = null );
     }
 
+    private void OnInteractionAction( float _angle )
+    {
+        player.ApplyLookAngle( _angle );
+        animator.SetInteger( AnimatorParameters.ActionDirection, ( int )GetAnimatorDirection( _angle ) );
+        animator.SetTrigger( AnimatorParameters.KickAction );
+    }
+
     public void OnDead( Vector2 _direction )
     {
         Poolable poolable = PoolManager.Inst.Get( deadPrefab );
@@ -228,4 +231,5 @@ public static partial class AnimatorParameters
     public static int DeathAction = Animator.StringToHash( "DeathAction" );
     public static int DanceAction = Animator.StringToHash( "DanceAction" );
     public static int DefeatAction = Animator.StringToHash( "DefeatAction" );
+    public static int KickAction = Animator.StringToHash( "KickAction" );
 }

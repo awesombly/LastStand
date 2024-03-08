@@ -112,6 +112,7 @@ public class Player : Character
     #endregion
 
     public event Action<PlayerType> OnChangePlayerType;
+    public event Action<float/*angle*/> OnInteractionAction;
 
     #region Unity Callback
     protected override void Awake()
@@ -280,7 +281,13 @@ public class Player : Character
 
     private void Interaction()
     {
-        nearestInteractable?.TryInteraction( this, interactableAngle );
+        if ( nearestInteractable is null || UnactionableCount > 0 )
+        {
+            return;
+        }
+        ++UnactionableCount;
+        nearestInteractable.TryInteraction( this, interactableAngle );
+        OnInteractionAction?.Invoke( interactableAngle );
     }
 
     protected override void OnDead( Actor _attacker, IHitable _hitable )

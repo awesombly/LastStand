@@ -13492,7 +13492,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_636
+      name: Convict_Kick_Front0
       rect:
         serializedVersion: 2
         x: 104
@@ -13513,13 +13513,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_637
+      name: Convict_Kick_Front1
       rect:
         serializedVersion: 2
         x: 122
         y: 405
         width: 16
-        height: 18
+        height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -13933,7 +13933,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_657
+      name: Convict_Kick_Right0
       rect:
         serializedVersion: 2
         x: 104
@@ -13954,13 +13954,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_658
+      name: Convict_Kick_Right2
       rect:
         serializedVersion: 2
         x: 136
         y: 378
         width: 17
-        height: 20
+        height: 21
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -13975,7 +13975,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_659
+      name: Convict_Kick_Right3
       rect:
         serializedVersion: 2
         x: 155
@@ -14374,13 +14374,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_678
+      name: Convict_Kick_Right1
       rect:
         serializedVersion: 2
         x: 120
         y: 378
         width: 14
-        height: 18
+        height: 21
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -14773,7 +14773,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_697
+      name: Convict_Kick_Back0
       rect:
         serializedVersion: 2
         x: 104
@@ -14794,13 +14794,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: The Convict_698
+      name: Convict_Kick_Back1
       rect:
         serializedVersion: 2
         x: 122
         y: 353
         width: 15
-        height: 17
+        height: 19
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -23812,6 +23812,14 @@ TextureImporter:
       Convict_Idle_Right1: -366382291
       Convict_Idle_Right2: -2080307198
       Convict_Idle_Right3: -387027113
+      Convict_Kick_Back0: -907831639
+      Convict_Kick_Back1: -1175822500
+      Convict_Kick_Front0: 2104014239
+      Convict_Kick_Front1: -425760298
+      Convict_Kick_Right0: -655779580
+      Convict_Kick_Right1: -1090507365
+      Convict_Kick_Right2: -453319933
+      Convict_Kick_Right3: -305828004
       Convict_Revive0: 669238040
       Convict_Revive1: -100951841
       Convict_Revive2: -639000280
@@ -24474,8 +24482,6 @@ TextureImporter:
       The Convict_633: 1670542066
       The Convict_634: 1054478484
       The Convict_635: -1040891521
-      The Convict_636: 1888946611
-      The Convict_637: -226142415
       The Convict_638: -127578579
       The Convict_639: -1425200132
       The Convict_64: -1077379417
@@ -24497,9 +24503,6 @@ TextureImporter:
       The Convict_654: 1415497406
       The Convict_655: 2005092596
       The Convict_656: -1719216845
-      The Convict_657: -1532421455
-      The Convict_658: 61818399
-      The Convict_659: 2024717007
       The Convict_66: -1332678174
       The Convict_660: -1863206833
       The Convict_661: 1694817163
@@ -24520,7 +24523,6 @@ TextureImporter:
       The Convict_675: 803516246
       The Convict_676: 505705175
       The Convict_677: -327248646
-      The Convict_678: 971511288
       The Convict_679: 2103190069
       The Convict_68: 1088627436
       The Convict_680: 510152190
@@ -24541,8 +24543,6 @@ TextureImporter:
       The Convict_694: 434697551
       The Convict_695: 941203797
       The Convict_696: -1537656737
-      The Convict_697: 1212330169
-      The Convict_698: 1409902361
       The Convict_699: -2134886958
       The Convict_7: -767784085
       The Convict_70: -1807324480
