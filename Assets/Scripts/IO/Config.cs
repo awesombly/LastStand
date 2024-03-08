@@ -10,7 +10,8 @@ public enum ConfigLogin  { ID, PW, isRemember, };
 
 public class Config : Singleton<Config>
 {
-    private static readonly string ConfigPath = System.IO.Path.Combine( System.IO.Directory.GetCurrentDirectory(), "config.ini" );
+    private static readonly string ConfigPath = System.IO.Path.Combine( Global.DefaultDirectory, "config.ini" );
+    
     private StringBuilder text = new StringBuilder( 255 );
     
     public enum SectionType { Login, Volume, }
@@ -23,11 +24,17 @@ public class Config : Singleton<Config>
         return GetPrivateProfileString( _type.ToString(), _key, string.Empty, text, 255, ConfigPath ) > 0 ? text.ToString() : string.Empty;
     }
 
-    public string Read( ConfigLogin _type ) => GetData( SectionType.Login, _type.ToString() );
+    private void SetData<T, U>( T _section, U _type, string _value ) where T : Enum where U : Enum
+    {
+        if ( !System.IO.Directory.Exists( Global.DefaultDirectory )  )
+             System.IO.Directory.CreateDirectory( Global.DefaultDirectory );
 
+        WritePrivateProfileString( _section.ToString(), _type.ToString(), _value, ConfigPath );
+    }
+
+    public string Read( ConfigLogin _type ) => GetData( SectionType.Login, _type.ToString() );
     public string Read( MixerType _type )   => GetData( SectionType.Volume, _type.ToString() );
 
-    public void Write( ConfigLogin _type, string _value ) => WritePrivateProfileString( SectionType.Login.ToString(),  _type.ToString(), _value, ConfigPath );
-
-    public void Write( MixerType _type, string _value )   => WritePrivateProfileString( SectionType.Volume.ToString(), _type.ToString(), _value, ConfigPath );
+    public void Write( ConfigLogin _type, string _value ) => SetData( SectionType.Login, _type, _value );
+    public void Write( MixerType _type, string _value )   => SetData( SectionType.Volume, _type, _value );
 }

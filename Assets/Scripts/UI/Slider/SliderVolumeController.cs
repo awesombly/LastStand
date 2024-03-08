@@ -25,6 +25,6 @@ public class SliderVolumeController : MonoBehaviour, IPointerUpHandler
 
     public void OnPointerUp( PointerEventData eventData )
     {
-        Config.Inst.Write( type, AudioManager.Inst.GetMixerDecibel( type ).ToString() );
+        Config.Inst.Write( type, slider.value.ToString() );
     }
 }

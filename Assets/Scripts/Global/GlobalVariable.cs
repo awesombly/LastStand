@@ -7,6 +7,7 @@ using UnityEngine;
 public static partial class Global
 {
     public static readonly int RoundDigit = 3;
+    public static readonly string DefaultDirectory = System.IO.Path.Combine( Application.streamingAssetsPath, "Default" );
 
     public struct Layer
     {
