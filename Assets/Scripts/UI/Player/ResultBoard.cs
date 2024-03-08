@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ResultBoard : MonoBehaviour
 {
+    public GameObject trophy;
     public Animator animatior;
     public TextMeshProUGUI nickname;
     public TextMeshProUGUI killCount;
@@ -23,8 +24,16 @@ public class ResultBoard : MonoBehaviour
         animatior.runtimeAnimatorController = playerData.playerAC;
         animatior.SetBool( AnimatorParameters.IsActionBlocked, true );
 
-        if ( _isWinner ) animatior.SetTrigger( AnimatorParameters.DanceAction );
-        else             animatior.SetTrigger( AnimatorParameters.DefeatAction );
+        if ( _isWinner )
+        {
+            animatior.SetTrigger( AnimatorParameters.DanceAction );
+            trophy.SetActive( true );
+        }
+        else
+        {
+            animatior.SetTrigger( AnimatorParameters.DefeatAction );
+            trophy.SetActive( false );
+        }
 
         nickname.text   = _player.Nickname;
         killCount.text  = $"{_player.KillScore}";

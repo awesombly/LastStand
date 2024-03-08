@@ -15,6 +15,7 @@ public class ResultSystem : MonoBehaviour
     public CustomHorizontalLayoutGroup layoutGroup;
 
     public TextMeshProUGUI level;
+    public TextMeshProUGUI exp;
     public Slider          expSlider;
     public GameObject      exit;
 
@@ -58,9 +59,6 @@ public class ResultSystem : MonoBehaviour
 
     private void AckUpdateResultInfo( Packet _packet )
     {
-        //bool isWinner = ReferenceEquals( GameManager.LocalPlayer, _winner );
-        //resultText.text = isWinner ? "- ½Â¸® -" : "- ÆÐ¹è -";
-        
         GameManager.UserInfo = Global.FromJson<USER_INFO>( _packet );
         curInfo              = GameManager.UserInfo.Value;
 
@@ -85,6 +83,7 @@ public class ResultSystem : MonoBehaviour
             var userInfo = GameManager.UserInfo.Value;
             level.text = $"{userInfo.level}";
             expSlider.value = userInfo.exp / Global.GetTotalEXP( userInfo.level );
+            exp.text = $"( {Mathf.RoundToInt( expSlider.value * 100f )}% )";
         }
 
         canvasGroup.alpha = 0f;
@@ -105,6 +104,7 @@ public class ResultSystem : MonoBehaviour
             if ( _prev.level < _cur.level )
             {
                 expSlider.value = WNS.Math.Lerp( prevExp, 1f, time );
+                exp.text = $"( {Mathf.RoundToInt( expSlider.value * 100f )}% )";
                 time += ( 1f + ( _cur.level - _prev.level ) ) * Time.deltaTime * .5f;
 
                 if ( time >= 1f )
@@ -116,6 +116,7 @@ public class ResultSystem : MonoBehaviour
                     _prev.exp = 0f;
                     prevExp = ( _prev.exp / Global.GetTotalEXP( _prev.level ) );
                     expSlider.value = 0f;
+                    exp.text   = $"( {Mathf.RoundToInt( expSlider.value * 100f )}% )";
                     level.text = $"{_prev.level}";
                 }
             }
@@ -123,11 +124,13 @@ public class ResultSystem : MonoBehaviour
             {
                 expSlider.value = isLevelUp ? WNS.Math.Lerp( 0f, curExp, time ) :
                                               WNS.Math.Lerp( prevExp, curExp, time );
+                exp.text = $"( {Mathf.RoundToInt( expSlider.value * 100f )}% )";
 
                 time += Time.deltaTime * .75f;
                 if ( time >= 1f )
                 {
                     expSlider.value = curExp;
+                    exp.text = $"( {Mathf.RoundToInt( expSlider.value * 100f )}% )";
                     break;
                 }
             }
