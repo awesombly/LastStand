@@ -132,6 +132,10 @@ public class StageSystem : MonoBehaviour
                 AudioManager.Inst.Play( SFX.MouseClick );
             } break;
 
+
+            // 스테이지에 인원이 꽉찻거나
+            // 게임 종료된 스테이지에 입장할 때( Result 처리 중인 스테이지 )
+            case Result.ERR_UNABLE_PROCESS:
             default:
             {
                 SceneBase.IsLock = false;

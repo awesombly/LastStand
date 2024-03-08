@@ -339,9 +339,7 @@ void InGame::AckHitActors( const Packet& _packet )
 		protocol.serial = winner->actorInfo.serial;
 		_packet.session->stage->Broadcast( UPacket( GAME_OVER_ACK, protocol ) );
 
-		Stage* stage = _packet.session->stage;
-		SessionManager::Inst().BroadcastWaitingRoom( UPacket( DELETE_STAGE_INFO, stage->info ) );
-		StageManager::Inst().Erase( stage );
+		_packet.session->stage->isGameOver = true;
 	}
 }
 #pragma endregion

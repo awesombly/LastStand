@@ -98,18 +98,13 @@ public class InGameUIScene : SceneBase
     }
     #endregion
 
-    public void MoveToLobby()
-    {
-        AudioManager.Inst.Play( SFX.MouseClick );
-        LoadScene( SceneType.Lobby );
-    }
-
     public void ReqExitStage()
     {
-        if ( IsLock || !canExitStage || GameManager.StageInfo is null )
+        if ( !canExitStage || GameManager.StageInfo is null )
              return;
 
-        IsLock = true;
+        IsLock       = true;
+        canExitStage = false;
         Network.Inst.Send( EXIT_STAGE_REQ, GameManager.StageInfo.Value );
         AudioManager.Inst.Play( SFX.MouseClick );
     }
@@ -142,7 +137,6 @@ public class InGameUIScene : SceneBase
 
     private void AckExitStage( Packet _packet )
     {
-        IsLock = canExitStage = false;
         GameManager.StageInfo = null;
         LoadScene( SceneType.Lobby );
     }
