@@ -62,6 +62,11 @@ public class PlayerAnimator : MonoBehaviour
     }
     #endregion
 
+    public void SetActionSpeed( float _length, float _duration )
+    {
+        animator.SetFloat( AnimatorParameters.ActionSpeed, _length / _duration );
+    }
+
     private void UpdateAnimatorParameters()
     {
         animator.SetFloat( AnimatorParameters.MoveSpeed, movement.moveInfo.moveVector.sqrMagnitude );
@@ -75,8 +80,7 @@ public class PlayerAnimator : MonoBehaviour
         player.ApplyLookAngle( actionAngle );
         handRight.gameObject.SetActive( !_isActive );
 
-        float clipLength = 0.75f;
-        animator.SetFloat( AnimatorParameters.DodgeSpeed, clipLength / _duration );
+        SetActionSpeed( 0.75f, _duration );
         animator.SetInteger( AnimatorParameters.ActionDirection, ( int )GetAnimatorDirection( actionAngle ) );
         animator.SetBool( AnimatorParameters.DodgeAction, _isActive );
     }
@@ -84,16 +88,6 @@ public class PlayerAnimator : MonoBehaviour
     public void SetReviveAction( bool _isActive )
     {
         animator.SetTrigger( AnimatorParameters.ReviveAction );
-    }
-
-    public void SetDefeatAction( bool _isActive )
-    {
-        animator.SetTrigger( AnimatorParameters.DefeatAction );
-    }
-
-    public void SetDanceAction( bool _isActive )
-    {
-        animator.SetTrigger( AnimatorParameters.DanceAction );
     }
 
     private LookDirection GetAnimatorDirection( float angle )
@@ -185,6 +179,9 @@ public class PlayerAnimator : MonoBehaviour
     private void OnInteractionAction( float _angle )
     {
         player.ApplyLookAngle( _angle );
+        // 실질적인 ActionSpeed는 PlayerActionControlSM에서 설정하고 있다
+        // ActionSpeed 적용 전의 Animation length를 얻기 위해 초기화 해준다
+        animator.SetFloat( AnimatorParameters.ActionSpeed, 1f );
         animator.SetInteger( AnimatorParameters.ActionDirection, ( int )GetAnimatorDirection( _angle ) );
         animator.SetTrigger( AnimatorParameters.KickAction );
     }
@@ -225,8 +222,8 @@ public static partial class AnimatorParameters
     public static int ActionDirection = Animator.StringToHash( "ActionDirection" );
 
     public static int IsActionBlocked = Animator.StringToHash( "IsActionBlocked" );
+    public static int ActionSpeed = Animator.StringToHash( "ActionSpeed" );
     public static int DodgeAction = Animator.StringToHash( "DodgeAction" );
-    public static int DodgeSpeed = Animator.StringToHash( "DodgeSpeed" );
     public static int ReviveAction = Animator.StringToHash( "ReviveAction" );
     public static int DeathAction = Animator.StringToHash( "DeathAction" );
     public static int DanceAction = Animator.StringToHash( "DanceAction" );
