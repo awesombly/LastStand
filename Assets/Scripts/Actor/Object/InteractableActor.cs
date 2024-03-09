@@ -67,6 +67,7 @@ public class InteractableActor : DestroyableActor
         {
             return;
         }
+        _angle = _angle == 0f ? 0.01f : _angle;
         InteractionAction( _angle, _player );
 
         // Req Protocol

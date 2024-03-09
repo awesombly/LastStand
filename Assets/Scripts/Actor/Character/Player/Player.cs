@@ -246,7 +246,7 @@ public class Player : Character
             }
 
             // LookAngle 사용시 각도에 제한을 둠.(등에 있는 물체를 날리는 등 방지)
-            float angle = Global.GetAngle( transform.position, hit.point );
+            float angle = Global.GetAngle( transform.position, interactable.transform.position );
             if ( interactable.useLookAngle )
             {
                 if ( Mathf.Abs( Mathf.DeltaAngle( angle, GameManager.LookAngle ) ) > 90f )
