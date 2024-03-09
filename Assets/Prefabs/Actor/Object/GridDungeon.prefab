@@ -61627,7 +61627,6 @@ GameObject:
   - component: {fileID: 2406334890905410855}
   - component: {fileID: 8722690712186735569}
   - component: {fileID: 6969242938982724115}
-  - component: {fileID: 6029449471443337790}
   m_Layer: 13
   m_Name: Void
   m_TagString: Untagged
@@ -62613,7 +62612,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 319
+    m_Bits: 10047
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -62683,7 +62682,7 @@ CompositeCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -62735,20 +62734,6 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 5288170762418310453}
---- !u!114 &6029449471443337790
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5288170762418310453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d5d85dd31dd3da4bb243b74e22e25c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Hp:
-    max: 0
 --- !u!1 &5425671015435917196
 GameObject:
   m_ObjectHideFlags: 0

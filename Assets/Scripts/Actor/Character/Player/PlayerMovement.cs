@@ -150,7 +150,8 @@ public class PlayerMovement : MonoBehaviour
             collide2D.excludeLayers = ~( int )( Global.LayerFlag.Enemy
                 | Global.LayerFlag.EnemyAttack
                 | Global.LayerFlag.Wall
-                | Global.LayerFlag.Misc );
+                | Global.LayerFlag.Misc
+                | Global.LayerFlag.Void );
         }
         else
         {
@@ -158,7 +159,8 @@ public class PlayerMovement : MonoBehaviour
                 | Global.LayerFlag.Enemy
                 | Global.LayerFlag.PlayerAttack
                 | Global.LayerFlag.Wall
-                | Global.LayerFlag.Misc );
+                | Global.LayerFlag.Misc
+                | Global.LayerFlag.Void );
         }
     }
 
@@ -179,12 +181,14 @@ public class PlayerMovement : MonoBehaviour
             collide2D.excludeLayers = ~( int )( Global.LayerFlag.Player
                 | Global.LayerFlag.Enemy
                 | Global.LayerFlag.Wall
-                | Global.LayerFlag.Misc );
+                | Global.LayerFlag.Misc
+                | Global.LayerFlag.Void );
         }
         else
         {
             collide2D.excludeLayers = ~( int )( Global.LayerFlag.Wall
-                | Global.LayerFlag.Misc );
+                | Global.LayerFlag.Misc
+                | Global.LayerFlag.Void );
         }
     }
 

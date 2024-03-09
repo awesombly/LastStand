@@ -24,6 +24,7 @@ public static partial class Global
         public const int EnemyAttack    = 10;
         public const int Misc           = 11;
         public const int Invincible     = 12;
+        public const int Void           = 13;
     }
 
     [Flags]
@@ -42,6 +43,7 @@ public static partial class Global
         EnemyAttack     = 1 << Layer.EnemyAttack,
         Misc            = 1 << Layer.Misc,
         Invincible      = 1 << Layer.Invincible,
+        Void            = 1 << Layer.Void,
     }
 
     public static bool CompareLayer( LayerFlag _flagLayer, int _intLayer )
