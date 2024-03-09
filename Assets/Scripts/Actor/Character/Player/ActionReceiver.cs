@@ -137,7 +137,7 @@ public class ActionReceiver : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToViewportPoint( Input.mousePosition );
         if ( mousePos.x >= 0 && mousePos.x <= 1f && mousePos.y >= 0f && mousePos.y <= 1f )
         {
-            targetOrthoSize = Mathf.Clamp( targetOrthoSize - Mouse.current.scroll.value.y * 0.005f, 1f, 10f );
+            targetOrthoSize = Mathf.Clamp( targetOrthoSize - Mouse.current.scroll.value.y * 0.005f, 1f, 15f );
         }
     }
     #endregion
