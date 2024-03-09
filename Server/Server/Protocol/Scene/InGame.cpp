@@ -458,7 +458,9 @@ void InGame::AckUpdateResultData( const Packet& _packet )
 		RESULT_INFO data   = FromJson<RESULT_INFO>( _packet );
 		USER_DATA userData = Database::Inst().GetUserData( data.uid );
 
-		userData.exp += 1000.0f;
+		float offset = ( float )( ( data.kill + 1 ) / ( data.death + 1 ) );
+		userData.exp += ( 100.0f * offset ) * 100.0f/* ¹èÀ² */;
+
 		float totalExp = Global::Result::GetTotalEXP( userData.level );
 		while ( userData.exp >= totalExp )
 		{

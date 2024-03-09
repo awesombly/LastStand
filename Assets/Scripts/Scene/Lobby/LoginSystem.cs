@@ -50,7 +50,7 @@ public class LoginSystem : MonoBehaviour
 
             // 저장된 ini 정보 읽기
             if ( bool.TryParse( Config.Inst.Read( ConfigType.isRemember ), out bool isRemember ) ) remember.isOn = isRemember;
-            else                                                                                   RememberLoginInfo( remember.isOn );
+            else                                                                                   Config.Inst.Write( ConfigType.isRemember, isRemember.ToString() );
 
             if ( remember.isOn )
             {
@@ -64,7 +64,11 @@ public class LoginSystem : MonoBehaviour
         }
     }
 
-    public void RememberLoginInfo( bool _isRemember ) => Config.Inst.Write( ConfigType.isRemember, _isRemember.ToString() );
+    public void RememberLoginInfo( bool _isRemember )
+    {
+        Config.Inst.Write( ConfigType.isRemember, _isRemember.ToString() );
+        AudioManager.Inst.Play( SFX.MouseClick );
+    }
 
     #region Button Events
     public void ActiveErrorPanel( bool _isActive )
@@ -82,8 +86,9 @@ public class LoginSystem : MonoBehaviour
     public void ActiveSignUpPanel( bool _isActive )
     {
         signUpPanel.SetActive( _isActive );
+        AudioManager.Inst.Play( SFX.MouseClick );
         if ( _isActive ) nickname.ActivateInputField();
-        else email.ActivateInputField();
+        else             email.ActivateInputField();
     }
 
     #region Request Protocols
@@ -95,6 +100,7 @@ public class LoginSystem : MonoBehaviour
         protocol.password = password.text;
         protocol.nickname = string.Empty;
         Network.Inst.Send( new Packet( CONFIRM_LOGIN_REQ, protocol ) );
+        AudioManager.Inst.Play( SFX.MouseClick );
     }
 
     public void ReqConfirmDuplicateEmail()
@@ -110,7 +116,7 @@ public class LoginSystem : MonoBehaviour
     public void ReqConfirmAccountInfo()
     {
         if ( nickname.text == string.Empty )
-            return;
+             return;
 
         LOGIN_INFO protocol;
         protocol.uid      = -1;
