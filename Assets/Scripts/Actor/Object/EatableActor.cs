@@ -42,13 +42,21 @@ public class EatableActor : Actor
     private void OnTriggerEnter2D( Collider2D _other )
     {
         Player target = _other.GetComponent<Player>();
-        if ( target is null )
+        if ( target is null || followTarget is null 
+            || !ReferenceEquals( target, followTarget ) || !target.IsLocal )
         {
             return;
         }
 
-        eatEvent?.Invoke( target, eatParameter );
-        Release(); // Req
+        InvokeEatEvent( followTarget, eatParameter );
+
+        // Req Protocol
+        INTERACTION_INFO protocol;
+        protocol.serial = Serial;
+        protocol.target = followTarget.Serial;
+        protocol.angle = eatParameter;
+        protocol.pos = new VECTOR2( Vector2.zero );
+        Network.Inst.Send( PacketType.SYNC_EATABLE_EVENT_REQ, protocol );
     }
 
     private void FindFollowTarget()
@@ -76,23 +84,51 @@ public class EatableActor : Actor
 
         if ( nearestTarget is not null )
         {
-            SetTarget( nearestTarget );
+            Vector2 force = new Vector2( Random.value - .5f, Random.value - .5f ).normalized * initForcePower;
+            SetTarget( nearestTarget, force );
         }
     }
 
-    public void SetTarget( Player _target )
+    public void SetTarget( Player _target, Vector2 _force )
     {
         followTarget = _target;
         if ( followTarget is null )
         {
             return;
         }
-
-        Vector2 direction = new Vector2( Random.value - .5f, Random.value - .5f ).normalized;
-        Rigid2D.AddForce( direction * initForcePower );
+        
+        Rigid2D.AddForce( _force );
 
         // Req Protocol
+        if ( followTarget.IsLocal )
+        {
+            INTERACTION_INFO protocol;
+            protocol.serial = Serial;
+            protocol.target = followTarget.Serial;
+            protocol.angle = eatParameter;
+            protocol.pos = new VECTOR2( _force );
+            Network.Inst.Send( PacketType.SYNC_EATABLE_TARGET_REQ, protocol );
+        }
     }
+
+    public void InvokeEatEvent( Player _target, float _parameter )
+    {
+        eatEvent?.Invoke( _target, _parameter );
+    }
+
+    #region Eat Event
+    public void EatHeart( Actor _target, float _value )
+    {
+        if ( _target is null )
+        {
+            Debug.LogWarning( $"Target is null. me:{name}" );
+            return;
+        }
+
+        _target.SetHp( _target.Hp.Current + _value, null, null, SyncType.FromServer );
+        Release();
+    }
+    #endregion
 
     public override void SetHp( float _hp, Actor _attacker, IHitable _hitable, SyncType _syncType )
     {

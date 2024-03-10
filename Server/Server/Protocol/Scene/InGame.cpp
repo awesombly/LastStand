@@ -19,6 +19,8 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( SYNC_DODGE_ACTION_REQ,	AckSyncDodgeAction );
 	ProtocolSystem::Inst().Regist( SYNC_SWAP_WEAPON_REQ,	AckSyncSwapWeapon );
 	ProtocolSystem::Inst().Regist( SYNC_INTERACTION_REQ,	AckSyncInteraction );
+	ProtocolSystem::Inst().Regist( SYNC_EATABLE_TARGET_REQ, AckSyncEatableTarget );
+	ProtocolSystem::Inst().Regist( SYNC_EATABLE_EVENT_REQ,  AckSyncEatableEvent );
 	ProtocolSystem::Inst().Regist( HIT_ACTORS_REQ,			AckHitActors );
 
 	ProtocolSystem::Inst().Regist( INIT_SCENE_ACTORS_REQ,	AckInitSceneActors );
@@ -280,6 +282,49 @@ void InGame::AckSyncInteraction( const Packet& _packet )
 	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_INTERACTION_ACK, data ) );
 }
 
+void InGame::AckSyncEatableTarget( const Packet& _packet )
+{
+	const INTERACTION_INFO& data = FromJson<INTERACTION_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_EATABLE_TARGET_ACK, data ) );
+}
+
+void InGame::AckSyncEatableEvent( const Packet& _packet )
+{
+	const INTERACTION_INFO& data = FromJson<INTERACTION_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	ActorInfo* eatable = _packet.session->stage->GetActor( data.serial );
+	if ( eatable == nullptr )
+	{
+		Debug.LogError( "Eatable is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	ActorInfo* target = _packet.session->stage->GetActor( data.target );
+	if ( target == nullptr )
+	{
+		Debug.LogError( "Actor is null. serial:", data.target, ", nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	/// TODO: 효과 종류 늘어나면 구분 필요
+	target->hp += data.angle;
+	_packet.session->stage->UnregistActor( eatable );
+	Global::Memory::SafeDelete( eatable );
+
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SYNC_EATABLE_EVENT_ACK, data ) );
+}
+
 void InGame::AckHitActors( const Packet& _packet )
 {
 	HITS_INFO data = FromJson<HITS_INFO>( _packet );
@@ -416,7 +461,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 			{
 			case ActorType::Actor:
 			{
-				/// TODO
+				_packet.session->Send( UPacket( SPAWN_ACTOR_ACK, *actorPair.second ) );
 			} break;
 			case ActorType::Player:
 			case ActorType::Bullet:

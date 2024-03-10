@@ -27,21 +27,23 @@ public class InGameLogicScene : SceneBase
 
         GameManager.OnChangeLocalPlayer += OnChangeLocalPlayer;
 
-        ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,        AckSpawnActor );
-        ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,       AckSpawnPlayer );
-        ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,       AckSpawnBullet );
-        ProtocolSystem.Inst.Regist( REMOVE_ACTORS_ACK,      AckRemoveActors );
-        ProtocolSystem.Inst.Regist( INIT_SCENE_ACTORS_ACK,  AckInitSceneActors );
+        ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,            AckSpawnActor );
+        ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,           AckSpawnPlayer );
+        ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,           AckSpawnBullet );
+        ProtocolSystem.Inst.Regist( REMOVE_ACTORS_ACK,          AckRemoveActors );
+        ProtocolSystem.Inst.Regist( INIT_SCENE_ACTORS_ACK,      AckInitSceneActors );
 
-        ProtocolSystem.Inst.Regist( SYNC_MOVEMENT_ACK,      AckSyncMovement );
-        ProtocolSystem.Inst.Regist( SYNC_RELOAD_ACK,        AckSyncReload );
-        ProtocolSystem.Inst.Regist( SYNC_LOOK_ANGLE_ACK,    AckSyncLookAngle );
-        ProtocolSystem.Inst.Regist( SYNC_DODGE_ACTION_ACK,  AckSyncDodgeAction );
-        ProtocolSystem.Inst.Regist( SYNC_SWAP_WEAPON_ACK,   AckSyncSwapWeapon );
-        ProtocolSystem.Inst.Regist( SYNC_INTERACTION_ACK,   AckSyncInteraction );
-        ProtocolSystem.Inst.Regist( HIT_ACTORS_ACK,         AckHitActors );
+        ProtocolSystem.Inst.Regist( SYNC_MOVEMENT_ACK,          AckSyncMovement );
+        ProtocolSystem.Inst.Regist( SYNC_RELOAD_ACK,            AckSyncReload );
+        ProtocolSystem.Inst.Regist( SYNC_LOOK_ANGLE_ACK,        AckSyncLookAngle );
+        ProtocolSystem.Inst.Regist( SYNC_DODGE_ACTION_ACK,      AckSyncDodgeAction );
+        ProtocolSystem.Inst.Regist( SYNC_SWAP_WEAPON_ACK,       AckSyncSwapWeapon );
+        ProtocolSystem.Inst.Regist( SYNC_INTERACTION_ACK,       AckSyncInteraction );
+        ProtocolSystem.Inst.Regist( SYNC_EATABLE_TARGET_ACK,    AckSyncEatableTarget );
+        ProtocolSystem.Inst.Regist( SYNC_EATABLE_EVENT_ACK,     AckSyncEatableEvent );
+        ProtocolSystem.Inst.Regist( HIT_ACTORS_ACK,             AckHitActors );
 
-        ProtocolSystem.Inst.Regist( GAME_OVER_ACK,          AckGameOver );
+        ProtocolSystem.Inst.Regist( GAME_OVER_ACK,              AckGameOver );
     }
 
     protected override void Start()
@@ -298,12 +300,38 @@ public class InGameLogicScene : SceneBase
         InteractableActor target = GameManager.Inst.GetActor( data.target ) as InteractableActor;
         if ( target is null )
         {
-            Debug.LogWarning( "Target is null. serial:" + data.serial );
+            Debug.LogWarning( "Target is null. serial:" + data.target );
             return;
         }
         Player player = GameManager.Inst.FindPlayer( data.serial );
         target.transform.position = data.pos.To();
         target.InteractionAction( data.angle, player );
+    }
+
+    private void AckSyncEatableTarget( Packet _packet )
+    {
+        var data = Global.FromJson<INTERACTION_INFO>( _packet );
+        EatableActor eatable = GameManager.Inst.GetActor( data.serial ) as EatableActor;
+        if ( eatable is null )
+        {
+            Debug.LogWarning( "Target is null. serial:" + data.serial );
+            return;
+        }
+        Player player = GameManager.Inst.FindPlayer( data.target );
+        eatable.SetTarget( player, data.pos.To() );
+    }
+
+    private void AckSyncEatableEvent( Packet _packet )
+    {
+        var data = Global.FromJson<INTERACTION_INFO>( _packet );
+        EatableActor eatable = GameManager.Inst.GetActor( data.serial ) as EatableActor;
+        if ( eatable is null )
+        {
+            Debug.LogWarning( "Target is null. serial:" + data.serial );
+            return;
+        }
+        Player player = GameManager.Inst.FindPlayer( data.target );
+        eatable.InvokeEatEvent( player, data.angle );
     }
 
     private void AckHitActors( Packet _packet )

@@ -54,6 +54,10 @@ enum PacketType : u_short
 	SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
 	SYNC_INTERACTION_REQ,          // InteractableActor 상호작용 요청
 	SYNC_INTERACTION_ACK,          // InteractableActor 상호작용 응답
+	SYNC_EATABLE_TARGET_REQ,       // EatableActor Target 설정 요청
+	SYNC_EATABLE_TARGET_ACK,       // EatableActor Target 설정 응답
+	SYNC_EATABLE_EVENT_REQ,        // EatableActor Event 실행 요청
+	SYNC_EATABLE_EVENT_ACK,        // EatableActor Event 실행 응답
 	HIT_ACTORS_REQ,                // 피격된 Actor들 동기화 요청
 	HIT_ACTORS_ACK,                // 피격된 Actor들 동기화 응답
 

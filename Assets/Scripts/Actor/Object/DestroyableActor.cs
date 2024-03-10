@@ -153,7 +153,7 @@ public class DestroyableActor : Actor
             protocol.hp = 1f;
             protocol.inter = 0f;
             Network.Inst.Send( PacketType.SPAWN_ACTOR_REQ, protocol );
-            posDelta += 1f;
+            posDelta += 0.3f;
         }
     }
 

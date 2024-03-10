@@ -25,6 +25,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: penetrationResist
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: spawnObjects.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -34,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: -373277858866010635, guid: 6a83a78933e19914dae95450f2c1b788, type: 3}
     - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: spawnObjects.Array.data[0].ratio
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: spawnObjects.Array.data[1].actor
@@ -50,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: -373277858866010635, guid: 6a83a78933e19914dae95450f2c1b788, type: 3}
     - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: spawnObjects.Array.data[2].ratio
-      value: 0.3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: deadEvent.m_PersistentCalls.m_Calls.Array.size

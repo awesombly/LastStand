@@ -22,6 +22,8 @@ private:
 	static void AckSyncDodgeAction( const Packet& _packet );
 	static void AckSyncSwapWeapon( const Packet& _packet );
 	static void AckSyncInteraction( const Packet& _packet );
+	static void AckSyncEatableTarget( const Packet& _packet );
+	static void AckSyncEatableEvent( const Packet& _packet );
 	static void AckHitActors( const Packet& _packet );
 
 	static void AckInitSceneActors( const Packet& _packet );

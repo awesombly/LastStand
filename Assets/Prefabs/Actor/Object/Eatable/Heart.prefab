@@ -128,13 +128,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp:
     max: 0
-  autoEatRadius: 5
+  autoEatRadius: 4
   initForcePower: 700
   followSpeed: 10
-  eatParameter: 0
+  eatParameter: 10
   eatEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -373277858866010635}
+        m_TargetAssemblyTypeName: EatableActor, Assembly-CSharp
+        m_MethodName: EatHeart
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!58 &7359569989716363336
 CircleCollider2D:
   m_ObjectHideFlags: 0
