@@ -14,6 +14,7 @@ public class PlayerSound : MonoBehaviour
         movement.OnDodgeAction += OnDodgeAction;
 
         player.DodgeAttack.OnHitEvent += OnDodgeHit;
+        player.OnPlayerDead += OnDead;
     }
 
     private void OnDodgeAction( bool _isActive, Vector2 _direction, float _duration )
@@ -27,5 +28,10 @@ public class PlayerSound : MonoBehaviour
     private void OnDodgeHit( Player _attacker, Actor _defender )
     {
         AudioManager.Inst.Play( player.playerData.dodgeHitSound, player.transform.position );
+    }
+
+    private void OnDead( Player _attacker )
+    {
+        AudioManager.Inst.Play( player.playerData.deadSound, player.transform.position );
     }
 }

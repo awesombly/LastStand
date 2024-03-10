@@ -21,3 +21,4 @@ MonoBehaviour:
     afterImageDuration: 0.25
   dodgeActionSound: {fileID: 8300000, guid: 14f24de2a9a70154e96297de25e2184c, type: 3}
   dodgeHitSound: {fileID: 8300000, guid: 6f0c572d865b4664db7a460972bc4768, type: 3}
+  deadSound: {fileID: 8300000, guid: 291608b8d286e2a4580ff36324455ce2, type: 3}

@@ -14,6 +14,8 @@ public class EatableActor : Actor
     [SerializeField]
     private float eatParameter;
     [SerializeField]
+    private AudioClip eatSound;
+    [SerializeField]
     private UnityEvent<Actor/*target*/, float/*parameter*/> eatEvent;
 
     private Player followTarget = null;
@@ -113,6 +115,7 @@ public class EatableActor : Actor
 
     public void InvokeEatEvent( Player _target, float _parameter )
     {
+        AudioManager.Inst.Play( eatSound, transform.position );
         eatEvent?.Invoke( _target, _parameter );
     }
 

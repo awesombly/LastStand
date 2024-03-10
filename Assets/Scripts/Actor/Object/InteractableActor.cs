@@ -121,6 +121,7 @@ public class InteractableActor : DestroyableActor
             transform.localScale = new Vector3( -1f, 1f, 1f );
         }
         Rigid2D.excludeLayers &= ~( int )Global.LayerFlag.PlayerAttack;
+        Rigid2D.mass = 2.5f;
         animator.SetInteger( AnimatorParameters.ActionDirection, ( int )direction );
         animator.SetTrigger( AnimatorParameters.Interaction );
 

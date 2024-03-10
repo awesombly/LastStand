@@ -24,4 +24,5 @@ public class PlayerSO : ScriptableObject
     [Header( "< Sound >" )]
     public AudioClip dodgeActionSound;
     public AudioClip dodgeHitSound;
+    public AudioClip deadSound;
 }

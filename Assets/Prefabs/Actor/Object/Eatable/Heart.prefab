@@ -132,6 +132,7 @@ MonoBehaviour:
   initForcePower: 700
   followSpeed: 10
   eatParameter: 10
+  eatSound: {fileID: 8300000, guid: 4b294d59d2399014daa718b35c9de73b, type: 3}
   eatEvent:
     m_PersistentCalls:
       m_Calls:
