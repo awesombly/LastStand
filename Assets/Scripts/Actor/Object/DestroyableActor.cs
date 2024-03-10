@@ -9,13 +9,21 @@ public class DestroyableActor : Actor
     [SerializeField]
     private float maxHp;
     [SerializeField]
+    private int penetrationResist;
+    [Header( "< Destroy >" ), SerializeField]
     private float deadDuration;
     [SerializeField]
-    private int penetrationResist;
+    private AudioClip destroySound;
+    [Serializable]
+    public struct SpawnInfo
+    {
+        public float ratio;
+        public Actor actor;
+    }
     [SerializeField]
-    private Bullet deadObject;
+    private List<SpawnInfo> spawnObjects;
     [SerializeField]
-    private UnityEvent<Actor/*attacker*/> deadEvent;
+    private UnityEvent<Actor/*attacker*/> destroyEvent;
 
     private bool isDead;
     private bool prevIsSleep = true;
@@ -67,8 +75,9 @@ public class DestroyableActor : Actor
 
         Spriter.sortingOrder = -2;
         animator.SetBool( AnimatorParameters.IsDestroy, true );
+        AudioManager.Inst.Play( destroySound, transform.position );
         StartCoroutine( RemoveDead( deadDuration ) );
-        deadEvent?.Invoke( _attacker );
+        destroyEvent?.Invoke( _attacker );
     }
 
     private IEnumerator RemoveDead( float _duration )
@@ -90,24 +99,76 @@ public class DestroyableActor : Actor
             return;
         }
 
-        BULLET_SHOT_INFO protocol;
-        protocol.isLocal = false;
-        protocol.isExplode = true;
-        protocol.prefab = GameManager.Inst.GetPrefabIndex( deadObject );
-        protocol.pos = new VECTOR2( transform.position );
-        protocol.look = 0f;
-        protocol.owner = _attacker.Serial;
-        protocol.damage = deadObject.data.damage;
-        protocol.hp = deadObject.GetInitHp();
-        protocol.bullets = new List<BULLET_INFO>();
+        List<Actor> targets = GetSpawnObjects();
+        foreach ( Actor target in targets )
+        {
+            Bullet bullet = target as Bullet;
+            if ( bullet is null )
+            {
+                Debug.LogWarning( $"DeadObject is not Bullet. {target.name}" );
+                return;
+            }
 
-        float angle = Global.GetAngle( _attacker.transform.position, transform.position );
-        BULLET_INFO bulletInfo;
-        bulletInfo.angle = angle;
-        bulletInfo.serial = 0;
-        bulletInfo.rate = 1f;
-        protocol.bullets.Add( bulletInfo );
-        Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
+            BULLET_SHOT_INFO protocol;
+            protocol.isLocal = false;
+            protocol.isExplode = true;
+            protocol.prefab = GameManager.Inst.GetPrefabIndex( bullet );
+            protocol.pos = new VECTOR2( transform.position );
+            protocol.look = 0f;
+            protocol.owner = _attacker.Serial;
+            protocol.damage = bullet.data.damage;
+            protocol.hp = bullet.GetInitHp();
+            protocol.bullets = new List<BULLET_INFO>();
+
+            float angle = Global.GetAngle( _attacker.transform.position, transform.position );
+            BULLET_INFO bulletInfo;
+            bulletInfo.angle = angle;
+            bulletInfo.serial = 0;
+            bulletInfo.rate = 1f;
+            protocol.bullets.Add( bulletInfo );
+            Network.Inst.Send( PacketType.SPAWN_BULLET_REQ, protocol );
+        }
+    }
+
+    public void SpawnObject( Actor _attacker )
+    {
+        if ( _attacker is null || !_attacker.IsLocal )
+        {
+            return;
+        }
+
+        // 여러개 스폰시 겹쳐보여서 랜덤위치 부여
+        float posDelta = 0;
+        Vector2 randDirection = new Vector2( UnityEngine.Random.value - .5f, UnityEngine.Random.value - .5f ).normalized;
+
+        List<Actor> targets = GetSpawnObjects();
+        foreach ( Actor target in targets )
+        {
+            ACTOR_INFO protocol;
+            protocol.isLocal = false;
+            protocol.prefab = GameManager.Inst.GetPrefabIndex( target );
+            protocol.serial = 0;
+            protocol.pos = new VECTOR2( ( Vector2 )transform.position + posDelta * randDirection );
+            protocol.vel = new VECTOR2( Vector2.zero );
+            protocol.hp = 1f;
+            protocol.inter = 0f;
+            Network.Inst.Send( PacketType.SPAWN_ACTOR_REQ, protocol );
+            posDelta += 1f;
+        }
+    }
+
+    private List<Actor> GetSpawnObjects()
+    {
+        List<Actor> results = new List<Actor>();
+        foreach ( SpawnInfo info in spawnObjects )
+        {
+            if ( info.ratio >= UnityEngine.Random.value )
+            {
+                results.Add( info.actor );
+            }
+        }
+
+        return results;
     }
     #endregion
 }

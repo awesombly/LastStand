@@ -5,11 +5,13 @@ using UnityEngine.Events;
 
 public class InteractableActor : DestroyableActor
 {
-    [SerializeField]
+    [Header( "< Interaction >" ), SerializeField]
     private SpriteRenderer outlineRenderer;
     public bool useLookAngle;
     [SerializeField]
-    private UnityEvent<float, bool> interactionEvent;
+    private AudioClip interactionSound;
+    [SerializeField]
+    private UnityEvent<float/*angle*/, bool/*isInit*/> interactionEvent;
 
     public bool IsInteracted { get; private set; } = false;
     private bool isSelected = false;
@@ -52,6 +54,7 @@ public class InteractableActor : DestroyableActor
         {
             return;
         }
+        AudioManager.Inst.Play( interactionSound, transform.position );
         interactionEvent?.Invoke( _angle, _isInit );
 
         if ( _player is not null )

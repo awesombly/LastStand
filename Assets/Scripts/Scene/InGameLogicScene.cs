@@ -27,7 +27,7 @@ public class InGameLogicScene : SceneBase
 
         GameManager.OnChangeLocalPlayer += OnChangeLocalPlayer;
 
-        ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,        AckSpawnEnemy );
+        ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,        AckSpawnActor );
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,       AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,       AckSpawnBullet );
         ProtocolSystem.Inst.Regist( REMOVE_ACTORS_ACK,      AckRemoveActors );
@@ -120,6 +120,20 @@ public class InGameLogicScene : SceneBase
 
     #region Ack Protocols
     #region Spawn, Remove
+    private void AckSpawnActor( Packet _packet )
+    {
+        var data = Global.FromJson<ACTOR_INFO>( _packet );
+        Actor actor = PoolManager.Inst.Get( data.prefab ) as Actor;
+        if ( actor is null )
+        {
+            Debug.LogWarning( $"Actor is null. prefab:{data.prefab}" );
+            return;
+        }
+        actor.Serial = data.serial;
+        actor.SetMovement( data.pos.To(), data.vel.To() );
+        actor.SetHp( data.hp, null, null, SyncType.FromServer );
+    }
+
     private void AckSpawnPlayer( Packet _packet )
     {
         var data = Global.FromJson<PLAYER_INFO>( _packet );
@@ -204,14 +218,6 @@ public class InGameLogicScene : SceneBase
         }
     }
 
-    private void AckSpawnEnemy( Packet _packet )
-    {
-        var data = Global.FromJson<ACTOR_INFO>( _packet );
-        Enemy enemy = PoolManager.Inst.Get( data.prefab ) as Enemy;
-        enemy.Serial = data.serial;
-        enemy.Initialize( new Vector2( data.pos.x, data.pos.y ) );
-    }
-
     private void AckRemoveActors( Packet _packet )
     {
         var data = Global.FromJson<SERIALS_INFO>( _packet );
@@ -233,7 +239,7 @@ public class InGameLogicScene : SceneBase
     #region Sync
     private void AckSyncMovement( Packet _packet )
     {
-        var data = Global.FromJson<ACTOR_INFO>( _packet );
+        var data = Global.FromJson<MOVEMENT_INFO>( _packet );
         Actor actor = GameManager.Inst.GetActor( data.serial );
         actor?.SetMovement( data.pos.To(), data.vel.To() );
     }

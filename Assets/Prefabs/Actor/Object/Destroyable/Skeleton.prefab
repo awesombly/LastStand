@@ -61,6 +61,10 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 4985992683186285644, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
+      propertyPath: destroySound
+      value: 
+      objectReference: {fileID: 8300000, guid: ac2f888a6519d894d8804ed76b61392d, type: 3}
+    - target: {fileID: 4985992683186285644, guid: 01b18de6e54b3464d8566f4a4cf1dd38, type: 3}
       propertyPath: penetrationResist
       value: 0
       objectReference: {fileID: 0}

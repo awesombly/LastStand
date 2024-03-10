@@ -236,10 +236,16 @@ MonoBehaviour:
   Hp:
     max: 0
   maxHp: 200
-  deadDuration: 0
   penetrationResist: 3
+  deadDuration: 0
+  destroySound: {fileID: 8300000, guid: ac2f888a6519d894d8804ed76b61392d, type: 3}
+  spawnObjects: []
+  destroyEvent:
+    m_PersistentCalls:
+      m_Calls: []
   outlineRenderer: {fileID: 6984111780904297525}
   useLookAngle: 0
+  interactionSound: {fileID: 8300000, guid: 401a7ba5ab7dd96479e519d3aa5187b8, type: 3}
   interactionEvent:
     m_PersistentCalls:
       m_Calls:

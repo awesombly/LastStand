@@ -25,12 +25,44 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: spawnObjects.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: spawnObjects.Array.data[0].actor
+      value: 
+      objectReference: {fileID: -373277858866010635, guid: 6a83a78933e19914dae95450f2c1b788, type: 3}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: spawnObjects.Array.data[0].ratio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: spawnObjects.Array.data[1].actor
+      value: 
+      objectReference: {fileID: -373277858866010635, guid: 6a83a78933e19914dae95450f2c1b788, type: 3}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: spawnObjects.Array.data[1].ratio
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: spawnObjects.Array.data[2].actor
+      value: 
+      objectReference: {fileID: -373277858866010635, guid: 6a83a78933e19914dae95450f2c1b788, type: 3}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: spawnObjects.Array.data[2].ratio
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: deadEvent.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: destroyEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SpawnObject
+      objectReference: {fileID: 0}
     - target: {fileID: 4093836985042153741, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: m_Name
-      value: Barrel_Kickable_Wood
+      value: Barrel_Kickable
       objectReference: {fileID: 0}
     - target: {fileID: 6522741342298272625, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: m_Sprite
