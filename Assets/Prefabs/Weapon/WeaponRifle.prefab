@@ -62,6 +62,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9035912363181180166}
+  - {fileID: 992743543302183375}
   m_Father: {fileID: 7323232998709336590}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3084132691123912633
@@ -127,6 +128,7 @@ GameObject:
   - component: {fileID: 7323232998709336590}
   - component: {fileID: 2749857836408045721}
   - component: {fileID: 5607787446871316320}
+  - component: {fileID: -1808269889745598882}
   m_Layer: 0
   m_Name: WeaponRifle
   m_TagString: Untagged
@@ -165,6 +167,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: df74162f10cca3647a94d71ee8125792, type: 2}
   spriter: {fileID: 3084132691123912633}
   shotPoint: {fileID: 9035912363181180166}
+  magazinePoint: {fileID: 992743543302183375}
   rotateCorrection: 90
   rotateLerpSpeed: 30
 --- !u!114 &5607787446871316320
@@ -179,3 +182,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99057c2dae34c8341930f69bd9ff729e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1808269889745598882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8105482427007335930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 418212b486b006f4ba46d5a8fef840b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8734522687430813559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 992743543302183375}
+  m_Layer: 0
+  m_Name: MagazinePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &992743543302183375
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8734522687430813559}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.138, y: -0.162, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4081566955549746483}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

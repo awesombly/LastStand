@@ -28,6 +28,8 @@ MonoBehaviour:
     speedRate: 1
     burstCount: 1
     burstDelay: 0
+  fireEffect: {fileID: 4404494197259809327, guid: a5e35759da6632247bd9c7cf8eaf2d94, type: 3}
+  reloadEffect: {fileID: 2977771102129995194, guid: ac1aa04288fad804ba1cd769f4377aaf, type: 3}
   fireSound: {fileID: 8300000, guid: 5a811eba232daff49a6adb7ccdda872b, type: 3}
   reloadSound: {fileID: 8300000, guid: 037c0e38d424b754bb586e923b69fe6c, type: 3}
   swapSound: {fileID: 8300000, guid: 39993bde067de6645b42925bedea6054, type: 3}

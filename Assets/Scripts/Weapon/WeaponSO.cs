@@ -49,6 +49,10 @@ public class WeaponSO : ScriptableObject
     [Header( "¦¡ Extend" )]
     public MultiShotInfo shotInfo;
 
+    [Header( "¦¡ Effect" )]
+    public Poolable fireEffect;
+    public Poolable reloadEffect;
+
     [Header( "¦¡ Sound" )]
     public AudioClip fireSound;
     public AudioClip reloadSound;

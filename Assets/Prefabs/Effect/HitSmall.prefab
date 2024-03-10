@@ -29043,7 +29043,7 @@ GameObject:
   - component: {fileID: 11400000}
   - component: {fileID: 9222338147210068352}
   m_Layer: 0
-  m_Name: BulletHitSmall
+  m_Name: HitSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

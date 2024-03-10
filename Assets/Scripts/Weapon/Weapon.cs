@@ -8,8 +8,8 @@ public class Weapon : MonoBehaviour
 {
     public WeaponSO data;
     public SpriteRenderer spriter;
-    [SerializeField]
-    private Transform shotPoint;
+    public Transform shotPoint;
+    public Transform magazinePoint;
     [SerializeField]
     private float rotateCorrection;
     [SerializeField]

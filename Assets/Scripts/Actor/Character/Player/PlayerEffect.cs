@@ -6,20 +6,21 @@ using UnityEngine;
 
 public class EffectSpawner : MonoBehaviour 
 {
-    protected virtual void SpawnEffect( Poolable _effect, Transform _transform )
+    protected virtual void SpawnEffect( Poolable _prefab, Transform _transform )
     {
-        if ( _effect is null )
+        if ( _prefab == null )
         {
             return;
         }
 
-        Poolable poolable = PoolManager.Inst.Get( _effect );
+        Poolable poolable = PoolManager.Inst.Get( _prefab );
         var particle = poolable.GetComponent<ParticleSystem>();
         if ( particle is null )
         {
             return;
         }
         particle.transform.SetPositionAndRotation( _transform.position, _transform.rotation );
+        particle.transform.Rotate( _prefab.transform.rotation.eulerAngles );
         particle.Play( true );
     }
 }

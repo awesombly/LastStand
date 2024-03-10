@@ -21,12 +21,15 @@ MonoBehaviour:
     swapDelay: 0.35
     isAllowKeyHold: 1
     shakeShotAngle: 18
+    reactionPower: 0
   shotInfo:
     bulletPerShot: 1
     spreadAngle: 0
     speedRate: 1
     burstCount: 1
     burstDelay: 0
+  fireEffect: {fileID: -6398297215978917959, guid: 00fedc70b62a31e448e8ccc298257b56, type: 3}
+  reloadEffect: {fileID: 0}
   fireSound: {fileID: 8300000, guid: c71cb44630106aa4c90e8fa0e738e276, type: 3}
   reloadSound: {fileID: 8300000, guid: 90e9f1c064e97f846b439632ace271ae, type: 3}
   swapSound: {fileID: 8300000, guid: 39993bde067de6645b42925bedea6054, type: 3}
