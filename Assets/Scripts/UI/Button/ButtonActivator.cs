@@ -1,29 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
-
-[RequireComponent( typeof( Image ) )]
-[RequireComponent( typeof( Button ) )]
-public class ButtonActivator : MonoBehaviour
+public class ButtonActivator : MonoBehaviour, IPointerClickHandler
 {
-    private Image image;
-    private Button button;
-    public Color enableColor  = Color.white;
-    public Color disableColor = Color.gray;
+    public GameObject panel;
+    public bool isActive;
+    public UnityEvent OnClick;
 
-    public bool Enabled { set => image.color = value ? enableColor : disableColor; }
-
-    private void Awake()
+    public void OnPointerClick( PointerEventData eventData )
     {
-        image  = GetComponent<Image>();
-        button = GetComponent<Button>();
+        panel.SetActive( isActive );
+        OnClick?.Invoke();
 
-        button.onClick.AddListener( () =>
-        {
-            Enabled = true;
-            AudioManager.Inst.Play( SFX.MouseClick );
-        } );
+        if ( isActive ) AudioManager.Inst.Play( SFX.MenuEntry );
+        else            AudioManager.Inst.Play( SFX.MenuExit );
     }
 }

@@ -8,15 +8,16 @@ using TMPro;
 using static PacketType;
 public class StageSystem : MonoBehaviour
 {
-    private SceneBase scene;
+    private LobbyScene scene;
+
     [Header( "< Create Stage >" )]
     public GameObject createStageCanvas;
     public CanvasGroup createStageGroup;
     public TMP_InputField title;
     private bool isStageFadePlaying;
 
-    public List<ButtonActivator> personnels  = new List<ButtonActivator>();
-    public List<ButtonActivator> targetKills = new List<ButtonActivator>();
+    public List<ButtonSelector> personnels  = new List<ButtonSelector>();
+    public List<ButtonSelector> targetKills = new List<ButtonSelector>();
     private int maxPersonnel;
     private int targetKillCount;
 
@@ -29,7 +30,8 @@ public class StageSystem : MonoBehaviour
     #region Unity Callback
     private void Awake()
     {
-        TryGetComponent( out scene );
+        if ( TryGetComponent( out scene ) )
+             Debug.LogWarning( "Scene not found " );
 
         var net = Network.Inst;
         pool = new WNS.ObjectPool<Stage>( prefab, contents );
@@ -140,6 +142,7 @@ public class StageSystem : MonoBehaviour
             case Result.ERR_UNABLE_PROCESS:
             default:
             {
+                scene.ActiveErrorPanel( "방에 입장할 수 없습니다." );
                 SceneBase.IsLock = false;
             } break;
         }
