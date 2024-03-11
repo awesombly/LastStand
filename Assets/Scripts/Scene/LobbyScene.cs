@@ -1,10 +1,16 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class LobbyScene : SceneBase
 {
+    [Header( "< Default >" )]
     public Camera uiCamera;
     public Transform cursor;
+
+    [Header( "< Error Panel >" )]
+    [SerializeField] GameObject      errorPanel;
+    [SerializeField] TextMeshProUGUI errorText;
 
     #region Unity Callback
     protected override void Awake()
@@ -24,6 +30,8 @@ public class LobbyScene : SceneBase
         cursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
     }
     #endregion
+    
+    public void ExitGame() => Application.Quit();
 
     private IEnumerator WaitForAudioLoad()
     {
@@ -31,5 +39,9 @@ public class LobbyScene : SceneBase
         AudioManager.Inst.Play( BGM.Lobby, 0f, .5f, 5f );
     }
 
-    public void ExitGame() => Application.Quit();
+    public void ActiveErrorPanel( string _text )
+    {
+        errorPanel.SetActive( true );
+        errorText.text = _text;
+    }
 }

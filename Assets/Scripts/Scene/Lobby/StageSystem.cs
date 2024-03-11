@@ -8,15 +8,16 @@ using TMPro;
 using static PacketType;
 public class StageSystem : MonoBehaviour
 {
-    private SceneBase scene;
+    private LobbyScene scene;
+
     [Header( "< Create Stage >" )]
     public GameObject createStageCanvas;
     public CanvasGroup createStageGroup;
     public TMP_InputField title;
     private bool isStageFadePlaying;
 
-    public List<ButtonActivator> personnels  = new List<ButtonActivator>();
-    public List<ButtonActivator> targetKills = new List<ButtonActivator>();
+    public List<ButtonSelector> personnels  = new List<ButtonSelector>();
+    public List<ButtonSelector> targetKills = new List<ButtonSelector>();
     private int maxPersonnel;
     private int targetKillCount;
 
@@ -29,7 +30,8 @@ public class StageSystem : MonoBehaviour
     #region Unity Callback
     private void Awake()
     {
-        TryGetComponent( out scene );
+        if ( !TryGetComponent( out scene ) )
+             Debug.LogWarning( "Scene not found " );
 
         var net = Network.Inst;
         pool = new WNS.ObjectPool<Stage>( prefab, contents );
@@ -41,7 +43,6 @@ public class StageSystem : MonoBehaviour
         ProtocolSystem.Inst.Regist( ENTRY_STAGE_ACK,   AckEntryStage );
         ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
         ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
-        ProtocolSystem.Inst.Regist( CHANGE_HOST_ACK,   AckChangeHost );
     }
 
     private void Start()
@@ -140,6 +141,7 @@ public class StageSystem : MonoBehaviour
             case Result.ERR_UNABLE_PROCESS:
             default:
             {
+                scene.ActiveErrorPanel( "방에 입장할 수 없습니다." );
                 SceneBase.IsLock = false;
             } break;
         }
@@ -180,15 +182,6 @@ public class StageSystem : MonoBehaviour
                 return;
             }
         }
-    }
-
-    private void AckChangeHost( Packet _packet )
-    {
-        var data = Global.FromJson<SERIAL_INFO>( _packet );
-
-        STAGE_INFO info = GameManager.StageInfo.Value;
-        info.hostSerial = data.serial;
-        GameManager.StageInfo = info;
     }
     #endregion
 }

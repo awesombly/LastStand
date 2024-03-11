@@ -8,6 +8,8 @@ using UnityEngine.UI;
 using static PacketType;
 public class LoginSystem : MonoBehaviour
 {
+    private LobbyScene scene;
+
     [Header( "< Login >" )]
     public GameObject loginCanvas;
     public TMP_InputField email;
@@ -27,6 +29,9 @@ public class LoginSystem : MonoBehaviour
 
     private void Awake()
     {
+        if ( !TryGetComponent( out scene ) )
+             Debug.LogWarning( "Scene not found " );
+
         // Protocols
         ProtocolSystem.Inst.Regist( CONFIRM_LOGIN_ACK,   AckConfirmMatchData );
         ProtocolSystem.Inst.Regist( CONFIRM_ACCOUNT_ACK, AckAddAccountInfoToDB );
@@ -71,24 +76,13 @@ public class LoginSystem : MonoBehaviour
     }
 
     #region Button Events
-    public void ActiveErrorPanel( bool _isActive )
-    {
-        errorPanel.SetActive( _isActive );
-        if ( _isActive )
-        {
-            password.DeactivateInputField();
-            email.DeactivateInputField();
-            nickname.DeactivateInputField();
-        }
-        else email.ActivateInputField();
-    }
-
     public void ActiveSignUpPanel( bool _isActive )
     {
         signUpPanel.SetActive( _isActive );
         AudioManager.Inst.Play( SFX.MouseClick );
-        if ( _isActive ) nickname.ActivateInputField();
-        else             email.ActivateInputField();
+
+        if ( _isActive ) 
+             nickname.ActivateInputField();
     }
 
     #region Request Protocols
@@ -145,8 +139,7 @@ public class LoginSystem : MonoBehaviour
 
             case Result.DB_ERR_DUPLICATE_DATA:
             {
-                ActiveErrorPanel( true );
-                errorMessage.text = "중복된 아이디 입니다.";
+                scene.ActiveErrorPanel( "중복된 아이디 입니다." );
             }
             break;
 
@@ -188,8 +181,7 @@ public class LoginSystem : MonoBehaviour
 
             default:
             {
-                ActiveErrorPanel( true );
-                errorMessage.text = "아이디 또는 비밀번호가 일치하지 않습니다.";
+                scene.ActiveErrorPanel( "아이디 또는 비밀번호가 일치하지 않습니다." );
             } break;
         }
     }
