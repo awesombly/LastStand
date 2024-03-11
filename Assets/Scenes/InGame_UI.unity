@@ -3509,6 +3509,7 @@ GameObject:
   - component: {fileID: 868014953}
   - component: {fileID: 868014956}
   - component: {fileID: 868014954}
+  - component: {fileID: 868014957}
   m_Layer: 5
   m_Name: max / min Button
   m_TagString: Untagged
@@ -3600,6 +3601,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868014952}
   m_CullTransparentMesh: 1
+--- !u!114 &868014957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868014952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669e8fe23138e6c40b9dac3365bb108e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiplier: 1.15
+  duration: 0.25
 --- !u!1 &873613935
 GameObject:
   m_ObjectHideFlags: 0
@@ -5143,7 +5158,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBAA9\uD45C \uD0AC"
+  m_text: "\uB0A8\uC740 \uD0AC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 28245597d40653b40988cb8d080c074e, type: 2}
   m_sharedMaterial: {fileID: 6894193451600055778, guid: 28245597d40653b40988cb8d080c074e, type: 2}
