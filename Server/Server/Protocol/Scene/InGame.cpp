@@ -342,7 +342,7 @@ void InGame::AckSyncEatableEvent( const Packet& _packet )
 	}
 
 	/// TODO: 효과 종류 늘어나면 구분 필요
-	target->hp += data.angle;
+	target->hp = data.angle;
 	_packet.session->stage->UnregistActor( eatable );
 	Global::Memory::SafeDelete( eatable );
 

@@ -195,6 +195,7 @@ public class InGameLogicScene : SceneBase
         player.PlayerType = data.type;
         player.SwapWeapon( data.weapon );
         player.ApplyLookAngle( data.angle );
+        player.UnactionableCount = 0;
         player.ResetExcludeLayers();
         player.gameObject.SetActive( !player.IsDead );
         if ( player.gameObject.activeSelf )

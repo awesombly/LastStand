@@ -57,8 +57,7 @@ public class DestroyableActor : Actor
 
     protected virtual void FixedUpdate()
     {
-        if ( GameManager.LocalPlayer is null
-            || !GameManager.LocalPlayer.IsHost )
+        if ( !GameManager.IsHost )
         {
             return;
         }
@@ -120,8 +119,7 @@ public class DestroyableActor : Actor
         }
 
         yield return YieldCache.WaitForSeconds( _duration );
-        if ( GameManager.LocalPlayer is null
-            || !GameManager.LocalPlayer.IsHost )
+        if ( !GameManager.IsHost )
         {
             yield break;
         }

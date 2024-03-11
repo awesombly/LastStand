@@ -56,20 +56,25 @@ public class EatableActor : Actor
         INTERACTION_INFO protocol;
         protocol.serial = Serial;
         protocol.target = followTarget.Serial;
-        protocol.angle = eatParameter;
+        protocol.angle = target.Hp.Current;
         protocol.pos = new VECTOR2( Vector2.zero );
         Network.Inst.Send( PacketType.SYNC_EATABLE_EVENT_REQ, protocol );
     }
 
     private void FindFollowTarget()
     {
+        if ( !GameManager.IsHost )
+        {
+            return;
+        }
+
         Player nearestTarget = null;
         float nearestDistance = float.MaxValue;
-        RaycastHit2D[] hits = Physics2D.CircleCastAll( transform.position, autoEatRadius, Vector2.zero, 0f, ( int )Global.LayerFlag.Player );
+        RaycastHit2D[] hits = Physics2D.CircleCastAll( transform.position, autoEatRadius, Vector2.zero, 0f, ( int )( Global.LayerFlag.Player | Global.LayerFlag.Enemy ) );
         foreach ( RaycastHit2D hit in hits )
         {
             Player player = hit.transform.GetComponent<Player>();
-            if ( player is null || !player.IsLocal )
+            if ( player is null )
             {
                 continue;
             }
@@ -102,7 +107,7 @@ public class EatableActor : Actor
         Rigid2D.AddForce( _force );
 
         // Req Protocol
-        if ( followTarget.IsLocal )
+        if ( GameManager.IsHost )
         {
             INTERACTION_INFO protocol;
             protocol.serial = Serial;

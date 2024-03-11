@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     public static Vector2 MouseWorldPos { get; private set; }
     public static Vector2 MouseDirection { get; private set; }
     public static float LookAngle { get; private set; }
+    public static bool IsHost { get; private set; } = false;
 
     private static Player localPlayer;
     public static Player LocalPlayer
@@ -66,6 +67,7 @@ public class GameManager : Singleton<GameManager>
         {
             LookAngle = Global.GetAngle( LocalPlayer.transform.position, MouseWorldPos );
             MouseDirection = ( MouseWorldPos - ( Vector2 )LocalPlayer.transform.position ).normalized;
+            IsHost = LocalPlayer.IsHost;
         }
 
         // Update Players
