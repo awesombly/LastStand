@@ -50,7 +50,9 @@ public class InGameLogicScene : SceneBase
     {
         base.Start();
 
-        if ( GameManager.Inst.IsHost() )
+        // 처음 입장한 사람이면
+        if ( GameManager.StageInfo is not null
+            && GameManager.StageInfo.Value.personnel.current == 1 )
         {
             ReqInitSceneActors();
         }

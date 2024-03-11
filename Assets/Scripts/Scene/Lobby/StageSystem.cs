@@ -41,6 +41,7 @@ public class StageSystem : MonoBehaviour
         ProtocolSystem.Inst.Regist( ENTRY_STAGE_ACK,   AckEntryStage );
         ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
         ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
+        ProtocolSystem.Inst.Regist( CHANGE_HOST_ACK,   AckChangeHost );
     }
 
     private void Start()
@@ -107,7 +108,8 @@ public class StageSystem : MonoBehaviour
 
         SceneBase.IsLock = true;
         STAGE_INFO protocol;
-        protocol.serial = 0;
+        protocol.stageSerial = 0;
+        protocol.hostSerial = 0;
         protocol.title = title.text;
         protocol.targetKill = targetKillCount;
         protocol.currentKill = 0;
@@ -148,7 +150,7 @@ public class StageSystem : MonoBehaviour
         var data = Global.FromJson<STAGE_INFO>( _packet );
         foreach ( var stage in stages )
         {
-            if ( stage.info.serial == data.serial )
+            if ( stage.info.stageSerial == data.stageSerial )
             {
                 stage.Initialize( data );
                 return;
@@ -171,13 +173,22 @@ public class StageSystem : MonoBehaviour
         var data = Global.FromJson<STAGE_INFO>( _packet );
         foreach ( var stage in stages )
         {
-            if ( stage.info.serial == data.serial )
+            if ( stage.info.stageSerial == data.stageSerial )
             {
                 stages.Remove( stage );
                 pool.Despawn( stage );
                 return;
             }
         }
+    }
+
+    private void AckChangeHost( Packet _packet )
+    {
+        var data = Global.FromJson<SERIAL_INFO>( _packet );
+
+        STAGE_INFO info = GameManager.StageInfo.Value;
+        info.hostSerial = data.serial;
+        GameManager.StageInfo = info;
     }
     #endregion
 }

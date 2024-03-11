@@ -40,7 +40,8 @@ public class DestroyableActor : Actor
 
     protected virtual void FixedUpdate()
     {
-        if ( !GameManager.Inst.IsHost() )
+        if ( GameManager.LocalPlayer is null
+            || !GameManager.LocalPlayer.IsHost )
         {
             return;
         }

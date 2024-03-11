@@ -26,7 +26,7 @@ public class Actor : Poolable
                 Poolable prefab = GameManager.Inst.GetPrefab( PrefabIndex );
                 name = prefab?.name;
             }
-            name += $":{serial.ToString()}";
+            name += $":{serial}";
 
             // Serial을 부여받아야 등록가능
             GameManager.Inst.RegistActor( this );

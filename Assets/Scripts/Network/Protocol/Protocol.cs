@@ -33,6 +33,7 @@ public enum PacketType : ushort
     ENTRY_STAGE_ACK,               // 방 입장 응답
     EXIT_STAGE_REQ,                // 방 퇴장 요청
     EXIT_STAGE_ACK,                // 방 퇴장 응답
+    CHANGE_HOST_ACK,               // 호스트 변경 응답
 
     // Actor
     SPAWN_ACTOR_REQ,               // Actor 스폰 요청
@@ -134,7 +135,8 @@ public struct LOOK_INFO : IProtocol { public uint serial; public float angle; }
 public struct Personnel { public int current, maximum; }
 public struct STAGE_INFO : IProtocol
 {
-    public ushort serial;
+    public uint stageSerial;
+    public uint hostSerial;
     public string title;
     public int targetKill;
     public int currentKill;

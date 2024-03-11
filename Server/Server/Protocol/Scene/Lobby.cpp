@@ -17,7 +17,8 @@ void Lobby::AckCreateStage( const Packet& _packet )
 
 	// 데이터 생성
 	STAGE_INFO stageData;
-	stageData.serial = Global::GetNewSerial();
+	stageData.stageSerial = Global::GetNewSerial();
+	stageData.hostSerial = session->serial;
 	stageData.title = data.title;
 	stageData.targetKill = data.targetKill;
 	stageData.currentKill = 0;
@@ -39,9 +40,9 @@ void Lobby::AckEntryStage( const Packet& _packet )
 	{
 		const STAGE_INFO& data = FromJson<STAGE_INFO>( _packet );
 
-		Stage* stage = StageManager::Inst().Find( data.serial );
+		Stage* stage = StageManager::Inst().Find( data.stageSerial );
 		stage->Entry( session );
-	
+
 		session->Send( UPacket( ENTRY_STAGE_ACK, stage->info ) );
 		SessionManager::Inst().BroadcastWaitingRoom( UPacket( UPDATE_STAGE_INFO, stage->info ) );
 	}

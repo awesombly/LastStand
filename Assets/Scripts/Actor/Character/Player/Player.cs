@@ -24,6 +24,17 @@ public class Player : Character
             nicknameUI?.SetText( nickname );
         }
     }
+    public bool IsHost 
+    { 
+        get 
+        {
+            if ( GameManager.StageInfo is null )
+            {
+                return false;
+            }
+            return Serial == GameManager.StageInfo.Value.hostSerial;
+        }
+    }
     private int killScore;
     public int KillScore 
     {

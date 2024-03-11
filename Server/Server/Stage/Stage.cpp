@@ -3,9 +3,9 @@
 
 Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info ), isGameOver( false )
 {
-	Debug.Log( "# Stage ", info.serial, " has been created" );
-	Debug.Log( "# < ", _host->loginInfo.nickname, " > has entered Stage ", info.serial );
-	Debug.Log( "# The host has been changed< Stage ", info.serial, " : ", host->loginInfo.nickname, " >" );
+	Debug.Log( "# Stage ", info.stageSerial, " has been created" );
+	Debug.Log( "# < ", _host->loginInfo.nickname, " > has entered Stage ", info.stageSerial );
+	Debug.Log( "# The host has been changed< Stage ", info.stageSerial, " : ", host->loginInfo.nickname, " >" );
 	sessions.push_back( host );
 	_host->stage = this;
 }
@@ -27,7 +27,7 @@ void Stage::Entry( Session* _session )
 	_session->stage = this;
 	sessions.push_back( _session );
 	info.personnel.current = ( int )sessions.size();
-	Debug.Log( "# < ", _session->loginInfo.nickname, " > has entered Stage ", info.serial );
+	Debug.Log( "# < ", _session->loginInfo.nickname, " > has entered Stage ", info.stageSerial );
 }
 
 void Stage::Exit( Session* _session )
@@ -49,12 +49,17 @@ void Stage::Exit( Session* _session )
 
 	sessions.erase( std::find( sessions.begin(), sessions.end(), _session ) );
 	info.personnel.current = ( int )sessions.size();
-	Debug.Log( "# The ", _session->loginInfo.nickname, " has left Stage ", info.serial );
+	Debug.Log( "# The ", _session->loginInfo.nickname, " has left Stage ", info.stageSerial );
 
 	if ( sessions.size() > 0 && host->GetSocket() == _session->GetSocket() )
 	{
 		 host = *sessions.begin();
-		 Debug.Log( "# The host has been changed< Stage ", info.serial, " : ", host->loginInfo.nickname, " >" );
+		 info.hostSerial = host->serial;
+		 Debug.Log( "# The host has been changed< Stage ", info.stageSerial, " : ", host->loginInfo.nickname, " : ", info.hostSerial, " >" );
+
+		 SERIAL_INFO protocol;
+		 protocol.serial = info.hostSerial;
+		 _session->stage->BroadcastWithoutSelf( _session, UPacket( CHANGE_HOST_ACK, protocol ) );
 	}
 
 	_session->stage = nullptr;
@@ -117,7 +122,7 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 	case ActorType::None:
 	default:
 	{
-		Debug.LogError( "Not processed type. type:", _dead->actorType );
+		Debug.LogError( "Not processed type. type:", ( int )_dead->actorType );
 		throw std::exception( "# Not processed type." );
 	} break;
 	}

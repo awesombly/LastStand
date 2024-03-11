@@ -23,6 +23,7 @@ public:
 	LOGIN_INFO loginInfo;
 	Stage* stage;
 	PlayerInfo* player;
+	SerialType serial;
 
 public:
 	Session() = default;

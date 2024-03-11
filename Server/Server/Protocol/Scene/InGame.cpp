@@ -43,7 +43,7 @@ void InGame::AckExitStage( const Packet& _packet )
 	{
 		const STAGE_INFO& data  = FromJson<STAGE_INFO>( _packet );
 		Session* session        = _packet.session;
-		Stage* stage            = StageManager::Inst().Find( data.serial );
+		Stage* stage            = StageManager::Inst().Find( data.stageSerial );
 
 		stage->Exit( session );
 		if ( stage->IsExist() )
@@ -95,10 +95,7 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	}
 
 	PLAYER_INFO data = FromJson<PLAYER_INFO>( _packet );
-	if ( data.actorInfo.serial == 0 )
-	{
-		data.actorInfo.serial = Global::GetNewSerial();
-	}
+	data.actorInfo.serial = _packet.session->serial;
 
 	if ( _packet.session->loginInfo.nickname.empty() )
 	{
@@ -106,26 +103,28 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	}
 	data.nickname = _packet.session->loginInfo.nickname;
 
-	data.actorInfo.isLocal = true;
-	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, data ) );
-	data.actorInfo.isLocal = false;
-	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, data ) );
-
-	if ( _packet.session->player == nullptr )
+	PlayerInfo* player = _packet.session->player;
+	if ( player == nullptr )
 	{
-		PlayerInfo* player = new PlayerInfo( data );
-		player->actorInfo.actorType = ActorType::Player;
+		player = new PlayerInfo( data );
 		_packet.session->player = player;
+		Debug.Log( "Register new player. nick:", _packet.session->loginInfo.nickname );
 		_packet.session->stage->RegistActor( &player->actorInfo );
 	}
 	else
 	{
-		// 리스폰시
-		_packet.session->player->actorInfo = data.actorInfo;
-		_packet.session->player->actorInfo.actorType = ActorType::Player;
-		_packet.session->player->isDead = false;
-		_packet.session->player->angle = data.angle;
+		player->actorInfo = data.actorInfo;
 	}
+
+	player->actorInfo.actorType = ActorType::Player;
+	player->isDead = false;
+	player->angle = data.angle;
+	player->weapon = data.weapon;
+
+	player->actorInfo.isLocal = true;
+	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, *player ) );
+	player->actorInfo.isLocal = false;
+	_packet.session->stage->BroadcastWithoutSelf( _packet.session, UPacket( SPAWN_PLAYER_ACK, *player ) );
 }
 
 void InGame::AckSpawnBullet( const Packet& _packet )
@@ -483,7 +482,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 			case ActorType::None:
 			default:
 			{
-				Debug.LogError( "Not processed type. type:", actorPair.second->actorType );
+				Debug.LogError( "Not processed type. type:", ( int )actorPair.second->actorType );
 				throw std::exception( "# Not processed type." );
 			} break;
 			}

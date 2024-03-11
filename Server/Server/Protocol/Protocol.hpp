@@ -31,6 +31,7 @@ enum PacketType : u_short
 	ENTRY_STAGE_ACK,               // 방 입장 응답
 	EXIT_STAGE_REQ,                // 방 퇴장 요청
 	EXIT_STAGE_ACK,                // 방 퇴장 응답
+	CHANGE_HOST_ACK,               // 호스트 변경 응답
 
 	// Actor
 	SPAWN_ACTOR_REQ,               // Actor 스폰 요청
@@ -269,7 +270,8 @@ public:
 typedef struct StageInfo
 {
 public:
-	SerialType serial;
+	SerialType stageSerial;
+	SerialType hostSerial;
 	std::string title;
 	int targetKill;
 	int currentKill;
@@ -279,7 +281,8 @@ public:
 	template <class Archive>
 	void serialize( Archive& ar )
 	{
-		ar( CEREAL_NVP( serial ) );
+		ar( CEREAL_NVP( stageSerial ) );
+		ar( CEREAL_NVP( hostSerial ) );
 		ar( CEREAL_NVP( title ) );
 		ar( CEREAL_NVP( targetKill ) );
 		ar( CEREAL_NVP( currentKill ) );
@@ -289,7 +292,7 @@ public:
 #pragma endregion
 
 #pragma region Actor
-enum ActorType : u_short
+enum class ActorType : u_short
 { 
 	None, Player, Bullet, SceneActor, Actor,
 };

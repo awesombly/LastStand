@@ -15,13 +15,13 @@ void StageManager::Erase( Stage* _stage )
 	if ( _stage == nullptr )
 		 return;
 
-	Debug.Log( "# Stage ", _stage->info.serial, " has been removed" );
+	Debug.Log( "# Stage ", _stage->info.stageSerial, " has been removed" );
 
 	std::lock_guard<std::mutex> lock( mtx );
 	for ( std::list<Stage*>::const_iterator iter = stages.begin(); iter != stages.end(); iter++ )
 	{
 		Stage* stage = *iter;
-		if ( stage->info.serial == _stage->info.serial )
+		if ( stage->info.stageSerial == _stage->info.stageSerial )
 		{
 			stage->Clear();
 			stages.erase( iter );
@@ -42,7 +42,7 @@ bool StageManager::Contains( SerialType _serial ) const
 {
 	for ( Stage* stage : stages )
 	{
-		if ( stage->info.serial == _serial )
+		if ( stage->info.stageSerial == _serial )
 			return true;
 	}
 
@@ -53,7 +53,7 @@ Stage* StageManager::Find( SerialType _serial ) const
 {
 	for ( Stage* stage : stages )
 	{
-		if ( stage->info.serial == _serial )
+		if ( stage->info.stageSerial == _serial )
 		 	 return stage;
 	}
 

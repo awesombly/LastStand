@@ -96,30 +96,6 @@ public class GameManager : Singleton<GameManager>
     }
     #endregion
 
-    public bool IsHost()
-    {
-        if ( StageInfo is not null
-            && StageInfo.Value.personnel.current == 1 )
-        {
-            return true;
-        }
-
-        if ( LocalPlayer is null || Players.Count <= 0 )
-        {
-            return false;
-        }
-
-        foreach ( Player player in Players )
-        {
-            if ( LocalPlayer.Serial > player.Serial )
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     #region Player
     public void PlayerDead( Player _dead, Actor _attacker, IHitable _hitable )
     {
