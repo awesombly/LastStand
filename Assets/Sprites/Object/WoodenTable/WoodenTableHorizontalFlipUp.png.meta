@@ -256,14 +256,14 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -24, y: 6}
+      - - {x: -24, y: 4}
         - {x: -24, y: -14}
         - {x: -19, y: -14}
-        - {x: -19, y: -13}
-        - {x: 19, y: -13}
+        - {x: -19, y: -11}
+        - {x: 19, y: -11}
         - {x: 19, y: -14}
         - {x: 24, y: -14}
-        - {x: 24, y: 6}
+        - {x: 24, y: 4}
       tessellationDetail: 0
       bones: []
       spriteID: 0d9526f3dbe73504088865a67c76db0a

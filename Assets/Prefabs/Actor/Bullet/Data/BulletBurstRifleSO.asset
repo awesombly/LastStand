@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4640bce3f05513c4a86e2ae658226082, type: 3}
   m_Name: BulletBurstRifleSO
   m_EditorClassIdentifier: 
-  moveSpeed: 40
-  damage: 7.5
+  moveSpeed: 46
+  damage: 9
   range: 17
   pushingPower: 700
   penetratePower: 1

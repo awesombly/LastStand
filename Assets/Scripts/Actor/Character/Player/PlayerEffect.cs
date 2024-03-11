@@ -65,7 +65,7 @@ public class PlayerEffect : EffectSpawner
 
             Color originColor = afterImage.Spriter.color;
             afterImage.Spriter.sprite = curDodgeSprite;
-            afterImage.Spriter.DOFade( 0.2f, player.playerData.dodge.afterImageDuration )
+            afterImage.Spriter.DOFade( 0.5f, player.playerData.dodge.afterImageDuration )
                 .onComplete = () => 
                 {
                     afterImage.Spriter.color = originColor;

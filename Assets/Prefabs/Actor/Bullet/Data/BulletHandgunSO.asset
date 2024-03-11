@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4640bce3f05513c4a86e2ae658226082, type: 3}
   m_Name: BulletHandgunSO
   m_EditorClassIdentifier: 
-  moveSpeed: 28
+  moveSpeed: 40
   damage: 20
-  range: 12
+  range: 13
   pushingPower: 900
   penetratePower: 3
   fireEffect: {fileID: 0}

@@ -266,12 +266,12 @@ TextureImporter:
       physicsShape:
       - - {x: 24, y: 7}
         - {x: 21, y: 7}
-        - {x: 21, y: 6}
-        - {x: -20, y: 6}
+        - {x: 21, y: 4}
+        - {x: -20, y: 4}
         - {x: -20, y: 7}
         - {x: -24, y: 7}
-        - {x: -24, y: -14}
-        - {x: 24, y: -14}
+        - {x: -24, y: -13}
+        - {x: 24, y: -13}
       tessellationDetail: 0
       bones: []
       spriteID: 41e48cf0387f12d4c9a85176f366e658

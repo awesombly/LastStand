@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4640bce3f05513c4a86e2ae658226082, type: 3}
   m_Name: BulletRifleSO
   m_EditorClassIdentifier: 
-  moveSpeed: 36
+  moveSpeed: 38
   damage: 4
   range: 15
   pushingPower: 300
