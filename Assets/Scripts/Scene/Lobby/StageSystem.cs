@@ -30,7 +30,7 @@ public class StageSystem : MonoBehaviour
     #region Unity Callback
     private void Awake()
     {
-        if ( TryGetComponent( out scene ) )
+        if ( !TryGetComponent( out scene ) )
              Debug.LogWarning( "Scene not found " );
 
         var net = Network.Inst;
@@ -43,7 +43,6 @@ public class StageSystem : MonoBehaviour
         ProtocolSystem.Inst.Regist( ENTRY_STAGE_ACK,   AckEntryStage );
         ProtocolSystem.Inst.Regist( UPDATE_STAGE_INFO, AckUpdateStageInfo );
         ProtocolSystem.Inst.Regist( DELETE_STAGE_INFO, AckDeleteStageInfo );
-        ProtocolSystem.Inst.Regist( CHANGE_HOST_ACK,   AckChangeHost );
     }
 
     private void Start()
@@ -183,15 +182,6 @@ public class StageSystem : MonoBehaviour
                 return;
             }
         }
-    }
-
-    private void AckChangeHost( Packet _packet )
-    {
-        var data = Global.FromJson<SERIAL_INFO>( _packet );
-
-        STAGE_INFO info = GameManager.StageInfo.Value;
-        info.hostSerial = data.serial;
-        GameManager.StageInfo = info;
     }
     #endregion
 }

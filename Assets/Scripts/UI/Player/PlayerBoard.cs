@@ -10,26 +10,29 @@ public class PlayerBoard : MonoBehaviour
     public Player Target { get; private set; }
 
     [Header( "< Infomagtion >" )]
+    public GameObject      crown;
     public TextMeshProUGUI nickname;
     public TextMeshProUGUI killCount;
     public TextMeshProUGUI deathCount;
 
-    public Slider health, healthLerp;
+    [Header( "< Health >")]
+    public Slider health;
+    public Slider healthLerp;
     public GameObject healthFill, healthLerpFill;
 
     [Header( "< Effect >" )]
-    public Image deadBackground;
+    public  Image foreground;
+    private Image background;
     private readonly Color StartColor = new Color( 1f, 0f, 0f, .9f );
     private readonly Color EndColor   = new Color( 0f, 0f, 0f, .9f );
 
-    private Image image;
     private RectTransform rt;
     private bool isFirstSpawn = true;
 
     private void Awake()
     {
-        rt    = transform as RectTransform;
-        image = GetComponent<Image>();
+        rt         = transform as RectTransform;
+        background = GetComponent<Image>();
     }
 
     private void OnDestroy()
@@ -41,6 +44,8 @@ public class PlayerBoard : MonoBehaviour
         Target.OnPlayerRespawn -= PlayerRespawn;
     }
 
+    public void ActiveCrown( bool _active ) => crown.SetActive( _active );
+
     public void AddEvents( Player _player )
     {
         Target = _player;
@@ -49,27 +54,28 @@ public class PlayerBoard : MonoBehaviour
         Target.OnPlayerDead    += PlayerDead;
         Target.OnPlayerRespawn += PlayerRespawn;
 
+        ActiveCrown( _player.IsHost );
         nickname.text   = Target.Nickname;
         killCount.text  = $"{Target.KillScore}";
         deathCount.text = $"{Target.DeathScore}";
 
         if ( Target.IsDead )
         {
-            deadBackground.gameObject.SetActive( true );
-            deadBackground.color = EndColor;
+            foreground.gameObject.SetActive( true );
+            foreground.color = EndColor;
             healthFill.SetActive( false );
             healthLerpFill.SetActive( false );
         }
         else
         {
-            deadBackground.color = Color.clear;
-            deadBackground.gameObject.SetActive( false );
+            foreground.color = Color.clear;
+            foreground.gameObject.SetActive( false );
             healthFill.SetActive( true );
             healthLerpFill.SetActive( true );
         }
 
-        if ( Target.IsLocal ) image.color = new Color( .5f, 1f, .5f );
-        else                  image.color = new Color( 1f, .5f, .5f );
+        if ( Target.IsLocal ) background.color = new Color( .5f, 1f, .5f );
+        else                  background.color = new Color( 1f, .5f, .5f );
 
         UpdateHealth( Target.Health );
         UpdateHealthLerp( Target.HealthLerp );
@@ -87,9 +93,9 @@ public class PlayerBoard : MonoBehaviour
 
     public void PlayerDead( Player _attacker )
     {
-        deadBackground.gameObject.SetActive( true );
-        deadBackground.color = StartColor;
-        deadBackground.DOColor( EndColor, .5f );
+        foreground.gameObject.SetActive( true );
+        foreground.color = StartColor;
+        foreground.DOColor( EndColor, .5f );
     }
 
     public void PlayerRespawn()
@@ -103,8 +109,8 @@ public class PlayerBoard : MonoBehaviour
         healthFill.SetActive( true );
         healthLerpFill.SetActive( true );
 
-        deadBackground.DOColor( Color.clear, .5f )
-                      .OnComplete( () => deadBackground.gameObject.SetActive( false ) );
+        foreground.DOColor( Color.clear, .5f )
+                  .OnComplete( () => foreground.gameObject.SetActive( false ) );
 
     }
 

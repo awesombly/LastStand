@@ -29,7 +29,7 @@ public class LoginSystem : MonoBehaviour
 
     private void Awake()
     {
-        if ( TryGetComponent( out scene ) )
+        if ( !TryGetComponent( out scene ) )
              Debug.LogWarning( "Scene not found " );
 
         // Protocols

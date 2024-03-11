@@ -53,7 +53,8 @@ public class InGameUIScene : SceneBase
 
         GameManager.OnDead     += OnPlayerDead;
 
-        ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK, AckExitStage );
+        ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK,  AckExitStage );
+        ProtocolSystem.Inst.Regist( CHANGE_HOST_ACK, AckChangeHost );
     }
 
     protected override void Start()
@@ -139,6 +140,20 @@ public class InGameUIScene : SceneBase
     {
         GameManager.StageInfo = null;
         LoadScene( SceneType.Lobby );
+    }
+
+    private void AckChangeHost( Packet _packet )
+    {
+        var data = Global.FromJson<SERIAL_INFO>( _packet );
+
+        STAGE_INFO info = GameManager.StageInfo.Value;
+        info.hostSerial = data.serial;
+        GameManager.StageInfo = info;
+
+        foreach ( var Player in GameManager.Players )
+        {
+            Player.Board.ActiveCrown( Player.Serial == info.hostSerial );
+        }
     }
 
     private void OnPlayerDead( Player _player )

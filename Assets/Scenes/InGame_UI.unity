@@ -2385,6 +2385,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -37.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -12.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7453849562801444030, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2409,10 +2425,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8836030047463184951, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: deadBackground
-      value: 
-      objectReference: {fileID: 672223894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2423,17 +2435,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1237853760854315398, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
   m_PrefabInstance: {fileID: 672223892}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &672223894 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1439164457821182182, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-  m_PrefabInstance: {fileID: 672223892}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &691157872
 GameObject:
   m_ObjectHideFlags: 0
@@ -3108,6 +3109,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -37.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -12.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7453849562801444030, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -3132,10 +3149,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8836030047463184951, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: deadBackground
-      value: 
-      objectReference: {fileID: 772687548}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3146,17 +3159,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1237853760854315398, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
   m_PrefabInstance: {fileID: 772687546}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &772687548 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1439164457821182182, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-  m_PrefabInstance: {fileID: 772687546}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &809209792
 GameObject:
   m_ObjectHideFlags: 0
@@ -7330,6 +7332,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -37.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -12.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7453849562801444030, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -7354,10 +7372,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8836030047463184951, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: deadBackground
-      value: 
-      objectReference: {fileID: 1977495729}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7368,17 +7382,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1237853760854315398, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
   m_PrefabInstance: {fileID: 1977495727}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1977495729 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1439164457821182182, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-  m_PrefabInstance: {fileID: 1977495727}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2000210865
 GameObject:
   m_ObjectHideFlags: 0
@@ -7668,17 +7671,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2013377327}
   m_CullTransparentMesh: 1
---- !u!114 &2056772878 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1439164457821182182, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-  m_PrefabInstance: {fileID: 630809400115364855}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2058804161
 GameObject:
   m_ObjectHideFlags: 0
@@ -8668,26 +8660,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -12.5
       objectReference: {fileID: 0}
-    - target: {fileID: 3411519581621780723, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: m_Type
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3411519581621780723, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 3649d060900e7514a898f50b13443031, type: 3}
-    - target: {fileID: 3411519581621780723, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3411519581621780723, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3411519581621780723, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4141298078196345041, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -8768,6 +8740,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -37.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075861462567144111, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -12.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7453849562801444030, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -8792,14 +8780,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 7995881111903153738, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8836030047463184951, guid: bf22dfbcd9f0e0a4780872cc8894457b, type: 3}
-      propertyPath: deadBackground
-      value: 
-      objectReference: {fileID: 2056772878}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
