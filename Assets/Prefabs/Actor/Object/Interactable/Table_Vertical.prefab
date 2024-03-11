@@ -168,6 +168,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_Vertical
       objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: useRespawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadDuration
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

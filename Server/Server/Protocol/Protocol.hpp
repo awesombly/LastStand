@@ -22,7 +22,7 @@ enum PacketType : u_short
 	// Stage
 	STAGE_INFO_REQ,                // 방 정보 요청
 	STAGE_INFO_ACK,                // 방 정보 응답
-	CREATE_STAGE_REQ,	           // 방 생성 요청
+	CREATE_STAGE_REQ,              // 방 생성 요청
 	CREATE_STAGE_ACK,              // 방 생성 응답
 	UPDATE_STAGE_INFO,             // 방 정보가 갱신됨
 	INSERT_STAGE_INFO,             // 방 정보가 추가됨
@@ -36,6 +36,8 @@ enum PacketType : u_short
 	// Actor
 	SPAWN_ACTOR_REQ,               // Actor 스폰 요청
 	SPAWN_ACTOR_ACK,               // Actor 스폰 응답
+	RESPAWN_ACTOR_REQ,             // Actor 리스폰 요청
+	RESPAWN_ACTOR_ACK,             // Actor 리스폰 응답
 	SPAWN_PLAYER_REQ,              // Player 스폰 요청
 	SPAWN_PLAYER_ACK,              // Player 스폰 응답
 	SPAWN_BULLET_REQ,              // Bullet 스폰 요청

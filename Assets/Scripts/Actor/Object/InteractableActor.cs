@@ -36,15 +36,32 @@ public class InteractableActor : DestroyableActor
         Up = 0, Right, Down, Left
     }
 
+    #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
         polygon2D = GetComponent<PolygonCollider2D>();
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         outlineRenderer.sprite = Spriter.sprite;
+    }
+    #endregion
+
+    public override void RespawnActor()
+    {
+        base.RespawnActor();
+        transform.localScale = Vector3.one;
+        IsInteracted = false;
+
+        if ( polygon2D != null )
+        {
+            List<Vector2> lists = new List<Vector2>();
+            Spriter.sprite.GetPhysicsShape( 0, lists );
+            polygon2D.SetPath( 0, lists );
+        }
     }
 
     public void InteractionAction( float _angle, Player _player, bool _isInit = false )

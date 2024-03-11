@@ -25,6 +25,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
+      propertyPath: deadDuration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 840653536579177666, guid: 87432a286c64b2e4a947f93e7e0365b7, type: 3}
       propertyPath: penetrationResist
       value: 3
       objectReference: {fileID: 0}

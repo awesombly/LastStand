@@ -237,7 +237,8 @@ MonoBehaviour:
     max: 0
   maxHp: 200
   penetrationResist: 3
-  deadDuration: 0
+  useRespawn: 1
+  deadDuration: 30
   destroySound: {fileID: 8300000, guid: ac2f888a6519d894d8804ed76b61392d, type: 3}
   spawnObjects: []
   destroyEvent:

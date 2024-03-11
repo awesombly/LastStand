@@ -9,6 +9,7 @@ void InGame::Bind()
 	ProtocolSystem::Inst().Regist( EXIT_STAGE_REQ,			AckExitStage );
 
 	ProtocolSystem::Inst().Regist( SPAWN_ACTOR_REQ,			AckSpawnActor );
+	ProtocolSystem::Inst().Regist( RESPAWN_ACTOR_REQ,		AckRespawnActor );
 	ProtocolSystem::Inst().Regist( SPAWN_PLAYER_REQ,		AckSpawnPlayer );
 	ProtocolSystem::Inst().Regist( SPAWN_BULLET_REQ,		AckSpawnBullet );
 	ProtocolSystem::Inst().Regist( REMOVE_ACTORS_REQ,		AckRemoveActors );
@@ -86,6 +87,28 @@ void InGame::AckSpawnActor( const Packet& _packet )
 	_packet.session->stage->Broadcast( UPacket( SPAWN_ACTOR_ACK, data ) );
 }
 
+void InGame::AckRespawnActor( const Packet& _packet )
+{
+	ACTOR_INFO data = FromJson<ACTOR_INFO>( _packet );
+	if ( _packet.session->stage == nullptr )
+	{
+		Debug.LogError( "Stage is null. nick:", _packet.session->loginInfo.nickname );
+		return;
+	}
+
+	ActorInfo* actor = _packet.session->stage->GetActor( data.serial, false );
+	if ( actor == nullptr )
+	{
+		Debug.LogError( "Respawn Actor not found. nick:", _packet.session->loginInfo.nickname, ", serial:", data.serial );
+		return;
+	}
+	ActorType type = actor->actorType;
+	*actor = data;
+	actor->actorType = type;
+
+	_packet.session->stage->Broadcast( UPacket( RESPAWN_ACTOR_ACK, data ) );
+}
+
 void InGame::AckSpawnPlayer( const Packet& _packet )
 {
 	if ( _packet.session->stage == nullptr )
@@ -97,12 +120,14 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	PLAYER_INFO data = FromJson<PLAYER_INFO>( _packet );
 	data.actorInfo.serial = _packet.session->serial;
 
+	// Nickname
 	if ( _packet.session->loginInfo.nickname.empty() )
 	{
 		_packet.session->loginInfo.nickname = std::to_string( data.actorInfo.serial );
 	}
 	data.nickname = _packet.session->loginInfo.nickname;
 
+	// Init
 	PlayerInfo* player = _packet.session->player;
 	if ( player == nullptr )
 	{
@@ -115,12 +140,12 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	{
 		player->actorInfo = data.actorInfo;
 	}
-
 	player->actorInfo.actorType = ActorType::Player;
 	player->isDead = false;
 	player->angle = data.angle;
 	player->weapon = data.weapon;
 
+	// Ack Protocol
 	player->actorInfo.isLocal = true;
 	_packet.session->Send( UPacket( SPAWN_PLAYER_ACK, *player ) );
 	player->actorInfo.isLocal = false;

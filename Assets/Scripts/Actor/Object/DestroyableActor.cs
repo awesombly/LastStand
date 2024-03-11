@@ -6,29 +6,36 @@ using UnityEngine.Events;
 
 public class DestroyableActor : Actor
 {
-    [SerializeField]
-    private float maxHp;
-    [SerializeField]
-    private int penetrationResist;
-    [Header( "< Destroy >" ), SerializeField]
-    private float deadDuration;
-    [SerializeField]
-    private AudioClip destroySound;
+    [SerializeField] float maxHp;
+    [SerializeField] int penetrationResist;
+    [Header( "< Destroy >" ), SerializeField] 
+    bool useRespawn;
+    [SerializeField] float deadDuration;
+    [SerializeField] AudioClip destroySound;
     [Serializable]
     public struct SpawnInfo
     {
         public float ratio;
         public Actor actor;
     }
-    [SerializeField]
-    private List<SpawnInfo> spawnObjects;
-    [SerializeField]
-    private UnityEvent<Actor/*attacker*/> destroyEvent;
+    [SerializeField] List<SpawnInfo> spawnObjects;
+    [SerializeField] UnityEvent<Actor/*attacker*/> destroyEvent;
 
+    private struct OriginData
+    {
+        public Vector2 position;
+        public int layer;
+        public LayerMask layerMask;
+        public float mass;
+        public Sprite sprite;
+        public int sortOrder;
+    }
+    private OriginData originData;
     private bool isDead;
     private bool prevIsSleep = true;
     protected Animator animator;
 
+    #region Unity Callback
     protected override void Awake()
     {
         base.Awake();
@@ -36,6 +43,16 @@ public class DestroyableActor : Actor
 
         Hp.Current = Hp.Max = maxHp;
         PenetrationResist = penetrationResist;
+    }
+
+    protected virtual void Start()
+    {
+        originData.position = transform.position;
+        originData.layer = gameObject.layer;
+        originData.layerMask = Rigid2D.excludeLayers;
+        originData.mass = Rigid2D.mass;
+        originData.sortOrder = Spriter.sortingOrder;
+        originData.sprite = Spriter.sprite;
     }
 
     protected virtual void FixedUpdate()
@@ -57,6 +74,20 @@ public class DestroyableActor : Actor
         }
 
         prevIsSleep = Rigid2D.IsSleeping();
+    }
+    #endregion
+
+    public virtual void RespawnActor()
+    {
+        animator.SetBool( AnimatorParameters.IsDestroy, false );
+        SetHp( maxHp, null, null, SyncType.FromServer );
+        SetMovement( originData.position, Vector2.zero );
+        gameObject.layer = originData.layer;
+        Rigid2D.excludeLayers = originData.layerMask;
+        Rigid2D.mass = originData.mass;
+        Spriter.sortingOrder = originData.sortOrder;
+        Spriter.sprite = originData.sprite;
+        isDead = false;
     }
 
     protected override void OnDead( Actor _attacker, IHitable _hitable ) 
@@ -89,7 +120,29 @@ public class DestroyableActor : Actor
         }
 
         yield return YieldCache.WaitForSeconds( _duration );
-        Release();
+        if ( GameManager.LocalPlayer is null
+            || !GameManager.LocalPlayer.IsHost )
+        {
+            yield break;
+        }
+
+        if ( useRespawn )
+        {
+            ACTOR_INFO protocol;
+            protocol.isLocal = false;
+            protocol.prefab = 0;
+            protocol.serial = Serial;
+            protocol.pos = new VECTOR2( originData.position );
+            protocol.vel = new VECTOR2( Vector2.zero );
+            protocol.hp = maxHp;
+            protocol.inter = 0f;
+            Network.Inst.Send( PacketType.RESPAWN_ACTOR_REQ, protocol );
+            yield break;
+        }
+        else
+        {
+            GameManager.Inst.PushRemoveActorToSend( Serial );
+        }
     }
 
     #region DeadEvents

@@ -38,6 +38,8 @@ public enum PacketType : ushort
     // Actor
     SPAWN_ACTOR_REQ,               // Actor 스폰 요청
     SPAWN_ACTOR_ACK,               // Actor 스폰 응답
+    RESPAWN_ACTOR_REQ,             // Actor 리스폰 요청
+    RESPAWN_ACTOR_ACK,             // Actor 리스폰 응답
     SPAWN_PLAYER_REQ,              // Player 스폰 요청
     SPAWN_PLAYER_ACK,              // Player 스폰 응답
     SPAWN_BULLET_REQ,              // Bullet 스폰 요청
@@ -46,15 +48,15 @@ public enum PacketType : ushort
     REMOVE_ACTORS_ACK,             // Actor들 제거 응답
 
     SYNC_MOVEMENT_REQ,             // Actor 이동 동기화 요청
-	SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
-	SYNC_RELOAD_REQ,               // Player 재장전 동기화 요청
-	SYNC_RELOAD_ACK,               // Player 재장전 동기화 응답
-	SYNC_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
-	SYNC_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
-	SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
-	SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
-	SYNC_SWAP_WEAPON_REQ,          // Player 무기 교체 동기화 요청
-	SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
+    SYNC_MOVEMENT_ACK,             // Actor 이동 동기화 응답
+    SYNC_RELOAD_REQ,               // Player 재장전 동기화 요청
+    SYNC_RELOAD_ACK,               // Player 재장전 동기화 응답
+    SYNC_LOOK_ANGLE_REQ,           // Player 시선 동기화 요청
+    SYNC_LOOK_ANGLE_ACK,           // Player 시선 동기화 응답
+    SYNC_DODGE_ACTION_REQ,         // Player 회피 동기화 요청
+    SYNC_DODGE_ACTION_ACK,         // Player 회피 동기화 응답
+    SYNC_SWAP_WEAPON_REQ,          // Player 무기 교체 동기화 요청
+    SYNC_SWAP_WEAPON_ACK,          // Player 무기 교체 동기화 응답
     SYNC_INTERACTION_REQ,          // InteractableActor 상호작용 요청
     SYNC_INTERACTION_ACK,          // InteractableActor 상호작용 응답
     SYNC_EATABLE_TARGET_REQ,       // EatableActor Target 설정 요청
@@ -62,11 +64,11 @@ public enum PacketType : ushort
     SYNC_EATABLE_EVENT_REQ,        // EatableActor Event 실행 요청
     SYNC_EATABLE_EVENT_ACK,        // EatableActor Event 실행 응답
     HIT_ACTORS_REQ,                // 피격된 Actor들 동기화 요청
-	HIT_ACTORS_ACK,                // 피격된 Actor들 동기화 응답
+    HIT_ACTORS_ACK,                // 피격된 Actor들 동기화 응답
 
     INIT_SCENE_ACTORS_REQ,         // 씬에 배치된 Actor들 초기화 요청
     INIT_SCENE_ACTORS_ACK,         // 씬에 배치된 Actor들 초기화 응답
-	INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
+    INGAME_LOAD_DATA_REQ,          // InGame 입장시 데이터 요청
     GAME_OVER_ACK,                 // 게임 종료 응답
     UPDATE_RESULT_INFO_REQ,        // 게임 결과 갱신 요청
     UPDATE_RESULT_INFO_ACK,        // 게임 결과 갱신 응답

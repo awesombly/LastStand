@@ -28,6 +28,7 @@ public class InGameLogicScene : SceneBase
         GameManager.OnChangeLocalPlayer += OnChangeLocalPlayer;
 
         ProtocolSystem.Inst.Regist( SPAWN_ACTOR_ACK,            AckSpawnActor );
+        ProtocolSystem.Inst.Regist( RESPAWN_ACTOR_ACK,          AckRespawnActor );
         ProtocolSystem.Inst.Regist( SPAWN_PLAYER_ACK,           AckSpawnPlayer );
         ProtocolSystem.Inst.Regist( SPAWN_BULLET_ACK,           AckSpawnBullet );
         ProtocolSystem.Inst.Regist( REMOVE_ACTORS_ACK,          AckRemoveActors );
@@ -136,6 +137,18 @@ public class InGameLogicScene : SceneBase
         actor.Serial = data.serial;
         actor.SetMovement( data.pos.To(), data.vel.To() );
         actor.SetHp( data.hp, null, null, SyncType.FromServer );
+    }
+
+    private void AckRespawnActor( Packet _packet )
+    {
+        var data = Global.FromJson<ACTOR_INFO>( _packet );
+        DestroyableActor actor = GameManager.Inst.GetActor( data.serial ) as DestroyableActor;
+        if ( actor is null )
+        {
+            Debug.LogWarning( $"Actor is null. serial:{data.serial}" );
+            return;
+        }
+        actor.RespawnActor();
     }
 
     private void AckSpawnPlayer( Packet _packet )

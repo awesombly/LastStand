@@ -165,6 +165,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5045623913936631130, guid: eed8689a548a5f34e826e279fca9a483, type: 3}
     - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: useRespawn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
+      propertyPath: deadDuration
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960456545833537443, guid: 96ad564d2f7ff784da8151387c493169, type: 3}
       propertyPath: useLookAngle
       value: 1
       objectReference: {fileID: 0}
