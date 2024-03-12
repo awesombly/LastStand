@@ -27,6 +27,7 @@ public class AntiAliasingOption : OptionText
 
     public override void Process()
     {
+        base.Process();
         QualitySettings.antiAliasing = Current == 1 ? 2  :
                                        Current == 2 ? 4  :
                                        Current == 3 ? 8  :

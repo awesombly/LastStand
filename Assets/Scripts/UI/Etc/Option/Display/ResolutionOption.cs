@@ -31,6 +31,7 @@ public class ResolutionOption : OptionText
 
     public override void Process()
     {
+        base.Process();
         var replace = ( ( Resolution )Current ).ToString().Replace( "_", " " );
         var split = replace.Trim().Split( ' ' );
 

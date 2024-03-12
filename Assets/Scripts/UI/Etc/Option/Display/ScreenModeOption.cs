@@ -27,6 +27,7 @@ public class ScreenModeOption : OptionText
 
     public override void Process()
     {
+        base.Process();
         var type = ( ScreenMode )Current;
         switch ( type )
         {
