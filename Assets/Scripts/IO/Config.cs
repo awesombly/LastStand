@@ -24,15 +24,21 @@ public class Config : Singleton<Config>
 
     public string Read<T>( T _key ) where T : System.Enum
     {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         text.Clear();
         return GetPrivateProfileString( SectionName, _key.ToString(), string.Empty, text, 255, ConfigPath ) > 0 ? text.ToString() : string.Empty;
+#else
+        return string.Empty;
+#endif
     }
 
     public void Write<T>( T _key, string _value ) where T : System.Enum
     {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         if ( !System.IO.Directory.Exists( Global.DefaultDirectory )  )
              System.IO.Directory.CreateDirectory( Global.DefaultDirectory );
 
         WritePrivateProfileString( SectionName, _key.ToString(), _value, ConfigPath );
+#endif
     }
 }

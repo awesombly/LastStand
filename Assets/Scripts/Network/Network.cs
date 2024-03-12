@@ -86,7 +86,7 @@ public sealed class Network : Singleton<Network>
     {
         socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
         socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.DontLinger, true );
-        socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.Linger,     false );
+        //socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.Linger,     false );
 
         IPEndPoint point = new IPEndPoint( IPAddress.Parse( Ip ), Port );
 
