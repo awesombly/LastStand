@@ -21015,13 +21015,13 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.175
-        inSlope: -0.15111113
-        outSlope: -0.15111113
+        value: 0.2
+        inSlope: -0.20604718
+        outSlope: -0.20604718
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
-        outWeight: 0.19607843
+        outWeight: 0.20434773
       - serializedVersion: 3
         time: 1
         value: 0
@@ -21137,7 +21137,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 0.65, y: 0.65}
+  m_Size: {x: 1.15, y: 1.15}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

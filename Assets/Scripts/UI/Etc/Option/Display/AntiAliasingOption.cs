@@ -35,6 +35,5 @@ public class AntiAliasingOption : OptionText
 
         Global.CurrentAntiAliasing = ( AntiAliasing )Current;
         Config.Inst.Write( ConfigType.AntiAliasing, Current.ToString() );
-        AudioManager.Inst.Play( SFX.MenuEntry );
     }
 }

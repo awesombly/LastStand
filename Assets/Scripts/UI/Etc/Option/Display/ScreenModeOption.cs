@@ -46,7 +46,6 @@ public class ScreenModeOption : OptionText
 
         Global.CurrentScreenMode = type;
         Config.Inst.Write( ConfigType.ScreenMode, Current.ToString() );
-        AudioManager.Inst.Play( SFX.MenuEntry );
     }
 
 }

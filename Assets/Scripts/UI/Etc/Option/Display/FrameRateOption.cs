@@ -55,6 +55,5 @@ public class FrameRateOption : OptionText
 
         Global.CurrentFrameRate = type;
         Config.Inst.Write( ConfigType.FrameRate, Current.ToString() );
-        AudioManager.Inst.Play( SFX.MenuEntry );
     }
 }

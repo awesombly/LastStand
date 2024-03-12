@@ -55,6 +55,5 @@ public class ResolutionOption : OptionText
 
         Global.CurrentResolution = ( Resolution )Current;
         Config.Inst.Write( ConfigType.Resolution, Current.ToString() );
-        AudioManager.Inst.Play( SFX.MenuEntry );
     }
 }

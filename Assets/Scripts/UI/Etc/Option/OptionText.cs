@@ -13,6 +13,7 @@ public abstract class OptionText : ScrollBase
     [SerializeField]
     private Button undo;
     private int undoIndex;
+    private bool isFirstEnterd = true;
 
     protected virtual void Awake()
     {
@@ -64,6 +65,13 @@ public abstract class OptionText : ScrollBase
         undoIndex = Current;
         if ( undo is not null )
              undo.image.enabled = undoIndex != Current;
+
+        if ( isFirstEnterd )
+        {
+            isFirstEnterd = false;
+            return;
+        }
+        AudioManager.Inst.Play( SFX.MenuEntry );
     }
 
     protected abstract void Initialize();
