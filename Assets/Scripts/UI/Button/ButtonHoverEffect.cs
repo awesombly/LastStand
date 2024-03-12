@@ -15,12 +15,7 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private void Awake()
     {
         if ( TryGetComponent( out image ) )
-        {
-            image.maskable      = false;
-            image.raycastTarget = false;
-
-            image.color = new Color( 1f, 1f, 1f, 0f );
-        }
+             image.color = new Color( 1f, 1f, 1f, 0f );
     }
 
     public void OnPointerEnter( PointerEventData eventData )
