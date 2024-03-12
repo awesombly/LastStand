@@ -151,7 +151,6 @@ public sealed class AudioManager : Singleton<AudioManager>
     {
         if ( clips.TryGetClip( out AudioClip clip, _type ) )
         {
-            Debug.Log( "Play" );
             AudioChannel channel = GetChannel( clip, MixerType.SFX, _volume, false );
             channel.Play();
         }

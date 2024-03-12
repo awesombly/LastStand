@@ -7,7 +7,6 @@ public class FrameRateOption : OptionText
 {
     protected override void Initialize()
     {
-        base.Process();
         for ( int i = 0; i < ( int )FrameRate.Count; i++ )
         {
             switch ( ( FrameRate )i )
@@ -27,8 +26,11 @@ public class FrameRateOption : OptionText
         Current = index;
         Process();
     }
+
     public override void Process()
     {
+        base.Process();
+
         var type = ( FrameRate )Current;
         switch ( type )
         {
