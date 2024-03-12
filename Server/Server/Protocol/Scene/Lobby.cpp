@@ -56,6 +56,7 @@ void Lobby::AckStageList( const Packet& _packet )
 {
 	for ( Stage* stage : StageManager::Inst().GetStages() )
 	{
-		_packet.session->Send( UPacket( STAGE_INFO_ACK, stage->info ) );
+		if ( stage->isValid )
+			 _packet.session->Send( UPacket( STAGE_INFO_ACK, stage->info ) );
 	}
 }

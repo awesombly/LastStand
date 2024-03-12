@@ -1,7 +1,7 @@
 #include "Stage.h"
 #include "Management/SessionManager.h"
 
-Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info ), isGameOver( false )
+Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info ), isValid( true )
 {
 	Debug.Log( "# Stage ", info.stageSerial, " has been created" );
 	Debug.Log( "# < ", _host->loginInfo.nickname, " > has entered Stage ", info.stageSerial );
@@ -12,7 +12,7 @@ Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _
 
 void Stage::Entry( Session* _session )
 {
-	if ( isGameOver )
+	if ( !isValid )
 	{
 		Debug.LogWarning( "# The stage after the game" );
 		throw Result::ERR_UNABLE_PROCESS;

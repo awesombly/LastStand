@@ -8,7 +8,7 @@ class Stage
 public:
 	STAGE_INFO info;
 	Session* host;
-	bool isGameOver;
+	bool isValid;
 
 private:
 	std::list<Session*> sessions;
