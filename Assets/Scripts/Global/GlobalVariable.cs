@@ -9,6 +9,11 @@ public static partial class Global
     public static readonly int RoundDigit = 3;
     public static readonly string DefaultDirectory = System.IO.Path.Combine( Application.streamingAssetsPath, "Default" );
 
+    public static ScreenMode   CurrentScreenMode;
+    public static Resolution   CurrentResolution;
+    public static FrameRate    CurrentFrameRate;
+    public static AntiAliasing CurrentAntiAliasing;
+
     public struct Layer
     {
         public const int Default        = 0;

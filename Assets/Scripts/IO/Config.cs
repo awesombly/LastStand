@@ -8,6 +8,8 @@ public enum ConfigType : ushort
 {
     // Login
     ID, PW, isRemember,
+
+    ScreenMode, Resolution, FrameRate, AntiAliasing,
 };
 
 public class Config : Singleton<Config>
