@@ -18,11 +18,11 @@ public class ScreenModeOption : OptionText
             }
         }
 
-        //if ( int.TryParse( Config.Inst.Read( ConfigType.ScreenMode ), out int index ) )
-        //{
-        //    Current = index;
-        //    Process();
-        //}
+        if ( !int.TryParse( Config.Inst.Read( ConfigType.ScreenMode ), out int index ) )
+             index = ( int )ScreenMode.Windowed;
+            
+        Current = index;
+        Process();
     }
 
     public override void Process()

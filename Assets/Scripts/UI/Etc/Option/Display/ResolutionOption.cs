@@ -22,11 +22,11 @@ public class ResolutionOption : OptionText
             AddText( builder.ToString() );
         }
 
-        // if ( int.TryParse( Config.Inst.Read( ConfigType.Resolution ), out int index ) )
-        // {
-        //     Current = index;
-        //     Process();
-        // }
+        if ( !int.TryParse( Config.Inst.Read( ConfigType.Resolution ), out int index ) )
+             index = ( int )Resolution._1920_1080; 
+
+        Current = index;
+        Process();
     }
 
     public override void Process()

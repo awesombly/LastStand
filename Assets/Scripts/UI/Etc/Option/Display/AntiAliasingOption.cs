@@ -18,11 +18,11 @@ public class AntiAliasingOption : OptionText
             }
         }
 
-        if ( int.TryParse( Config.Inst.Read( ConfigType.AntiAliasing ), out int index ) )
-        {
-            Current = index;
-            Process();
-        }
+        if ( !int.TryParse( Config.Inst.Read( ConfigType.AntiAliasing ), out int index ) )
+             index = ( int )AntiAliasing.None;
+
+        Current = index;
+        Process();
     }
 
     public override void Process()

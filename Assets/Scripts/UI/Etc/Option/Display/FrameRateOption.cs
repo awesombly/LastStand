@@ -21,11 +21,11 @@ public class FrameRateOption : OptionText
             }
         }
 
-        if ( int.TryParse( Config.Inst.Read( ConfigType.FrameRate ), out int index ) )
-        {
-            Current = index;
-            Process();
-        }
+        if ( !int.TryParse( Config.Inst.Read( ConfigType.FrameRate ), out int index ) )
+             index = ( int )FrameRate.No_Limit;
+
+        Current = index;
+        Process();
     }
     public override void Process()
     {
