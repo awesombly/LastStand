@@ -138,6 +138,7 @@ public class Player : Character
         Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
 
         receiver.OnSwapWeaponEvent += SwapWeapon;
+        receiver.OnNextWeaponEvent += NextWeapon;
         receiver.OnInteractionEvent += Interaction;
 
         healthBar.value = Hp.Current / Hp.Max;
@@ -195,6 +196,16 @@ public class Player : Character
             protocol.index = _index;
             Network.Inst.Send( PacketType.SYNC_SWAP_WEAPON_REQ, protocol );
         }
+    }
+
+    public void NextWeapon()
+    {
+        int index = Weapons.IndexOf( EquipWeapon ) + 1;
+        if ( index >= Weapons.Count )
+        {
+            index = 1;
+        }
+        SwapWeapon( index );
     }
 
     public void ResetExcludeLayers()

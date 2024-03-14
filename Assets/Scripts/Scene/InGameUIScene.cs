@@ -33,6 +33,9 @@ public class InGameUIScene : SceneBase
     public Transform deadContents;
     private WNS.ObjectPool<PlayerDeadUI> deadUIPool;
 
+    [Header( "< Virtual Pad >" )]
+    public GameObject virtualPad;
+
     private bool canExitStage = true;
 
     #region Unity Callback
@@ -55,6 +58,12 @@ public class InGameUIScene : SceneBase
 
         ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK,  AckExitStage );
         ProtocolSystem.Inst.Regist( CHANGE_HOST_ACK, AckChangeHost );
+
+#if UNITY_ANDROID || UNITY_IOS
+        cursor.gameObject.SetActive( false );
+#else
+        virtualPad.SetActive( false );
+#endif
     }
 
     protected override void Start()
@@ -66,8 +75,11 @@ public class InGameUIScene : SceneBase
 
     private void Update()
     {
-        Vector3 pos = Input.mousePosition;
-        cursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
+        if ( cursor.gameObject.activeSelf )
+        {
+            Vector3 pos = Input.mousePosition;
+            cursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
+        }
 
         if ( IsLock )
              return;

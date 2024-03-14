@@ -63,7 +63,7 @@ public class SceneBase : MonoBehaviour
     #region Input
     public static void EnabledInputSystem( bool _keyboard, bool _mouse )
     {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if !UNITY_ANDROID && !UNITY_IOS
         if ( _keyboard ) InputSystem.EnableDevice( Keyboard.current );
         else             InputSystem.DisableDevice( Keyboard.current );
 

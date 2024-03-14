@@ -12,11 +12,13 @@ public class ActionReceiver : MonoBehaviour
     public Vector2 InputVector { get; private set; }
 
     public event Action<Vector2> OnMoveEvent;
+    public event Action<Vector2> OnAimEvent;        // VirtualPad¿ë
     public event Action OnAttackPressEvent;
     public event Action OnAttackReleaseEvent;
     public event Action OnReloadEvent;
     public event Action OnDodgeEvent;
     public event Action<int/*index*/> OnSwapWeaponEvent;
+    public event Action OnNextWeaponEvent;
     public event Action OnInteractionEvent;
 
     #region Camera
@@ -29,6 +31,14 @@ public class ActionReceiver : MonoBehaviour
     private Cinemachine.CinemachinePixelPerfect pixelPerfect;
     private CinemachineConfiner2D confiner2D;
     #endregion
+
+    private void Awake()
+    {
+#if UNITY_ANDROID || UNITY_IOS
+        UnityEngine.InputSystem.EnhancedTouch.EnhancedTouchSupport.Enable();
+        UnityEngine.InputSystem.EnhancedTouch.TouchSimulation.Enable();
+#endif
+    }
 
     private void Start()
     {
@@ -99,6 +109,24 @@ public class ActionReceiver : MonoBehaviour
         OnMoveEvent?.Invoke( InputVector );
     }
 
+    private void OnAim( InputValue _value )
+    {
+        Vector2 direction = _value.Get<Vector2>();
+        OnAimEvent?.Invoke( direction );
+
+        // Attack Input
+        if ( direction.sqrMagnitude > float.Epsilon )
+        {
+            IsAttackHolded = true;
+            OnAttackPressEvent?.Invoke();
+        }
+        else
+        {
+            IsAttackHolded = false;
+            OnAttackReleaseEvent?.Invoke();
+        }
+    }
+
     private void OnAttackPress()
     {
         IsAttackHolded = true;
@@ -125,6 +153,11 @@ public class ActionReceiver : MonoBehaviour
     {
         int value =  Mathf.RoundToInt( _value.Get<float>() );
         OnSwapWeaponEvent?.Invoke( value );
+    }
+
+    private void OnNextWeapon()
+    {
+        OnNextWeaponEvent?.Invoke();
     }
 
     private void OnInteraction()

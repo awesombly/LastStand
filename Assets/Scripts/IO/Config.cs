@@ -24,7 +24,7 @@ public class Config : Singleton<Config>
 
     public string Read<T>( T _key ) where T : System.Enum
     {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if !UNITY_ANDROID && !UNITY_IOS
         text.Clear();
         return GetPrivateProfileString( SectionName, _key.ToString(), string.Empty, text, 255, ConfigPath ) > 0 ? text.ToString() : string.Empty;
 #else
@@ -34,7 +34,7 @@ public class Config : Singleton<Config>
 
     public void Write<T>( T _key, string _value ) where T : System.Enum
     {
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+#if !UNITY_ANDROID && !UNITY_IOS
         if ( !System.IO.Directory.Exists( Global.DefaultDirectory )  )
              System.IO.Directory.CreateDirectory( Global.DefaultDirectory );
 

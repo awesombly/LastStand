@@ -26,6 +26,18 @@ public class GameManager : Singleton<GameManager>
             Player oldPlayer = localPlayer;
             localPlayer = value;
             OnChangeLocalPlayer?.Invoke( oldPlayer, localPlayer );
+
+            if ( oldPlayer is not null )
+            {
+                var receiver = oldPlayer.GetComponent<ActionReceiver>();
+                receiver.OnAimEvent -= OnAim;
+            }
+
+            if ( localPlayer is not null )
+            {
+                var receiver = localPlayer.GetComponent<ActionReceiver>();
+                receiver.OnAimEvent += OnAim;
+            }
         }
     }
     public static event Action<Player/*old*/, Player/*new*/> OnChangeLocalPlayer;
@@ -62,7 +74,9 @@ public class GameManager : Singleton<GameManager>
     private void Update()
     {
         // Update Parameters
+#if !UNITY_ANDROID && !UNITY_IOS
         MouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
+#endif
         if ( LocalPlayer is not null )
         {
             LookAngle = Global.GetAngle( LocalPlayer.transform.position, MouseWorldPos );
@@ -96,7 +110,12 @@ public class GameManager : Singleton<GameManager>
             hitsInfoToSend.hits.Clear();
         }
     }
-    #endregion
+#endregion
+
+    private static void OnAim( Vector2 _direction )
+    {
+        MouseWorldPos = ( Vector2 )LocalPlayer.transform.position + ( _direction * 10f );
+    }
 
     #region Player
     public void PlayerDead( Player _dead, Actor _attacker, IHitable _hitable )
