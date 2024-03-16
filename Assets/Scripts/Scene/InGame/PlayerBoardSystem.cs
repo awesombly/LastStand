@@ -43,24 +43,23 @@ public class PlayerBoardSystem : MonoBehaviour
             RectTransform boardRT = contents.transform as RectTransform;
             if ( contents.activeInHierarchy )
             {
-                AudioManager.Inst.Play( SFX.MenuExit );
                 isMovePlaying = true;
-                boardRT.DOAnchorPosX( -1125f, .5f )
+                AudioManager.Inst.Play( SFX.MenuExit );
+                hintRT.DOAnchorPosX( -75f, .5f );
+                boardRT.DOAnchorPosX( -160f, .5f )
                        .OnComplete( () =>
                        {
                            contents.SetActive( false );
-                           isMovePlaying = false;
+                           isMovePlaying     = false;
                        } );
-
-                hintRT.DOAnchorPosX( -1050f, .5f );
             }
             else
             {
                 AudioManager.Inst.Play( SFX.MenuEntry );
                 contents.SetActive( true );
                 isMovePlaying = true;
-                boardRT.DOAnchorPosX( -800f, .5f ).OnComplete( () => { isMovePlaying = false; } );
-                hintRT.DOAnchorPosX( -830f, .5f );
+                boardRT.DOAnchorPosX( 160f, .5f ).OnComplete( () => isMovePlaying = false );
+                hintRT.DOAnchorPosX( 130f, .5f );
             }
         }
     }

@@ -89,7 +89,7 @@ void SessionManager::Push( Session* _session )
 		 return;
 
 	_session->serial = Global::GetNewSerial();
-	Debug.Log( "# Register a new session ( ", _session->GetPort(), " ", _session->GetAddress(), " ", _session->serial );
+	Debug.Log( "# Register a new session ( ", _session->GetPort(), " ", _session->GetAddress(), " ", _session->serial, " )" );
 	sessions.push_back( _session );
 }
 
