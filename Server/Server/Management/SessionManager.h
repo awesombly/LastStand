@@ -17,8 +17,6 @@ private:
 	void ConfirmDisconnect();
 
 public:
-	bool Initialize();
-
 	void Push( Session* _session );
 	void Erase( Session* _session );
 

@@ -19,6 +19,11 @@ public class ButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         targetSize = new Vector3( multiplier, multiplier, 1f );
     }
 
+    private void OnDestroy()
+    {
+        DOTween.Kill( tf );
+    }
+
     public void OnPointerEnter( PointerEventData eventData )
     {
         tf.DOScale( targetSize, duration );

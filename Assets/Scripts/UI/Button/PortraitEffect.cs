@@ -16,6 +16,12 @@ public class PortraitEffect : MonoBehaviour
         rdr.color = Color.gray;
     }
 
+    private void OnDestroy()
+    {
+        DOTween.Kill( rdr );
+        DOTween.Kill( transform );
+    }
+
     public void OnPointerEnter()
     {
         AudioManager.Inst.Play( SFX.MenuHover );

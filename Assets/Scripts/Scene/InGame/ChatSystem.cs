@@ -51,8 +51,9 @@ public class ChatSystem : MonoBehaviour
 
     private void OnDestroy()
     {
-        enabledEffect?.Kill();
-        disabledEffect?.Kill();
+        DOTween.Kill( enabledEffect );
+        DOTween.Kill( disabledEffect );
+        DOTween.Kill( area );
     }
 
     private void Update()

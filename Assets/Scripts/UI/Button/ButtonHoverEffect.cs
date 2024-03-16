@@ -18,6 +18,11 @@ public class ButtonHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerEx
              image.color = new Color( 1f, 1f, 1f, 0f );
     }
 
+    private void OnDestroy()
+    {
+        DOTween.Kill( image );
+    }
+
     public void OnPointerEnter( PointerEventData eventData )
     {
         image.DOFade( targetAlpha, duration );

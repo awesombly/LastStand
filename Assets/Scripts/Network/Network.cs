@@ -30,7 +30,7 @@ public sealed class Network : Singleton<Network>
     private bool shouldReconnect;
     private readonly float ReconnectDelay = 3f;
 
-    public event Action OnConnected, OnReconnected, OnDisconnected;
+    public event Action OnConnected, OnReconnected;
 
     private SocketAsyncEventArgs connectArgs;
     private SocketAsyncEventArgs recvArgs;
@@ -38,10 +38,6 @@ public sealed class Network : Singleton<Network>
 
     private Queue<byte[]> sendQueue = new Queue<byte[]>();
     private List<ArraySegment<byte>> pendingList = new List<ArraySegment<byte>>();
-
-    private double LastResponseTime => ( DateTime.Now.TimeOfDay.TotalSeconds - lastResponseSystemTime );
-    private double lastResponseSystemTime;
-    private static readonly float ResponseTimeout = 60f;
 
     private object _lock = new object();
 
@@ -86,8 +82,6 @@ public sealed class Network : Singleton<Network>
     {
         socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
         socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.DontLinger, true );
-        //socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.Linger,     false );
-
         IPEndPoint point = new IPEndPoint( IPAddress.Parse( Ip ), Port );
 
         connectArgs = new SocketAsyncEventArgs();
@@ -106,7 +100,6 @@ public sealed class Network : Singleton<Network>
             if ( shouldReconnect ) OnReconnected?.Invoke();
             else                   OnConnected?.Invoke();
 
-            lastResponseSystemTime = DateTime.Now.TimeOfDay.TotalSeconds;
             shouldReconnect = false;
             isConnected     = true;
 
@@ -129,7 +122,6 @@ public sealed class Network : Singleton<Network>
 
     private void OnReceiveCompleted( object _sender, SocketAsyncEventArgs _args )
     {
-        lastResponseSystemTime = DateTime.Now.TimeOfDay.TotalSeconds;
         if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
         {
             int recvSize = _args.BytesTransferred;
@@ -219,7 +211,6 @@ public sealed class Network : Singleton<Network>
 
     public void Send( PacketType _type ) => Send( new Packet( _type ) );
 
-    #region KeepAlive Server
     private IEnumerator ReconnectProcess()
     {
         WaitUntil waitReconnectTiming = new WaitUntil( () => shouldReconnect );
@@ -236,26 +227,4 @@ public sealed class Network : Singleton<Network>
             yield return YieldCache.WaitForSeconds( ReconnectDelay );
         }
     }
-
-    private IEnumerator ConfirmDisconnect()
-    {
-        WaitUntil waitConnected = new WaitUntil( () => isConnected );
-        while ( true )
-        {
-            yield return waitConnected;
-
-            if ( LastResponseTime > ResponseTimeout )
-            {
-                OnDisconnected?.Invoke();
-
-                isConnected     = false;
-                shouldReconnect = false;
-                Release();
-
-                Debug.LogError( $"Server connection is not smooth" );
-                Connect();
-            }
-        }
-    }
-    #endregion
 }

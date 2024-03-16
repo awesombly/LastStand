@@ -46,8 +46,10 @@ public class WeaponScreenUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        moveEffectSeq?.Kill();
-        scaleEffectSeq?.Kill();
+        DOTween.Kill( moveEffectSeq );
+        DOTween.Kill( scaleEffectSeq );
+        DOTween.Kill( ammoTF );
+        DOTween.Kill( ammoRT );
         GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
         
         if ( targetPlayer is not null )

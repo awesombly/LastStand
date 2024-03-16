@@ -1,40 +1,14 @@
 #include "Session.h"
 #include "Management/PacketSystem.h"
 
-const int   Session::MaxUnresponse       = 30;
-const float Session::MinResponseWaitTime = 30.0f;
-const float Session::RequestDelay        = 60.0f;
-
 Session::Session( const SOCKET& _socket, const SOCKADDR_IN& _address )
 				  : Network( _socket, _address ), packet( new Packet() ), 
 	                buffer{}, startPos( 0 ), writePos( 0 ), readPos( 0 ),
-					lastResponseTime( std::chrono::steady_clock::now() ),
-					unresponse( 0 ), time( 0 ), stage( nullptr ), player( nullptr ), serial( 0 ) { }
+					stage( nullptr ), player( nullptr ), serial( 0 ) { }
 
 Session::~Session()
 {
 	::shutdown( socket, SD_SEND );
-}
-
-void Session::Alive()
-{
-	lastResponseTime = std::chrono::steady_clock::now();
-	unresponse = 0;
-}
-
-bool Session::CheckAlive()
-{
-	time = std::chrono::steady_clock::now() - lastResponseTime;
-	if ( time.count() > MinResponseWaitTime + ( RequestDelay * unresponse ) )
-	{
-		if ( ++unresponse > MaxUnresponse )
- 			 return false;
-
-		std::cout << "Verify that the session is alive( " << GetPort() << " " << GetAddress() << " )" << std::endl;
-		Send( UPacket( PACKET_HEARTBEAT ) );
-	}
-
-	return true;
 }
 
 void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
@@ -42,7 +16,6 @@ void Session::Dispatch( const LPOVERLAPPED& _ov, DWORD _size )
 	OVERLAPPEDEX* overalapped = ( OVERLAPPEDEX* )_ov;
 	if ( overalapped->flag == OVERLAPPEDEX::MODE_RECV )
 	{
-		Alive();
 		// 버퍼에 여분이 없는 경우
 		// 버퍼를 초기화하고 읽지않은 잔여 데이터를 가장 앞으로 이동
 		if ( writePos + _size > MaxReceiveSize )

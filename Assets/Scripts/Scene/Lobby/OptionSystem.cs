@@ -40,6 +40,11 @@ public class OptionSystem : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        DOTween.Kill( optionMovement );
+    }
+
     private void LoginCompleted()
     {
         userInfoCanvas.SetActive( true );

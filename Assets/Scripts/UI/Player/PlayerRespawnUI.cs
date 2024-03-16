@@ -37,6 +37,9 @@ public class PlayerRespawnUI : MonoBehaviour
         GameManager.OnEndRespawn        -= EndRespawn;
         GameManager.OnChangeLocalPlayer -= OnChangeLocalPlayer;
 
+        DOTween.Kill( group );
+        DOTween.Kill( background );
+
         if ( target is not null )
         {
             target.PlayerUI.respawnDelay.OnChangeCurrent -= OnChangeRespawnDelay;

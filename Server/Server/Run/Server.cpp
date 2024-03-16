@@ -23,11 +23,6 @@ Server::Server( const int _port, const char* _address )
 		std::cout << "Packet processing failed" << std::endl;
 	}
 
-	if ( !SessionManager::Inst().Initialize() )
-	{
-		std::cout << "SessionManager Initialize failed" << std::endl;
-	}
-
 	if ( !acceptor.Accept( _port, _address ) )
 	{
 		std::cout << "Accept failed" << std::endl;

@@ -6,7 +6,8 @@ using DG.Tweening;
 public class PlayerBoardSystem : MonoBehaviour
 {
     public GameObject contents;
-    public RectTransform hintRT;
+    public  RectTransform hintRT;
+    private RectTransform boardRT;
     [SerializeField] List<PlayerBoard> boards = new List<PlayerBoard>();
     [SerializeField] List<Vector2>     points = new List<Vector2>();
     private bool isMovePlaying;
@@ -17,6 +18,8 @@ public class PlayerBoardSystem : MonoBehaviour
         foreach ( var board in boards )
             points.Add( ( board.transform as RectTransform ).anchoredPosition );
 
+        boardRT = contents.transform as RectTransform;
+
         GameManager.OnChangePlayers += OnChangePlayers;
         GameManager.OnDead          += UpdateOrderByKill;
     }
@@ -25,6 +28,9 @@ public class PlayerBoardSystem : MonoBehaviour
     {
         for ( int i = 0; i < 4; i++ )
               boards[i].RemoveEvents();
+
+        DOTween.Kill( hintRT );
+        DOTween.Kill( boardRT );
 
         GameManager.OnChangePlayers -= OnChangePlayers;
         GameManager.OnDead          -= UpdateOrderByKill;
@@ -40,7 +46,6 @@ public class PlayerBoardSystem : MonoBehaviour
             if ( isMovePlaying )
                  return;
 
-            RectTransform boardRT = contents.transform as RectTransform;
             if ( contents.activeInHierarchy )
             {
                 isMovePlaying = true;

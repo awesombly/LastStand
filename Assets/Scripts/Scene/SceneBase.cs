@@ -28,7 +28,7 @@ public class SceneBase : MonoBehaviour
     [RuntimeInitializeOnLoadMethod( RuntimeInitializeLoadType.BeforeSceneLoad )]
     private static void BeforeGameStart()
     {
-        DOTween.Init( true, false, LogBehaviour.ErrorsOnly ).SetCapacity( 50, 20 );
+        DOTween.Init( true, true, LogBehaviour.Default ).SetCapacity( 50, 20 );
         OnGameStart?.Invoke();
     }
 
@@ -36,8 +36,11 @@ public class SceneBase : MonoBehaviour
     {
         GlobalEffect.Inst.FadeOut( () =>
         {
-            DOTween.KillAll();
             OnBeforeSceneLoad?.Invoke();
+            //DOTween.Clear( true );
+
+            DOTween.CompleteAll( false );
+            DOTween.KillAll( true );
             SceneManager.LoadScene( _sceneType.ToString(), _loadMode );
         } );
     }

@@ -28,7 +28,8 @@ public class PlayerKillUI : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.OnChangeLocalPlayer -= AddEvents;
-        effectSeq?.Kill();
+        DOTween.Kill( effectSeq );
+        DOTween.Kill( canvasGroup );
         if ( target is not null )
              target.OnPlayerKill -= OnKill;
     }
