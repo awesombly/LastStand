@@ -14,9 +14,11 @@ public enum ConfigType : ushort
 
 public class Config : Singleton<Config>
 {
+#if !UNITY_ANDROID && !UNITY_IOS
     private static readonly string ConfigPath  = System.IO.Path.Combine( Global.DefaultDirectory, "config.ini" );
     private static readonly string SectionName = "Config";
-    
+#endif
+
 
     private StringBuilder text = new StringBuilder( 255 );
     [DllImport( "kernel32.dll" )] private static extern uint GetPrivateProfileString( string _section, string _key, string _default, StringBuilder _result, uint _size, string _path );

@@ -61,6 +61,7 @@ public class InGameUIScene : SceneBase
 
 #if UNITY_ANDROID || UNITY_IOS
         cursor.gameObject.SetActive( false );
+        virtualPad.SetActive( true );
 #else
         virtualPad.SetActive( false );
 #endif

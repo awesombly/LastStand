@@ -95,6 +95,14 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
+    - m_Name: PrevWeapon
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: e70c5851-278f-444e-ae15-8e496acbb744
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
     - m_Name: SwapWeapon
       m_Type: 0
       m_ExpectedControlType: Digital
@@ -107,6 +115,14 @@ MonoBehaviour:
       m_Type: 0
       m_ExpectedControlType: Axis
       m_Id: 4c5dec8a-06c2-45ad-93d6-5ac21bb517f3
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    - m_Name: SwapWeaponPad
+      m_Type: 0
+      m_ExpectedControlType: Digital
+      m_Id: ed8d15aa-8aee-48c2-b087-ccc729bbc74d
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -217,8 +233,24 @@ MonoBehaviour:
       m_Action: AttackPress
       m_Flags: 0
     - m_Name: 
+      m_Id: a8c1387c-dcc4-420c-a3e4-eab8e43aff43
+      m_Path: <Keyboard>/v
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Keyboard&Mouse
+      m_Action: AttackPress
+      m_Flags: 0
+    - m_Name: 
       m_Id: 27cab697-63a0-4ea4-9290-fb2dbffce1d1
       m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Keyboard&Mouse
+      m_Action: AttackRelease
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 0b3e641d-02d3-43cc-8a68-ae7fe9400762
+      m_Path: <Keyboard>/v
       m_Interactions: 
       m_Processors: 
       m_Groups: ;Keyboard&Mouse
@@ -273,14 +305,6 @@ MonoBehaviour:
       m_Action: Dodge
       m_Flags: 0
     - m_Name: 
-      m_Id: 118a6c07-bcb8-4b9d-985f-bbd1a7e11cbd
-      m_Path: <Keyboard>/e
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: ;Keyboard&Mouse
-      m_Action: Interaction
-      m_Flags: 0
-    - m_Name: 
       m_Id: d29948b3-976e-4f22-9d79-d576ebfad1c6
       m_Path: <Keyboard>/space
       m_Interactions: 
@@ -306,7 +330,7 @@ MonoBehaviour:
       m_Flags: 0
     - m_Name: 
       m_Id: 11383b38-8770-4bea-a7ed-75a1c5e05ee3
-      m_Path: <Keyboard>/q
+      m_Path: <Keyboard>/e
       m_Interactions: 
       m_Processors: 
       m_Groups: ;Keyboard&Mouse
@@ -319,6 +343,22 @@ MonoBehaviour:
       m_Processors: 
       m_Groups: ;Gamepad;Touch
       m_Action: NextWeapon
+      m_Flags: 0
+    - m_Name: 
+      m_Id: f3e8e3b5-fbeb-4655-abab-ff895ad8d39f
+      m_Path: <Keyboard>/q
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Keyboard&Mouse
+      m_Action: PrevWeapon
+      m_Flags: 0
+    - m_Name: 
+      m_Id: dbde8f7f-399d-45fd-a9dd-201567f8e421
+      m_Path: <Gamepad>/dpad/left
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: ;Gamepad;Touch
+      m_Action: PrevWeapon
       m_Flags: 0
     - m_Name: 
       m_Id: 63a41be3-b83b-484c-b993-bda6790f48db
@@ -360,6 +400,14 @@ MonoBehaviour:
       m_Groups: ;Keyboard&Mouse
       m_Action: SwapWeapon
       m_Flags: 0
+    - m_Name: 
+      m_Id: 3d1d6286-815b-49e2-8d64-5e78044ef047
+      m_Path: <Keyboard>/5
+      m_Interactions: 
+      m_Processors: Scale(factor=5)
+      m_Groups: ;Touch;Gamepad
+      m_Action: SwapWeapon
+      m_Flags: 0
     - m_Name: 1D Axis
       m_Id: d15d32dc-4f8e-49cc-8408-af002f5d063e
       m_Path: 1DAxis
@@ -384,6 +432,62 @@ MonoBehaviour:
       m_Groups: ;Keyboard&Mouse
       m_Action: CameraZoom
       m_Flags: 8
+    - m_Name: 
+      m_Id: 8035dc93-6a90-4040-870d-60b2322f34c4
+      m_Path: <Gamepad>/leftShoulder
+      m_Interactions: 
+      m_Processors: Scale
+      m_Groups: ;Gamepad;Touch
+      m_Action: SwapWeaponPad
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 64443ccb-db3e-404a-8513-d022bf651c6c
+      m_Path: <Gamepad>/leftTrigger
+      m_Interactions: 
+      m_Processors: Scale(factor=2)
+      m_Groups: ;Gamepad;Touch
+      m_Action: SwapWeaponPad
+      m_Flags: 0
+    - m_Name: 
+      m_Id: c6a35ed5-3e33-4c47-a2f0-f8a1a4c9f523
+      m_Path: <Gamepad>/rightShoulder
+      m_Interactions: 
+      m_Processors: Scale(factor=3)
+      m_Groups: ;Gamepad;Touch
+      m_Action: SwapWeaponPad
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 60c75ff9-2b61-4f44-92c5-07533115e4b7
+      m_Path: <Gamepad>/rightTrigger
+      m_Interactions: 
+      m_Processors: Scale(factor=4)
+      m_Groups: ;Gamepad;Touch
+      m_Action: SwapWeaponPad
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 960d2171-04e3-4f5e-a486-4ec136dedeee
+      m_Path: <Gamepad>/leftStickPress
+      m_Interactions: 
+      m_Processors: Scale(factor=5)
+      m_Groups: ;Gamepad;Touch
+      m_Action: SwapWeaponPad
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 7723052b-747c-4b14-85d7-e9940af3db5d
+      m_Path: <Gamepad>/rightStickPress
+      m_Interactions: 
+      m_Processors: Scale(factor=6)
+      m_Groups: ;Gamepad;Touch
+      m_Action: SwapWeaponPad
+      m_Flags: 0
+    - m_Name: 
+      m_Id: d44db93c-6a50-47f9-a641-2a3459df61f7
+      m_Path: <Gamepad>/select
+      m_Interactions: 
+      m_Processors: Scale(factor=7)
+      m_Groups: ;Gamepad;Touch
+      m_Action: SwapWeaponPad
+      m_Flags: 0
   - m_Name: UI
     m_Id: 272f6d14-89ba-496f-b7ff-215263d3219f
     m_Asset: {fileID: -8346226380518104943}
