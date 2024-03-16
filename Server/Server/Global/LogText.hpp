@@ -201,12 +201,15 @@ public:
 
 		return *this;
 	}
-	LogText& operator << ( const char*        _arg )
+	LogText& operator << ( const char* _arg )
 	{
-		size_t size = ::strlen( _arg );
-		std::copy( &_arg[0], &_arg[size], &info[infoPos] );
-		infoPos += size;
-
+		if ( _arg != nullptr )
+		{
+			size_t size = ::strlen( _arg );
+			std::copy( &_arg[0], &_arg[size], &info[infoPos] );
+			infoPos += size;
+		}
+	
 		return *this;
 	}
 	void Copy( int                  _arg )
@@ -251,11 +254,13 @@ public:
 	}
 	void Copy( const char*          _arg )
 	{
-		WriteAfterOverflowCheck( _arg );
+		if ( _arg != nullptr )
+			 WriteAfterOverflowCheck( _arg );
 	}
 	void Copy( const unsigned char* _arg )
 	{
-		WriteAfterOverflowCheck( ( char* )_arg );
+		if ( _arg != nullptr )
+			 WriteAfterOverflowCheck( ( char* )_arg );
 	}
 	void Copy( const std::string&   _arg )
 	{
