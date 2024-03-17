@@ -91,7 +91,7 @@ public class Player : Character
             OnChangePlayerType?.Invoke( playerType );
         }
     }
-    // 0일때만 입력 가능
+    // 0일때만 조작 가능
     private int unmoveableCount;
     public int UnmoveableCount
     {
@@ -109,6 +109,30 @@ public class Player : Character
     }
     public Vector2 Direction { get; set; }
     private List<Weapon> Weapons { get; set; } = null;
+    public Weapon PrevWeapon 
+    {
+        get
+        {
+            int index = Weapons.IndexOf( EquipWeapon ) - 1;
+            if ( index <= 0 )
+            {
+                index = Weapons.Count - 1;
+            }
+            return Weapons[index];
+        }
+    }
+    public Weapon NextWeapon
+    {
+        get
+        {
+            int index = Weapons.IndexOf( EquipWeapon ) + 1;
+            if ( index >= Weapons.Count )
+            {
+                index = 1;
+            }
+            return Weapons[index];
+        }
+    }
 
     private InteractableActor nearestInteractable = null;
     private float interactableAngle = 0f;
@@ -138,7 +162,8 @@ public class Player : Character
         Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
 
         receiver.OnSwapWeaponEvent += SwapWeapon;
-        receiver.OnNextWeaponEvent += NextWeapon;
+        receiver.OnPrevWeaponEvent += SwapPrevWeapon;
+        receiver.OnNextWeaponEvent += SwapNextWeapon;
         receiver.OnInteractionEvent += Interaction;
 
         healthBar.value = Hp.Current / Hp.Max;
@@ -181,12 +206,6 @@ public class Player : Character
             return;
         }
 
-        if ( EquipWeapon is not null
-            && !EquipWeapon.myStat.swapDelay.IsZero )
-        {
-            return;
-        }
-
         EquipWeapon = Weapons[_index];
 
         if ( IsLocal )
@@ -198,14 +217,14 @@ public class Player : Character
         }
     }
 
-    public void NextWeapon()
+    private void SwapPrevWeapon()
     {
-        int index = Weapons.IndexOf( EquipWeapon ) + 1;
-        if ( index >= Weapons.Count )
-        {
-            index = 1;
-        }
-        SwapWeapon( index );
+        SwapWeapon( Weapons.IndexOf( PrevWeapon ) );
+    }
+
+    private void SwapNextWeapon()
+    {
+        SwapWeapon( Weapons.IndexOf( NextWeapon ));
     }
 
     public void ResetExcludeLayers()

@@ -19,6 +19,7 @@ public class ActionReceiver : MonoBehaviour
     public event Action OnDodgeEvent;
     public event Action<int/*index*/> OnSwapWeaponEvent;
     public event Action OnNextWeaponEvent;
+    public event Action OnPrevWeaponEvent;
     public event Action OnInteractionEvent;
 
     #region Camera
@@ -153,6 +154,17 @@ public class ActionReceiver : MonoBehaviour
     {
         int value =  Mathf.RoundToInt( _value.Get<float>() );
         OnSwapWeaponEvent?.Invoke( value );
+    }
+
+    private void OnSwapWeaponPad( InputValue _value )
+    {
+        int value = Mathf.RoundToInt( _value.Get<float>() );
+        OnSwapWeaponEvent?.Invoke( value );
+    }
+
+    private void OnPrevWeapon()
+    {
+        OnPrevWeaponEvent?.Invoke();
     }
 
     private void OnNextWeapon()

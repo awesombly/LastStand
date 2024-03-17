@@ -8,20 +8,24 @@ using TMPro;
 
 public class WeaponScreenUI : MonoBehaviour
 {
-    [SerializeField]
-    private Image weaponImage;
+    [SerializeField] Image weaponImage;
+    [SerializeField] RectTransform weaponPannel;
+    [SerializeField] RectTransform ammoPannel;
+    [SerializeField] RectTransform magazinePanel;
 
-    [SerializeField]
-    private GameObject magazinePanel;
-    [SerializeField]
-    private Image bulletIconPrefab;
+    [SerializeField] Image bulletIconPrefab;
     private List<Image> bulletIcons = new List<Image>();
     private WNS.ObjectPool<Image> bulletIconPool;
 
-    private Weapon equipWeapon;
+    #region VirtualPad
+    [SerializeField] Image prevWeaponImage;
+    [SerializeField] Image nextWeaponImage;
+    [SerializeField] RectTransform virtualWeaponX;
+    [SerializeField] RectTransform virtualMagazine;
+    #endregion
 
     // Ammo Effect
-    public GameObject ammo;
+    [SerializeField] GameObject ammo;
     private Transform ammoTF;
     private RectTransform ammoRT;
 
@@ -31,12 +35,19 @@ public class WeaponScreenUI : MonoBehaviour
     private Sequence scaleEffectSeq;
     private Vector3 startScl, endScl;
     private Player targetPlayer;
+    private Weapon equipWeapon;
 
     private void Awake()
     {
         bulletIconPool = new WNS.ObjectPool<Image>( bulletIconPrefab, magazinePanel.transform );
 
         GameManager.OnChangeLocalPlayer += OnChangeLocalPlayer;
+
+#if UNITY_ANDROID || UNITY_IOS
+        weaponPannel.anchoredPosition = new Vector2( virtualWeaponX.anchoredPosition.x, weaponPannel.anchoredPosition.y );
+        ammoPannel.anchoredPosition = new Vector2( virtualWeaponX.anchoredPosition.x, ammoPannel.anchoredPosition.y );
+        magazinePanel.anchoredPosition = virtualMagazine.anchoredPosition;
+#endif
     }
 
     private void Start()
@@ -147,6 +158,8 @@ public class WeaponScreenUI : MonoBehaviour
 
         // Weapon Image
         weaponImage.sprite = equipWeapon.spriter.sprite;
+        prevWeaponImage.sprite = targetPlayer.PrevWeapon.spriter.sprite;
+        nextWeaponImage.sprite = targetPlayer.NextWeapon.spriter.sprite;
 
         // Bullet Icons
         bulletIcons.Clear();
@@ -160,7 +173,7 @@ public class WeaponScreenUI : MonoBehaviour
         }
         UpdateBulletIcons();
         // 처음 접속시 업데이트 안되는 이슈가 있어 추가
-        LayoutRebuilder.ForceRebuildLayoutImmediate( magazinePanel.GetComponent<RectTransform>() );
+        LayoutRebuilder.ForceRebuildLayoutImmediate( magazinePanel );
     }
 
     private void OnChangeMagazine( int _old, int _new, int _max )

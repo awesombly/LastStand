@@ -59,11 +59,12 @@ public class InGameUIScene : SceneBase
         ProtocolSystem.Inst.Regist( EXIT_STAGE_ACK,  AckExitStage );
         ProtocolSystem.Inst.Regist( CHANGE_HOST_ACK, AckChangeHost );
 
-        #if UNITY_ANDROID || UNITY_IOS
+#if UNITY_ANDROID || UNITY_IOS
         cursor.gameObject.SetActive( false );
-        #else
+        virtualPad.SetActive( true );
+#else
         virtualPad.SetActive( false );
-        #endif
+#endif
     }
 
     protected override void Start()
