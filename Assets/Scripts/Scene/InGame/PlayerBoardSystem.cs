@@ -43,29 +43,32 @@ public class PlayerBoardSystem : MonoBehaviour
 
         if ( Input.GetKeyDown( KeyCode.Tab ) )
         {
-            if ( isMovePlaying )
-                 return;
+            if ( !isMovePlaying )
+                 ActiveCanvas();
+        }
+    }
 
-            if ( contents.activeInHierarchy )
-            {
-                isMovePlaying = true;
-                AudioManager.Inst.Play( SFX.MenuExit );
-                hintRT.DOAnchorPosX( -75f, .5f );
-                boardRT.DOAnchorPosX( -160f, .5f )
-                       .OnComplete( () =>
-                       {
-                           contents.SetActive( false );
-                           isMovePlaying     = false;
-                       } );
-            }
-            else
-            {
-                AudioManager.Inst.Play( SFX.MenuEntry );
-                contents.SetActive( true );
-                isMovePlaying = true;
-                boardRT.DOAnchorPosX( 160f, .5f ).OnComplete( () => isMovePlaying = false );
-                hintRT.DOAnchorPosX( 130f, .5f );
-            }
+    public void ActiveCanvas()
+    {
+        if ( contents.activeInHierarchy )
+        {
+            isMovePlaying = true;
+            AudioManager.Inst.Play( SFX.MenuExit );
+            hintRT.DOAnchorPosX( -75f, .5f );
+            boardRT.DOAnchorPosX( -160f, .5f )
+                   .OnComplete( () =>
+                   {
+                       contents.SetActive( false );
+                       isMovePlaying = false;
+                   } );
+        }
+        else
+        {
+            AudioManager.Inst.Play( SFX.MenuEntry );
+            contents.SetActive( true );
+            isMovePlaying = true;
+            boardRT.DOAnchorPosX( 160f, .5f ).OnComplete( () => isMovePlaying = false );
+            hintRT.DOAnchorPosX( 130f, .5f );
         }
     }
 
