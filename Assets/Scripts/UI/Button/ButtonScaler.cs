@@ -24,6 +24,11 @@ public class ButtonScaler : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         DOTween.Kill( tf );
     }
 
+    private void OnDisable()
+    {
+        tf.localScale = Vector3.one;
+    }
+
     public void OnPointerEnter( PointerEventData eventData )
     {
         tf.DOScale( targetSize, duration );

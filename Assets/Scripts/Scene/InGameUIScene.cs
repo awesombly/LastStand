@@ -86,24 +86,7 @@ public class InGameUIScene : SceneBase
              return;
 
         if ( Input.GetKeyDown( KeyCode.Escape ) )
-        {
-            if ( pause.activeInHierarchy )
-            {
-                if ( GameManager.LocalPlayer is not null )
-                     GameManager.LocalPlayer.UnmoveableCount--;
-
-                pause.SetActive( false );
-                AudioManager.Inst.Play( SFX.MenuExit );
-            }
-            else
-            {
-                if ( GameManager.LocalPlayer is not null )
-                     GameManager.LocalPlayer.UnmoveableCount++;
-
-                pause.SetActive( true );
-                AudioManager.Inst.Play( SFX.MenuEntry );
-            }
-        }
+             ActivePause();
     }
 
     private void OnDestroy()
@@ -111,6 +94,26 @@ public class InGameUIScene : SceneBase
         GameManager.OnDead -= OnPlayerDead;
     }
     #endregion
+
+    public void ActivePause()
+    {
+        if ( pause.activeInHierarchy )
+        {
+            if ( GameManager.LocalPlayer is not null )
+                 GameManager.LocalPlayer.UnmoveableCount--;
+
+            pause.SetActive( false );
+            AudioManager.Inst.Play( SFX.MenuExit );
+        }
+        else
+        {
+            if ( GameManager.LocalPlayer is not null )
+                 GameManager.LocalPlayer.UnmoveableCount++;
+
+            pause.SetActive( true );
+            AudioManager.Inst.Play( SFX.MenuEntry );
+        }
+    }
 
     public void ReqExitStage()
     {
