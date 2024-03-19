@@ -25,4 +25,14 @@ public class PlayerSO : ScriptableObject
     public AudioClip dodgeActionSound;
     public AudioClip dodgeHitSound;
     public AudioClip deadSound;
+
+    [Serializable]
+    public struct VirtualPadInfo
+    {
+        public Sprite reloadImage;
+        public Sprite dodgeImage;
+        public Sprite interactionImage;
+    }
+    [Header( "< VirtualPad >" )]
+    public VirtualPadInfo pad;
 }

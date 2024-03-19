@@ -18,8 +18,6 @@ public class WeaponScreenUI : MonoBehaviour
     private WNS.ObjectPool<Image> bulletIconPool;
 
     #region VirtualPad
-    [SerializeField] Image prevWeaponImage;
-    [SerializeField] Image nextWeaponImage;
     [SerializeField] RectTransform virtualWeaponX;
     [SerializeField] RectTransform virtualMagazine;
     #endregion
@@ -158,8 +156,6 @@ public class WeaponScreenUI : MonoBehaviour
 
         // Weapon Image
         weaponImage.sprite = equipWeapon.spriter.sprite;
-        prevWeaponImage.sprite = targetPlayer.PrevWeapon.spriter.sprite;
-        nextWeaponImage.sprite = targetPlayer.NextWeapon.spriter.sprite;
 
         // Bullet Icons
         bulletIcons.Clear();
