@@ -33,8 +33,7 @@ public class ButtonClickEffecter : MonoBehaviour, IPointerClickHandler
             .Join( targetImage.DOColor( targetColor, duration ) )
             .OnComplete( () =>
             {
-                transform.localScale = originScale;
-                targetImage.color = originColor;
+                Init();
             } );
     }
 
@@ -45,8 +44,13 @@ public class ButtonClickEffecter : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick( PointerEventData eventData )
     {
+        Init();
+        sequence.Restart();
+    }
+
+    private void Init()
+    {
         transform.localScale = originScale;
         targetImage.color = originColor;
-        sequence.Restart();
     }
 }

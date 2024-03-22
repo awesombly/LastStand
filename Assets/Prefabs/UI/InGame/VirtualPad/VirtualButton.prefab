@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0b9d903ba587fd4cb544262ff65476f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 0.1
-  scaleMultiplier: 1.2
+  duration: 0.15
+  scaleMultiplier: 1.25
   targetImage: {fileID: 2812225376476532136}
   targetColor: {r: 0.11764706, g: 0.11764706, b: 0.11764706, a: 0.7058824}
