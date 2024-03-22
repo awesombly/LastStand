@@ -6,7 +6,17 @@ using UnityEngine;
 public sealed class ProtocolSystem : Singleton<ProtocolSystem>
 {
     private Dictionary<PacketType, Action<Packet>> protocols = new Dictionary<PacketType, Action<Packet>>();
+    private Queue<Packet> packets = new Queue<Packet>();
     
+    protected override void Awake()
+    {
+        base.Awake();
+
+        StartCoroutine( Process() );
+    }
+
+    public void Push( in Packet _packet ) => packets.Enqueue( _packet );
+
     public void Regist( PacketType _type, Action<Packet> _func )
     {
         if ( protocols.ContainsKey( _type ) )
@@ -18,14 +28,27 @@ public sealed class ProtocolSystem : Singleton<ProtocolSystem>
         protocols.Add( _type, _func );
     }
 
-    public void Process( in Packet _packet )
+    private IEnumerator Process()
     {
-        if ( !protocols.ContainsKey( _packet.type ) )
+        WaitUntil waitConnectNetwork = new WaitUntil( () => { return Network.Inst.IsConnected; } );
+        WaitUntil waitReceivePackets = new WaitUntil( () => { return packets.Count > 0; } );
+        while ( true )
         {
-            Debug.LogWarning( $"The {_packet.type} protocol is not registered." );
-            return;
-        }
+            if ( !Network.Inst.IsConnected )
+                 yield return waitConnectNetwork;
 
-        protocols[_packet.type]?.Invoke( _packet );
+            yield return waitReceivePackets;
+            while ( packets.Count > 0 )
+            {
+                Packet packet = packets.Dequeue();
+                if ( !protocols.ContainsKey( packet.type ) )
+                {
+                    Debug.LogWarning( $"The {packet.type} protocol is not registered." );
+                    continue;
+                }
+
+                protocols[packet.type]?.Invoke( packet );
+            }
+        }
     }
 }

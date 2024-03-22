@@ -19,9 +19,9 @@ public class LobbyScene : SceneBase
         base.Awake();
         SceneType = SceneType.Lobby;
         StartCoroutine( WaitForAudioLoad() );
-        
-        if ( !Network.Inst.IsConnected )
-             Network.Inst.SelectIP( "127.0.0.1" );
+
+        OnDisconnected();
+        Network.Inst.OnDisconnected += OnDisconnected;
 
         #if !UNITY_EDITOR
         Cursor.visible = false;
@@ -33,7 +33,18 @@ public class LobbyScene : SceneBase
         Vector3 pos = Input.mousePosition;
         cursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
     }
+
+    private void OnDestroy()
+    {
+        Network.Inst.OnDisconnected -= OnDisconnected;
+    }
     #endregion
+
+    private void OnDisconnected()
+    {
+        if ( !Network.Inst.IsConnected )
+             Network.Inst.Connect( "127.0.0.1" );
+    }
 
     private IEnumerator WaitForAudioLoad()
     {

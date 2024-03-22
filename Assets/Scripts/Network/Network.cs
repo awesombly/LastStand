@@ -50,14 +50,6 @@ public sealed class Network : Singleton<Network>
         recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnReceiveCompleted );
     }
 
-    public void SelectIP( string _ip )
-    {
-        IPEndPoint point = new IPEndPoint( IPAddress.Parse( _ip ), Port );
-        connectArgs.RemoteEndPoint = point;
-
-        Connect();
-    }
-
     private void OnDestroy()
     {
         Release();
@@ -72,8 +64,11 @@ public sealed class Network : Singleton<Network>
         socket?.Close();
     }
 
-    private void Connect()
+    public void Connect( string _ip )
     {
+        IPEndPoint point = new IPEndPoint( IPAddress.Parse( _ip ), Port );
+        connectArgs.RemoteEndPoint = point;
+
         socket.ConnectAsync( connectArgs );
     }
 
@@ -101,7 +96,7 @@ public sealed class Network : Singleton<Network>
         if ( _args.BytesTransferred > 0 && _args.SocketError == SocketError.Success )
         {
             int recvSize = _args.BytesTransferred;
-            if ( writePos + recvSize > MaxReceiveSize )
+            if ( writePos + WNS.Math.Clamp( recvSize, Global.HeaderSize, int.MaxValue ) > MaxReceiveSize )
             {
                 byte[] remain = new byte[readPos];
                 Buffer.BlockCopy( buffer, startPos, remain, 0, readPos );
@@ -120,11 +115,10 @@ public sealed class Network : Singleton<Network>
             {
                 do
                 {
-                    byte[] copy = new byte[size - Global.HeaderSize];
-                    Buffer.BlockCopy( buffer, startPos + Global.HeaderSize, copy, 0, size - Global.HeaderSize );
-                    PacketSystem.Inst.Push( new Packet(
-                        ( Result     )BitConverter.ToUInt16( buffer, startPos ),
-                        ( PacketType )BitConverter.ToUInt16( buffer, startPos + 2 ), size, copy ) );
+                    byte[] data = new byte[size - Global.HeaderSize];
+                    Buffer.BlockCopy( buffer, startPos + Global.HeaderSize, data, 0, size - Global.HeaderSize );
+                    ProtocolSystem.Inst.Push( new Packet( ( Result     )BitConverter.ToUInt16( buffer, startPos     ),
+                                                          ( PacketType )BitConverter.ToUInt16( buffer, startPos + 2 ), size, data ) );
 
                     startPos += size;
                     readPos  -= size;
