@@ -6017,6 +6017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cb73d37f06bf5448c1ad98d3d14fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLoop: 0
   power: 250
 --- !u!114 &533209591
 MonoBehaviour:
@@ -7262,8 +7263,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 704251676}
-  - component: {fileID: 704251677}
   - component: {fileID: 704251679}
+  - component: {fileID: 704251677}
   - component: {fileID: 704251678}
   m_Layer: 5
   m_Name: VideoPlayer
@@ -9070,6 +9071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cb73d37f06bf5448c1ad98d3d14fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLoop: 0
   power: 250
 --- !u!114 &861482058
 MonoBehaviour:
@@ -12267,6 +12269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cb73d37f06bf5448c1ad98d3d14fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLoop: 0
   power: 250
 --- !u!114 &1275886814
 MonoBehaviour:
@@ -19136,6 +19139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4cb73d37f06bf5448c1ad98d3d14fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isLoop: 0
   power: 250
 --- !u!114 &1898919982
 MonoBehaviour:

@@ -10,6 +10,7 @@ using DG.Tweening;
 public enum SceneType
 {
     None,
+    Init,
     Lobby,
     InGame_Logic,
     InGame_UI,
@@ -65,13 +66,13 @@ public class SceneBase : MonoBehaviour
     #region Input
     public static void EnabledInputSystem( bool _keyboard, bool _mouse )
     {
-#if !UNITY_ANDROID && !UNITY_IOS
+        #if !UNITY_ANDROID && !UNITY_IOS
         if ( _keyboard ) InputSystem.EnableDevice( Keyboard.current );
         else             InputSystem.DisableDevice( Keyboard.current );
 
         if ( _mouse )    InputSystem.EnableDevice( Mouse.current );
         else             InputSystem.DisableDevice( Mouse.current );
-#endif
+        #endif
     }
     #endregion
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class LobbyScene : SceneBase
@@ -17,8 +18,11 @@ public class LobbyScene : SceneBase
     {
         base.Awake();
         SceneType = SceneType.Lobby;
-
         StartCoroutine( WaitForAudioLoad() );
+        
+        if ( !Network.Inst.IsConnected )
+             Network.Inst.SelectIP( "127.0.0.1" );
+
         #if !UNITY_EDITOR
         Cursor.visible = false;
         #endif
@@ -30,8 +34,6 @@ public class LobbyScene : SceneBase
         cursor.position = uiCamera.ScreenToWorldPoint( new Vector3( pos.x, pos.y, 10f ) );
     }
     #endregion
-    
-    public void ExitGame() => Application.Quit();
 
     private IEnumerator WaitForAudioLoad()
     {
@@ -39,6 +41,8 @@ public class LobbyScene : SceneBase
         AudioManager.Inst.Play( BGM.Lobby, 0f, .5f, 5f );
     }
 
+    public void ExitGame() => Application.Quit();
+    
     public void ActiveErrorPanel( string _text )
     {
         errorPanel.SetActive( true );

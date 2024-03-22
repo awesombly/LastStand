@@ -99,15 +99,9 @@ public sealed class AudioManager : Singleton<AudioManager>
             clips.Add( SFX.MenuHover,  _data.sfxMenuHover  );
             clips.Add( SFX.MenuEntry,  _data.sfxMenuEntry  );
             clips.Add( SFX.MenuExit,   _data.sfxMenuExit   );
+
+            IsLoading = false;
         } );
-
-        StartCoroutine( CheckLoadCount() );
-    }
-
-    private IEnumerator CheckLoadCount()
-    {
-        yield return new WaitUntil( () => totalCount > 0 && totalCount == loadCount );
-        IsLoading = false;
     }
 
     private void OnDestroy()

@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonRotator : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public bool  isLoop = false;
     public float power = 25f;
 
     private Transform tf;
@@ -16,6 +17,8 @@ public class ButtonRotator : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         tf  = transform;
         rot = Vector3.one;
+
+        isPlay = isLoop;
     }
 
     private void Update()
@@ -34,7 +37,7 @@ public class ButtonRotator : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerExit( PointerEventData eventData )
     {
-        isPlay = false;
+        isPlay = isLoop;
         rot = Vector3.one;
         tf.rotation = Quaternion.Euler( rot );
     }

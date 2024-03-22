@@ -6,16 +6,9 @@ using System.Net.Sockets;
 using System.Threading;
 using UnityEngine;
 
-using static PacketType;
-
-
 public sealed class Network : Singleton<Network>
 {
-    public enum IpType { NONE/* 콜백 주소 */, WNS, TAE, }
-    public IpType ip = IpType.NONE;
-
     private Socket       socket;
-    private string       Ip;
     private const int    Port           = 10000;
     private const ushort MaxReceiveSize = 10000;
 
@@ -27,10 +20,8 @@ public sealed class Network : Singleton<Network>
     // Connect
     public  bool IsConnected => isConnected;
     private bool isConnected;
-    private bool shouldReconnect;
-    private readonly float ReconnectDelay = 3f;
 
-    public event Action OnConnected, OnReconnected;
+    public event Action OnConnected, OnDisconnected;
 
     private SocketAsyncEventArgs connectArgs;
     private SocketAsyncEventArgs recvArgs;
@@ -44,24 +35,27 @@ public sealed class Network : Singleton<Network>
     protected override void Awake()
     {
         base.Awake();
+
+        socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
+        socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.DontLinger, true );
         
-       Ip = ip == IpType.WNS ? "114.199.144.213" :
-            ip == IpType.TAE ? "49.142.77.208"   :
-                               "127.0.0.1";
+        connectArgs = new SocketAsyncEventArgs();
+        connectArgs.Completed += OnConnectCompleted;
 
-        var protocolSystem = ProtocolSystem.Inst;
-        var packetSystem   = PacketSystem.Inst;
-        var audioManager   = AudioManager.Inst;
+        sendArgs = new SocketAsyncEventArgs();
+        sendArgs.Completed += OnSendCompleted;
 
-        //StartCoroutine( ConfirmDisconnect() );
-        StartCoroutine( ReconnectProcess() );
-
-        Connect();
+        recvArgs = new SocketAsyncEventArgs();
+        recvArgs.SetBuffer( recvBuf, 0, Global.MaxDataSize );
+        recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnReceiveCompleted );
     }
 
-    private void Start()
+    public void SelectIP( string _ip )
     {
-        ProtocolSystem.Inst.Regist( PACKET_HEARTBEAT, ( Packet ) => { Send( new Packet( PACKET_HEARTBEAT ) ); } );
+        IPEndPoint point = new IPEndPoint( IPAddress.Parse( _ip ), Port );
+        connectArgs.RemoteEndPoint = point;
+
+        Connect();
     }
 
     private void OnDestroy()
@@ -80,14 +74,6 @@ public sealed class Network : Singleton<Network>
 
     private void Connect()
     {
-        socket = new Socket( AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp );
-        socket.SetSocketOption( SocketOptionLevel.Socket, SocketOptionName.DontLinger, true );
-        IPEndPoint point = new IPEndPoint( IPAddress.Parse( Ip ), Port );
-
-        connectArgs = new SocketAsyncEventArgs();
-        connectArgs.RemoteEndPoint = point;
-        connectArgs.Completed += OnConnectCompleted;
-
         socket.ConnectAsync( connectArgs );
     }
 
@@ -96,19 +82,9 @@ public sealed class Network : Singleton<Network>
         if ( _args.SocketError == SocketError.Success )
         {
             Debug.Log( $"Server connection completed" );
-            
-            if ( shouldReconnect ) OnReconnected?.Invoke();
-            else                   OnConnected?.Invoke();
 
-            shouldReconnect = false;
-            isConnected     = true;
-
-            sendArgs = new SocketAsyncEventArgs();
-            sendArgs.Completed += OnSendCompleted;
-
-            recvArgs = new SocketAsyncEventArgs();
-            recvArgs.SetBuffer( recvBuf, 0, Global.MaxDataSize );
-            recvArgs.Completed += new EventHandler<SocketAsyncEventArgs>( OnReceiveCompleted );
+            isConnected = true;
+            OnConnected?.Invoke();
 
             if ( socket.ReceiveAsync( recvArgs ) == false )
                  OnReceiveCompleted( null, recvArgs );
@@ -116,7 +92,7 @@ public sealed class Network : Singleton<Network>
         else
         {
             Debug.LogWarning( $"Server connection failed" );
-            shouldReconnect = true;
+            OnDisconnected?.Invoke();
         }
     }
 
@@ -210,21 +186,4 @@ public sealed class Network : Singleton<Network>
     public void Send( PacketType _type, in IProtocol _protocol ) => Send( new Packet( _type, _protocol ) );
 
     public void Send( PacketType _type ) => Send( new Packet( _type ) );
-
-    private IEnumerator ReconnectProcess()
-    {
-        WaitUntil waitReconnectTiming = new WaitUntil( () => shouldReconnect );
-        while ( true )
-        {
-            yield return waitReconnectTiming;
-
-            shouldReconnect = false;
-
-            Debug.Log( $"Reconnect to the server" );
-            if ( socket.ConnectAsync( connectArgs ) == false )
-                 OnConnectCompleted( null, connectArgs );
-
-            yield return YieldCache.WaitForSeconds( ReconnectDelay );
-        }
-    }
 }

@@ -14,13 +14,19 @@ public class EditorSceneUtil : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = true;
     }
 
+    [MenuItem( "MyEditor/InitScene Start" )]
+    public static void SetupInitScene()
+    {
+        StartScene( SceneType.Init );
+    }
+
     [MenuItem( "MyEditor/LobbyScene Start" )]
     public static void SetupLobbyScene()
     {
         StartScene( SceneType.Lobby );
     }
 
-    private static void StartScene( SceneType _sceneType, Network.IpType _ipType = Network.IpType.NONE )
+    private static void StartScene( SceneType _sceneType )
     {
         string scenePath = null;
         foreach ( var scene in EditorBuildSettings.scenes )
