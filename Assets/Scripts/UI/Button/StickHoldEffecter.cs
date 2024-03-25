@@ -14,7 +14,7 @@ public class StickHoldEffecter : MonoBehaviour, IPointerDownHandler, IPointerUpH
     [SerializeField] Image targetImage;
     [SerializeField] Color targetColor;
     // UI 이벤트가 한쪽에서만 발생해서 전달하는 용도
-    [SerializeField] OnScreenStick screenStick;
+    [SerializeField] OnScreenStickCustom screenStick;
 
     private Vector3 targetSize;
     private Vector3 originScale;

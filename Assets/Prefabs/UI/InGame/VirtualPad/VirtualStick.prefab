@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6469814218668521304}
   - component: {fileID: 2464307827579693391}
   - component: {fileID: 4077459241456578805}
-  - component: {fileID: 4957406985300817636}
+  - component: {fileID: 1568391890235992503}
   m_Layer: 5
   m_Name: Stick
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4957406985300817636
+--- !u!114 &1568391890235992503
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,19 +86,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 576433261766167813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9d677f1681015749b15c436eec6d880, type: 3}
+  m_Script: {fileID: 11500000, guid: 40e7b6ebed511a74e81993f4701722e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onJoystickMove:
+    m_PersistentCalls:
+      m_Calls: []
+  onJoystickRelease:
+    m_PersistentCalls:
+      m_Calls: []
   m_MovementRange: 100
   m_DynamicOriginRange: 100
-  m_ControlPath: 
   m_Behaviour: 0
   m_UseIsolatedInputActions: 0
   m_PointerDownAction:
     m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 19d16077-ff6e-4b8a-9ee8-50541c0d2bb1
+    m_Id: a0a4ae9a-f2fa-4a3d-8a53-42970572891c
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -107,7 +112,7 @@ MonoBehaviour:
     m_Name: 
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 186da32b-11d7-4f99-94d5-310b10d9b07d
+    m_Id: fe79c77f-e345-44cb-8911-5516872a8efe
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -166,7 +171,7 @@ MonoBehaviour:
   scaleMultiplier: 1.1
   targetImage: {fileID: 7993165213727789360}
   targetColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.627451}
-  screenStick: {fileID: 4957406985300817636}
+  screenStick: {fileID: 1568391890235992503}
 --- !u!1 &8222003103727326138
 GameObject:
   m_ObjectHideFlags: 0

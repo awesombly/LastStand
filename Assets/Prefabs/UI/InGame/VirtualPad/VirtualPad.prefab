@@ -123,6 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd00551e8529c9d448fb375631ae632f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveStick: {fileID: 2284714193079365338}
+  aimStick: {fileID: 7373049139082683131}
   reloadImage: {fileID: 4326236732133411237}
   dodgeImage: {fileID: 550181019817010116}
   interactionImage: {fileID: 1263142672981290764}
@@ -422,6 +424,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 630a644a4f2f5ec4aa7efb5266691171, type: 3}
+--- !u!114 &2284714193079365338 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1568391890235992503, guid: 630a644a4f2f5ec4aa7efb5266691171, type: 3}
+  m_PrefabInstance: {fileID: 752351179724769133}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40e7b6ebed511a74e81993f4701722e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8048133886972898203 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7331952863454358774, guid: 630a644a4f2f5ec4aa7efb5266691171, type: 3}
@@ -1532,6 +1545,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7331952863454358774, guid: 630a644a4f2f5ec4aa7efb5266691171, type: 3}
   m_PrefabInstance: {fileID: 8328942683432897356}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7373049139082683131 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1568391890235992503, guid: 630a644a4f2f5ec4aa7efb5266691171, type: 3}
+  m_PrefabInstance: {fileID: 8328942683432897356}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40e7b6ebed511a74e81993f4701722e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8900293907818915008
 PrefabInstance:
   m_ObjectHideFlags: 0

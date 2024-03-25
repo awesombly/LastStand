@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class VirtualPadUI : MonoBehaviour
 {
+    [SerializeField] OnScreenStickCustom moveStick;
+    [SerializeField] OnScreenStickCustom aimStick;
+
     [SerializeField] Image reloadImage;
     [SerializeField] Image dodgeImage;
     [SerializeField] Image interactionImage;
@@ -40,6 +43,7 @@ public class VirtualPadUI : MonoBehaviour
 
         if ( _old is not null )
         {
+            _old.ActionReceiver.RemoveVirtualStickEvent( moveStick, aimStick );
             _old.OnChangePlayerType -= OnChangePlayerType;
             _old.OnChangeEquipWeapon -= OnChangeEquipWeapon;
         }
@@ -47,6 +51,7 @@ public class VirtualPadUI : MonoBehaviour
         if ( _new is not null )
         {
             targetPlayer = _new;
+            _new.ActionReceiver.AddVirtualStickEvent( moveStick, aimStick );
             _new.OnChangePlayerType += OnChangePlayerType;
             _new.OnChangeEquipWeapon += OnChangeEquipWeapon;
         }
