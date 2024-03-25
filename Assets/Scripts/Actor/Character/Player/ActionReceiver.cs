@@ -141,11 +141,10 @@ public class ActionReceiver : MonoBehaviour
 
     private void OnAimImplement( Vector2 _direction )
     {
-        OnAimEvent?.Invoke( _direction );
-
-        // Attack Input
         if ( _direction.sqrMagnitude > float.Epsilon )
         {
+            OnAimEvent?.Invoke( _direction );
+
             IsAttackHolded = true;
             OnAttackPressEvent?.Invoke();
         }

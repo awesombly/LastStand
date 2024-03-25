@@ -404,7 +404,10 @@ public class InGameLogicScene : SceneBase
         Dictionary<int/*HashCode*/, ACTOR_INFO> actorHashs = new Dictionary<int, ACTOR_INFO>();
         foreach ( ACTOR_INFO actorInfo in data.actors )
         {
-            actorHashs.Add( actorInfo.prefab, actorInfo );
+            if ( !actorHashs.TryAdd( actorInfo.prefab, actorInfo ) )
+            {
+                Debug.LogWarning( $"Invalid Hash. hash:{actorInfo.prefab}, serial:{actorInfo.serial}" );
+            }
         }
 
         Actor[] actors = sceneActors.GetComponentsInChildren<Actor>();
