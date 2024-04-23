@@ -125,7 +125,7 @@ public class ActionReceiver : MonoBehaviour
     #region InputSystem Callback
     private void OnMoveImplement( Vector2 _value )
     {
-        InputVector = _value;
+        InputVector = _value.normalized;
         OnMoveEvent?.Invoke( InputVector );
     }
 
@@ -143,7 +143,7 @@ public class ActionReceiver : MonoBehaviour
     {
         if ( _direction.sqrMagnitude > float.Epsilon )
         {
-            OnAimEvent?.Invoke( _direction );
+            OnAimEvent?.Invoke( _direction.normalized );
 
             IsAttackHolded = true;
             OnAttackPressEvent?.Invoke();

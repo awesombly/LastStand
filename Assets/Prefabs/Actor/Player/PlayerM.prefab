@@ -1827,7 +1827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncInfo:
-    distance: 1
+    distance: 0.1
     angle: 10
     interval:
       max: 0.1
