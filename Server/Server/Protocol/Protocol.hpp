@@ -302,6 +302,7 @@ typedef struct ActorInfo
 {
 public:
 	int prefab;
+	int hash;
 	bool isLocal;
 	SerialType serial;
 	Vector2 pos;
@@ -316,6 +317,7 @@ public:
 	void serialize( Archive& ar )
 	{
 		ar( CEREAL_NVP( prefab ) );
+		ar( CEREAL_NVP( hash ) );
 		ar( CEREAL_NVP( isLocal ) );
 		ar( CEREAL_NVP( serial ) );
 		ar( CEREAL_NVP( pos ) );

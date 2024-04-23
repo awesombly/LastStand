@@ -378,7 +378,7 @@ void InGame::AckHitActors( const Packet& _packet )
 		ActorInfo* defender = _packet.session->stage->GetActor( hit.defender, false );
 		if ( defender == nullptr )
 		{
-			return;
+			continue;
 		}
 		
 		// 샷건 같은걸 맞았으면 이미 죽은 상태일 수 있다
@@ -458,7 +458,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 		if ( session == nullptr )
 		{
 			Debug.LogError( "Session is null. " );
-			return;
+			continue;
 		}
 
 		if ( session == _packet.session

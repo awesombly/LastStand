@@ -136,6 +136,7 @@ public class InGameUIScene : SceneBase
         PLAYER_INFO protocol;
         protocol.actorInfo.isLocal = true;
         protocol.actorInfo.prefab = GameManager.Inst.GetPrefabIndex( playerPrefab );
+        protocol.actorInfo.hash = 0;
         protocol.actorInfo.serial = 0;
         protocol.actorInfo.pos = new VECTOR2( logicScene.GetSpawnPosition() );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );

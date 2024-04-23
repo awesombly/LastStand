@@ -94,8 +94,8 @@ public class InGameLogicScene : SceneBase
 
             ACTOR_INFO actorInfo;
             actorInfo.isLocal = true;
-            // 다른 클라에서 찾기 위한 용도
-            actorInfo.prefab = actor.MyHashCode; 
+            actorInfo.prefab = 0;
+            actorInfo.hash = actor.MyHashCode;
             actorInfo.serial = 0;
             actorInfo.pos = new VECTOR2( actor.transform.position );
             actorInfo.vel = new VECTOR2( actor.Rigid2D.velocity );
@@ -404,9 +404,9 @@ public class InGameLogicScene : SceneBase
         Dictionary<int/*HashCode*/, ACTOR_INFO> actorHashs = new Dictionary<int, ACTOR_INFO>();
         foreach ( ACTOR_INFO actorInfo in data.actors )
         {
-            if ( !actorHashs.TryAdd( actorInfo.prefab, actorInfo ) )
+            if ( !actorHashs.TryAdd( actorInfo.hash, actorInfo ) )
             {
-                Debug.LogWarning( $"Invalid Hash. hash:{actorInfo.prefab}, serial:{actorInfo.serial}" );
+                Debug.LogWarning( $"Invalid Hash. hash:{actorInfo.hash}, serial:{actorInfo.serial}" );
             }
         }
 
