@@ -62,6 +62,10 @@ public class GameManager : Singleton<GameManager>
     #region Unity Callback
     protected override void Awake()
     {
+#if UNITY_ANDROID || UNITY_IOS
+        Application.targetFrameRate = 120;
+#endif
+
         base.Awake();
 
         removeActorsToSend.serials = new List<uint>();
