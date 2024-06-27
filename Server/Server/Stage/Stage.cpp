@@ -79,7 +79,7 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 {
 	if ( _dead == nullptr )
 	{
-		Debug.LogError( "Actor is null. serial:", _hit.defender );
+		//Debug.LogError( "Actor is null. serial:", _hit.defender );
 		return false;
 	}
 
@@ -158,13 +158,13 @@ void Stage::RegistActor( ActorInfo* _actor )
 {
 	if ( _actor == nullptr )
 	{
-		Debug.LogWarning( "Actor is null.(Regist)" );
+		//Debug.LogWarning( "Actor is null.(Regist)" );
 		return;
 	}
 
 	if ( actors.contains( _actor->serial ) )
 	{
-		Debug.LogWarning( "Already exist actor. serial:", _actor->serial );
+		//Debug.LogWarning( "Already exist actor. serial:", _actor->serial );
 		return;
 	}
 
@@ -175,13 +175,13 @@ void Stage::UnregistActor( const ActorInfo* _actor )
 {
 	if ( _actor == nullptr )
 	{
-		Debug.LogWarning( "Actor is null.(Unregist)" );
+		//Debug.LogWarning( "Actor is null.(Unregist)" );
 		return;
 	}
 
 	if ( !actors.contains( _actor->serial ) )
 	{
-		Debug.LogWarning( "Actor not found.(Unregist ) serial:", _actor->serial );
+		//Debug.LogWarning( "Actor not found.(Unregist ) serial:", _actor->serial );
 		return;
 	}
 
@@ -195,7 +195,7 @@ ActorInfo* Stage::GetActor( SerialType _serial, bool _useLoging ) const
 	{
 		if ( _useLoging )
 		{
-			Debug.LogWarning( "Actor not found. serial:", _serial );
+			//Debug.LogWarning( "Actor not found. serial:", _serial );
 		}
 		return nullptr;
 	}
