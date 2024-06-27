@@ -12,6 +12,8 @@ public class ChatSystem : MonoBehaviour
 
     public TMP_InputField  input;
     public Transform       contents;
+    public RectTransform   chatPannel;
+    public RectTransform   virtualChatPannelX;
 
     [Header( "< Area >" )]
     public RectTransform area;
@@ -34,6 +36,10 @@ public class ChatSystem : MonoBehaviour
 
         pool = new WNS.ObjectPool<ChatMessage>( prefab, contents );
         input.interactable = false;
+
+#if UNITY_ANDROID || UNITY_IOS
+        chatPannel.anchoredPosition = new Vector2( virtualChatPannelX.anchoredPosition.x, chatPannel.anchoredPosition.y );
+#endif
     }
 
     private void Start()

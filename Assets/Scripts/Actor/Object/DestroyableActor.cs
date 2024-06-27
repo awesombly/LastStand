@@ -129,6 +129,7 @@ public class DestroyableActor : Actor
             ACTOR_INFO protocol;
             protocol.isLocal = false;
             protocol.prefab = 0;
+            protocol.hash = MyHashCode;
             protocol.serial = Serial;
             protocol.pos = new VECTOR2( originData.position );
             protocol.vel = new VECTOR2( Vector2.zero );
@@ -199,6 +200,7 @@ public class DestroyableActor : Actor
             ACTOR_INFO protocol;
             protocol.isLocal = false;
             protocol.prefab = GameManager.Inst.GetPrefabIndex( target );
+            protocol.hash = MyHashCode;
             protocol.serial = 0;
             protocol.pos = new VECTOR2( ( Vector2 )transform.position + posDelta * randDirection );
             protocol.vel = new VECTOR2( Vector2.zero );

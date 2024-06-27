@@ -11,6 +11,7 @@ public class ActionReceiver : MonoBehaviour
     public bool IsAttackHolded { get; private set; }
     public Vector2 InputVector { get; private set; }
 
+    #region Events
     public event Action<Vector2> OnMoveEvent;
     public event Action<Vector2> OnAimEvent;        // VirtualPad¿ë
     public event Action OnAttackPressEvent;
@@ -21,6 +22,7 @@ public class ActionReceiver : MonoBehaviour
     public event Action OnNextWeaponEvent;
     public event Action OnPrevWeaponEvent;
     public event Action OnInteractionEvent;
+    #endregion
 
     #region Camera
     private float targetOrthoSize;
@@ -33,6 +35,7 @@ public class ActionReceiver : MonoBehaviour
     private CinemachineConfiner2D confiner2D;
     #endregion
 
+    #region Unity Callback
     private void Awake()
     {
 #if UNITY_ANDROID || UNITY_IOS
@@ -79,6 +82,29 @@ public class ActionReceiver : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        IsAttackHolded = false;
+        InputVector = Vector2.zero;
+    }
+    #endregion
+
+    public void AddVirtualStickEvent( OnScreenStickCustom _moveStick, OnScreenStickCustom _aimStick )
+    {
+        _moveStick.onJoystickMove.AddListener( OnMoveImplement );
+        _moveStick.onJoystickRelease.AddListener( OnMoveRelease );
+        _aimStick.onJoystickMove.AddListener( OnAimImplement );
+        _aimStick.onJoystickRelease.AddListener( OnAimRelease );
+    }
+
+    public void RemoveVirtualStickEvent( OnScreenStickCustom _moveStick, OnScreenStickCustom _aimStick )
+    {
+        _moveStick.onJoystickMove.RemoveListener( OnMoveImplement );
+        _moveStick.onJoystickRelease.RemoveListener( OnMoveRelease );
+        _aimStick.onJoystickMove.RemoveListener( OnAimImplement );
+        _aimStick.onJoystickRelease.RemoveListener( OnAimRelease );
+    }
+
     private IEnumerator LerpCameraOrthoSize( float _targetSize )
     {
         pixelPerfect.enabled = false;
@@ -96,28 +122,29 @@ public class ActionReceiver : MonoBehaviour
         pixelPerfect.enabled = true;
     }
 
-    private void OnDisable()
-    {
-        IsAttackHolded = false;
-        InputVector = Vector2.zero;
-    }
-
     #region InputSystem Callback
-    private void OnMove( InputValue _value )
+    private void OnMoveImplement( Vector2 _value )
     {
-        InputVector = _value.Get<Vector2>();
-
+        InputVector = _value.normalized;
         OnMoveEvent?.Invoke( InputVector );
     }
 
-    private void OnAim( InputValue _value )
+    private void OnMove( InputValue _value )
     {
-        Vector2 direction = _value.Get<Vector2>();
-        OnAimEvent?.Invoke( direction );
+        OnMoveImplement( _value.Get<Vector2>() );
+    }
 
-        // Attack Input
-        if ( direction.sqrMagnitude > float.Epsilon )
+    private void OnMoveRelease()
+    {
+        OnMoveImplement( Vector2.zero );
+    }
+
+    private void OnAimImplement( Vector2 _direction )
+    {
+        if ( _direction.sqrMagnitude > float.Epsilon )
         {
+            OnAimEvent?.Invoke( _direction.normalized );
+
             IsAttackHolded = true;
             OnAttackPressEvent?.Invoke();
         }
@@ -126,6 +153,16 @@ public class ActionReceiver : MonoBehaviour
             IsAttackHolded = false;
             OnAttackReleaseEvent?.Invoke();
         }
+    }
+
+    private void OnAim( InputValue _value )
+    {
+        OnAimImplement( _value.Get<Vector2>() );
+    }
+
+    private void OnAimRelease()
+    {
+        OnAimImplement( Vector2.zero );
     }
 
     private void OnAttackPress()

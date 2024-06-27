@@ -101,7 +101,7 @@ public class Player : Character
             unmoveableCount = value;
 
             bool isMoveable = unmoveableCount <= 0;
-            receiver.enabled = isMoveable;
+            ActionReceiver.enabled = isMoveable;
             movement.IsMoveable = isMoveable;
             movement.moveInfo.moveVector = Vector2.zero;
             SceneBase.EnabledInputSystem( isMoveable, isMoveable );
@@ -140,9 +140,9 @@ public class Player : Character
     #region Components
     public PlayerUI PlayerUI { get; private set; }
     public PlayerDodgeAttack DodgeAttack { get; private set; }
+    public ActionReceiver ActionReceiver { get; private set; }
     private PlayerInput playerInput;
     private PlayerAnimator playerAnimator;
-    private ActionReceiver receiver;
     private PlayerMovement movement;
     #endregion
 
@@ -155,16 +155,16 @@ public class Player : Character
         base.Awake();
         PlayerUI = GetComponent<PlayerUI>();
         DodgeAttack = GetComponentInChildren<PlayerDodgeAttack>();
+        ActionReceiver = GetComponent<ActionReceiver>();
         playerInput = GetComponent<PlayerInput>();
         playerAnimator = GetComponent<PlayerAnimator>();
-        receiver = GetComponent<ActionReceiver>();
         movement = GetComponent<PlayerMovement>();
         Weapons = new List<Weapon>( GetComponentsInChildren<Weapon>( true ) );
 
-        receiver.OnSwapWeaponEvent += SwapWeapon;
-        receiver.OnPrevWeaponEvent += SwapPrevWeapon;
-        receiver.OnNextWeaponEvent += SwapNextWeapon;
-        receiver.OnInteractionEvent += Interaction;
+        ActionReceiver.OnSwapWeaponEvent += SwapWeapon;
+        ActionReceiver.OnPrevWeaponEvent += SwapPrevWeapon;
+        ActionReceiver.OnNextWeaponEvent += SwapNextWeapon;
+        ActionReceiver.OnInteractionEvent += Interaction;
 
         healthBar.value = Hp.Current / Hp.Max;
         healthLerpBar.value = healthBar.value;
@@ -364,7 +364,7 @@ public class Player : Character
     {
         base.OnChangeLocal( _isLocal );
         playerInput.enabled = _isLocal;
-        receiver.enabled = _isLocal;
+        ActionReceiver.enabled = _isLocal;
     }
 
     private void OnChangeHp( float _old, float _new, float _max )

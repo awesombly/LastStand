@@ -40,6 +40,7 @@ public class EnemySpawner : MonoBehaviour
         ACTOR_INFO protocol;
         protocol.isLocal = false;
         protocol.prefab = GameManager.Inst.GetPrefabIndex( prefab );
+        protocol.hash = 0;
         protocol.serial = 0;
         protocol.pos = new VECTOR2( player.Rigid2D.position + delta * 25f );
         protocol.vel = new VECTOR2( Vector2.zero );

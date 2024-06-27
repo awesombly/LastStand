@@ -62,6 +62,7 @@ public class PlayerEffect : EffectSpawner
             curDodgeSprite = player.Spriter.sprite;
             Poolable afterImage = PoolManager.Inst.Get( player.playerData.dodge.afeterImage );
             afterImage.transform.position = transform.position;
+            afterImage.transform.localScale = transform.localScale;
 
             Color originColor = afterImage.Spriter.color;
             afterImage.Spriter.sprite = curDodgeSprite;

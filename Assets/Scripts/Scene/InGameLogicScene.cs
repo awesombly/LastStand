@@ -20,6 +20,8 @@ public class InGameLogicScene : SceneBase
         base.Awake();
         IsLock = true;
         SceneType = SceneType.InGame_Logic;
+        AudioManager.Inst.Play( BGM.InGame, 0f, .5f, 5f );
+
         if ( spawnTransforms.Count == 0 )
         {
             spawnTransforms.Add( transform );
@@ -94,8 +96,8 @@ public class InGameLogicScene : SceneBase
 
             ACTOR_INFO actorInfo;
             actorInfo.isLocal = true;
-            // 다른 클라에서 찾기 위한 용도
-            actorInfo.prefab = actor.MyHashCode; 
+            actorInfo.prefab = 0;
+            actorInfo.hash = actor.MyHashCode;
             actorInfo.serial = 0;
             actorInfo.pos = new VECTOR2( actor.transform.position );
             actorInfo.vel = new VECTOR2( actor.Rigid2D.velocity );
@@ -404,7 +406,10 @@ public class InGameLogicScene : SceneBase
         Dictionary<int/*HashCode*/, ACTOR_INFO> actorHashs = new Dictionary<int, ACTOR_INFO>();
         foreach ( ACTOR_INFO actorInfo in data.actors )
         {
-            actorHashs.Add( actorInfo.prefab, actorInfo );
+            if ( !actorHashs.TryAdd( actorInfo.hash, actorInfo ) )
+            {
+                Debug.LogWarning( $"Invalid Hash. hash:{actorInfo.hash}, serial:{actorInfo.serial}" );
+            }
         }
 
         Actor[] actors = sceneActors.GetComponentsInChildren<Actor>();

@@ -62,6 +62,10 @@ public class GameManager : Singleton<GameManager>
     #region Unity Callback
     protected override void Awake()
     {
+#if UNITY_ANDROID || UNITY_IOS
+        Application.targetFrameRate = 120;
+#endif
+
         base.Awake();
 
         removeActorsToSend.serials = new List<uint>();
@@ -169,6 +173,7 @@ public class GameManager : Singleton<GameManager>
         PLAYER_INFO protocol;
         protocol.actorInfo.isLocal = true;
         protocol.actorInfo.prefab = _player.PrefabIndex;
+        protocol.actorInfo.hash = _player.MyHashCode;
         protocol.actorInfo.serial = _player.Serial;
         protocol.actorInfo.pos = new VECTOR2( scene.GetSpawnPosition() );
         protocol.actorInfo.vel = new VECTOR2( Vector2.zero );

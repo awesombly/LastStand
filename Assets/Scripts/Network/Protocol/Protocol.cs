@@ -180,6 +180,7 @@ public struct ACCOUNT_INFO : IProtocol
 public struct ACTOR_INFO : IProtocol
 {
     public int prefab;
+    public int hash;
     public bool isLocal;
     public uint serial;
     public VECTOR2 pos;
