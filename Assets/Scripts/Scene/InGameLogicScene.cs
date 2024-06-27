@@ -20,6 +20,8 @@ public class InGameLogicScene : SceneBase
         base.Awake();
         IsLock = true;
         SceneType = SceneType.InGame_Logic;
+        AudioManager.Inst.Play( BGM.InGame, 0f, .5f, 5f );
+
         if ( spawnTransforms.Count == 0 )
         {
             spawnTransforms.Add( transform );
