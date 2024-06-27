@@ -81,3 +81,4 @@ crashlytics-build.properties
 /Server/Log
 /Server.exe
 /Assets/StreamingAssets/Default
+/IOS Build
