@@ -35,7 +35,7 @@ void Lobby::AckCreateStage( const Packet& _packet )
 
 void Lobby::AckEntryStage( const Packet& _packet )
 {
-	Session* session       = _packet.session;
+	Session* session = _packet.session;
 	try
 	{
 		const STAGE_INFO& data = FromJson<STAGE_INFO>( _packet );

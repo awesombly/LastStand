@@ -85,7 +85,7 @@ private:
 		infoPos = 0;
 	}
 
-	void Write()
+	void Write( LogType _type )
 	{
 		if ( pos == 0 || !os.is_open() )
 		{
@@ -93,9 +93,29 @@ private:
 			return;
 		}
 
-		if ( writeType != LogWriteType::Console ) os         << data << std::endl << std::endl;
-		if ( writeType != LogWriteType::File    ) std::cout  << data << std::endl;
+		if ( writeType != LogWriteType::Console ) 
+			 os << data << std::endl << std::endl;
 
+		if ( writeType != LogWriteType::File )
+		{
+			switch ( _type )
+			{
+				case LogType::_Log:
+				{
+					std::cout << "#   LOG   # " << data << std::endl;
+				} break;
+
+				case LogType::_Warning:
+				{
+					std::cout << "# WARNING # " << data << std::endl;
+				} break;
+
+				case LogType::_Error:
+				{
+					std::cout << "#  ERROR  # " << data << std::endl;
+				} break;
+			}
+		}
 
 		Clear();
 	}
@@ -154,7 +174,7 @@ public:
 		Copy( type );
 		Log( _args... );
 
-		Write();
+		Write( LogType::_Log );
 		cs.UnLock();
 	}
 
@@ -170,7 +190,7 @@ public:
 		Copy( type );
 		LogWarning( _args... );
 
-		Write();
+		Write( LogType::_Warning );
 		cs.UnLock();
 	}
 
@@ -183,7 +203,7 @@ public:
 		Copy( type );
 		LogError( _args... );
 
-		Write();
+		Write( LogType::_Error );
 		cs.UnLock();
 	}
 

@@ -39,7 +39,6 @@ void InGame::AckChatMessage( const Packet& _packet )
 
 void InGame::AckExitStage( const Packet& _packet )
 {
-
 	try
 	{
 		const STAGE_INFO& data  = FromJson<STAGE_INFO>( _packet );
@@ -133,12 +132,13 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	{
 		player = new PlayerInfo( data );
 		_packet.session->player = player;
-		Debug.Log( "Register new player. nick:", _packet.session->loginInfo.nickname );
+		Debug.Log( "New player < ", _packet.session->loginInfo.nickname, " > registered" );
 		_packet.session->stage->RegistActor( &player->actorInfo );
 	}
 	else
 	{
 		player->actorInfo = data.actorInfo;
+		Debug.Log( "The < ", player->nickname, " > player has been respawn" );
 	}
 	player->actorInfo.actorType = ActorType::Player;
 	player->isDead = false;
@@ -246,7 +246,7 @@ void InGame::AckSyncLook( const Packet& _packet )
 
 	if ( _packet.session->player == nullptr )
 	{
-		Debug.LogError( "Player is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		//Debug.LogError( "Player is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
@@ -277,7 +277,7 @@ void InGame::AckSyncSwapWeapon( const Packet& _packet )
 
 	if ( _packet.session->player == nullptr )
 	{
-		Debug.LogError( "Player is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		//Debug.LogError( "Player is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 	
@@ -330,7 +330,7 @@ void InGame::AckSyncEatableEvent( const Packet& _packet )
 	ActorInfo* eatable = _packet.session->stage->GetActor( data.serial );
 	if ( eatable == nullptr )
 	{
-		Debug.LogError( "Eatable is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
+		//Debug.LogError( "Eatable is null. serial:", data.serial, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
@@ -354,7 +354,7 @@ void InGame::AckHitActors( const Packet& _packet )
 	HITS_INFO data = FromJson<HITS_INFO>( _packet );
 	if ( _packet.session->stage == nullptr )
 	{
-		Debug.LogError( "Session is null. nick:", _packet.session->loginInfo.nickname );
+		//Debug.LogError( "Session is null. nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
 
@@ -425,7 +425,7 @@ void InGame::AckInitSceneActors( const Packet& _packet )
 
 	if ( _packet.session != _packet.session->stage->host )
 	{
-		Debug.LogError( "Is not host. socket:", _packet.session->GetSocket(), ", nick:", _packet.session->loginInfo.nickname);
+		//Debug.LogError( "Is not host. socket:", _packet.session->GetSocket(), ", nick:", _packet.session->loginInfo.nickname);
 		return;
 	}
 
@@ -457,7 +457,7 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 	{
 		if ( session == nullptr )
 		{
-			Debug.LogError( "Session is null. " );
+			//Debug.LogError( "Session is null. " );
 			continue;
 		}
 
@@ -508,8 +508,8 @@ void InGame::AckInGameLoadData( const Packet& _packet )
 			case ActorType::None:
 			default:
 			{
-				Debug.LogError( "Not processed type. type:", ( int )actorPair.second->actorType );
-				throw std::exception( "# Not processed type." );
+				//Debug.LogError( "Not processed type. type:", ( int )actorPair.second->actorType );
+				throw std::exception( "Not processed type." );
 			} break;
 			}
 		}
@@ -528,8 +528,8 @@ void InGame::AckUpdateResultData( const Packet& _packet )
 		RESULT_INFO data   = FromJson<RESULT_INFO>( _packet );
 		USER_DATA userData = Database::Inst().GetUserData( data.uid );
 
-		float offset = ( float )( ( data.kill + 1 ) / ( data.death + 1 ) );
-		userData.exp += ( 100.0f * offset ) * 100.0f/* 배율 */;
+		float offset = ( float )( ( 3.579f * ( data.kill + 1 ) ) / ( data.death + 1 ) );
+		userData.exp += ( 73.458f * offset ) * 100.0f/* 배율 */;
 
 		float totalExp = Global::Result::GetTotalEXP( userData.level );
 		while ( userData.exp >= totalExp )

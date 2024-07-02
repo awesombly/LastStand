@@ -101,10 +101,10 @@ void Database::Query( const char* _sentence, ... )
 	}
 	va_end( vl );
 
-	Debug.Log( "# Query <", sentence, ">" );
+	Debug.Log( "Query <", sentence, ">" );
 	if ( ::mysql_query( conn, sentence ) != NULL )
 	{
-		Debug.LogWarning( "# DB Exception < ", ::mysql_error( conn ), " >" );
+		Debug.LogWarning( "DB Exception < ", ::mysql_error( conn ), " >" );
 		throw Result::DB_ERR_INVALID_QUERY;
 	}
 }
@@ -114,7 +114,7 @@ bool Database::ExistLoginData( const LOGIN_DATA& _data )
 	Query( R"Q( SELECT * FROM LoginData WHERE Email = '%s'; )Q", _data.email );
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
-		Debug.LogWarning( "# DB Exception < ", ::mysql_error( conn ), " >" );
+		Debug.LogWarning( "DB Exception < ", ::mysql_error( conn ), " >" );
 		return false;
 	}
 
@@ -142,13 +142,16 @@ LOGIN_DATA Database::GetLoginData( const std::string& _email )
 	Query( R"Q( SELECT * FROM LoginData WHERE Email = '%s'; )Q", _email );
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
-		Debug.LogWarning( "# DB Exception < ", ::mysql_error( conn ), " >" );
+		Debug.LogWarning( "DB Exception < ", ::mysql_error( conn ), " >" );
 		throw Result::ERR_NOT_EXIST_DATA;
 	}
 
 	MYSQL_ROW row;
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
+	{
+		Debug.LogWarning( "Login information does not exist" );
 		throw Result::ERR_NOT_EXIST_DATA;
+	}
 
 	return LOGIN_DATA{ ::atoi( row[0] ), row[1], row[2], row[3] };
 }
@@ -158,13 +161,16 @@ LOGIN_DATA Database::GetLoginData( int _uid )
 	Query( R"Q( SELECT * FROM LoginData WHERE uid = '%d'; )Q", _uid );
 	if ( ( result = ::mysql_store_result( conn ) ) == nullptr )
 	{
-		Debug.LogWarning( "# DB Exception < ", ::mysql_error( conn ), " >" );
+		Debug.LogWarning( "DB Exception < ", ::mysql_error( conn ), " >" );
 		throw Result::ERR_NOT_EXIST_DATA;
 	}
 
 	MYSQL_ROW row;
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
+	{
+		Debug.LogWarning( "Login information does not exist" );
 		throw Result::ERR_NOT_EXIST_DATA;
+	}
 
 	return LOGIN_DATA{ ::atoi( row[0] ), row[1], row[2], row[3] };
 }
@@ -181,7 +187,10 @@ USER_DATA Database::GetUserData( int _uid )
 
 	MYSQL_ROW row;
 	if ( ( row = ::mysql_fetch_row( result ) ) == nullptr )
+	{
+		Debug.LogWarning( "User information does not exist" );
 		throw Result::ERR_NOT_EXIST_DATA;
+	}
 
 	return USER_DATA{ ::atoi( row[2] ), ( float )::atof(row[3]), ::atoi(row[4]), ::atoi(row[5]), ::atoi(row[6]), ::atoi(row[7]), ::atoi(row[8])};
 }

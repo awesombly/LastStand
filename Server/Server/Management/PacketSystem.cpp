@@ -19,7 +19,7 @@ bool PacketSystem::Initialize()
 void PacketSystem::Push( const Packet& _packet )
 {
 	if ( !LogText::Inst().ignoreData && _packet.type != PACKET_HEARTBEAT )
-		 Debug.Log( "# Receive ( ", magic_enum::enum_name( _packet.type ).data(), ", ", _packet.size, "bytes ) ", _packet.data );
+		 Debug.Log( "Receive ( ", magic_enum::enum_name( _packet.type ).data(), ", ", _packet.size, "bytes ) ", _packet.data );
 
 	std::lock_guard<std::mutex> lock( mtx );
 	packets.push( _packet );

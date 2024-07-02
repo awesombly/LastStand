@@ -15,7 +15,7 @@ void StageManager::Erase( Stage* _stage )
 	if ( _stage == nullptr )
 		 return;
 
-	Debug.Log( "# Stage ", _stage->info.stageSerial, " has been removed" );
+	Debug.Log( "Stage ", _stage->info.stageSerial, " has been removed" );
 
 	std::lock_guard<std::mutex> lock( mtx );
 	for ( std::list<Stage*>::const_iterator iter = stages.begin(); iter != stages.end(); iter++ )
@@ -57,6 +57,6 @@ Stage* StageManager::Find( SerialType _serial ) const
 		 	 return stage;
 	}
 
-	Debug.LogWarning( "# The Stage ", _serial, " does not exist" );
+	Debug.LogWarning( "The Stage ", _serial, " does not exist" );
 	throw Result::ERR_NOT_EXIST_DATA;
 }

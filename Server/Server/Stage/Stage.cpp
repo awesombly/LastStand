@@ -3,9 +3,9 @@
 
 Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _info ), isValid( true )
 {
-	Debug.Log( "# Stage ", info.stageSerial, " has been created" );
-	Debug.Log( "# < ", _host->loginInfo.nickname, " > has entered Stage ", info.stageSerial );
-	Debug.Log( "# The host has been changed< Stage ", info.stageSerial, " : ", host->loginInfo.nickname, " >" );
+	Debug.Log( "Stage ", info.stageSerial, " has been created" );
+	Debug.Log( "< ", _host->loginInfo.nickname, " > has entered Stage ", info.stageSerial );
+	Debug.Log( "The host has been changed< Stage ", info.stageSerial, " : ", host->loginInfo.nickname, " >" );
 	sessions.push_back( host );
 	_host->stage = this;
 }
@@ -14,20 +14,20 @@ void Stage::Entry( Session* _session )
 {
 	if ( !isValid )
 	{
-		Debug.LogWarning( "# The stage after the game" );
+		Debug.LogWarning( "The stage after the game" );
 		throw Result::ERR_UNABLE_PROCESS;
 	}
 
 	if ( sessions.size() + 1 > info.personnel.maximum )
 	{
-		Debug.LogWarning( "# The stage is full of people" );
+		Debug.LogWarning( "The stage is full of people" );
 		throw Result::ERR_UNABLE_PROCESS;
 	}
 
 	_session->stage = this;
 	sessions.push_back( _session );
 	info.personnel.current = ( int )sessions.size();
-	Debug.Log( "# < ", _session->loginInfo.nickname, " > has entered Stage ", info.stageSerial );
+	Debug.Log( "< ", _session->loginInfo.nickname, " > has entered Stage ", info.stageSerial );
 }
 
 void Stage::Exit( Session* _session )
@@ -49,13 +49,13 @@ void Stage::Exit( Session* _session )
 
 	sessions.erase( std::find( sessions.begin(), sessions.end(), _session ) );
 	info.personnel.current = ( int )sessions.size();
-	Debug.Log( "# The ", _session->loginInfo.nickname, " has left Stage ", info.stageSerial );
+	Debug.Log( "The < ", _session->loginInfo.nickname, " > has left Stage ", info.stageSerial );
 
 	if ( sessions.size() > 0 && host->GetSocket() == _session->GetSocket() )
 	{
 		 host = *sessions.begin();
 		 info.hostSerial = host->serial;
-		 Debug.Log( "# The host has been changed< Stage ", info.stageSerial, " : ", host->loginInfo.nickname, " : ", info.hostSerial, " >" );
+		 Debug.Log( "The host has been changed< Stage ", info.stageSerial, " : ", host->loginInfo.nickname, " : ", info.hostSerial, " >" );
 
 		 SERIAL_INFO protocol;
 		 protocol.serial = info.hostSerial;
@@ -110,6 +110,8 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 			Debug.LogError( "Attacker is null. serial:", _hit.attacker );
 			break;
 		}
+		
+		Debug.Log( "< ", player->nickname, "< Died on Stage ", info.stageSerial );
 
 		++( attacker->kill );
 		++info.currentKill;
@@ -123,7 +125,7 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 	default:
 	{
 		Debug.LogError( "Not processed type. type:", ( int )_dead->actorType );
-		throw std::exception( "# Not processed type." );
+		throw std::exception( "Not processed type." );
 	} break;
 	}
 
@@ -148,6 +150,7 @@ PlayerInfo* Stage::FindWinner() const
 		if ( winner == nullptr || winner->kill < session->player->kill )
 		{
 			winner = session->player;
+			Debug.Log( "< ", winner->nickname, " > won Stage ", info.stageSerial );
 		}
 	}
 

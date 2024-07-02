@@ -22,7 +22,7 @@ void SessionManager::Push( Session* _session )
 		 return;
 
 	_session->serial = Global::GetNewSerial();
-	Debug.Log( "# Register a new session ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
+	Debug.Log( "Register a new session ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
 	sessions.push_back( _session );
 }
 
@@ -32,7 +32,7 @@ void SessionManager::Erase( Session* _session )
 	if ( _session == nullptr )
 		 return;
 	
-	Debug.Log( "# The session has left ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
+	Debug.Log( "The session has left ( ", _session->GetPort(), " ", _session->GetAddress(), " )" );
 	if ( _session->stage != nullptr )
 	{
 		Stage* stage = _session->stage;

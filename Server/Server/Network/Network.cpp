@@ -21,7 +21,7 @@ bool Network::Connect() const
 void Network::Send( const UPacket& _packet )
 {
 	if ( !LogText::Inst().ignoreData && _packet.type != PACKET_HEARTBEAT )
-		 Debug.Log( "# Send ( ", magic_enum::enum_name( _packet.type ).data(), ", ", _packet.size, "bytes ) ", _packet.data );
+		 Debug.Log( "Send ( ", magic_enum::enum_name( _packet.type ).data(), ", ", _packet.size, "bytes ) ", _packet.data );
 	
 	DWORD transferred = 0;
 	OVERLAPPEDEX* ov = new OVERLAPPEDEX( OVERLAPPEDEX::MODE_SEND );
@@ -34,7 +34,7 @@ void Network::Send( const UPacket& _packet )
 		{
 			default:
 			{
-				Debug.LogError( "# < Send LastError > ", ::WSAGetLastError() );
+				Debug.LogError( "< Send LastError > ", ::WSAGetLastError() );
 			} break;
 
 			case WSA_IO_PENDING:
@@ -64,7 +64,7 @@ void Network::Recieve()
 			default:
 			{
 				if ( ::WSAGetLastError() != WSA_IO_PENDING )
-					 Debug.LogError( "# < Recieve LastError > ", ::WSAGetLastError() );
+					 Debug.LogError( "< Recieve LastError > ", ::WSAGetLastError() );
 			} break;
 
 			case WSA_IO_PENDING:

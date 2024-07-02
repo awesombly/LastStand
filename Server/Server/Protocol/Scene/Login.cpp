@@ -12,19 +12,20 @@ void Login::Bind()
 void Login::ConfirmMatchData( const Packet& _packet )
 {
 	LOGIN_DATA data = FromJson<LOGIN_DATA>( _packet );
+	Debug.Log( "=============== LOGIN ===============" );
 	Session* session = _packet.session;
 	try
 	{
 		if ( Global::String::Trim( data.email ).empty() )
 		{
-			Debug.LogWarning( "# The email is empty" );
+			Debug.LogWarning( "The email is empty" );
 			throw Result::ERR_INVALID_DATA;
 		}
 
 		LOGIN_DATA info = Database::Inst().GetLoginData( data.email );
 		if ( data.email.compare( info.email ) != 0 || data.password.compare( info.password ) != 0 )
 		{
-			Debug.LogWarning( "# Login information does not match" );
+			Debug.LogWarning( "Login information does not match" );
 			throw Result::ERR_INVALID_DATA;
 		}
 
@@ -33,7 +34,7 @@ void Login::ConfirmMatchData( const Packet& _packet )
 		ret.userInfo  = Database::Inst().GetUserData( info.uid );
 		session->Send( UPacket( CONFIRM_LOGIN_ACK, ret ) );
 
-		Debug.Log( "# < ", info.nickname, " > login completed" );
+		Debug.Log( "< ", info.nickname, " > login completed" );
 	}
 	catch ( Result _error )
 	{
@@ -43,11 +44,15 @@ void Login::ConfirmMatchData( const Packet& _packet )
 
 void Login::ConfirmDuplicateInfo( const Packet& _packet )
 {
+	Debug.Log( "=============== ACCOUNT ===============" );
 	try
 	{
 		const auto& data = FromJson<LOGIN_DATA>( _packet );
 		if ( Database::Inst().ExistLoginData( data ) )
-			 throw Result::DB_ERR_DUPLICATE_DATA;
+		{
+			Debug.LogWarning( "Login information exist" );
+			throw Result::DB_ERR_DUPLICATE_DATA;
+		}
 		
 		_packet.session->Send( UPacket( DUPLICATE_EMAIL_ACK ) );
 	}
@@ -64,11 +69,12 @@ void Login::AddToDatabase( const Packet& _packet )
 		auto data = FromJson<LOGIN_DATA>( _packet );
 		if ( Global::String::Trim( data.nickname ).empty() )
 		{
-			Debug.LogWarning( "# The nickname is empty" );
+			Debug.LogWarning( "The nickname is empty" );
 			throw Result::ERR_INVALID_DATA;
 		}
 
 		Database::Inst().CreateUserData( data.nickname, data.email, data.password );
+		Debug.Log( "Account creation completed" );
 		_packet.session->Send( UPacket( CONFIRM_ACCOUNT_ACK ) );
 	}
 	catch ( Result _error )
