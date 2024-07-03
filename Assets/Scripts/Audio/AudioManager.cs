@@ -64,6 +64,8 @@ public sealed class AudioManager : Singleton<AudioManager>
     [Header( "Addressable" )]
     private List<AsyncOperationHandle> handles = new List<AsyncOperationHandle>();
     private int totalCount, loadCount;
+    private float volumeCache = 0f;
+
     public bool IsLoading { get; private set; } = true;
     #endregion
 
@@ -102,6 +104,13 @@ public sealed class AudioManager : Singleton<AudioManager>
 
             IsLoading = false;
         } );
+    }
+
+
+    private void OnApplicationFocus( bool _focus )
+    {
+        float volume = _focus ? volumeCache : -80f;
+        mixer?.SetFloat( "Master", volume <= -59f ? -80f : volume );
     }
 
     private void OnDestroy()
@@ -182,6 +191,9 @@ public sealed class AudioManager : Singleton<AudioManager>
         string groupName = _type == MixerType.BGM ? "BGM" :
                            _type == MixerType.SFX ? "SFX" : "Master";
 
+        if ( _type == MixerType.Master )
+             volumeCache = _volume;
+        
         mixer?.SetFloat( groupName, _volume <= -59f ? -80f : _volume );
     }
 
