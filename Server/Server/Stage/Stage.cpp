@@ -5,7 +5,8 @@ Stage::Stage( Session* _host, const STAGE_INFO& _info ) : host( _host ), info( _
 {
 	Debug.Log( "Stage ", info.stageSerial, " has been created" );
 	Debug.Log( "< ", _host->loginInfo.nickname, " > has entered Stage ", info.stageSerial );
-	Debug.Log( "The host has been changed< Stage ", info.stageSerial, " : ", host->loginInfo.nickname, " >" );
+	Debug.Log( "Host changed to < ", host->loginInfo.nickname, " > on stage ", info.stageSerial );
+
 	sessions.push_back( host );
 	_host->stage = this;
 }
@@ -55,7 +56,7 @@ void Stage::Exit( Session* _session )
 	{
 		 host = *sessions.begin();
 		 info.hostSerial = host->serial;
-		 Debug.Log( "The host has been changed< Stage ", info.stageSerial, " : ", host->loginInfo.nickname, " : ", info.hostSerial, " >" );
+		 Debug.Log( "Host changed to < ", host->loginInfo.nickname, " > on stage ", info.stageSerial );
 
 		 SERIAL_INFO protocol;
 		 protocol.serial = info.hostSerial;
@@ -97,7 +98,7 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 		PlayerInfo* player = FindPlayer( _dead->serial );
 		if ( player == nullptr || player->isDead )
 		{
-			Debug.LogWarning( "Already dead player. serial:", _hit.attacker );
+			//Debug.LogWarning( "Already dead player. serial:", _hit.attacker );
 			break;
 		}
 
@@ -107,11 +108,11 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 		PlayerInfo* attacker = FindPlayer( _hit.attacker );
 		if ( attacker == nullptr )
 		{
-			Debug.LogError( "Attacker is null. serial:", _hit.attacker );
+			//Debug.LogError( "Attacker is null. serial:", _hit.attacker );
 			break;
 		}
-		
-		Debug.Log( "< ", player->nickname, "< Died on Stage ", info.stageSerial );
+
+		Debug.Log( "< ", player->nickname, " > Died on Stage ", info.stageSerial, "( Attacker < ", attacker->nickname, " > )" );
 
 		++( attacker->kill );
 		++info.currentKill;
@@ -120,11 +121,13 @@ bool Stage::DeadActor( ActorInfo* _dead, const HitInfo& _hit )
 	case ActorType::SceneActor:
 	{
 		// 미리 배치된 Actor는 동기화 용도로 놔둔다
+		PlayerInfo* attacker = FindPlayer( _hit.attacker );
+		Debug.Log( "< ", attacker->nickname, " > Player destroyed object < ", _dead->serial, " >" );
 	} break;
 	case ActorType::None:
 	default:
 	{
-		Debug.LogError( "Not processed type. type:", ( int )_dead->actorType );
+		//Debug.LogError( "Not processed type. type:", ( int )_dead->actorType );
 		throw std::exception( "Not processed type." );
 	} break;
 	}

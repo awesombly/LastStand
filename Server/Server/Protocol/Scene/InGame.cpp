@@ -105,6 +105,9 @@ void InGame::AckRespawnActor( const Packet& _packet )
 	*actor = data;
 	actor->actorType = type;
 
+	if ( type == ActorType::SceneActor )
+		 Debug.Log( "< ", ( u_int )actor->serial, " > object respawn" );
+
 	_packet.session->stage->Broadcast( UPacket( RESPAWN_ACTOR_ACK, data ) );
 }
 
@@ -132,13 +135,13 @@ void InGame::AckSpawnPlayer( const Packet& _packet )
 	{
 		player = new PlayerInfo( data );
 		_packet.session->player = player;
-		Debug.Log( "New player < ", _packet.session->loginInfo.nickname, " > registered" );
+		Debug.Log( "< ", _packet.session->loginInfo.nickname, " > has started the game" );
 		_packet.session->stage->RegistActor( &player->actorInfo );
 	}
 	else
 	{
 		player->actorInfo = data.actorInfo;
-		Debug.Log( "The < ", player->nickname, " > player has been respawn" );
+		Debug.Log( "< ", player->nickname, " > player respawn" );
 	}
 	player->actorInfo.actorType = ActorType::Player;
 	player->isDead = false;
@@ -300,6 +303,8 @@ void InGame::AckSyncInteraction( const Packet& _packet )
 		//Debug.LogError( "Actor is null. serial:", data.target, ", nick:", _packet.session->loginInfo.nickname );
 		return;
 	}
+
+	Debug.Log( "< ", _packet.session->player->nickname, " > player interacted with the < ", ( u_int )data.target, " > object" );
 
 	target->inter = data.angle;
 	target->pos = data.pos;
